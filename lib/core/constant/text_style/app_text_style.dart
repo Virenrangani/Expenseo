@@ -4,7 +4,7 @@ import '../colour/app_color.dart';
 class AppTextStyles {
 
   // ===== HEADINGS =====
-  static TextStyle h1({Color color = AppColor.textPrimary}) => TextStyle(
+  static TextStyle h1({Color color = AppColor.primary}) => TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: color,
@@ -92,7 +92,7 @@ class AppTextStyles {
     color: color,
   );
 
-  static TextStyle captionMedium({Color color = AppColor.primary}) => TextStyle(
+  static TextStyle captionMedium({Color color = AppColor.textSecondary}) => TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: color,
