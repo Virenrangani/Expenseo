@@ -64,11 +64,15 @@ class LogInPage extends StatelessWidget {
                         AppFormField(
                           hintText: AppString.email,
                           labelText: AppString.email,
+                          validator: (_)=>context.read<LoginCubit>().emailError,
+                          onChanged: (val)=>context.read<LoginCubit>().emailValidation(val),
                         ),
                         AppGap.g24,
                         AppFormField(
                           hintText: AppString.password,
                           labelText: AppString.password,
+                          validator: (_)=> context.read<LoginCubit>().passwordError,
+                          onChanged: (val)=>context.read<LoginCubit>().passwordValidation(val),
                         ),
                         AppGap.g16,
                         Align(
