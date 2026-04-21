@@ -5,20 +5,38 @@ import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
+import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
+import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
+import 'package:expenseo/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/sign_up_page.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class LogInPage extends StatelessWidget {
   const LogInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => GetIt.I<LoginCubit>(),
+  child: Scaffold(
       backgroundColor: AppColor.primaryLight,
-      body: SafeArea(
+      body: BlocConsumer<LoginCubit, AuthState>(
+        listener: (BuildContext context, AuthState state) {
+          if(state is AuthFailure){
+            return CustomSnacksBar.showError(context, state.message);
+          }
+          if(state is AuthSuccess){
+            return CustomSnacksBar.showSuccess(context, AppString.userLogin);
+          }
+        },
+
+  builder: (context, state) {
+    return SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -100,7 +118,10 @@ class LogInPage extends StatelessWidget {
               )
             ],
           )
+      );
+    },
       )
+    ),
     );
   }
 }
