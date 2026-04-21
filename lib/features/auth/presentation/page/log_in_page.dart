@@ -4,6 +4,7 @@ import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,18 @@ class LogInPage extends StatelessWidget {
                         AppGap.g32,
                         Text(AppString.logInIntro,
                           style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
-                        Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),)
+                        AppGap.g4,
+                        Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),),
+                        AppGap.g32,
+                        AppFormField(
+                          hintText: AppString.email,
+                          labelText: AppString.email,
+                        ),
+                        AppGap.g24,
+                        AppFormField(
+                          hintText: AppString.password,
+                          labelText: AppString.password,
+                        )
                       ],
                     ),
                   ),
