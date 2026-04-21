@@ -16,4 +16,7 @@ class AppString {
 
   static const dontHaveAnAccount="Don't have an account? ";
   static const signUp="Sign up";
+
+  static const signUpIntro="Create Your Narrative";
+  static const signUpSubIntro="Start your journey to financial clarity.";
 }
