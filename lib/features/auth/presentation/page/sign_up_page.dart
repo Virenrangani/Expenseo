@@ -37,7 +37,7 @@ class SignUpPage extends StatelessWidget {
                       children: [
                         AppGap.g32,
                         Text(AppString.signUpIntro,
-                          style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
+                          style: AppTextStyles.h3(color:AppColor.textPrimary),),
                         AppGap.g4,
                         Text(AppString.signUpSubIntro,style: AppTextStyles.bodySmall(),),
                         AppGap.g32,
@@ -55,12 +55,13 @@ class SignUpPage extends StatelessWidget {
                           hintText: AppString.password,
                           labelText: AppString.password,
                         ),
-                        AppGap.g16,
+                        AppGap.g32,
                         CustomElevatedButton(
-                            text: AppString.signIN,
+                            text: AppString.createAccount,
                             suffixIcon:Icons.arrow_forward_outlined,
                             onPressed: (){}
                         ),
+                        AppGap.g32,
                       ],
                     ),
                   ),
