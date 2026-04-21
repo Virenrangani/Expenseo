@@ -16,10 +16,12 @@ class AppPadding {
   static const edgeSymmetricVer8= EdgeInsets.symmetric(vertical:8);
   static const edgeSymmetricVer12= EdgeInsets.symmetric(vertical:12);
   static const edgeSymmetricVer16= EdgeInsets.symmetric(vertical:16);
+  static const edgeSymmetricVer24= EdgeInsets.symmetric(vertical:24);
 
   //EdgeInserts Symmetric horizontal
   static const edgeSymmetricHori4= EdgeInsets.symmetric(horizontal:4);
   static const edgeSymmetricHori8= EdgeInsets.symmetric(horizontal:8);
   static const edgeSymmetricHori12= EdgeInsets.symmetric(horizontal:12);
   static const edgeSymmetricHori16= EdgeInsets.symmetric(horizontal:16);
+  static const edgeSymmetricHori24= EdgeInsets.symmetric(horizontal:24);
 }
