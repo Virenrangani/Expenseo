@@ -1,10 +1,11 @@
-import 'package:expenseo/features/auth/domain/entity/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../model/user_model.dart';
 
 abstract class LoginDataSource {
   Future<UserModel> login(String email,String password);
+  Future<UserModel> signInWithGoogle();
 }
 
 class LoginDataSourceImpl extends LoginDataSource{
@@ -25,6 +26,37 @@ class LoginDataSourceImpl extends LoginDataSource{
         await firebaseAuth.signOut();
         throw Exception(AppString.userNotVerify);
       }
+
+      return UserModel(
+          id: user.uid,
+          email: user.email ??"",
+          name: user.displayName ??""
+      );
+    } on FirebaseAuthException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle() async{
+    try {
+      await GoogleSignIn().signOut();
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) throw Exception(AppString.googleSignInFailed);
+
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await firebaseAuth.signInWithCredential(credential);
+      final user = userCredential.user;
+
+      if (user == null) throw Exception(AppString.userNotFound);
 
       return UserModel(
           id: user.uid,
