@@ -24,4 +24,5 @@ class AppString {
   static const createAccount="Create Account";
 
   static const String userNotVerify="user is not verified";
+  static const String userLogin="User is Login Successfully";
 }
