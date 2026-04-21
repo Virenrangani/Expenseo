@@ -6,6 +6,7 @@ import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/widget/text_field/app_text_field.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -38,6 +39,21 @@ class SignUpPage extends StatelessWidget {
                         AppGap.g4,
                         Text(AppString.signUpSubIntro,style: AppTextStyles.bodySmall(),),
                         AppGap.g32,
+                        AppFormField(
+                          hintText: AppString.name,
+                          labelText: AppString.name,
+                        ),
+                        AppGap.g24,
+                        AppFormField(
+                          hintText: AppString.email,
+                          labelText: AppString.email,
+                        ),
+                        AppGap.g24,
+                        AppFormField(
+                          hintText: AppString.password,
+                          labelText: AppString.password,
+                        ),
+                        AppGap.g16,
                       ],
                     ),
                   ),
