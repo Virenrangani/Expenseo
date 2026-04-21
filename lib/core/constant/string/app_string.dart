@@ -40,4 +40,6 @@ class AppString {
   static const String atLeastOneNumber="Add at least one number";
   static const String atLeastOneSpecialChar="Add at least one special character";
 
+  static const String googleSignInFailed="Google sign in failed";
+  static const String userNotFound="User is not found";
 }
