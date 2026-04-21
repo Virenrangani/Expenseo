@@ -16,8 +16,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-class LogInPage extends StatelessWidget {
+class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -52,54 +62,58 @@ class LogInPage extends StatelessWidget {
                   ),
                   child:Padding(
                     padding: AppPadding.edgeSymmetricHori24,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppGap.g32,
-                        Text(AppString.logInIntro,
-                          style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
-                        AppGap.g4,
-                        Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),),
-                        AppGap.g32,
-                        AppFormField(
-                          hintText: AppString.email,
-                          labelText: AppString.email,
-                          validator: (_)=>context.read<LoginCubit>().emailError,
-                          onChanged: (val)=>context.read<LoginCubit>().emailValidation(val),
-                        ),
-                        AppGap.g24,
-                        AppFormField(
-                          hintText: AppString.password,
-                          labelText: AppString.password,
-                          validator: (_)=> context.read<LoginCubit>().passwordError,
-                          onChanged: (val)=>context.read<LoginCubit>().passwordValidation(val),
-                        ),
-                        AppGap.g16,
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: InkWell(
-                            onTap: (){},
-                            child: Text(AppString.forgotPassword,
-                              style: AppTextStyles.description(color:AppColor.secondary),),
+                    child: Form(
+                      key: formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppGap.g32,
+                          Text(AppString.logInIntro,
+                            style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
+                          AppGap.g4,
+                          Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),),
+                          AppGap.g32,
+                          AppFormField(
+                            hintText: AppString.email,
+                            labelText: AppString.email,
+                            validator: (_)=>context.read<LoginCubit>().emailError,
+                            onChanged: (val)=>context.read<LoginCubit>().emailValidation(val),
                           ),
-                        ),
-                        AppGap.g16,
-                        CustomElevatedButton(
-                            text: AppString.signIN,
-                            suffixIcon:Icons.arrow_forward_outlined,
-                            onPressed: (){}
-                        ),
-                        AppGap.g24,
-                        OrDivider(),
-                        AppGap.g24,
-                        CustomElevatedButton(
-                            text: AppString.signInWithGoogle,
-                            color1: AppColor.textPrimary,
-                            prefixIcon: Icons.g_mobiledata_outlined,
-                            onPressed: (){}
-                        ),
-                        AppGap.g32
-                      ],
+                          AppGap.g24,
+                          AppFormField(
+                            hintText: AppString.password,
+                            labelText: AppString.password,
+                            validator: (_)=> context.read<LoginCubit>().passwordError,
+                            onChanged: (val)=>context.read<LoginCubit>().passwordValidation(val),
+                          ),
+                          AppGap.g16,
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: InkWell(
+                              onTap: (){},
+                              child: Text(AppString.forgotPassword,
+                                style: AppTextStyles.description(color:AppColor.secondary),),
+                            ),
+                          ),
+                          AppGap.g16,
+                          CustomElevatedButton(
+                              text: AppString.signIN,
+                              suffixIcon:Icons.arrow_forward_outlined,
+                              onPressed: (){}
+                          ),
+                          AppGap.g24,
+                          OrDivider(),
+                          AppGap.g24,
+                          CustomElevatedButton(
+                              text: AppString.signInWithGoogle,
+                              color1: AppColor.textPrimary,
+                              prefixIcon: Icons.g_mobiledata_outlined,
+                              onPressed: (){}
+                          ),
+                          AppGap.g32
+                        ],
+                      ),
                     ),
                   ),
                 ),
