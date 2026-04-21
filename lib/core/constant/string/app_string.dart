@@ -13,4 +13,7 @@ class AppString {
 
   static const signIN="Sign In";
   static const signInWithGoogle="Sign In with Google";
+
+  static const dontHaveAnAccount="Don't have an account? ";
+  static const signUp="Sign up";
 }
