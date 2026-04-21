@@ -6,5 +6,9 @@ class AppString {
   static const logInIntro="Welcome back";
   static const logInSubIntro="Sign in to continue your narrative.";
 
+  static const email="Email address";
+
+  static const password="Password";
+
 
 }
