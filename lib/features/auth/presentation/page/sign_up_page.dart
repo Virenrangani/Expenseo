@@ -6,6 +6,7 @@ import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -14,7 +15,8 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        backgroundColor: AppColor.primaryLight,
+        body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -54,6 +56,11 @@ class SignUpPage extends StatelessWidget {
                           labelText: AppString.password,
                         ),
                         AppGap.g16,
+                        CustomElevatedButton(
+                            text: AppString.signIN,
+                            suffixIcon:Icons.arrow_forward_outlined,
+                            onPressed: (){}
+                        ),
                       ],
                     ),
                   ),
