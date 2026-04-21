@@ -13,4 +13,10 @@ class LoginRepositoryImpl extends LogInRepository{
         email: result.email
     );
   }
+
+  @override
+  Future<User> signInWithGoogle() async {
+    final model = await dataSource.signInWithGoogle();
+    return User(id: model.id, email: model.email, name: model.name);
+  }
 }
