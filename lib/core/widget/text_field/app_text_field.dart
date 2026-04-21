@@ -67,6 +67,18 @@ class AppFormField extends StatelessWidget {
         )
             : null,
         border: InputBorder.none,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: AppBorderRadius.cir12,
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: AppBorderRadius.cir12,
+          borderSide: BorderSide.none,
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: AppBorderRadius.cir12,
+          borderSide: BorderSide.none,
+        ),
       )
     );
   }
