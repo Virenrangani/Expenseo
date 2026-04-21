@@ -11,7 +11,7 @@ class Injection {
 
   void configDependency(){
 
-    sl.registerLazySingleton(()=>FirebaseAuth);
+    sl.registerLazySingleton(()=>FirebaseAuth.instance);
 
     sl.registerLazySingleton<LoginDataSource>(()=>LoginDataSourceImpl(sl()));
     sl.registerLazySingleton<LogInRepository>(()=>LoginRepositoryImpl(sl()));
