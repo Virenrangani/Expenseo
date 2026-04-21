@@ -22,6 +22,7 @@ class LogInPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               LogInTitle(),
+              AppGap.g20,
               Padding(
                 padding: AppPadding.edgeAll16,
                 child: Container(
@@ -62,10 +63,19 @@ class LogInPage extends StatelessWidget {
                         AppGap.g16,
                         CustomElevatedButton(
                             text: AppString.signIN,
+                            suffixIcon:Icons.arrow_forward_outlined,
                             onPressed: (){}
                         ),
-                        AppGap.g20,
-                        OrDivider()
+                        AppGap.g24,
+                        OrDivider(),
+                        AppGap.g24,
+                        CustomElevatedButton(
+                            text: AppString.signInWithGoogle,
+                            color1: AppColor.textPrimary,
+                            prefixIcon: Icons.g_mobiledata_outlined,
+                            onPressed: (){}
+                        ),
+                        AppGap.g32
                       ],
                     ),
                   ),
