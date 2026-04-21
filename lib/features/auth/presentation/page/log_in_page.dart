@@ -102,7 +102,16 @@ class _LogInPageState extends State<LogInPage> {
                           CustomElevatedButton(
                               text: AppString.signIN,
                               suffixIcon:Icons.arrow_forward_outlined,
-                              onPressed: (){}
+                              onPressed: (){
+                                onPressed: (){
+                                  if (formKey.currentState?.validate() ?? false) {
+                                    context.read<LoginCubit>().login(
+                                      email: emailController.text.trim(),
+                                      password: passController.text,
+                                    );
+                                  }
+                                };
+                              }
                           ),
                           AppGap.g24,
                           OrDivider(),
@@ -111,14 +120,11 @@ class _LogInPageState extends State<LogInPage> {
                               text: AppString.signInWithGoogle,
                               color1: AppColor.textPrimary,
                               prefixIcon: Icons.g_mobiledata_outlined,
-                              onPressed: (){
-                                if (formKey.currentState?.validate() ?? false) {
-                                  context.read<LoginCubit>().login(
-                                    email: emailController.text.trim(),
-                                    password: passController.text,
-                                  );
-                                }
-                              }
+                              onPressed: ()async{
+                                await context
+                                    .read<LoginCubit>()
+                                    .signInWithGoogle();
+                              },
                           ),
                           AppGap.g32
                         ],
