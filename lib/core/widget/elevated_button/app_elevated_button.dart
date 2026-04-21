@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:flutter/material.dart';
 import '../../constant/colour/app_color.dart';
@@ -13,6 +15,8 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? color1;
   final Color? color2;
   final bool isEnabled;
+  final IconData? prefixIcon;
+  final IconData? suffixIcon;
 
   const CustomElevatedButton({
     super.key,
@@ -25,7 +29,8 @@ class CustomElevatedButton extends StatelessWidget {
     this.color1,
     this.color2,
     this.isEnabled=false,
-
+    this.prefixIcon,
+    this.suffixIcon,
   });
 
   void handleTap() async {
@@ -42,8 +47,8 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: (!isEnabled || isLoading) ? null : handleTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.primary,
-          disabledBackgroundColor: AppColor.primary,
+          backgroundColor: color1 ?? AppColor.primary,
+          disabledBackgroundColor: color1 ??AppColor.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius!),
           ),
@@ -60,11 +65,15 @@ class CustomElevatedButton extends StatelessWidget {
             : Row(
           mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                if(prefixIcon != null)
+                  Icon(prefixIcon,color: AppColor.background,size:22,),
+                AppGap.g4,
                 Text(
                 text, style: AppTextStyles.h4(color:AppColor.background)
                 ),
                 AppGap.g4,
-                Icon(Icons.arrow_forward_outlined,size:22,color: AppColor.background,)
+                if(suffixIcon != null)
+                  Icon(suffixIcon,color: AppColor.background,size:22,),
               ],
             ),
       ),
