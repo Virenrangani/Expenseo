@@ -8,4 +8,8 @@ class LoginUseCase {
   Future<User> callLogin(String email,String password){
     return repository.login(email, password);
   }
+
+  Future<User> googleCall(){
+    return repository.signInWithGoogle();
+  }
 }
