@@ -9,6 +9,6 @@ class AppString {
   static const email="Email address";
 
   static const password="Password";
-
+  static const forgotPassword="Forgot Password?";
 
 }
