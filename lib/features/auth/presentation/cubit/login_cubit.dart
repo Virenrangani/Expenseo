@@ -49,4 +49,15 @@ class LoginCubit extends Cubit<AuthState>{
       emit(AuthFailure(e.toString()));
     }
   }
+  Future<void> signInWithGoogle() async {
+    emit(AuthLoading());
+    try {
+      await loginUseCase.googleCall();
+      emit(AuthSuccess());
+    } on FirebaseAuthException catch (e) {
+      emit(AuthFailure(e.toString()));
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
+    }
+  }
 }
