@@ -80,6 +80,20 @@ class LogInPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              AppGap.g32,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(AppString.dontHaveAnAccount,style: AppTextStyles.bodyMedium(),),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Text(
+                      AppString.signUp,
+                      style: AppTextStyles.bodyMedium(color: AppColor.secondary)
+                    ),
+                  ),
+                ],
               )
             ],
           )
