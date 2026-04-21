@@ -1,3 +1,9 @@
+import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
+import 'package:expenseo/core/constant/colour/app_color.dart';
+import 'package:expenseo/core/constant/gap/app_gap.dart';
+import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/constant/string/app_string.dart';
+import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +13,34 @@ class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.primaryLight,
       body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              LogInTitle()
+              LogInTitle(),
+              Padding(
+                padding: AppPadding.edgeAll16,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColor.background,
+                    borderRadius: AppBorderRadius.cir12
+                  ),
+                  child:Padding(
+                    padding: AppPadding.edgeSymmetricHori24,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppGap.g32,
+                        Text(AppString.logInIntro,
+                          style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
+                        Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),)
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           )
       )
