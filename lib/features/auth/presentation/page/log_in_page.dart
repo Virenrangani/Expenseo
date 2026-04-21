@@ -47,7 +47,17 @@ class LogInPage extends StatelessWidget {
                         AppFormField(
                           hintText: AppString.password,
                           labelText: AppString.password,
-                        )
+                        ),
+                        AppGap.g16,
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            onTap: (){},
+                            child: Text(AppString.forgotPassword,
+                              style: AppTextStyles.description(color:AppColor.secondary),),
+                          ),
+                        ),
+                        AppGap.g16,
                       ],
                     ),
                   ),
