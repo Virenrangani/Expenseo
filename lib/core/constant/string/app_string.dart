@@ -19,4 +19,6 @@ class AppString {
 
   static const signUpIntro="Create Your Narrative";
   static const signUpSubIntro="Start your journey to financial clarity.";
+
+  static const name="Name";
 }
