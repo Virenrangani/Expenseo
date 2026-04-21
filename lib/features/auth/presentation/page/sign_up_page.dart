@@ -54,6 +54,7 @@ class SignUpPage extends StatelessWidget {
                         AppFormField(
                           hintText: AppString.password,
                           labelText: AppString.password,
+                          suffix:Icon(Icons.remove_red_eye),
                         ),
                         AppGap.g32,
                         CustomElevatedButton(
