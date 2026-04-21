@@ -1,6 +1,10 @@
 import 'package:expenseo/core/widget/app_title/app_title.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/constant/border_radius/app_border_radius.dart';
+import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
+import '../../../../core/constant/padding/app_padding.dart';
+import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -15,6 +19,30 @@ class SignUpPage extends StatelessWidget {
             children: [
               AppTitle(style: AppTextStyles.h1(),),
               AppGap.g20,
+              Padding(
+                padding: AppPadding.edgeAll16,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: AppColor.background,
+                      borderRadius: AppBorderRadius.cir12
+                  ),
+                  child: Padding(
+                    padding: AppPadding.edgeSymmetricHori24,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppGap.g32,
+                        Text(AppString.signUpIntro,
+                          style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
+                        AppGap.g4,
+                        Text(AppString.signUpSubIntro,style: AppTextStyles.bodySmall(),),
+                        AppGap.g32,
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           )
       )
