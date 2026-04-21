@@ -1,4 +1,5 @@
 import 'package:expenseo/core/widget/app_title/app_title.dart';
+import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constant/border_radius/app_border_radius.dart';
@@ -76,7 +77,7 @@ class SignUpPage extends StatelessWidget {
                   Text(AppString.dontHaveAnAccount,style: AppTextStyles.bodyMedium(),),
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
                     },
                     child: Text(
                         AppString.signUp,
