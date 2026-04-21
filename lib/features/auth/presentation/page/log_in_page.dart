@@ -75,6 +75,7 @@ class _LogInPageState extends State<LogInPage> {
                           Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),),
                           AppGap.g32,
                           AppFormField(
+                            controller: emailController,
                             hintText: AppString.email,
                             labelText: AppString.email,
                             validator: (_)=>context.read<LoginCubit>().emailError,
@@ -82,6 +83,7 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                           AppGap.g24,
                           AppFormField(
+                            controller: passController,
                             hintText: AppString.password,
                             labelText: AppString.password,
                             validator: (_)=> context.read<LoginCubit>().passwordError,
@@ -109,7 +111,14 @@ class _LogInPageState extends State<LogInPage> {
                               text: AppString.signInWithGoogle,
                               color1: AppColor.textPrimary,
                               prefixIcon: Icons.g_mobiledata_outlined,
-                              onPressed: (){}
+                              onPressed: (){
+                                if (formKey.currentState?.validate() ?? false) {
+                                  context.read<LoginCubit>().login(
+                                    email: emailController.text.trim(),
+                                    password: passController.text,
+                                  );
+                                }
+                              }
                           ),
                           AppGap.g32
                         ],
