@@ -25,4 +25,19 @@ class AppString {
 
   static const String userNotVerify="user is not verified";
   static const String userLogin="User is Login Successfully";
+
+  static const String emailRequired="Email is required";
+  static const String emailHint="Enter Mail";
+  static const String emailNotContainsSpace="Email should not contain spaces";
+  static const String emailValid="Enter a valid email";
+
+  static const String passwordRequired="Password is required";
+  static const String passwordHint="Enter Password";
+  static const String passwordNotContainsSpace="Password should not contain spaces";
+  static const String passwordMinChar="Minimum 8 characters required";
+  static const String atLeastOneUpperCase="Add at least one uppercase letter";
+  static const String atLeastOneLowerCase="Add at least one lowercase letter";
+  static const String atLeastOneNumber="Add at least one number";
+  static const String atLeastOneSpecialChar="Add at least one special character";
+
 }
