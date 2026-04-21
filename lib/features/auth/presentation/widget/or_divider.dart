@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class OrDivider extends StatelessWidget {
@@ -9,7 +10,7 @@ class OrDivider extends StatelessWidget {
    OrDivider({
     super.key,
     this.text = "OR",
-    this.lineColor =Colors.black45,
+    this.lineColor =Colors.black26,
     this.thickness = 1,
   });
 
@@ -27,10 +28,7 @@ class OrDivider extends StatelessWidget {
           padding: AppPadding.edgeSymmetricHori12,
           child: Text(
             text,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTextStyles.bodyMedium()
           ),
         ),
         Expanded(
