@@ -6,6 +6,7 @@ import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
+import 'package:expenseo/features/auth/presentation/page/sign_up_page.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,9 @@ class LogInPage extends StatelessWidget {
                 children: [
                   Text(AppString.dontHaveAnAccount,style: AppTextStyles.bodyMedium(),),
                   GestureDetector(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                    },
                     child: Text(
                       AppString.signUp,
                       style: AppTextStyles.bodyMedium(color: AppColor.secondary)
