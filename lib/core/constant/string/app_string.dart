@@ -12,4 +12,5 @@ class AppString {
   static const forgotPassword="Forgot Password?";
 
   static const signIN="Sign In";
+  static const signInWithGoogle="Sign In with Google";
 }
