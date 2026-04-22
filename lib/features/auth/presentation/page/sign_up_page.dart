@@ -27,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -52,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
               }
           },
           builder: (context, state) {
+            final isLoading=state is AuthLoading;
             return SafeArea(
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -71,7 +73,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         child: Padding(
                           padding: AppPadding.edgeSymmetricHori24,
-                          child: Column(
+                          child: Form(
+                            key: formKey,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            child:Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppGap.g32,
@@ -91,9 +96,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 hintText: AppString.name,
                                 labelText: AppString.name,
                                 validator: (_)=>
-                                context.read<SignupCubit>().nameError,
+                                context.read<SignUpCubit>().nameError,
                                 onChanged: (val)=>
-                                    context.read<SignupCubit>()
+                                    context.read<SignUpCubit>()
                                         .nameValidation(val),
                               ),
                               AppGap.g24,
@@ -128,16 +133,28 @@ class _SignUpPageState extends State<SignUpPage> {
                                     .passwordValidation(val),
                               ),
                               AppGap.g32,
-                              CustomElevatedButton(
+
+                              isLoading
+                                  ? const CircularProgressIndicator(
+                                color: Colors.deepOrange,
+                              )
+                                  :CustomElevatedButton(
                                 text: AppString.createAccount,
                                 suffixIcon: Icons.arrow_forward_outlined,
                                 onPressed: () {
-
+                                  if (formKey.currentState!.validate()) {
+                                    context.read<SignUpCubit>().signUp(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text,
+                                      name: nameController.text.trim(),
+                                    );
+                                  }
                                 },
                               ),
                               AppGap.g32,
                             ],
                           ),
+                          )
                         ),
                       ),
                     ),
