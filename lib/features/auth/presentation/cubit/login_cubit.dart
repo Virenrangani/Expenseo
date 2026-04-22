@@ -12,9 +12,14 @@ class LoginCubit extends Cubit<AuthState>{
   bool emailTouched = false;
   bool passwordTouched = false;
 
+  bool isPasswordHidden = true;
+
   String? emailError;
   String? passwordError;
 
+  void showPassword(){
+    isPasswordHidden!=isPasswordHidden;
+  }
 
   void emailValidation(String value) {
     emailTouched=true;
