@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ? const CircularProgressIndicator(
                                         color: AppColor.primary,
                                       )
-                                    : CustomElevatedButton(
+                                    : AppElevatedButton(
                                         text: AppString.createAccount,
                                         isEnabled: context
                                             .read<SignUpCubit>()
