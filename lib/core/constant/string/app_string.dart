@@ -8,17 +8,17 @@ class AppString {
 
   static const email="Email address";
 
-  static const password="Password";
-  static const forgotPassword="Forgot Password?";
+  static const String password="Password";
+  static const String forgotPassword="Forgot Password?";
 
-  static const signIN="Sign In";
-  static const signInWithGoogle="Sign In with Google";
+  static const String signIN="Sign In";
+  static const String signInWithGoogle="Sign In with Google";
 
   static const String dontHaveAnAccount="Don't have an account? ";
   static const String signUp="Sign up";
 
   static const String alReadyHaveAnAccount="Already have an account? ";
-
+  static const String somethingWentWrong="Something went to wrong";
 
   static const signUpIntro="Create Your Narrative";
   static const signUpSubIntro="Start your journey to financial clarity.";
