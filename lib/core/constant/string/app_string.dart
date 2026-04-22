@@ -14,8 +14,11 @@ class AppString {
   static const signIN="Sign In";
   static const signInWithGoogle="Sign In with Google";
 
-  static const dontHaveAnAccount="Don't have an account? ";
-  static const signUp="Sign up";
+  static const String dontHaveAnAccount="Don't have an account? ";
+  static const String signUp="Sign up";
+
+  static const String alReadyHaveAnAccount="Already have an account? ";
+
 
   static const signUpIntro="Create Your Narrative";
   static const signUpSubIntro="Start your journey to financial clarity.";
