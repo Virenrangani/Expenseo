@@ -49,6 +49,9 @@ class AppString {
   static const String googleSignInFailed = "Google sign in failed";
   static const String userNotFound = "User is not found";
 
+  static const String homeIntro = "Have a nice day";
+  static const String hello = "Hello";
+
   static const String invalidEmail = "Invalid email format";
   static const String userDisabled = "This account has been disabled";
   static const String wrongPassword = "Incorrect password";
