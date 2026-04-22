@@ -127,9 +127,9 @@ class _LogInPageState extends State<LogInPage> {
                           suffixIcon: isLoading
                               ? null
                               : Icons.arrow_forward_outlined,
-                          onPressed: isLoading
-                              ? null
-                              : () {
+                          onPressed: () {
+                            if (isLoading) return;
+
                             if (formKey.currentState?.validate() ??
                                 false) {
                               context.read<LoginCubit>().login(
@@ -146,9 +146,7 @@ class _LogInPageState extends State<LogInPage> {
                           text: AppString.signInWithGoogle,
                           color1: AppColor.textPrimary,
                           prefixIcon: Icons.g_mobiledata_outlined,
-                          onPressed: isLoading
-                              ? null
-                              : () async {
+                          onPressed:()async {
                             await context
                                 .read<LoginCubit>()
                                 .signInWithGoogle();
@@ -192,7 +190,7 @@ class _LogInPageState extends State<LogInPage> {
           ],
         ),
       ),
-    )
+    );
     },
       )
     ),
