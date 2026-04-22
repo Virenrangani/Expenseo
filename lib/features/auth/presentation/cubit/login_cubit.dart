@@ -18,7 +18,8 @@ class LoginCubit extends Cubit<AuthState>{
   String? passwordError;
 
   void showPassword(){
-    isPasswordHidden!=isPasswordHidden;
+    isPasswordHidden=!isPasswordHidden;
+    emit(AuthFormValid());
   }
 
   void emailValidation(String value) {
