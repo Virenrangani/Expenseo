@@ -12,7 +12,20 @@
           "package_name": "com.example.expenseo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "447111972966-8u7h6r5f77lhko34og53n0qhc27tr5g8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.expenseo",
+            "certificate_hash": "5c83c9a6d738898f0017291a6e2bfb8e1ed5c8f1"
+          }
+        },
+        {
+          "client_id": "447111972966-o4k8abst19u3v1pt4nesdaarh9mdcbd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAu09KgDWdEOJLmbTOfhfnSYnmONASTyfc"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447111972966-o4k8abst19u3v1pt4nesdaarh9mdcbd1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "447111972966-3m32cfrlfijtpm1i07phrslg4cogpg21.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.expenseo"
+              }
+            }
+          ]
         }
       }
     }
