@@ -28,8 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  bool isPasswordHidden = true;
-
   @override
   void dispose() {
     nameController.dispose();
@@ -92,35 +90,50 @@ class _SignUpPageState extends State<SignUpPage> {
                                 controller: nameController,
                                 hintText: AppString.name,
                                 labelText: AppString.name,
+                                validator: (_)=>
+                                context.read<SignupCubit>().nameError,
+                                onChanged: (val)=>
+                                    context.read<SignupCubit>()
+                                        .nameValidation(val),
                               ),
                               AppGap.g24,
                               AppFormField(
                                 controller: emailController,
                                 hintText: AppString.email,
                                 labelText: AppString.email,
+                                validator: (_) =>
+                                context.read<SignUpCubit>().emailError,
+                                onChanged: (val) => context
+                                    .read<SignUpCubit>()
+                                    .emailValidation(val),
                               ),
                               AppGap.g24,
                               AppFormField(
                                 controller: passwordController,
                                 hintText: AppString.password,
                                 labelText: AppString.password,
-                                obscureText: isPasswordHidden,
+                                obscureText: context.read<SignUpCubit>().isPasswordHidden,
                                 suffix: Icon(
-                                  isPasswordHidden
+                                  context.read<SignUpCubit>().isPasswordHidden
                                       ? Icons.visibility_off
                                       : Icons.visibility,
                                 ),
                                 onSuffixTap: () {
-                                  setState(() {
-                                    isPasswordHidden = !isPasswordHidden;
-                                  });
+                                  context.read<SignUpCubit>().showPassword();
                                 },
+                                validator: (_) =>
+                                context.read<SignUpCubit>().passwordError,
+                                onChanged: (val) => context
+                                    .read<SignUpCubit>()
+                                    .passwordValidation(val),
                               ),
                               AppGap.g32,
                               CustomElevatedButton(
                                 text: AppString.createAccount,
                                 suffixIcon: Icons.arrow_forward_outlined,
-                                onPressed: () {},
+                                onPressed: () {
+
+                                },
                               ),
                               AppGap.g32,
                             ],
