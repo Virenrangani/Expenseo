@@ -123,16 +123,14 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                         ),
                         AppGap.g16,
-                        CustomElevatedButton(
-                          text: isLoading
-                              ? "Loading..."
-                              : AppString.signIN,
-                          suffixIcon: isLoading
-                              ? null
-                              : Icons.arrow_forward_outlined,
-                          onPressed: () {
-                            if (isLoading) return;
 
+                        isLoading ?
+                            CircularProgressIndicator()
+                        :CustomElevatedButton(
+                          text: AppString.signIN,
+                          suffixIcon:Icons.arrow_forward_outlined,
+                          isEnabled: context.read<LoginCubit>().isFormValid,
+                          onPressed: () {
                             if (formKey.currentState?.validate() ??
                                 false) {
                               context.read<LoginCubit>().login(
