@@ -1,51 +1,54 @@
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/error/app_errors.dart';
 import '../../../../core/validation/email_validation/email_password_validation.dart';
 import '../../../../core/validation/password_validation/password_validation.dart';
 import '../../domain/use_case/sign_up_use_case.dart';
 
-class SignUpCubit extends Cubit<AuthState>{
+class SignUpCubit extends Cubit<AuthState> {
   final SignUpUseCase signUpUseCase;
   SignUpCubit(this.signUpUseCase) : super(AuthInitial());
 
   bool emailTouched = false;
   bool passwordTouched = false;
-  bool nameTouched=false;
+  bool nameTouched = false;
   bool isPasswordHidden = true;
 
   String? emailError;
   String? passwordError;
   String? nameError;
 
-  void showPassword(){
-    isPasswordHidden=!isPasswordHidden;
+  void showPassword() {
+    isPasswordHidden = !isPasswordHidden;
     emit(AuthFormValid());
   }
 
   void emailValidation(String value) {
-    emailTouched=true;
+    emailTouched = true;
     emailError = validateEmail(value);
     emit(AuthFormValid());
   }
 
   void passwordValidation(String value) {
-    passwordTouched=true;
+    passwordTouched = true;
     passwordError = validatePassword(value);
     emit(AuthFormValid());
   }
 
   void nameValidation(String value) {
-    nameTouched=true;
-    nameError = value.isEmpty ? 'Name is required' : null;
+    nameTouched = true;
+    nameError = value.isEmpty ? AppString.nameInvalid : null;
     emit(AuthFormValid());
   }
 
   bool get isFormValid {
-    return emailError == null
-        && passwordError == null
-        && emailTouched
-        && passwordTouched;
+    return emailError == null &&
+        passwordError == null &&
+        emailTouched &&
+        passwordTouched;
   }
 
   Future<void> signUp({
@@ -55,13 +58,13 @@ class SignUpCubit extends Cubit<AuthState>{
   }) async {
     emit(AuthLoading());
     try {
-      final user = await signUpUseCase.callSignUp(email, name, password);
+      final user = await signUpUseCase.signUpWithEmail(email, name, password);
 
       emit(AuthSuccess());
     } on FirebaseAuthException catch (e) {
-      emit(AuthFailure(e.toString()));
+      emit(AuthFailure(AppErrors.handleException(e)));
     } catch (e) {
-      emit(AuthFailure(e.toString()));
+      emit(AuthFailure(AppString.somethingWentWrong));
     }
   }
 }
