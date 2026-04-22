@@ -46,112 +46,153 @@ class _LogInPageState extends State<LogInPage> {
         },
 
   builder: (context, state) {
+          final isLoading=state is AuthLoading;
     return SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              LogInTitle(),
-              AppGap.g20,
-              Padding(
-                padding: AppPadding.edgeAll16,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColor.background,
-                    borderRadius: AppBorderRadius.cir12
-                  ),
-                  child:Padding(
-                    padding: AppPadding.edgeSymmetricHori24,
-                    child: Form(
-                      key: formKey,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppGap.g32,
-                          Text(AppString.logInIntro,
-                            style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
-                          AppGap.g4,
-                          Text(AppString.logInSubIntro,style: AppTextStyles.bodySmall(),),
-                          AppGap.g32,
-                          AppFormField(
-                            controller: emailController,
-                            hintText: AppString.email,
-                            labelText: AppString.email,
-                            validator: (_)=>context.read<LoginCubit>().emailError,
-                            onChanged: (val)=>context.read<LoginCubit>().emailValidation(val),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LogInTitle(),
+            AppGap.g20,
+            Padding(
+              padding: AppPadding.edgeAll16,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColor.background,
+                  borderRadius: AppBorderRadius.cir12,
+                ),
+                child: Padding(
+                  padding: AppPadding.edgeSymmetricHori24,
+                  child: Form(
+                    key: formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppGap.g32,
+                        Text(
+                          AppString.logInIntro,
+                          style: AppTextStyles.captionBold(
+                            color: AppColor.textPrimary,
                           ),
-                          AppGap.g24,
-                          AppFormField(
-                            controller: passController,
-                            hintText: AppString.password,
-                            labelText: AppString.password,
-                            validator: (_)=> context.read<LoginCubit>().passwordError,
-                            onChanged: (val)=>context.read<LoginCubit>().passwordValidation(val),
-                          ),
-                          AppGap.g16,
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: InkWell(
-                              onTap: (){},
-                              child: Text(AppString.forgotPassword,
-                                style: AppTextStyles.description(color:AppColor.secondary),),
+                        ),
+                        AppGap.g4,
+                        Text(
+                          AppString.logInSubIntro,
+                          style: AppTextStyles.bodySmall(),
+                        ),
+                        AppGap.g32,
+                        AppFormField(
+                          controller: emailController,
+                          hintText: AppString.email,
+                          labelText: AppString.email,
+                          validator: (_) =>
+                          context.read<LoginCubit>().emailError,
+                          onChanged: (val) => context
+                              .read<LoginCubit>()
+                              .emailValidation(val),
+                        ),
+                        AppGap.g24,
+                        AppFormField(
+                          controller: passController,
+                          hintText: AppString.password,
+                          labelText: AppString.password,
+                          obscureText: true,
+                          validator: (_) =>
+                          context.read<LoginCubit>().passwordError,
+                          onChanged: (val) => context
+                              .read<LoginCubit>()
+                              .passwordValidation(val),
+                        ),
+                        AppGap.g16,
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Text(
+                              AppString.forgotPassword,
+                              style: AppTextStyles.description(
+                                color: AppColor.secondary,
+                              ),
                             ),
                           ),
-                          AppGap.g16,
-                          CustomElevatedButton(
-                              text: AppString.signIN,
-                              suffixIcon:Icons.arrow_forward_outlined,
-                              onPressed: (){
-                                onPressed: (){
-                                  if (formKey.currentState?.validate() ?? false) {
-                                    context.read<LoginCubit>().login(
-                                      email: emailController.text.trim(),
-                                      password: passController.text,
-                                    );
-                                  }
-                                };
-                              }
-                          ),
-                          AppGap.g24,
-                          OrDivider(),
-                          AppGap.g24,
-                          CustomElevatedButton(
-                              text: AppString.signInWithGoogle,
-                              color1: AppColor.textPrimary,
-                              prefixIcon: Icons.g_mobiledata_outlined,
-                              onPressed: ()async{
-                                await context
-                                    .read<LoginCubit>()
-                                    .signInWithGoogle();
-                              },
-                          ),
-                          AppGap.g32
-                        ],
-                      ),
+                        ),
+                        AppGap.g16,
+                        CustomElevatedButton(
+                          text: isLoading
+                              ? "Loading..."
+                              : AppString.signIN,
+                          suffixIcon: isLoading
+                              ? null
+                              : Icons.arrow_forward_outlined,
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                            if (formKey.currentState?.validate() ??
+                                false) {
+                              context.read<LoginCubit>().login(
+                                email: emailController.text.trim(),
+                                password: passController.text,
+                              );
+                            }
+                          },
+                        ),
+                        AppGap.g24,
+                        OrDivider(),
+                        AppGap.g24,
+                        CustomElevatedButton(
+                          text: AppString.signInWithGoogle,
+                          color1: AppColor.textPrimary,
+                          prefixIcon: Icons.g_mobiledata_outlined,
+                          onPressed: isLoading
+                              ? null
+                              : () async {
+                            await context
+                                .read<LoginCubit>()
+                                .signInWithGoogle();
+                          },
+                        ),
+
+                        AppGap.g32,
+                      ],
                     ),
                   ),
                 ),
               ),
-              AppGap.g32,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(AppString.dontHaveAnAccount,style: AppTextStyles.bodyMedium(),),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
-                    },
-                    child: Text(
-                      AppString.signUp,
-                      style: AppTextStyles.bodyMedium(color: AppColor.secondary)
+            ),
+
+            AppGap.g32,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  AppString.dontHaveAnAccount,
+                  style: AppTextStyles.bodyMedium(),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignUpPage(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    AppString.signUp,
+                    style: AppTextStyles.bodyMedium(
+                      color: AppColor.secondary,
                     ),
                   ),
-                ],
-              )
-            ],
-          )
-      );
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    )
     },
       )
     ),
