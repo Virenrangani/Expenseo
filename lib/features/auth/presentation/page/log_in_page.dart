@@ -15,6 +15,7 @@ import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import '../widget/navigation_text.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -163,30 +164,14 @@ class _LogInPageState extends State<LogInPage> {
             ),
 
             AppGap.g32,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  AppString.dontHaveAnAccount,
-                  style: AppTextStyles.bodyMedium(),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    AppString.signUp,
-                    style: AppTextStyles.bodyMedium(
-                      color: AppColor.secondary,
-                    ),
-                  ),
-                ),
-              ],
+
+            NavigationText(
+                description: AppString.dontHaveAnAccount,
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=>SignUpPage()));
+                },
+                pageName: AppString.signUp
             ),
           ],
         ),
