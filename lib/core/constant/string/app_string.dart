@@ -46,4 +46,13 @@ class AppString {
 
   static const String googleSignInFailed = "Google sign in failed";
   static const String userNotFound = "User is not found";
+
+  static const String invalidEmail = "Invalid email format";
+  static const String userDisabled = "This account has been disabled";
+  static const String wrongPassword = "Incorrect password";
+  static const String emailAlreadyInUse = "Email is already registered";
+  static const String operationNotAllowed = "Operation not allowed";
+  static const String accountExistsWithDifferentCredential =
+      "Account exists with different sign-in method";
+  static const String invalidCredential = "Invalid credentials";
 }
