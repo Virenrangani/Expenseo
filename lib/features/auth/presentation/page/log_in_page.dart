@@ -99,7 +99,10 @@ class _LogInPageState extends State<LogInPage> {
                           controller: passController,
                           hintText: AppString.password,
                           labelText: AppString.password,
-                          obscureText: true,
+                          obscureText: context.read<LoginCubit>().isPasswordHidden,
+                          onSuffixTap: (){
+                            context.read<LoginCubit>().showPassword();
+                          },
                           validator: (_) =>
                           context.read<LoginCubit>().passwordError,
                           onChanged: (val) => context
