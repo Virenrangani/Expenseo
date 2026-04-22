@@ -1,10 +1,11 @@
 import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:flutter/material.dart';
+
 import '../../constant/colour/app_color.dart';
+import '../../constant/gap/app_gap.dart';
 
 class CustomSnacksBar {
-
   static void showSuccess(BuildContext context, String message) {
     showSnackBar(
       context,
@@ -33,12 +34,11 @@ class CustomSnacksBar {
   }
 
   static void showSnackBar(
-      BuildContext context,
-      String message,
-      {
-        required Color backgroundColor,
-        required IconData icon,
-      }) {
+    BuildContext context,
+    String message, {
+    required Color backgroundColor,
+    required IconData icon,
+  }) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -47,18 +47,16 @@ class CustomSnacksBar {
         backgroundColor: backgroundColor,
         elevation: 6,
         margin: const EdgeInsets.all(16),
-        shape: RoundedRectangleBorder(
-          borderRadius: AppBorderRadius.cir16,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: AppBorderRadius.cir16),
         duration: const Duration(seconds: 3),
         content: Row(
           children: [
             Icon(icon, color: AppColor.secondary),
-            const SizedBox(width: 12),
+            AppGap.g12,
             Expanded(
               child: Text(
                 message,
-                style: AppTextStyles.bodySmall()
+                style: AppTextStyles.bodySmall(color: AppColor.textPrimary),
               ),
             ),
           ],
