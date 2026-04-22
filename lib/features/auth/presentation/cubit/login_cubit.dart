@@ -1,9 +1,6 @@
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constant/string/app_string.dart';
-import '../../../../core/error/app_errors.dart';
 import '../../../../core/validation/email_validation/email_password_validation.dart';
 import '../../../../core/validation/password_validation/password_validation.dart';
 import '../../domain/use_case/login_use_case.dart';
@@ -49,10 +46,8 @@ class LoginCubit extends Cubit<AuthState> {
     try {
       await loginUseCase.loginWithEmail(email, password);
       emit(AuthSuccess());
-    } on FirebaseAuthException catch (e) {
-      emit(AuthFailure(AppErrors.handleException(e)));
     } catch (e) {
-      emit(AuthFailure(AppString.somethingWentWrong));
+      emit(AuthFailure(e.toString()));
     }
   }
 
@@ -61,10 +56,8 @@ class LoginCubit extends Cubit<AuthState> {
     try {
       await loginUseCase.loginWithGoogle();
       emit(AuthSuccess());
-    } on FirebaseAuthException catch (e) {
-      emit(AuthFailure(AppErrors.handleException(e)));
     } catch (e) {
-      emit(AuthFailure(AppString.somethingWentWrong));
+      emit(AuthFailure(e.toString()));
     }
   }
 }
