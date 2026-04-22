@@ -7,6 +7,7 @@ class AppString {
 
   static const email = "Email address";
   static const nameInvalid = "Name is required";
+  static const email = "Email address";
 
   static const String password = "Password";
   static const String forgotPassword = "Forgot Password?";
@@ -56,4 +57,9 @@ class AppString {
   static const String accountExistsWithDifferentCredential =
       "Account exists with different sign-in method";
   static const String invalidCredential = "Invalid credentials";
+  static const String googleSignInFailed = "Google sign in failed";
+  static const String userNotFound = "User is not found";
+
+  static const String homeIntro = "Have a nice day";
+  static const String hello = "Hello";
 }
