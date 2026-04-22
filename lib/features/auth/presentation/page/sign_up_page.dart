@@ -136,10 +136,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
                               isLoading
                                   ? const CircularProgressIndicator(
-                                color: Colors.deepOrange,
+                                color: AppColor.primary,
                               )
                                   :CustomElevatedButton(
                                 text: AppString.createAccount,
+                                isEnabled:context.read<SignUpCubit>().isFormValid,
                                 suffixIcon: Icons.arrow_forward_outlined,
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
