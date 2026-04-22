@@ -14,6 +14,7 @@ import 'package:expenseo/features/auth/presentation/cubit/sign_up_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import '../widget/navigation_text.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -160,30 +161,17 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     AppGap.g32,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppString.alReadyHaveAnAccount,
-                          style: AppTextStyles.bodyMedium(),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
+                    NavigationText(
+                        description: AppString.alReadyHaveAnAccount,
+                        onTap: (){
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const LogInPage(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            AppString.signIN,
-                            style: AppTextStyles.bodyMedium(
-                              color: AppColor.secondary,
-                            ),
-                          ),
-                        ),
-                      ],
+                                  builder: (context)=>LogInPage()
+                              )
+                          );
+                        },
+                        pageName: AppString.signIN
                     ),
                   ],
                 ),
