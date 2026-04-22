@@ -12,10 +12,15 @@ class SignUpCubit extends Cubit<AuthState>{
   bool emailTouched = false;
   bool passwordTouched = false;
   bool nameTouched=false;
+  bool isPasswordHidden = true;
 
   String? emailError;
   String? passwordError;
   String? nameError;
+
+  void showPassword(){
+    isPasswordHidden!=isPasswordHidden;
+  }
 
   void emailValidation(String value) {
     emailTouched=true;
