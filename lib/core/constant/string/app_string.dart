@@ -6,6 +6,7 @@ class AppString {
   static const logInSubIntro = "Sign in to continue your narrative.";
 
   static const email = "Email address";
+  static const nameInvalid = "Name is required";
 
   static const String password = "Password";
   static const String forgotPassword = "Forgot Password?";
