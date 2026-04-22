@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../model/user_model.dart';
+import '../../../../core/error/app_errors.dart';
 
 abstract class SignUpDataSource {
   Future<UserModel> signUp(String email, String name, String password);
@@ -28,8 +29,8 @@ class SignUpDataSourceImpl implements SignUpDataSource{
           email: user.email??"",
           name: user.displayName??""
       );
-    } on FirebaseAuthException {
-      rethrow;
+    } on FirebaseAuthException catch(e) {
+      throw Exception(AppErrors.handleException(e))
     } catch (e) {
       throw Exception(AppString.somethingWentWrong);
     }
