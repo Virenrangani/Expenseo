@@ -62,6 +62,11 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
             selectedTab: _selectedTab,
             onToggleHide: () => setState(() =>isHidden = !isHidden),
           ),
+          AppGap.g24,
+          Container(
+            height: 1,
+            color: AppColor.background,
+          ),
         ],
       ),
     );
