@@ -9,6 +9,8 @@ import 'package:expenseo/features/home/presentation/widget/expense_container.dar
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
+import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
+import 'package:expenseo/features/split_expense/presentation/page/split_expense_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,7 +36,10 @@ class HomePage extends StatelessWidget {
                       child:AppIconCard(
                         icon: Icons.add_circle_outline_outlined,
                         text: AppString.addExpense,
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context)=>UserExpensePage()));
+                        },
                       ),
                   ),
                   AppGap.g16,
@@ -42,7 +47,10 @@ class HomePage extends StatelessWidget {
                     child:AppIconCard(
                       icon: Icons.splitscreen,
                       text: AppString.split,
-                      onTap: (){},
+                      onTap: (){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context)=>UserExpensePage()));
+                      },
                     ),
                   ),
                 ],
