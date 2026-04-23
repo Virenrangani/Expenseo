@@ -59,4 +59,9 @@ class AppString {
 
   static const String homeIntro = "Have a nice day";
   static const String hello = "Hello";
+  static const String recentTransaction = "Recent Transactions";
+  static const String addExpense = "Add Expense";
+  static const String split = "Split";
+
+
 }
