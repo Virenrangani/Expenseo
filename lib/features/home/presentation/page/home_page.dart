@@ -8,6 +8,7 @@ import '../../../../core/widget/app_title/app_title.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
+import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,11 +24,7 @@ class HomePage extends StatelessWidget {
             children: [
               AppTitle(style: AppTextStyles.h3(color: AppColor.secondary)),
               AppGap.g16,
-              Text(AppString.hello + " Viren", style: AppTextStyles.h4()),
-              Text(
-                AppString.homeIntro,
-                style: AppTextStyles.caption(color: AppColor.textPrimary),
-              ),
+              GreetingUser(userName: "Viren"),
               AppGap.g20,
               ExpenseContainer(),
               AppGap.g24,
