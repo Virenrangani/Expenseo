@@ -57,8 +57,12 @@ class AppString {
       "Account exists with different sign-in method";
   static const String invalidCredential = "Invalid credentials";
 
-  static const String homeIntro = "Have a nice day";
   static const String hello = "Hello";
+  static const String goodNight = "Good Night 🌛";
+  static const String goodMorning = "Good Morning ☀️";
+  static const String goodAfternoon = "Good Afternoon 🌤️";
+  static const String goodEvening = "Good Evening 🌙";
+
   static const String recentTransaction = "Recent Transactions";
   static const String addExpense = "Add Expense";
   static const String split = "Split";
