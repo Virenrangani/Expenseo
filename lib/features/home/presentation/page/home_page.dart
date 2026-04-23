@@ -6,6 +6,7 @@ import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/app_title/app_title.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
+import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,6 +29,26 @@ class HomePage extends StatelessWidget {
               ),
               AppGap.g20,
               ExpenseContainer(),
+              AppGap.g24,
+              Row(
+                children: [
+                  Expanded(
+                      child:AppIconCard(
+                        icon: Icons.add_circle_outline_outlined,
+                        text: "Add Expense",
+                        onTap: (){},
+                      ),
+                  ),
+                  AppGap.g16,
+                  Expanded(
+                    child:AppIconCard(
+                      icon: Icons.splitscreen,
+                      text: "Split",
+                      onTap: (){},
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
