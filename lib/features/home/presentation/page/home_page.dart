@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                   Expanded(
                       child:AppIconCard(
                         icon: Icons.add_circle_outline_outlined,
-                        text: "Add Expense",
+                        text: AppString.addExpense,
                         onTap: (){},
                       ),
                   ),
@@ -43,12 +43,14 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child:AppIconCard(
                       icon: Icons.splitscreen,
-                      text: "Split",
+                      text: AppString.split,
                       onTap: (){},
                     ),
                   ),
                 ],
-              )
+              ),
+              AppGap.g32,
+              Text(AppString.recentTransaction,style: AppTextStyles.captionBold(color:AppColor.textPrimary),)
             ],
           ),
         ),
