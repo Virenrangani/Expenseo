@@ -63,5 +63,9 @@ class AppString {
   static const String addExpense = "Add Expense";
   static const String split = "Split";
 
+  static const String balance = "Balance";
+  static const String income = "Income";
+  static const String expense = "Expense";
+
 
 }
