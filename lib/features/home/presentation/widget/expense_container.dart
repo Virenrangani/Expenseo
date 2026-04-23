@@ -17,6 +17,27 @@ class ExpenseContainer extends StatefulWidget {
 
 class _ExpenseContainerState extends State<ExpenseContainer> {
   ExpenseTab _selectedTab = ExpenseTab.balance;
+  bool isHidden = false;
+
+  final double totalIncome = 50000;
+  final double totalExpense = 23250;
+  double get balance => totalIncome - totalExpense;
+
+  String get displayLabel {
+    switch (_selectedTab) {
+      case ExpenseTab.balance: return 'My Balance';
+      case ExpenseTab.income:  return 'Total Income';
+      case ExpenseTab.expense: return 'Total Expense';
+    }
+  }
+
+  double get displayAmount {
+    switch (_selectedTab) {
+      case ExpenseTab.balance: return balance;
+      case ExpenseTab.income:  return totalIncome;
+      case ExpenseTab.expense: return totalExpense;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +55,13 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
             onTabChanged: (tab) => setState(() => _selectedTab = tab),
           ),
           AppGap.g24,
+          ShowAmount(
+            displayLabel: displayLabel,
+            displayAmount: displayAmount,
+            isHidden: isHidden,
+            selectedTab: _selectedTab,
+            onToggleHide: () => setState(() =>isHidden = !isHidden),
+          ),
         ],
       ),
     );
