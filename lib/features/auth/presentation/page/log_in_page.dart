@@ -15,7 +15,7 @@ import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import '../widget/navigation_text.dart';
 
 class LogInPage extends StatefulWidget {
@@ -49,6 +49,8 @@ class _LogInPageState extends State<LogInPage> {
               return CustomSnacksBar.showError(context, state.message);
             }
             if (state is AuthSuccess) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context)=>AppBottomNav()));
               return CustomSnacksBar.showSuccess(context, AppString.userLogin);
             }
           },
