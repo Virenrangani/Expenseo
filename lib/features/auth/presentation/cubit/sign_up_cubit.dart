@@ -1,6 +1,6 @@
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/validation/email_validation/email_password_validation.dart';
 import '../../../../core/validation/password_validation/password_validation.dart';
@@ -57,7 +57,11 @@ class SignUpCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       final user = await signUpUseCase.signUpWithEmail(email, name, password);
-
+      await SharedPrefService.saveUser(
+          id: user.id,
+          email: user.email,
+          name: user.name??""
+      );
       emit(AuthSuccess());
     } catch (e) {
       emit(AuthFailure(e.toString()));
