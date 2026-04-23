@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         child: Padding(
           padding: AppPadding.edgeSymmetricHori16,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppTitle(style: AppTextStyles.h3(color: AppColor.secondary)),
               AppGap.g16,
@@ -25,6 +25,23 @@ class HomePage extends StatelessWidget {
               Text(
                 AppString.homeIntro,
                 style: AppTextStyles.caption(color: AppColor.textPrimary),
+              ),
+              AppGap.g20,
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(color: AppColor.primary),
+                child: Column(
+                  children: [
+                    AppGap.g16,
+                    Text("My Expense", style: AppTextStyles.bodyLarge()),
+                    AppGap.g8,
+                    Text(
+                      "\$ 23455",
+                      style: AppTextStyles.h3(color: AppColor.background),
+                    ),
+                    AppGap.g16,
+                  ],
+                ),
               ),
             ],
           ),
