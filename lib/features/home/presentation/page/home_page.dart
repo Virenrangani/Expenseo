@@ -7,6 +7,7 @@ import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/app_title/app_title.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
+import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -50,7 +51,12 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               AppGap.g32,
-              Text(AppString.recentTransaction,style: AppTextStyles.captionBold(color:AppColor.textPrimary),)
+              Text(AppString.recentTransaction,
+                style: AppTextStyles.captionBold(color:AppColor.textPrimary),),
+
+              AppGap.g16,
+
+              Expanded(child: TransactionList())
             ],
           ),
         ),
