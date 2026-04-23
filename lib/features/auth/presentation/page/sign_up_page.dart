@@ -50,6 +50,8 @@ class _SignUpPageState extends State<SignUpPage> {
               return CustomSnacksBar.showError(context, state.message);
             }
             if (state is AuthSuccess) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context)=>LogInPage()));
               return CustomSnacksBar.showSuccess(context, AppString.userLogin);
             }
           },
