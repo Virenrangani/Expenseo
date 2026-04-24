@@ -1,0 +1,12 @@
+import '../repository/expense_repository.dart';
+import '../entity/expense.dart';
+
+class ExpenseUseCase {
+  final ExpenseRepository repository;
+
+  ExpenseUseCase(this.repository);
+
+  Future<void> addExpense(String uid, Expense expense) {
+    return repository.addExpense(uid, expense);
+  }
+}
