@@ -71,5 +71,23 @@ class AppString {
   static const String income = "Income";
   static const String expense = "Expense";
 
+  static const String permissionDenied =
+      "You don’t have permission to perform this action.";
+  static const String dataNotFound =
+      "Requested data was not found.";
+  static const String dataAlreadyExists =
+      "This data already exists.";
+  static const String resourceExhausted =
+      "Service limit reached. Please try again later.";
+  static const String serviceUnavailable =
+      "Service is currently unavailable. Please try again later.";
+  static const String operationCancelled =
+      "Operation was cancelled. Please try again.";
+  static const String timeout =
+      "Request timed out. Please check your internet connection.";
+  static const String invalidArgument =
+      "Invalid data provided. Please check and try again.";
+  static const String operationAborted =
+      "Operation failed. Please try again.";
 
 }
