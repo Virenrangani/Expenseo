@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/error/app_errors.dart';
 import '../model/user_model.dart';
@@ -22,6 +22,12 @@ class SignUpDataSourceImpl implements SignUpDataSource {
 
       await user.updateDisplayName(name);
       await user.reload();
+
+      await SharedPrefService.saveUser(
+        id: user.uid,
+        email: user.email ?? "",
+        name: name,
+      );
 
       await user.sendEmailVerification();
 
