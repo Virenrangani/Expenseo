@@ -1,0 +1,25 @@
+import '../../domain/repository/expense_repository.dart';
+import '../data_source/expense_data_source.dart';
+import '../../domain/entity/expense.dart';
+import '../model/expense_model.dart';
+
+class ExpenseRepositoryImpl implements ExpenseRepository{
+  final ExpenseDataSource dataSource;
+
+  ExpenseRepositoryImpl(this.dataSource);
+
+  @override
+  Future<void> addExpense(String uid, Expense expense) async{
+    final model = ExpenseModel(
+      id: expense.id,
+      title: expense.title,
+      amount: expense.amount,
+      type: expense.type,
+      category: expense.category,
+      paymentMethod: expense.paymentMethod,
+      createdAt: expense.createdAt,
+    );
+
+    return  await dataSource.addExpense(uid, model);
+  }
+}
