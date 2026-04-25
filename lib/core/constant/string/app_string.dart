@@ -95,4 +95,9 @@ class AppString {
   static const String amountRequired = "Amount is required";
   static const String amountInvalid = "Enter a valid amount";
   static const String amountGreaterThanZero = "Amount must be greater than 0";
+
+  static const String title='Title';
+  static const String titleHint='e.g. Lunch, Salary...';
+  static const String titleInvalid='Title is required';
+
 }
