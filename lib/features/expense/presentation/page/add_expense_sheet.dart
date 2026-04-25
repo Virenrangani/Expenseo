@@ -12,6 +12,7 @@ import '../../../../core/enums/app_enums.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
+import '../widget/expense_category_selector.dart';
 import '../widget/expense_type_toggle.dart';
 
 
@@ -29,6 +30,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
 
 
   TransactionType type  = TransactionType.expense;
+  ExpenseCategory category = ExpenseCategory.food;
   final _formKey  = GlobalKey<FormState>();
 
   @override
@@ -120,6 +122,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                     hintText: AppString.titleHint  ,
                     validator:  (v) => v!.trim().isEmpty ? AppString.titleInvalid : null,
                   ),
+
+                  AppGap.g16,
+                  sectionLabel(AppString.category),
+                  AppGap.g8,
+                  ExpenseCategorySelector(
+                    selectedCategory: category,
+                    onChanged: (cat) => setState(() => category = cat),
+                  ),
+
                 ],
               ),
             ),
