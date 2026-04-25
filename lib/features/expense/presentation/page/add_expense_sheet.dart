@@ -1,12 +1,15 @@
+import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
+import '../../../../core/widget/text_field/app_text_field.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
 
@@ -19,6 +22,9 @@ class AddExpenseSheet extends StatefulWidget {
 }
 
 class _AddExpenseSheetState extends State<AddExpenseSheet> {
+
+  final amountController = TextEditingController();
+
 
   TransactionType type  = TransactionType.expense;
   final _formKey  = GlobalKey<FormState>();
@@ -62,6 +68,40 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                     child: Text(
                       type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
                       style: AppTextStyles.h5(),
+                    ),
+                  ),
+                  AppGap.g16,
+                  Container(
+                    width: double.infinity,
+                    padding: AppPadding.edgeAll16,
+                    decoration: BoxDecoration(
+                      color: AppColor.primaryLight,
+                      borderRadius: AppBorderRadius.cir16,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          AppString.addAmount,
+                          style: AppTextStyles.captionMedium(color: AppColor.secondary),
+                        ),
+                        AppGap.g8,
+
+                        AppFormField(
+                          controller: amountController,
+                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.h2(color: AppColor.primary),
+
+                          hintText: '0',
+                          prefixText: '₹ ',
+                          prefixStyle: AppTextStyles.h2(color: AppColor.primary),
+
+                          contentPadding: EdgeInsets.zero,
+                          fillColor: AppColor.secondary,
+                          validator: (val)=>validateAmount(val!)
+                        ),
+                      ],
                     ),
                   ),
                 ],
