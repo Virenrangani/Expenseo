@@ -10,10 +10,10 @@ class ExpenseCubit extends Cubit<ExpenseState>{
 
   String get currentUid => FirebaseAuth.instance.currentUser!.uid;
 
-  Future<void> addNewExpense(String uid, Expense expense) async {
+  Future<void> addNewExpense(Expense expense) async {
     emit(ExpenseLoading());
     try{
-      await useCase.addExpense(uid, expense);
+      await useCase.addExpense(currentUid,expense);
       emit(ExpenseSuccess("Expense is added..!"));
     }catch (e){
       emit(ExpenseError(e.toString()));
