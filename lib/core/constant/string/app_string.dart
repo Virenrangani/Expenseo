@@ -100,4 +100,6 @@ class AppString {
   static const String titleHint='e.g. Lunch, Salary...';
   static const String titleInvalid='Title is required';
 
+  static const String category='Category';
+
 }
