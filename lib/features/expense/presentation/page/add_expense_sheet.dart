@@ -12,6 +12,7 @@ import '../../../../core/enums/app_enums.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
+import '../widget/expense_type_toggle.dart';
 
 
 class AddExpenseSheet extends StatefulWidget {
@@ -104,6 +105,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                       ],
                     ),
                   ),
+                  AppGap.g16,
+                  ExpenseTypeToggle(
+                    selectedType: type,
+                    onChanged: (typeText) => setState(() => type = typeText),
+                  ),
+
                 ],
               ),
             ),
