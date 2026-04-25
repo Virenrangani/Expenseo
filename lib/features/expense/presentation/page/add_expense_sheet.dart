@@ -25,6 +25,7 @@ class AddExpenseSheet extends StatefulWidget {
 class _AddExpenseSheetState extends State<AddExpenseSheet> {
 
   final amountController = TextEditingController();
+  final titleController  = TextEditingController();
 
 
   TransactionType type  = TransactionType.expense;
@@ -112,8 +113,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   ),
                   AppGap.g16,
 
-                  sectionLabel('Title'),
-                  
+                  sectionLabel(AppString.title),
+                  AppGap.g8,
+                  AppFormField(
+                    controller: titleController,
+                    hintText: AppString.titleHint  ,
+                    validator:  (v) => v!.trim().isEmpty ? AppString.titleInvalid : null,
+                  ),
                 ],
               ),
             ),
