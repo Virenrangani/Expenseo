@@ -16,6 +16,7 @@ class AddExpenseSheet extends StatefulWidget {
 }
 
 class _AddExpenseSheetState extends State<AddExpenseSheet> {
+  final _formKey  = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,27 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
             borderRadius: AppBorderRadius.verTop24,
           ),
           padding: AppPadding.edgeAll16,
-          child: SingleChildScrollView(),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Container(
+                      width:  40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: AppColor.divider,
+                        borderRadius: AppBorderRadius.cir8,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
     ),
     );
   }
