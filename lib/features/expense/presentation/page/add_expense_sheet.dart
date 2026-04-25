@@ -162,14 +162,25 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
     final isLoading = context.watch<ExpenseCubit>().state is ExpenseLoading;
     return AppElevatedButton(
       text: type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
-      onPressed:(){},
+      onPressed:onSubmit,
       isLoading: isLoading,
       isEnabled: true,
       borderRadius: 16,
     );
   }
+  void onSubmit() {
+    if (!_formKey.currentState!.validate()) return;
 
-
-
+    context.read<ExpenseCubit>().addNewExpense(
+      Expense(
+        id: Uuid().v4(),
+        title: titleController.text.trim(),
+        amount: double.parse(amountController.text.trim()),
+        type: type,
+        category: category,
+        paymentMethod: paymentMethod,
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 }
