@@ -20,10 +20,10 @@ class AppString {
   static const String alReadyHaveAnAccount = "Already have an account? ";
   static const String somethingWentWrong = "Something went to wrong";
 
-  static const signUpIntro = "Create Your Narrative";
-  static const signUpSubIntro = "Start your journey to financial clarity.";
+  static const String signUpIntro = "Create Your Narrative";
+  static const String signUpSubIntro = "Start your journey to financial clarity.";
 
-  static const name = "Name";
+  static const String name = "Name";
   static const createAccount = "Create Account";
 
   static const String userNotVerify = "user is not verified";
@@ -65,6 +65,8 @@ class AppString {
 
   static const String recentTransaction = "Recent Transactions";
   static const String addExpense = "Add Expense";
+  static const String addIncome = "Add Income";
+  static const String addAmount='Enter Amount';
   static const String split = "Split";
 
   static const String balance = "Balance";
