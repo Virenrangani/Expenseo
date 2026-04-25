@@ -1,6 +1,9 @@
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constant/border_radius/app_border_radius.dart';
+import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/padding/app_padding.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
 
@@ -25,7 +28,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
           if (state is ExpenseError) {
             CustomSnacksBar.showSuccess(context, state.message);
           }
-        }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColor.background,
+            borderRadius: AppBorderRadius.verTop24,
+          ),
+          padding: AppPadding.edgeAll16,
+          child: SingleChildScrollView(),
+    ),
     );
   }
 }
