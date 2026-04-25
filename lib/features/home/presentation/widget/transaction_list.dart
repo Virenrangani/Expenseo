@@ -52,7 +52,7 @@ class TransactionList extends StatelessWidget {
 
             subtitle: Row(
               children: [
-                Text(item["subtitle"],style: AppTextStyles.bodyMedium(),),
+                Expanded(child: Text(item["subtitle"],style: AppTextStyles.bodyMedium(),)),
                 AppGap.g8,
                 Text("•"),
                 AppGap.g8,
