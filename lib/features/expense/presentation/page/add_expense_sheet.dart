@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/padding/app_padding.dart';
+import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/enums/app_enums.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
 
@@ -16,6 +19,8 @@ class AddExpenseSheet extends StatefulWidget {
 }
 
 class _AddExpenseSheetState extends State<AddExpenseSheet> {
+
+  TransactionType type  = TransactionType.expense;
   final _formKey  = GlobalKey<FormState>();
 
   @override
@@ -51,6 +56,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                         color: AppColor.divider,
                         borderRadius: AppBorderRadius.cir8,
                       ),
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
+                      style: AppTextStyles.h5(),
                     ),
                   ),
                 ],
