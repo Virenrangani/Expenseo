@@ -14,6 +14,7 @@ import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
 import '../widget/expense_category_selector.dart';
 import '../widget/expense_type_toggle.dart';
+import '../widget/payment_method_selector.dart';
 
 
 class AddExpenseSheet extends StatefulWidget {
@@ -31,6 +32,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
 
   TransactionType type  = TransactionType.expense;
   ExpenseCategory category = ExpenseCategory.food;
+  PaymentMethod paymentMethod = PaymentMethod.cash;
   final _formKey  = GlobalKey<FormState>();
 
   @override
@@ -129,6 +131,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   ExpenseCategorySelector(
                     selectedCategory: category,
                     onChanged: (cat) => setState(() => category = cat),
+                  ),
+
+                  AppGap.g16,
+                  sectionLabel(AppString.paymentMethod),
+                  AppGap.g8,
+                  PaymentMethodSelector(
+                    selectedMethod: paymentMethod,
+                    onChanged: (method) => setState(() => paymentMethod = method),
                   ),
 
                 ],
