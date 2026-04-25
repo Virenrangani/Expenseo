@@ -101,5 +101,5 @@ class AppString {
   static const String titleInvalid='Title is required';
 
   static const String category='Category';
-
+  static const String paymentMethod='Payment Method';
 }
