@@ -2,6 +2,7 @@ import 'package:expenseo/core/validation/amount_validation/amount_validation.dar
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
@@ -9,7 +10,9 @@ import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
+import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
+import '../../domain/entity/expense.dart';
 import '../cubit/expense_cubit.dart';
 import '../cubit/expense_state.dart';
 import '../widget/expense_category_selector.dart';
@@ -28,7 +31,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
 
   final amountController = TextEditingController();
   final titleController  = TextEditingController();
-
 
   TransactionType type  = TransactionType.expense;
   ExpenseCategory category = ExpenseCategory.food;
@@ -140,7 +142,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                     selectedMethod: paymentMethod,
                     onChanged: (method) => setState(() => paymentMethod = method),
                   ),
-
+                  AppGap.g20,
+                  submitButton(),
                 ],
               ),
             ),
@@ -149,8 +152,24 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
     );
   }
 
-  Widget sectionLabel(String label) => Text(
-    label,
-    style: AppTextStyles.captionMedium(color: AppColor.textSecondary),
-  );
+  Widget sectionLabel(String label) =>
+      Text(
+        label,
+        style: AppTextStyles.captionMedium(color: AppColor.textSecondary),
+      );
+
+  Widget submitButton() {
+    final isLoading = context.watch<ExpenseCubit>().state is ExpenseLoading;
+    return AppElevatedButton(
+      text: type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
+      onPressed:(){},
+      isLoading: isLoading,
+      isEnabled: true,
+      borderRadius: 16,
+    );
+  }
+
+
+
+  }
 }
