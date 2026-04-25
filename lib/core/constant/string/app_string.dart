@@ -92,4 +92,7 @@ class AppString {
   static const String operationAborted =
       "Operation failed. Please try again.";
 
+  static const String amountRequired = "Amount is required";
+  static const String amountInvalid = "Enter a valid amount";
+  static const String amountGreaterThanZero = "Amount must be greater than 0";
 }
