@@ -110,7 +110,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                     selectedType: type,
                     onChanged: (typeText) => setState(() => type = typeText),
                   ),
+                  AppGap.g16,
 
+                  sectionLabel('Title'),
+                  
                 ],
               ),
             ),
@@ -118,4 +121,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
     ),
     );
   }
+
+  Widget sectionLabel(String label) => Text(
+    label,
+    style: AppTextStyles.captionMedium(color: AppColor.textSecondary),
+  );
 }
