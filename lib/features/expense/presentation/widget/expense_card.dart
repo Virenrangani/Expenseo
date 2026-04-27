@@ -3,6 +3,7 @@ import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
+import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
 import '../../domain/entity/expense.dart';
 import 'category_list_option.dart';
@@ -38,6 +39,20 @@ class ExpenseCard extends StatelessWidget {
           ),
 
           AppGap.g12,
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                expense.title,
+                style: AppTextStyles.bodySmall(color: AppColor.textPrimary)
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
+            ]
+          )
+        ),
+
         ],
       ),
     );
