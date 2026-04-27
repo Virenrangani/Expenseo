@@ -5,6 +5,8 @@ import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
+import '../../../../core/widget/format_amount/format_amount.dart';
+import '../../../../core/widget/format_date/format_date.dart';
 import '../../domain/entity/expense.dart';
 import 'category_list_option.dart';
 
@@ -40,36 +42,51 @@ class ExpenseCard extends StatelessWidget {
 
           AppGap.g12,
 
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  expense.title,
+                  style: AppTextStyles.bodySmall(color: AppColor.textPrimary)
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
+                AppGap.g4,
+                Row(
+                  children: [
+                    Text(
+                      expense.category.label,
+                      style: AppTextStyles.descriptionSmall(),
+                    ),
+                    AppGap.g4,
+                    Text('•',
+                        style: AppTextStyles.descriptionSmall()),
+                    AppGap.g4,
+                    Text(
+                      expense.paymentMethod.label,
+                      style: AppTextStyles.descriptionSmall(),
+                    ),
+                  ],
+                ),
+              ]
+            )
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                expense.title,
-                style: AppTextStyles.bodySmall(color: AppColor.textPrimary)
-                    .copyWith(fontWeight: FontWeight.w500),
+                '${isExpense ? '-' : '+'}₹${formatAmount(expense.amount)}',
+                style: AppTextStyles.captionBold(
+                  color: isExpense ? AppColor.error : AppColor.success,
+                ),
               ),
               AppGap.g4,
-              Row(
-                children: [
-                  Text(
-                    expense.category.label,
-                    style: AppTextStyles.descriptionSmall(),
-                  ),
-                  AppGap.g4,
-                  Text('•',
-                      style: AppTextStyles.descriptionSmall()),
-                  AppGap.g4,
-                  Text(
-                    expense.paymentMethod.label,
-                    style: AppTextStyles.descriptionSmall(),
-                  ),
-                ],
+              Text(
+                formatTime(expense.createdAt),
+                style: AppTextStyles.descriptionSmall(),
               ),
-            ]
-          )
-        ),
-
+            ],
+          ),
         ],
       ),
     );
