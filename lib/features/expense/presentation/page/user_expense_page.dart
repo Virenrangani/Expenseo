@@ -1,5 +1,8 @@
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
+import 'package:expenseo/features/expense/presentation/widget/expense_card.dart';
+import 'package:expenseo/features/expense/presentation/widget/fake_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import './add_expense_sheet.dart';
 import '../cubit/expense_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,8 +23,13 @@ class UserExpensePage extends StatelessWidget {
             body:BlocBuilder<ExpenseCubit,ExpenseState>(
                 builder: (context,state){
                   if(state is ExpenseLoading){
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return Skeletonizer(
+                        child: ListView.builder(
+                          itemCount: 6,
+                            itemBuilder: (_,_)=>ExpenseCard(
+                                expense: FakeExpense.fake()
+                            )
+                        )
                     );
                   }
                   if(state is ExpenseError){
