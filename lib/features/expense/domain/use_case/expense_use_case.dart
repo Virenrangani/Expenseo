@@ -1,5 +1,5 @@
-import '../repository/expense_repository.dart';
 import '../entity/expense.dart';
+import '../repository/expense_repository.dart';
 
 class ExpenseUseCase {
   final ExpenseRepository repository;

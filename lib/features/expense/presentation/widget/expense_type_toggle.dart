@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constant/colour/app_color.dart';
+
 import '../../../../core/constant/border_radius/app_border_radius.dart';
+import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
@@ -25,13 +26,13 @@ class ExpenseTypeToggle extends StatelessWidget {
           child: GestureDetector(
             onTap: () => onChanged(type),
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               padding: AppPadding.edgeSymmetricVer12,
               decoration: BoxDecoration(
                 color: isSelected
                     ? (isExpense
-                    ? AppColor.error.withOpacity(0.1)
-                    : AppColor.success.withOpacity(0.1))
+                    ? AppColor.error.withAlpha(25)
+                    : AppColor.success.withAlpha(25))
                     : AppColor.background,
                 borderRadius: AppBorderRadius.cir12,
                 border: Border.all(

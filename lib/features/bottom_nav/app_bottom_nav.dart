@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:expenseo/features/home/presentation/page/home_page.dart';
+import 'package:flutter/material.dart';
+
 import '../../core/constant/colour/app_color.dart';
 
 class AppBottomNav extends StatefulWidget {
@@ -13,9 +14,9 @@ class _AppBottomNavState extends State<AppBottomNav> {
   int currentIndex = 0;
 
   final List<Widget> screens =  [
-    HomePage(),
-    Center(child: Text("Search")),
-    Center(child: Text("Profile")),
+    const HomePage(),
+    const Center(child: Text('Search')),
+    const Center(child: Text('Profile')),
   ];
 
   @override
@@ -34,25 +35,24 @@ class _AppBottomNavState extends State<AppBottomNav> {
           });
         },
 
-        destinations: [
+        destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home,color:AppColor.secondary,),
-            label: "Home",
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.search_outlined),
             selectedIcon: Icon(Icons.search,color:AppColor.secondary,),
-            label: "Search",
+            label: 'Search',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person,color:AppColor.secondary,),
-            label: "Profile",
+            label: 'Profile',
           ),
         ],
       ),
     );
   }
 }
-

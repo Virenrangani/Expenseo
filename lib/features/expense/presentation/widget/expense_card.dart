@@ -26,7 +26,7 @@ class ExpenseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColor.background,
         borderRadius: AppBorderRadius.cir16,
-        border: Border.all(color: AppColor.divider.withOpacity(0.4)),
+        border: Border.all(color: AppColor.divider.withAlpha(100)),
       ),
       child: Row(
         children: [

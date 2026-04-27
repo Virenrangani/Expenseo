@@ -51,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
             }
             if (state is AuthSuccess) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context)=>LogInPage()));
+                  MaterialPageRoute<void>(builder: (context)=>const LogInPage()));
               return CustomSnacksBar.showSuccess(context, AppString.userLogin);
             }
           },
@@ -59,11 +59,10 @@ class _SignUpPageState extends State<SignUpPage> {
             final isLoading = state is AuthLoading;
             return SafeArea(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    AppTitle(),
+                    const AppTitle(),
                     AppGap.g20,
 
                     Padding(
@@ -86,9 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 AppGap.g32,
                                 Text(
                                   AppString.signUpIntro,
-                                  style: AppTextStyles.h3(
-                                    color: AppColor.textPrimary,
-                                  ),
+                                  style: AppTextStyles.h3(),
                                 ),
                                 AppGap.g4,
                                 Text(
@@ -141,11 +138,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 AppGap.g32,
 
-                                isLoading
-                                    ? const CircularProgressIndicator(
+                                if (isLoading) const CircularProgressIndicator(
                                         color: AppColor.primary,
-                                      )
-                                    : AppElevatedButton(
+                                      ) else AppElevatedButton(
                                         text: AppString.createAccount,
                                         isEnabled: context
                                             .read<SignUpCubit>()
@@ -177,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
+                          MaterialPageRoute<void>(builder: (context) => const LogInPage()),
                         );
                       },
                       pageName: AppString.signIN,

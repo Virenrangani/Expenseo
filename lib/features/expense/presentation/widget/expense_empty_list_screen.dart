@@ -13,14 +13,14 @@ class ExpenseEmptyListScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.receipt_long_outlined,
+          const Icon(Icons.receipt_long_outlined,
               size: 64, color: AppColor.divider),
           AppGap.g16,
           Text(AppString.noExpenseYet,
               style: AppTextStyles.h5(color: AppColor.textSecondary)),
           AppGap.g8,
           Text(AppString.addFirstExpense,
-              style: AppTextStyles.caption(color: AppColor.textSecondary)),
+              style: AppTextStyles.caption()),
         ],
       ),
     );

@@ -1,5 +1,5 @@
-import 'package:expenseo/features/auth/domain/repository/sign_up_repository.dart';
 import 'package:expenseo/features/auth/domain/entity/user.dart';
+import 'package:expenseo/features/auth/domain/repository/sign_up_repository.dart';
 
 class SignUpUseCase {
   final SignUpRepository signUpRepository;

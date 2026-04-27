@@ -47,7 +47,7 @@ class AppElevatedButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? SizedBox(
+            ? const SizedBox(
                 height: 22,
                 width: 22,
                 child: CircularProgressIndicator(

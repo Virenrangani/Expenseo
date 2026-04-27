@@ -1,6 +1,6 @@
+import '../../domain/entity/expense.dart';
 import '../../domain/repository/expense_repository.dart';
 import '../data_source/expense_data_source.dart';
-import '../../domain/entity/expense.dart';
 import '../model/expense_model.dart';
 
 class ExpenseRepositoryImpl implements ExpenseRepository{
@@ -9,7 +9,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
   ExpenseRepositoryImpl(this.dataSource);
 
   @override
-  Future<void> addExpense(String uid, Expense expense) async{
+  Future<void> addExpense(String uid, Expense expense) {
     final model = ExpenseModel(
       id: expense.id,
       title: expense.title,
@@ -20,7 +20,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
       createdAt: expense.createdAt,
     );
 
-    return  await dataSource.addExpense(uid, model);
+    return dataSource.addExpense(uid, model);
   }
 
   @override

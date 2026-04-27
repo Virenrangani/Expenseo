@@ -16,15 +16,15 @@ class UserModel {
     return UserModel(
         id: user.id,
         email: user.email,
-        name: user.name??""
+        name: user.name??''
     );
   }
 
   Map<String , dynamic> toJson() {
     return {
       'id': id,
-      "email": email,
-      "name": name
+      'email': email,
+      'name': name
     };
   }
 }

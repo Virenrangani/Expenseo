@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constant/text_style/app_text_style.dart';
+
+import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/widget/format_amount/format_amount.dart';
 import 'expense_state_items.dart';
-import '../../../../core/constant/colour/app_color.dart';
 
 class ExpenseStats extends StatelessWidget {
   final double totalIncome;
@@ -25,7 +25,7 @@ class ExpenseStats extends StatelessWidget {
           value: '+₹${formatAmount(totalIncome)}',
           valueColor: AppColor.secondary,
         ),
-        Container(width: 3, height: 28, color: Colors.white.withOpacity(0.3)),
+        Container(width: 3, height: 28, color: Colors.white.withAlpha(75),),
         StatItem(
           label: AppString.expense,
           value: '-₹${formatAmount(totalExpense)}',

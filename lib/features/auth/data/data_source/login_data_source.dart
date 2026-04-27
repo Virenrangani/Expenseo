@@ -31,8 +31,8 @@ class LoginDataSourceImpl extends LoginDataSource {
 
       return UserModel(
         id: user.uid,
-        email: user.email ?? "",
-        name: user.displayName ?? "",
+        email: user.email ?? '',
+        name: user.displayName ?? '',
       );
     } on FirebaseAuthException catch (e) {
       throw Exception(AppErrors.handleException(e));
@@ -64,8 +64,8 @@ class LoginDataSourceImpl extends LoginDataSource {
 
       return UserModel(
         id: user.uid,
-        email: user.email ?? "",
-        name: user.displayName ?? "",
+        email: user.email ?? '',
+        name: user.displayName ?? '',
       );
     } on FirebaseAuthException catch (e) {
       throw Exception(AppErrors.handleException(e));

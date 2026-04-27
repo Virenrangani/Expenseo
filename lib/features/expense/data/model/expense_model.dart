@@ -2,13 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../core/enums/app_enums.dart';
 
 class ExpenseModel {
-  final String id;
-  final String title;
-  final double amount;
-  final ExpenseCategory category;
-  final TransactionType type;
-  final PaymentMethod paymentMethod;
-  final DateTime createdAt;
 
   ExpenseModel({
     required this.id,
@@ -24,7 +17,7 @@ class ExpenseModel {
   factory ExpenseModel.fromJson(String id, Map<String, dynamic> json) {
     return ExpenseModel(
       id: id,
-      title: json['title'],
+      title: json['title'] as String,
       amount: (json['amount'] as num).toDouble(),
       category: ExpenseCategory.values.firstWhere(
             (e) => e.key == json['category'],
@@ -41,14 +34,21 @@ class ExpenseModel {
       createdAt: (json['createdAt'] as Timestamp).toDate(),
     );
   }
+  final String id;
+  final String title;
+  final double amount;
+  final ExpenseCategory category;
+  final TransactionType type;
+  final PaymentMethod paymentMethod;
+  final DateTime createdAt;
 
   Map<String, dynamic> toJson() {
     return {
-      "title": title,
-      "amount": amount,
-      "category": category.key,
-      "paymentMethod": paymentMethod.key,
-      "createdAt": createdAt,
+      'title': title,
+      'amount': amount,
+      'category': category.key,
+      'paymentMethod': paymentMethod.key,
+      'createdAt': createdAt,
     };
   }
 }

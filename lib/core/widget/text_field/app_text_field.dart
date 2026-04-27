@@ -57,7 +57,7 @@ class AppFormField extends StatelessWidget {
       textAlign: textAlign,
       style: style,
       obscureText: obscureText,
-      obscuringCharacter: "*",
+      obscuringCharacter: '*',
       maxLines: obscureText ? 1 : maxLines,
       onChanged: onChanged,
       decoration: InputDecoration(
@@ -67,13 +67,13 @@ class AppFormField extends StatelessWidget {
         hintText: hintText,
         hintStyle: AppTextStyles.bodyMedium(color: AppColor.textPrimary),
         labelText: labelText,
-        labelStyle:TextStyle(color: AppColor.primary),
+        labelStyle:const TextStyle(color: AppColor.primary),
         fillColor: fillColor ?? AppColor.textLight,
         focusColor: AppColor.background,
         filled: true,
         prefixIcon: prefixIcon != null
             ? Padding(
-          padding: EdgeInsetsGeometry.only(left: 12,top: 16, bottom: 16),
+          padding: const EdgeInsetsGeometry.only(left: 12,top: 16, bottom: 16),
           child: prefixIcon,
         )
             : null,

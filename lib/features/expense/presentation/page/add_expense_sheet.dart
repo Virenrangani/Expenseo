@@ -96,7 +96,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
 
                         AppFormField(
                           controller: amountController,
-                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
 
                           textAlign: TextAlign.center,
                           style: AppTextStyles.h2(color: AppColor.primary),
@@ -155,7 +155,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
   Widget sectionLabel(String label) =>
       Text(
         label,
-        style: AppTextStyles.captionMedium(color: AppColor.textSecondary),
+        style: AppTextStyles.captionMedium(),
       );
 
   Widget submitButton() {
@@ -173,7 +173,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
 
     context.read<ExpenseCubit>().addNewExpense(
       Expense(
-        id: Uuid().v4(),
+        id: const Uuid().v4(),
         title: titleController.text.trim(),
         amount: double.parse(amountController.text.trim()),
         type: type,

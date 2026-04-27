@@ -1,5 +1,6 @@
-import '../../../../core/enums/app_enums.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/enums/app_enums.dart';
 
 class CategoryListOption {
   final IconData icon;

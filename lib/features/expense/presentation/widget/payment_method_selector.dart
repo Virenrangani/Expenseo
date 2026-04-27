@@ -1,7 +1,8 @@
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constant/colour/app_color.dart';
+
 import '../../../../core/constant/border_radius/app_border_radius.dart';
+import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
 
@@ -25,7 +26,7 @@ class PaymentMethodSelector extends StatelessWidget {
         return GestureDetector(
           onTap: () => onChanged(method),
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 180),
+            duration: const Duration(milliseconds: 180),
             padding:  AppPadding.edgeSymmetricHori16,
             decoration: BoxDecoration(
               borderRadius: AppBorderRadius.cir12,
@@ -34,7 +35,7 @@ class PaymentMethodSelector extends StatelessWidget {
                 width: isSelected ? 1.5 : 0.5,
               ),
               color: isSelected
-                  ? AppColor.primary.withOpacity(0.07)
+                  ? AppColor.primary.withAlpha(15)
                   : AppColor.background,
             ),
             child: Text(

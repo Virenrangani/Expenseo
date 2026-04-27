@@ -3,16 +3,16 @@ import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class OrDivider extends StatelessWidget {
-  final String text;
-  final Color lineColor;
-  final double thickness;
 
-   OrDivider({
+   const OrDivider({
     super.key,
-    this.text = "OR",
+    this.text = 'OR',
     this.lineColor =Colors.black26,
     this.thickness = 1,
   });
+  final String text;
+  final Color lineColor;
+  final double thickness;
 
   @override
   Widget build(BuildContext context) {

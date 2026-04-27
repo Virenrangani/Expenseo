@@ -1,20 +1,21 @@
-import 'package:flutter/material.dart';
-import '../../../../core/constant/colour/app_color.dart';
-import '../../../../core/constant/border_radius/app_border_radius.dart';
-import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/text_style/app_text_style.dart';
-import '../../../../core/constant/string/app_string.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../core/constant/border_radius/app_border_radius.dart';
+import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/padding/app_padding.dart';
+import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/constant/text_style/app_text_style.dart';
 
 class TabSelector extends StatelessWidget {
-  final ExpenseTab selectedTab;
-  final ValueChanged<ExpenseTab> onTabChanged;
 
   const TabSelector({
     super.key,
     required this.selectedTab,
     required this.onTabChanged,
   });
+  final ExpenseTab selectedTab;
+  final ValueChanged<ExpenseTab> onTabChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class TabSelector extends StatelessWidget {
             child: GestureDetector(
               onTap: () => onTabChanged(tab),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 padding: AppPadding.edgeSymmetricVer8,
                 decoration: BoxDecoration(
                   color: isActive

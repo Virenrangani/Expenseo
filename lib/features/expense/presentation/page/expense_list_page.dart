@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
@@ -18,7 +17,7 @@ class ExpenseListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (expenses.isEmpty) return ExpenseEmptyListScreen();
+    if (expenses.isEmpty) return const ExpenseEmptyListScreen();
 
     final grouped = _groupByDate(expenses);
     return SafeArea(
@@ -30,9 +29,7 @@ class ExpenseListPage extends StatelessWidget {
             children: [
               Text(
                 entry.key,
-                style: AppTextStyles.captionMedium(
-                  color: AppColor.textSecondary,
-                ),
+                style: AppTextStyles.captionMedium(),
               ),
               AppGap.g8,
 

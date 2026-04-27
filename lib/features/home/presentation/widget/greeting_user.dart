@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
-import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/constant/text_style/app_text_style.dart';
 
 class GreetingUser extends StatelessWidget {
   final String userName;

@@ -1,7 +1,8 @@
-import '../model/expense_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../../core/error/app_errors.dart';
+
 import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/error/app_errors.dart';
+import '../model/expense_model.dart';
 
 abstract class ExpenseDataSource {
   Future<void> addExpense(String uid, ExpenseModel expense);
@@ -30,7 +31,7 @@ class ExpenseDataSourceImpl implements ExpenseDataSource{
 
   @override
   Future<List<ExpenseModel>> getExpense(String uid) async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 2));
     try{
       final expense=await firestore
           .collection('users')

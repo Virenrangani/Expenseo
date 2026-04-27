@@ -1,7 +1,8 @@
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constant/colour/app_color.dart';
+
 import '../../../../core/constant/border_radius/app_border_radius.dart';
+import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
@@ -30,8 +31,8 @@ class ExpenseCategorySelector extends StatelessWidget {
           return GestureDetector(
             onTap: () => onChanged(cat),
             child: AnimatedContainer(
-              duration:  Duration(milliseconds: 200),
-              margin: EdgeInsets.only(right:8),
+              duration:  const Duration(milliseconds: 200),
+              margin: const EdgeInsets.only(right:8),
               padding:AppPadding.edgeSymmetricHori16,
               decoration: BoxDecoration(
                 borderRadius: AppBorderRadius.cir16,
@@ -40,7 +41,7 @@ class ExpenseCategorySelector extends StatelessWidget {
                   width: isSelected ? 1.5 : 0.5,
                 ),
                 color: isSelected
-                    ? AppColor.primary.withOpacity(0.07)
+                    ? AppColor.primary.withAlpha(15)
                     : AppColor.background,
               ),
               child: Column(

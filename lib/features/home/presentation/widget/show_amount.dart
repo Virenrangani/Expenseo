@@ -1,8 +1,9 @@
+import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
-import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import '../../../../core/widget/format_amount/format_amount.dart';
 
 class ShowAmount extends StatelessWidget {
@@ -28,16 +29,15 @@ class ShowAmount extends StatelessWidget {
         Text(
           displayLabel,
           style: AppTextStyles.caption(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withAlpha(200),
           ),
         ),
         AppGap.g4,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AnimatedSwitcher(
-              duration: Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 250),
               child: Text(
                 isHidden
                     ? '₹ •••••'
