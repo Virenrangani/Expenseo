@@ -5,6 +5,7 @@ import '../../../../core/constant/string/app_string.dart';
 
 abstract class ExpenseDataSource {
   Future<void> addExpense(String uid, ExpenseModel expense);
+  Future<List<ExpenseModel>> getExpense(String uid);
 }
 
 class ExpenseDataSourceImpl implements ExpenseDataSource{
@@ -23,6 +24,24 @@ class ExpenseDataSourceImpl implements ExpenseDataSource{
     }on FirebaseException catch (e){
       throw Exception(AppErrors.handleFireStoreException(e));
     }catch (e){
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
+
+  @override
+  Future<List<ExpenseModel>> getExpense(String uid) async {
+    try{
+      final expense=await firestore
+          .collection('users')
+          .doc(uid)
+          .collection('expenses')
+          .get();
+      return expense.docs.map((e)=>
+          ExpenseModel.fromJson(e.id,e.data())).toList();
+    }on FirebaseException catch(e){
+      throw Exception(AppErrors.handleFireStoreException(e));
+    }catch(e){
+      print(e.toString());
       throw Exception(AppString.somethingWentWrong);
     }
   }
