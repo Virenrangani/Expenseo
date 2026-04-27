@@ -9,4 +9,8 @@ class ExpenseUseCase {
   Future<void> addExpense(String uid, Expense expense) {
     return repository.addExpense(uid, expense);
   }
+
+  Future<List<Expense>> getExpense(String uid){
+    return repository.getExpense(uid);
+  }
 }
