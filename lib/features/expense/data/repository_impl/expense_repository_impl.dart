@@ -22,4 +22,20 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
 
     return  await dataSource.addExpense(uid, model);
   }
+
+  @override
+  Future<List<Expense>> getExpense(String uid)async {
+    final expense=await dataSource.getExpense(uid);
+    return expense.map((e)=>
+        Expense(
+            id: e.id,
+            title: e.title,
+            amount: e.amount,
+            type: e.type,
+            category: e.category,
+            paymentMethod: e.paymentMethod,
+            createdAt: e.createdAt
+        )
+    ).toList();
+  }
 }
