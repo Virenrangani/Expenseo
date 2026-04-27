@@ -99,6 +99,7 @@ class AppString {
   static const String title='Title';
   static const String titleHint='e.g. Lunch, Salary...';
   static const String titleInvalid='Title is required';
+  static const String expenseAdded='Expense is added..!';
 
   static const String category='Category';
   static const String paymentMethod='Payment Method';
