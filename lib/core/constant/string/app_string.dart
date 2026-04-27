@@ -100,6 +100,8 @@ class AppString {
   static const String titleHint='e.g. Lunch, Salary...';
   static const String titleInvalid='Title is required';
   static const String expenseAdded='Expense is added..!';
+  static const String noExpenseYet='No expenses yet';
+  static const String addFirstExpense='Tap + to add your first expense';
 
   static const String category='Category';
   static const String paymentMethod='Payment Method';
