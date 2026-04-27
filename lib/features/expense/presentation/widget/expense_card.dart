@@ -49,6 +49,23 @@ class ExpenseCard extends StatelessWidget {
                 style: AppTextStyles.bodySmall(color: AppColor.textPrimary)
                     .copyWith(fontWeight: FontWeight.w500),
               ),
+              AppGap.g4,
+              Row(
+                children: [
+                  Text(
+                    expense.category.label,
+                    style: AppTextStyles.descriptionSmall(),
+                  ),
+                  AppGap.g4,
+                  Text('•',
+                      style: AppTextStyles.descriptionSmall()),
+                  AppGap.g4,
+                  Text(
+                    expense.paymentMethod.label,
+                    style: AppTextStyles.descriptionSmall(),
+                  ),
+                ],
+              ),
             ]
           )
         ),
