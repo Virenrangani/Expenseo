@@ -22,7 +22,6 @@ class PaymentMethodSelector extends StatelessWidget {
       runSpacing: 8,
       children: PaymentMethod.values.map((method) {
         final isSelected = selectedMethod == method;
-        debugPrint('PaymentMethod values: ${PaymentMethod.values}');
         return GestureDetector(
           onTap: () => onChanged(method),
           child: AnimatedContainer(
