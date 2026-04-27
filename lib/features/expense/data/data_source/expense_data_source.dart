@@ -30,6 +30,7 @@ class ExpenseDataSourceImpl implements ExpenseDataSource{
 
   @override
   Future<List<ExpenseModel>> getExpense(String uid) async {
+    await Future.delayed(Duration(seconds: 2));
     try{
       final expense=await firestore
           .collection('users')
@@ -41,7 +42,6 @@ class ExpenseDataSourceImpl implements ExpenseDataSource{
     }on FirebaseException catch(e){
       throw Exception(AppErrors.handleFireStoreException(e));
     }catch(e){
-      print(e.toString());
       throw Exception(AppString.somethingWentWrong);
     }
   }
