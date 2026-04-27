@@ -1,3 +1,5 @@
+import 'package:expenseo/core/constant/string/app_string.dart';
+
 import '../../domain/use_case/expense_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import './expense_state.dart';
@@ -14,10 +16,20 @@ class ExpenseCubit extends Cubit<ExpenseState>{
     emit(ExpenseLoading());
     try{
       await useCase.addExpense(currentUid,expense);
-      emit(ExpenseSuccess("Expense is added..!"));
+      emit(ExpenseSuccess(AppString.expenseAdded));
+      await getExpense();
     }catch (e){
       emit(ExpenseError(e.toString()));
     }
+  }
 
+  Future<void> getExpense() async {
+    emit(ExpenseLoading());
+    try{
+      final expense=await useCase.getExpense(currentUid);
+      emit(ExpenseLoaded(expense));
+    }catch(e){
+      emit(ExpenseError(e.toString()));
+    }
   }
 }
