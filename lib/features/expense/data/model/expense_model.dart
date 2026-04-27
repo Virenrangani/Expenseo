@@ -31,7 +31,8 @@ class ExpenseModel {
         orElse: () => ExpenseCategory.other,
       ),
       type: TransactionType.values.firstWhere(
-              (e) => e.key == json['type']
+              (e) => e.key == json['type'],
+        orElse: () => TransactionType.expense,
       ),
       paymentMethod: PaymentMethod.values.firstWhere(
             (e) => e.key == json['paymentMethod'],
