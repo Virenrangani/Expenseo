@@ -1,4 +1,8 @@
+import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
@@ -71,20 +75,32 @@ class ExpenseCard extends StatelessWidget {
               ]
             )
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Row(
             children: [
-              Text(
-                '${isExpense ? '-' : '+'}₹${formatAmount(expense.amount)}',
-                style: AppTextStyles.captionBold(
-                  color: isExpense ? AppColor.error : AppColor.success,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${isExpense ? '-' : '+'}₹${formatAmount(expense.amount)}',
+                    style: AppTextStyles.captionBold(
+                      color: isExpense ? AppColor.error : AppColor.success,
+                    ),
+                  ),
+                  AppGap.g4,
+                  Text(
+                    formatTime(expense.createdAt),
+                    style: AppTextStyles.descriptionSmall(),
+                  ),
+                ],
               ),
-              AppGap.g4,
-              Text(
-                formatTime(expense.createdAt),
-                style: AppTextStyles.descriptionSmall(),
-              ),
+              IconButton(
+                  onPressed: (){
+                    context.read<ExpenseCubit>().removeExpense(expense.id);
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline_outlined,
+                    size:28,color:AppColor.textSecondary,)
+              )
             ],
           ),
         ],
