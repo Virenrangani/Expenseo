@@ -12,6 +12,7 @@ class SignUpDataSourceImpl implements SignUpDataSource {
   final FirebaseAuth firebaseAuth;
   SignUpDataSourceImpl(this.firebaseAuth);
 
+  @override
   Future<UserModel> signUp(String email, String name, String password) async {
     try {
       UserCredential credential = await firebaseAuth

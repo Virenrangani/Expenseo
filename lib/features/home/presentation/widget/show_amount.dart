@@ -28,7 +28,7 @@ class ShowAmount extends StatelessWidget {
         Text(
           displayLabel,
           style: AppTextStyles.caption(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withAlpha(200),
           ),
         ),
         AppGap.g4,
