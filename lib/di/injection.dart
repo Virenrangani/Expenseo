@@ -6,17 +6,17 @@ import 'package:expenseo/features/auth/data/repository_impl/signup_repository_im
 import 'package:expenseo/features/auth/domain/repository/log_in_repository.dart';
 import 'package:expenseo/features/auth/domain/repository/sign_up_repository.dart';
 import 'package:expenseo/features/auth/domain/use_case/login_use_case.dart';
-import 'package:expenseo/features/home/data/data_source/home_data_source.dart';
-import 'package:expenseo/features/home/data/repository/home_repository_impl.dart';
-import 'package:expenseo/features/home/domain/repository/home_repository.dart';
-import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
-import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:expenseo/features/auth/domain/use_case/sign_up_use_case.dart';
 import 'package:expenseo/features/expense/data/data_source/expense_data_source.dart';
 import 'package:expenseo/features/expense/data/repository_impl/expense_repository_impl.dart';
 import 'package:expenseo/features/expense/domain/repository/expense_repository.dart';
 import 'package:expenseo/features/expense/domain/use_case/expense_use_case.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
+import 'package:expenseo/features/home/data/data_source/home_data_source.dart';
+import 'package:expenseo/features/home/data/repository/home_repository_impl.dart';
+import 'package:expenseo/features/home/domain/repository/home_repository.dart';
+import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
+import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
@@ -45,11 +45,11 @@ class Injection {
     ..registerLazySingleton<ExpenseDataSource>(()=>ExpenseDataSourceImpl(sl()))
     ..registerLazySingleton<ExpenseRepository>(()=>ExpenseRepositoryImpl(sl()))
     ..registerLazySingleton(()=>ExpenseUseCase(sl()))
-    ..registerFactory(()=>ExpenseCubit(sl()));
+    ..registerFactory(()=>ExpenseCubit(sl()))
 
-    sl.registerLazySingleton<HomeDataSource>(()=>HomeDataSourceImpl());
-    sl.registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(sl()));
-    sl.registerLazySingleton(()=>HomeUseCase(sl()));
-    sl.registerFactory(()=>HomeCubit(sl()));
+    ..registerLazySingleton<HomeDataSource>(HomeDataSourceImpl.new)
+    ..registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(sl()))
+    ..registerLazySingleton(()=>HomeUseCase(sl()))
+    ..registerFactory(()=>HomeCubit(sl()));
   }
 }

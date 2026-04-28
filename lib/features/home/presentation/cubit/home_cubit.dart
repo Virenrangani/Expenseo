@@ -7,13 +7,13 @@ class HomeCubit extends Cubit<HomeState> {
   final HomeUseCase homeUseCase;
   HomeCubit(this.homeUseCase) : super(HomeInitial());
 
-  String userName="";
+  String userName='';
 
   Future<void> getUserName()async {
     emit(HomeLoading());
     try{
        final name = await homeUseCase.getUserName();
-       userName=name ?? " ";
+       userName=name ?? ' ';
        emit(HomeSuccess());
     }catch(e){
       emit(HomeError());

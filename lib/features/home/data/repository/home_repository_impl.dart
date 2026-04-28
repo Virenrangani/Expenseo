@@ -6,7 +6,7 @@ class HomeRepositoryImpl implements HomeRepository{
 
   HomeRepositoryImpl(this.homeDataSource);
   @override
-  Future<String?> getUserName() async {
-    return  await homeDataSource.getUserName();
+  Future<String?> getUserName() {
+    return  homeDataSource.getUserName();
   }
 }

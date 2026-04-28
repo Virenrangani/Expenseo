@@ -1,5 +1,3 @@
-import 'package:expenseo/features/home/domain/repository/home_repository.dart';
-import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
 import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
@@ -7,20 +5,14 @@ import 'package:expenseo/features/home/presentation/widget/transaction_list.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
-import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import '../../../../core/widget/app_title/app_title.dart';
-import '../../../../core/widget/app_icon_card/app_icon_card.dart';
-import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
-import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
-import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
-import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
-
 import '../cubit/home_cubit.dart';
 
 
@@ -62,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                         },
                     ),
                     AppGap.g20,
-                    ExpenseContainer(),
+                    const ExpenseContainer(),
                     AppGap.g24,
                     Row(
                       children: [
@@ -72,8 +64,8 @@ class _HomePageState extends State<HomePage> {
                             text: AppString.addExpense,
                             onTap: () {
                               Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context) => UserExpensePage()));
+                                  MaterialPageRoute<void>(
+                                      builder: (context) => const UserExpensePage()));
                             },
                           ),
                         ),
@@ -84,8 +76,8 @@ class _HomePageState extends State<HomePage> {
                             text: AppString.split,
                             onTap: () {
                               Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context) => UserExpensePage()));
+                                  MaterialPageRoute<void>(
+                                      builder: (context) => const UserExpensePage()));
                             },
                           ),
                         ),
@@ -98,7 +90,7 @@ class _HomePageState extends State<HomePage> {
 
                     AppGap.g16,
 
-                    Expanded(child: TransactionList())
+                    const Expanded(child: TransactionList())
                   ],
                 ),
               ),
