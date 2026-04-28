@@ -35,9 +35,14 @@ class GreetingUser extends StatelessWidget {
 
         CircleAvatar(
           radius:28,
-          child: Text(userName[0],style: AppTextStyles.h3(
-            color: AppColor.primary,
-          ),),
+          child: userName.isNotEmpty
+              ? Text(
+            userName[0],
+            style: AppTextStyles.h3(
+              color: AppColor.primary,
+            ),
+          )
+              : const SizedBox()
         )
       ],
     );
