@@ -38,4 +38,9 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
         )
     ).toList();
   }
+
+  @override
+  Future<void> removeExpense(String uid,String expenseId) async {
+    await dataSource.removeExpense(uid, expenseId);
+  }
 }
