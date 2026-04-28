@@ -4,7 +4,6 @@ import '../../../../core/constant/padding/app_padding.dart';
 import 'package:expenseo/features/home/presentation/widget/tab_selector.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import 'package:expenseo/features/home/presentation/widget/show_amount.dart';
-import 'package:expenseo/features/home/presentation/widget/expense_stats.dart';
 
 enum ExpenseTab { balance, income, expense }
 
@@ -62,13 +61,7 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
             selectedTab: _selectedTab,
             onToggleHide: () => setState(() =>isHidden = !isHidden),
           ),
-          AppGap.g12,
-          Container(
-            height: 1,
-            color: AppColor.background,
-          ),
-          AppGap.g16,
-          ExpenseStats(totalIncome: totalIncome, totalExpense: totalExpense)
+
         ],
       ),
     );
