@@ -32,4 +32,15 @@ class ExpenseCubit extends Cubit<ExpenseState>{
       emit(ExpenseError(e.toString()));
     }
   }
+
+  Future<void> removeExpense(String expenseId) async {
+    emit(ExpenseLoading());
+    try{
+      await useCase.removeExpense(currentUid, expenseId);
+      emit(ExpenseSuccess('Expense Removed...!'));
+      await getExpense();
+    }catch(e){
+      emit(ExpenseError(e.toString()));
+    }
+  }
 }
