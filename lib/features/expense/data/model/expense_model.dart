@@ -47,6 +47,7 @@ class ExpenseModel {
       'title': title,
       'amount': amount,
       'category': category.key,
+      'type':type.key,
       'paymentMethod': paymentMethod.key,
       'createdAt': createdAt,
     };
