@@ -12,7 +12,7 @@ class LogInTitle extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          AppTitle(),
+          const AppTitle(),
           Text(AppString.appIntro, style: AppTextStyles.captionMedium()),
         ],
       ),

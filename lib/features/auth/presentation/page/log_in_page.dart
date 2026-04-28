@@ -12,6 +12,7 @@ import 'package:expenseo/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/sign_up_page.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
+import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -44,11 +45,13 @@ class _LogInPageState extends State<LogInPage> {
       child: Scaffold(
         backgroundColor: AppColor.primaryLight,
         body: BlocConsumer<LoginCubit, AuthState>(
-          listener: (BuildContext context, AuthState state) {
+          listener: (context, state) {
             if (state is AuthFailure) {
               return CustomSnacksBar.showError(context, state.message);
             }
             if (state is AuthSuccess) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute<void>(builder: (context)=>const AppBottomNav()));
               return CustomSnacksBar.showSuccess(context, AppString.userLogin);
             }
           },
@@ -59,9 +62,8 @@ class _LogInPageState extends State<LogInPage> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    LogInTitle(),
+                    const LogInTitle(),
                     AppGap.g20,
                     Padding(
                       padding: AppPadding.edgeAll16,
@@ -140,9 +142,7 @@ class _LogInPageState extends State<LogInPage> {
                                 ),
                                 AppGap.g16,
 
-                                isLoading
-                                    ? CircularProgressIndicator()
-                                    : AppElevatedButton(
+                                if (isLoading) const CircularProgressIndicator() else AppElevatedButton(
                                         text: AppString.signIN,
                                         suffixIcon:
                                             Icons.arrow_forward_outlined,
@@ -162,7 +162,7 @@ class _LogInPageState extends State<LogInPage> {
                                         },
                                       ),
                                 AppGap.g24,
-                                OrDivider(),
+                                const OrDivider(),
                                 AppGap.g24,
                                 AppElevatedButton(
                                   text: AppString.signInWithGoogle,
@@ -190,7 +190,7 @@ class _LogInPageState extends State<LogInPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                          MaterialPageRoute<void>(builder: (context) => const SignUpPage()),
                         );
                       },
                       pageName: AppString.signUp,

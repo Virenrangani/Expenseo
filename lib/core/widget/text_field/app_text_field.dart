@@ -18,6 +18,12 @@ class AppFormField extends StatelessWidget {
   final int maxLines;
   final VoidCallback? onSuffixTap;
   final ValueChanged<String>? onChanged;
+  final TextAlign textAlign;
+  final TextStyle? style;
+  final String? prefixText;
+  final TextStyle? prefixStyle;
+  final EdgeInsetsGeometry? contentPadding;
+  final Color? fillColor;
 
   const AppFormField({
     super.key,
@@ -34,6 +40,12 @@ class AppFormField extends StatelessWidget {
     this.borderColor,
     this.prefix,
     this.labelText,
+    this.textAlign = TextAlign.start,
+    this.style,
+    this.prefixText,
+    this.prefixStyle,
+    this.contentPadding,
+    this.fillColor
   });
 
   @override
@@ -42,21 +54,26 @@ class AppFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       keyboardType: keyboardType,
+      textAlign: textAlign,
+      style: style,
       obscureText: obscureText,
-      obscuringCharacter: "*",
+      obscuringCharacter: '*',
       maxLines: obscureText ? 1 : maxLines,
       onChanged: onChanged,
       decoration: InputDecoration(
+        prefixText: prefixText,
+        prefixStyle: prefixStyle,
+        contentPadding: contentPadding,
         hintText: hintText,
         hintStyle: AppTextStyles.bodyMedium(color: AppColor.textPrimary),
         labelText: labelText,
-        labelStyle:TextStyle(color: AppColor.primary),
-        fillColor: AppColor.backgroundLight,
+        labelStyle:const TextStyle(color: AppColor.primary),
+        fillColor: fillColor ?? AppColor.textLight,
         focusColor: AppColor.background,
         filled: true,
         prefixIcon: prefixIcon != null
             ? Padding(
-          padding: EdgeInsetsGeometry.only(left: 12,top: 16, bottom: 16),
+          padding: const EdgeInsetsGeometry.only(left: 12,top: 16, bottom: 16),
           child: prefixIcon,
         )
             : null,

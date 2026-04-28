@@ -33,4 +33,39 @@ class AppErrors {
         return AppString.somethingWentWrong;
     }
   }
+
+  static String handleFireStoreException(FirebaseException e) {
+    switch (e.code) {
+
+      case 'permission-denied':
+        return AppString.permissionDenied;
+
+      case 'not-found':
+        return AppString.dataNotFound;
+
+      case 'already-exists':
+        return AppString.dataAlreadyExists;
+
+      case 'resource-exhausted':
+        return AppString.resourceExhausted;
+
+      case 'unavailable':
+        return AppString.serviceUnavailable;
+
+      case 'cancelled':
+        return AppString.operationCancelled;
+
+      case 'deadline-exceeded':
+        return AppString.timeout;
+
+      case 'invalid-argument':
+        return AppString.invalidArgument;
+
+      case 'aborted':
+        return AppString.operationAborted;
+
+      default:
+        return AppString.somethingWentWrong;
+    }
+  }
 }

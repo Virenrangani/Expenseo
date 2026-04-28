@@ -1,6 +1,5 @@
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/validation/email_validation/email_password_validation.dart';
 import '../../../../core/validation/password_validation/password_validation.dart';
@@ -56,7 +55,7 @@ class SignUpCubit extends Cubit<AuthState> {
   }) async {
     emit(AuthLoading());
     try {
-      final user = await signUpUseCase.signUpWithEmail(email, name, password);
+      await signUpUseCase.signUpWithEmail(email, name, password);
 
       emit(AuthSuccess());
     } catch (e) {
