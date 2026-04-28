@@ -13,4 +13,8 @@ class ExpenseUseCase {
   Future<List<Expense>> getExpense(String uid){
     return repository.getExpense(uid);
   }
+
+  Future<void> removeExpense(String uid,String expenseId){
+    return repository.removeExpense(uid, expenseId);
+  }
 }
