@@ -2,6 +2,7 @@ import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/enums/app_enums.dart';
 import '../../domain/entity/expense.dart';
 import '../../domain/use_case/expense_use_case.dart';
 import './expense_state.dart';
@@ -9,6 +10,10 @@ import './expense_state.dart';
 class ExpenseCubit extends Cubit<ExpenseState>{
   final ExpenseUseCase useCase;
   ExpenseCubit(this.useCase):super(ExpenseInitial());
+
+  TransactionType type  = TransactionType.expense;
+  ExpenseCategory category = ExpenseCategory.food;
+  PaymentMethod paymentMethod = PaymentMethod.cash;
 
   String get currentUid => FirebaseAuth.instance.currentUser!.uid;
 
