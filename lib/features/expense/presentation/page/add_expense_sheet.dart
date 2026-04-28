@@ -32,9 +32,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
   final amountController = TextEditingController();
   final titleController  = TextEditingController();
 
-  TransactionType type  = TransactionType.expense;
-  ExpenseCategory category = ExpenseCategory.food;
-  PaymentMethod paymentMethod = PaymentMethod.cash;
   final _formKey  = GlobalKey<FormState>();
 
   @override
@@ -74,7 +71,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   ),
                   Center(
                     child: Text(
-                      type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
+                      context.read<ExpenseCubit>().type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
                       style: AppTextStyles.h5(),
                     ),
                   ),
@@ -114,8 +111,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   ),
                   AppGap.g16,
                   ExpenseTypeToggle(
-                    selectedType: type,
-                    onChanged: (typeText) => setState(() => type = typeText),
+                    selectedType:context.read<ExpenseCubit>().type,
+                    onChanged: (typeText) => setState(() => context.read<ExpenseCubit>().type = typeText),
                   ),
                   AppGap.g16,
 
@@ -131,16 +128,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   sectionLabel(AppString.category),
                   AppGap.g8,
                   ExpenseCategorySelector(
-                    selectedCategory: category,
-                    onChanged: (cat) => setState(() => category = cat),
+                    selectedCategory: context.read<ExpenseCubit>().category,
+                    onChanged: (cat) => setState(() => context.read<ExpenseCubit>().category = cat),
                   ),
 
                   AppGap.g16,
                   sectionLabel(AppString.paymentMethod),
                   AppGap.g8,
                   PaymentMethodSelector(
-                    selectedMethod: paymentMethod,
-                    onChanged: (method) => setState(() => paymentMethod = method),
+                    selectedMethod: context.read<ExpenseCubit>().paymentMethod,
+                    onChanged: (method) => setState(() => context.read<ExpenseCubit>().paymentMethod = method),
                   ),
                   AppGap.g20,
                   submitButton(),
@@ -161,7 +158,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
   Widget submitButton() {
     final isLoading = context.watch<ExpenseCubit>().state is ExpenseLoading;
     return AppElevatedButton(
-      text: type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
+      text: context.read<ExpenseCubit>().type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
       onPressed:onSubmit,
       isLoading: isLoading,
       isEnabled: true,
@@ -176,9 +173,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
         id: const Uuid().v4(),
         title: titleController.text.trim(),
         amount: double.parse(amountController.text.trim()),
-        type: type,
-        category: category,
-        paymentMethod: paymentMethod,
+        type: context.read<ExpenseCubit>().type,
+        category: context.read<ExpenseCubit>().category,
+        paymentMethod: context.read<ExpenseCubit>().paymentMethod,
         createdAt: DateTime.now(),
       ),
     );
