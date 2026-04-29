@@ -14,6 +14,7 @@ import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import '../../../../core/widget/app_title/app_title.dart';
+import '../../../expense/presentation/page/add_expense_sheet.dart';
 import '../cubit/home_cubit.dart';
 
 
@@ -71,15 +72,7 @@ class _HomePageState extends State<HomePage> {
                             icon: Icons.add_circle_outline_outlined,
                             text: AppString.addExpense,
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (_) => BlocProvider.value(
-                                    value: context.read<ExpenseCubit>(),
-                                    child: const UserExpensePage(),
-                                  ),
-                                ),
-                              );
+
                             },
                           ),
                         ),
@@ -104,7 +97,20 @@ class _HomePageState extends State<HomePage> {
                         Text(AppString.recentTransaction,
                           style: AppTextStyles.captionBold(
                               color: AppColor.textPrimary),),
-                        Text(AppString.showAll,style: AppTextStyles.caption(),)
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (_) => BlocProvider.value(
+                                  value: context.read<ExpenseCubit>(),
+                                  child: const UserExpensePage(),
+                                ),
+                              ),
+                            );
+                          },
+                            child: Text(AppString.showAll,style: AppTextStyles.caption(),)
+                        )
                       ],
                     ),
 
