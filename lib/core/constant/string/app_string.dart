@@ -64,6 +64,8 @@ class AppString {
   static const String goodEvening = 'Good Evening 🌙';
 
   static const String recentTransaction = 'Recent Transactions';
+  static const String showAll = 'Show All';
+
   static const String addExpense = 'Add Expense';
   static const String addIncome = 'Add Income';
   static const String addAmount='Enter Amount';

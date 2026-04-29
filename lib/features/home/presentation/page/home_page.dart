@@ -1,3 +1,4 @@
+import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
@@ -27,9 +28,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return MultiBlocProvider(
+  providers: [
+    BlocProvider(
       create: (_) => GetIt.I<HomeCubit>()..getUserName(),
-      child: Builder(
+    ),
+    BlocProvider(
+      create: (_) => GetIt.I<ExpenseCubit>()..getExpense(),
+    ),
+  ],
+  child: Builder(
         builder: (context) {
           return Scaffold(
             body: SafeArea(
@@ -63,9 +71,15 @@ class _HomePageState extends State<HomePage> {
                             icon: Icons.add_circle_outline_outlined,
                             text: AppString.addExpense,
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute<void>(
-                                      builder: (context) => const UserExpensePage()));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (_) => BlocProvider.value(
+                                    value: context.read<ExpenseCubit>(),
+                                    child: const UserExpensePage(),
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -84,9 +98,15 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     AppGap.g32,
-                    Text(AppString.recentTransaction,
-                      style: AppTextStyles.captionBold(
-                          color: AppColor.textPrimary),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppString.recentTransaction,
+                          style: AppTextStyles.captionBold(
+                              color: AppColor.textPrimary),),
+                        Text(AppString.showAll,style: AppTextStyles.caption(),)
+                      ],
+                    ),
 
                     AppGap.g16,
 
@@ -98,6 +118,6 @@ class _HomePageState extends State<HomePage> {
           );
         }
       ),
-    );
+  );
   }
 }

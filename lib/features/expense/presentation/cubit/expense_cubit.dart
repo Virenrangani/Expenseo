@@ -15,6 +15,8 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   ExpenseCategory category = ExpenseCategory.food;
   PaymentMethod paymentMethod = PaymentMethod.cash;
 
+  final int recentTransactionCount=4;
+
   String get currentUid => FirebaseAuth.instance.currentUser!.uid;
 
   Future<void> addNewExpense(Expense expense) async {

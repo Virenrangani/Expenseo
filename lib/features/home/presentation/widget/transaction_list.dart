@@ -1,79 +1,49 @@
+import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
+import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
+import 'package:expenseo/features/expense/presentation/widget/expense_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../core/constant/colour/app_color.dart';
-import '../../../../core/constant/gap/app_gap.dart';
-import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../expense/presentation/widget/fake_expense.dart';
 
 class TransactionList extends StatelessWidget {
   const TransactionList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> data = [
-      {
-        'title': 'Shopping',
-        'subtitle': 'Amazon',
-        'time': '10:30 AM',
-        'amount': '-₹500',
-        'icon': Icons.shopping_cart,
-      },
-      {
-        'title': 'Salary',
-        'subtitle': 'Company',
-        'time': '09:00 AM',
-        'amount': '+₹50,000',
-        'icon': Icons.account_balance_wallet,
-      },
-      {
-        'title': 'Food',
-        'subtitle': 'Zomato',
-        'time': '08:15 PM',
-        'amount': '-₹250',
-        'icon': Icons.fastfood,
-      },
-    ];
-    return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          final item = data[index];
-
-          return ListTile(
-            leading: CircleAvatar(
-              radius: 24,
-              child: Icon(
-                item['icon'] as IconData,
-                color: AppColor.primary,
-              ),
-            ),
-
-            title: Text(
-              item['title'] as String,
-              style: AppTextStyles.h4()
-            ),
-
-            subtitle: Row(
-              children: [
-                Expanded(child: Text(item['subtitle'] as String,style: AppTextStyles.bodyMedium(),)),
-                AppGap.g8,
-                const Text('•'),
-                AppGap.g8,
-                Text(
-                  item['time'] as String,
-                  style: AppTextStyles.captionMedium(),
-                ),
-              ],
-            ),
-
-            trailing: Text(
-              item['amount'] as String,
-              style: AppTextStyles.h5(
-                color:item['amount'].toString().startsWith('-')
-                  ? AppColor.error
-                  : AppColor.success,
-              )
+    return BlocBuilder<ExpenseCubit, ExpenseState>(
+      builder: (context, state) {
+        if (state is ExpenseLoading) {
+          return Skeletonizer(
+            child: ListView.builder(
+              itemCount: 3,
+              itemBuilder: (_, _) => ExpenseCard(expense: FakeExpense.fake()),
             ),
           );
-        },
-      );
+        }
+
+        if (state is ExpenseError) {
+          return Center(child: Text(state.message));
+        }
+
+        if (state is ExpenseLoaded) {
+          final transaction = state.expenses;
+          final recentTransaction = context
+              .read<ExpenseCubit>()
+              .recentTransactionCount;
+          final count = (transaction!.length < recentTransaction)
+              ? transaction.length
+              : recentTransaction;
+          return ListView.builder(
+            itemCount: count,
+            itemBuilder: (context, index) {
+              return ExpenseCard(expense: transaction[index]);
+            },
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
   }
 }
