@@ -34,6 +34,7 @@ class ExpenseCubit extends Cubit<ExpenseState>{
     emit(ExpenseLoading());
     try{
       final expense=await useCase.getExpense(currentUid);
+      expense.sort((a,b)=>b.createdAt.compareTo(a.createdAt));
       emit(ExpenseLoaded(expense));
     }catch(e){
       emit(ExpenseError(e.toString()));
