@@ -98,9 +98,15 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     AppGap.g32,
-                    Text(AppString.recentTransaction,
-                      style: AppTextStyles.captionBold(
-                          color: AppColor.textPrimary),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppString.recentTransaction,
+                          style: AppTextStyles.captionBold(
+                              color: AppColor.textPrimary),),
+                        Text(AppString.showAll,style: AppTextStyles.caption(),)
+                      ],
+                    ),
 
                     AppGap.g16,
 
