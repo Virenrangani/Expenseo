@@ -72,7 +72,15 @@ class _HomePageState extends State<HomePage> {
                             icon: Icons.add_circle_outline_outlined,
                             text: AppString.addExpense,
                             onTap: () {
-
+                              showModalBottomSheet<void>(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (_) => BlocProvider.value(
+                                  value: context.read<ExpenseCubit>(),
+                                  child: const AddExpenseSheet(),
+                                ),
+                              );
                             },
                           ),
                         ),
