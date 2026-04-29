@@ -4,7 +4,6 @@ import 'package:expenseo/features/expense/presentation/widget/expense_card.dart'
 import 'package:expenseo/features/expense/presentation/widget/fake_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
@@ -17,37 +16,48 @@ class UserExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocProvider<ExpenseCubit>(
-      create: (_) => GetIt.I<ExpenseCubit>()..getExpense(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            body:BlocBuilder<ExpenseCubit,ExpenseState>(
-                builder: (context,state){
-                  if(state is ExpenseLoading){
-                    return Padding(
-                      padding: AppPadding.edgeAll16,
-                      child: Skeletonizer(
-                          child: ListView.builder(
-                            itemCount: 6,
-                              itemBuilder: (_,_)=>ExpenseCard(
-                                  expense: FakeExpense.fake()
-                              )
-                          )
+    return Scaffold(
+            body: BlocBuilder<ExpenseCubit, ExpenseState>(
+              builder: (context, state) {
+                if (state is ExpenseLoading) {
+                  return Padding(
+                    padding: AppPadding.edgeAll16,
+                    child: Skeletonizer(
+                      child: ListView(
+                        children: List.generate(1, (index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 120,
+                                height: 14,
+                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: AppColor.textLight,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              ...List.generate(
+                                6,
+                                (_) => ExpenseCard(expense: FakeExpense.fake()),
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+                          );
+                        }),
                       ),
-                    );
-                  }
-                  if(state is ExpenseError){
-                    return Center(child: Text(state.message),);
-                  }
-                  if(state is ExpenseLoaded){
-                    return ExpenseListPage(
-                      expenses: state.expenses ?? [],
-                    );
-                  }
-                  return const SizedBox.shrink();
-                }),
-
+                    ),
+                  );
+                }
+                if (state is ExpenseError) {
+                  return Center(child: Text(state.message));
+                }
+                if (state is ExpenseLoaded) {
+                  return ExpenseListPage(expenses: state.expenses ?? []);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: AppColor.secondary,
               onPressed: () {
@@ -63,11 +73,13 @@ class UserExpensePage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Icon(Icons.add_circle_outline,size:32,color:AppColor.background,),
+              child: const Icon(
+                Icons.add_circle_outline,
+                size: 32,
+                color: AppColor.background,
+              ),
             ),
           );
-        },
-      ),
-    );
+
   }
 }
