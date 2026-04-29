@@ -1,4 +1,5 @@
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
+import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
@@ -6,6 +7,7 @@ import 'package:expenseo/features/home/presentation/widget/transaction_list.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
@@ -63,7 +65,25 @@ class _HomePageState extends State<HomePage> {
                         },
                     ),
                     AppGap.g20,
-                    const ExpenseContainer(),
+                     BlocBuilder<ExpenseCubit, ExpenseState>(
+                      builder: (context, state) {
+                        if(state is ExpenseLoading){
+                          return Skeletonizer(
+                              child: ExpenseContainer(
+                                totalExpense: context.read<ExpenseCubit>().totalExpense,
+                                totalIncome: context.read<ExpenseCubit>().totalIncome,
+                              )
+                          );
+                        }
+                        if(state is ExpenseLoaded){
+                          return ExpenseContainer(
+                            totalExpense: context.read<ExpenseCubit>().totalExpense,
+                            totalIncome: context.read<ExpenseCubit>().totalIncome,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
                     AppGap.g24,
                     Row(
                       children: [
