@@ -49,7 +49,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
           ),
           NavigationDestination(
             icon: Icon(Icons.calendar_month),
-            selectedIcon: Icon(Icons.person,color:AppColor.secondary,),
+            selectedIcon: Icon(Icons.calendar_month,color:AppColor.secondary,),
             label: 'Calendar',
           ),
         ],
