@@ -11,7 +11,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     try {
       final now = DateTime.now();
       emit(CalendarLoaded(
-        year: now.year,
+        year: now.year, month: now.month,
       ));
     } catch (e) {
       emit(CalendarError(e.toString()));
@@ -20,7 +20,15 @@ class CalendarCubit extends Cubit<CalendarState> {
 
   void selectYear(int year) {
     if (state is! CalendarLoaded) return;
+    final s = state as CalendarLoaded;
 
-    emit(CalendarLoaded(year: year));
+    emit(s.copyWith(year: year));
+  }
+
+  void selectMonth(int monthIndex) {
+    if (state is! CalendarLoaded) return;
+    final s = state as CalendarLoaded;
+
+    emit(s.copyWith(month: monthIndex));
   }
 }
