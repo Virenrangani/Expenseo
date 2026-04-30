@@ -15,6 +15,9 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   ExpenseCategory category = ExpenseCategory.food;
   PaymentMethod paymentMethod = PaymentMethod.cash;
 
+  double totalIncome=0;
+  double totalExpense=0;
+
   final int recentTransactionCount=4;
 
   String get currentUid => FirebaseAuth.instance.currentUser!.uid;
@@ -34,7 +37,12 @@ class ExpenseCubit extends Cubit<ExpenseState>{
     emit(ExpenseLoading());
     try{
       final expense=await useCase.getExpense(currentUid);
+      expense.sort((a,b)=>b.createdAt.compareTo(a.createdAt));
+      totalIncome=0;
+      totalExpense=0;
+      getTotalIncomeExpense(expense);
       emit(ExpenseLoaded(expense));
+
     }catch(e){
       emit(ExpenseError(e.toString()));
     }
@@ -48,6 +56,16 @@ class ExpenseCubit extends Cubit<ExpenseState>{
       await getExpense();
     }catch(e){
       emit(ExpenseError(e.toString()));
+    }
+  }
+
+  void getTotalIncomeExpense(List<Expense> expense){
+    for (var item in expense){
+      if(item.type ==TransactionType.income){
+        totalIncome=totalIncome+item.amount;
+      }else if(item.type ==TransactionType.expense){
+        totalExpense = totalExpense+ item.amount;
+      }
     }
   }
 }

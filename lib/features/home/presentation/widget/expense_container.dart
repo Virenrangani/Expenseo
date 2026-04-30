@@ -9,7 +9,9 @@ import '../../../../core/constant/gap/app_gap.dart';
 enum ExpenseTab { balance, income, expense }
 
 class ExpenseContainer extends StatefulWidget {
-  const ExpenseContainer({super.key});
+  final double totalIncome;
+  final double totalExpense;
+  const ExpenseContainer({super.key, required this.totalIncome, required this.totalExpense});
 
   @override
   State<ExpenseContainer> createState() => _ExpenseContainerState();
@@ -19,9 +21,16 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
   ExpenseTab _selectedTab = ExpenseTab.balance;
   bool isHidden = false;
 
-  final double totalIncome = 50000;
-  final double totalExpense = 23250;
+   late final double totalIncome;
+   late final double totalExpense ;
   double get balance => totalIncome - totalExpense;
+
+  @override
+  void initState() {
+    super.initState();
+    totalIncome=widget.totalIncome;
+    totalExpense=widget.totalExpense;
+  }
 
   String get displayLabel {
     switch (_selectedTab) {
