@@ -41,7 +41,18 @@ class YearPickerPopup extends StatelessWidget {
               );
             }).toList();
           },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.menu,size: 28,color: AppColor.background,),
+              AppGap.g32,
 
+              Text(
+                  '$currentYear',
+                  style: AppTextStyles.h4(color: AppColor.background)
+              ),
+            ],
+          ),
         );
       },
     );
