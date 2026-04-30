@@ -10,8 +10,9 @@ class CalendarCubit extends Cubit<CalendarState> {
   void init() {
     try {
       final now = DateTime.now();
+      const initialIndex = 100;
       emit(CalendarLoaded(
-        year: now.year, month: now.month,
+        year: now.year, month: now.month -1 , index: initialIndex,
       ));
     } catch (e) {
       emit(CalendarError(e.toString()));
@@ -29,6 +30,6 @@ class CalendarCubit extends Cubit<CalendarState> {
     if (state is! CalendarLoaded) return;
     final s = state as CalendarLoaded;
 
-    emit(s.copyWith(month: monthIndex));
+    emit(s.copyWith(month: monthIndex, index:monthIndex % 12 ));
   }
 }
