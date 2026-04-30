@@ -1,3 +1,4 @@
+import 'package:expenseo/features/calendar/presentation/page/calendar_page.dart';
 import 'package:expenseo/features/home/presentation/page/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
   final List<Widget> screens =  [
     const HomePage(),
     const Center(child: Text('Search')),
-    const Center(child: Text('Profile')),
+    const CalendarPage()
   ];
 
   @override
@@ -47,9 +48,9 @@ class _AppBottomNavState extends State<AppBottomNav> {
             label: 'Search',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
+            icon: Icon(Icons.calendar_month),
             selectedIcon: Icon(Icons.person,color:AppColor.secondary,),
-            label: 'Profile',
+            label: 'Calendar',
           ),
         ],
       ),
