@@ -1,4 +1,6 @@
 import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
+import 'package:expenseo/core/constant/colour/app_color.dart';
+import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:flutter/material.dart';
 
@@ -34,12 +36,12 @@ class DayCard extends StatelessWidget {
             Text(
               letter,
               style: AppTextStyles.caption(color: isActive
-              ? Colors.white70
+              ? AppColor.background
                   : isDim
-              ? Colors.white24
-                : Colors.white38,)
+              ? AppColor.background.withAlpha(75)
+                : AppColor.background.withAlpha(150),)
             ),
-            const SizedBox(height: 4),
+            AppGap.g8,
             Text(
               '$day',
               style: TextStyle(
@@ -47,10 +49,10 @@ class DayCard extends StatelessWidget {
                 fontWeight:
                 isActive ? FontWeight.bold : FontWeight.normal,
                 color: isActive
-                    ? Colors.white
+                    ? AppColor.background
                     : isDim
-                    ? Colors.white24
-                    : Colors.white,
+                    ? AppColor.background.withAlpha(75)
+                    : AppColor.background,
               ),
             ),
           ],
