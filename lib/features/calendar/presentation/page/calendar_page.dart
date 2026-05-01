@@ -1,5 +1,7 @@
+import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/features/calendar/presentation/cubit/calendar_cubit.dart';
+import 'package:expenseo/features/calendar/presentation/widget/day_scroll_bar.dart';
 import 'package:expenseo/features/calendar/presentation/widget/month_scroll_bar.dart';
 import 'package:expenseo/features/calendar/presentation/widget/year_picker_popup.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
@@ -57,7 +59,9 @@ class CalendarPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                    const MonthScrollBar()
+                  const MonthScrollBar(),
+                  AppGap.g20,
+                  const DayScrollBar(),
                 ],
               ),
             ),
