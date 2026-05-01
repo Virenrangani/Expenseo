@@ -26,9 +26,15 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
       initialIndex = state.index;
     }
 
-    _controller = ScrollController(
-      initialScrollOffset: initialIndex * 150,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final screenWidth = MediaQuery.of(context).size.width;
+
+      final offset = (initialIndex * 150) - (screenWidth / 2) + (150 / 2);
+
+      _controller.jumpTo(offset);
+    });
+
+    _controller = ScrollController();
   }
 
   static const months = [
