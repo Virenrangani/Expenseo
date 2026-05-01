@@ -10,9 +10,10 @@ class CalendarCubit extends Cubit<CalendarState> {
   void init() {
     try {
       final now = DateTime.now();
-      const initialIndex = 100;
+      const baseIndex = 96;
+      final initialIndex = baseIndex + (now.month - 1);
       emit(CalendarLoaded(
-        year: now.year, month: now.month , index: initialIndex,
+        year: now.year, month: now.month-1 , index: initialIndex, day: now.day,
       ));
     } catch (e) {
       emit(CalendarError(e.toString()));
@@ -31,5 +32,54 @@ class CalendarCubit extends Cubit<CalendarState> {
     final s = state as CalendarLoaded;
 
     emit(s.copyWith(month: monthIndex % 12, index:monthIndex));
+  }
+
+  void selectDay(int day) {
+    if (state is! CalendarLoaded) return;
+    final s = state as CalendarLoaded;
+
+    emit(s.copyWith(day: day));
+  }
+
+  void goToPrevMonth() {
+    if (state is! CalendarLoaded) return;
+    final s = state as CalendarLoaded;
+
+    emit(CalendarLoaded(
+      year: s.prevYear,
+      month: s.prevMonthIndex,
+      day: s.daysInPrevMonth,
+      index: s.index - 1,
+    ));
+  }
+
+  void goToNextMonth() {
+    if (state is! CalendarLoaded) return;
+    final s = state as CalendarLoaded;
+
+    emit(CalendarLoaded(
+      year: s.nextYear,
+      month: s.nextMonthIndex,
+      day: 1,
+      index: s.index + 1,
+    ));
+  }
+
+  void goToMonth({
+    required int year,
+    required int monthIndex,
+    required int day,
+  }) {
+    if (state is! CalendarLoaded) return;
+    final s = state as CalendarLoaded;
+
+    final monthDiff = (year - s.year) * 12 + (monthIndex - s.month);
+
+    emit(CalendarLoaded(
+      year: year,
+      month: monthIndex,
+      day: day,
+      index:s.index + monthDiff
+    ));
   }
 }
