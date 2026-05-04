@@ -1,6 +1,7 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
+import 'package:expenseo/features/split/presentation/page/split_group_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant/text_style/app_text_style.dart';
@@ -17,7 +18,23 @@ class SplitExpense extends StatelessWidget {
             padding: AppPadding.edgeAll12,
             child: Column(
               children: [
-                Text(AppString.splitBill,style: AppTextStyles.h4(color:AppColor.secondary),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(AppString.splitBill,style: AppTextStyles.h4(color:AppColor.secondary),),
+                    IconButton(
+                        onPressed: (){
+                          showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => const SplitGroupBottomSheet(),
+                          );
+                        },
+                        icon: const Icon(Icons.add_circle,size:32,color: AppColor.secondary,)
+                    )
+                  ],
+                ),
 
               ],
             ),
