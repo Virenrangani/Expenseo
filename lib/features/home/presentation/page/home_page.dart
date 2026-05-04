@@ -3,6 +3,7 @@ import 'package:expenseo/features/expense/presentation/page/user_expense_page.da
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
 import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
+import 'package:expenseo/features/split/presentation/page/split_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute<void>(
-                                      builder: (context) => const UserExpensePage()));
+                                      builder: (context) => const SplitExpense()));
                             },
                           ),
                         ),
