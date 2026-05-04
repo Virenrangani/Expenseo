@@ -107,4 +107,6 @@ class AppString {
 
   static const String category='Category';
   static const String paymentMethod='Payment Method';
+
+  static const String splitBill='Split Your Bill';
 }
