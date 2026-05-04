@@ -21,7 +21,7 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
 
     final state = context.read<CalendarCubit>().state;
 
-    var initialIndex = 500;
+    var initialIndex = 96;
     if (state is CalendarLoaded) {
       initialIndex = state.index;
     }
