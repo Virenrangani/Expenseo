@@ -36,22 +36,31 @@ class CalendarPage extends StatelessWidget {
                 child: BlocListener<CalendarCubit, CalendarState>(
                   listenWhen: (prev, curr) {
                     if (prev is CalendarLoaded && curr is CalendarLoaded) {
-                      return prev.day != curr.day ||
-                          prev.month != curr.month ||
-                          prev.year != curr.year;
+                      return prev.day != curr.day;
                     }
                     return false;
                   },
                   listener: (context, state) {
                     if (state is CalendarLoaded) {
+                      final selectedDate = DateTime(
+                          state.year, state.month+1, state.day);
+
+                      final expenseCubit=context.read<ExpenseCubit>()
+
+                     ..getExpensesByDate(selectedDate);
+
                       showModalBottomSheet<void>(
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
-                        builder: (_) => const FractionallySizedBox(
-                          heightFactor: 0.70,
-                          child: CalendarBottomSheet(),
-                        ),
+                        builder: (_) =>
+                            BlocProvider.value(
+                              value: expenseCubit,
+                              child: const FractionallySizedBox(
+                                heightFactor: 0.70,
+                                child: CalendarBottomSheet(),
+                              ),
+                            ),
                       );
                     }
                   },
