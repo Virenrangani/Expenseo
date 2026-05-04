@@ -107,4 +107,7 @@ class AppString {
 
   static const String category='Category';
   static const String paymentMethod='Payment Method';
+
+  static const String hourLabel='00 pm';
+  static const String noExpenseOfThisDay='No expenses on this day';
 }
