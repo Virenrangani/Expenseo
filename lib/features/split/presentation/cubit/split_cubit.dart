@@ -61,4 +61,14 @@ class SplitCubit extends Cubit<SplitState> {
     }
   }
 
+  Future<void> getGroups() async {
+    emit(SplitLoading());
+    try{
+      final groups = await useCase.getGroups();
+      emit(SplitLoaded(groups));
+    }catch (e){
+      emit(SplitError(e.toString()));
+    }
+  }
+
 }
