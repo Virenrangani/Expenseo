@@ -7,4 +7,6 @@ abstract class SplitRepository {
 
   Future<User?> searchUserByEmail(String email);
 
+  Future<List<GroupEntity>> getGroups();
+
 }

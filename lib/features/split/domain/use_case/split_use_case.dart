@@ -14,4 +14,8 @@ class SplitUseCase {
   Future<User?> searchUserByEmail(String email) {
     return repository.searchUserByEmail(email);
   }
+
+  Future<List<GroupEntity>> getGroups(){
+    return repository.getGroups();
+  }
 }
