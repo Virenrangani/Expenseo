@@ -17,6 +17,11 @@ import 'package:expenseo/features/home/data/repository/home_repository_impl.dart
 import 'package:expenseo/features/home/domain/repository/home_repository.dart';
 import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
 import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:expenseo/features/split/data/data_source/split_data_source.dart';
+import 'package:expenseo/features/split/data/repository_impl/split_repository_impl.dart';
+import 'package:expenseo/features/split/domain/repository/split_repository.dart';
+import 'package:expenseo/features/split/domain/use_case/split_use_case.dart';
+import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
@@ -50,6 +55,12 @@ class Injection {
     ..registerLazySingleton<HomeDataSource>(HomeDataSourceImpl.new)
     ..registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(sl()))
     ..registerLazySingleton(()=>HomeUseCase(sl()))
-    ..registerFactory(()=>HomeCubit(sl()));
+    ..registerFactory(()=>HomeCubit(sl()))
+
+    ..registerLazySingleton<SplitDataSource>(()=>SplitDataSourceImpl(sl()))
+    ..registerLazySingleton<SplitRepository>(()=>SplitRepositoryImpl(sl()))
+    ..registerLazySingleton(()=>SplitUseCase(sl()))
+    ..registerFactory(()=>SplitCubit(sl()));
+
   }
 }
