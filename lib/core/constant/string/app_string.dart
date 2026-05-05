@@ -109,4 +109,13 @@ class AppString {
   static const String paymentMethod='Payment Method';
 
   static const String splitBill='Split Your Bill';
+  static const String groupName='Group name';
+  static const String groupHint='e.g. Goa Trip, Flatmates...';
+  static const String addMember='Add Members';
+  static const String createGroup='Create Group';
+  static const String youCanNotAddYourSelf='You can not add yourself';
+  static const String groupCreated='Group is created successfully';
+  static const String addAtLeastOneMember='Add at least one member';
+  static const String enterGroupName='Enter group name';
+
 }
