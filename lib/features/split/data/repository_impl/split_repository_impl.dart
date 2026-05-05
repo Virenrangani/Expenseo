@@ -27,5 +27,9 @@ class SplitRepositoryImpl implements SplitRepository{
     );
   }
 
-
+  @override
+  Future<List<GroupEntity>> getGroups()async {
+    final groups=await dataSource.getGroups();
+    return groups.map((e)=>e.toEntity()).toList();
+  }
 }

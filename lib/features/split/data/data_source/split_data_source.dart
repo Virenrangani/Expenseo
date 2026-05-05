@@ -3,10 +3,13 @@ import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/error/app_errors.dart';
 import 'package:expenseo/features/split/data/model/group_model.dart';
 import 'package:expenseo/features/split/data/model/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class SplitDataSource {
   Future<void> createGroup(GroupModel group);
   Future<UserModel?> searchUserByEmail(String email);
+  Future<List<GroupModel>> getGroups();
 }
 
 class SplitDataSourceImpl implements SplitDataSource {
@@ -14,7 +17,7 @@ class SplitDataSourceImpl implements SplitDataSource {
 
   SplitDataSourceImpl(this.firestore,);
 
-
+  String get uid => FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Future<void> createGroup(GroupModel group) async {
@@ -51,6 +54,32 @@ class SplitDataSourceImpl implements SplitDataSource {
       throw Exception(AppString.somethingWentWrong);
     }
   }
+
+  @override
+  Future<List<GroupModel>> getGroups() async {
+    try {
+      final groups = await firestore
+          .collection('groups')
+          .where('members', arrayContains: uid)
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      return groups.docs.map((doc) {
+        return GroupModel.fromJson({
+          ...doc.data(),
+          'id': doc.id,
+        });
+      }).toList();
+
+    } on FirebaseException catch (e) {
+      debugPrint('GetGroups Error: $e');
+      throw Exception(e.toString());
+      // throw Exception(AppErrors.handleFireStoreException(e));
+    } catch (e) {
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
+
 }
 
 
