@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
+import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../widget/group/group_list.dart';
 
 class SplitExpense extends StatelessWidget {
   const SplitExpense({super.key});
@@ -15,9 +17,9 @@ class SplitExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SplitCubit>(
-      create: (_) => GetIt.I<SplitCubit>(),
+      create: (_) => GetIt.I<SplitCubit>()..getGroups(),
       child: Scaffold(
-        backgroundColor: AppColor.primaryLight,
+        backgroundColor: AppColor.background,
         body: Builder(
           builder: (context) {
             return SafeArea(
@@ -49,6 +51,19 @@ class SplitExpense extends StatelessWidget {
                           ),
                         ],
                       ),
+
+                      AppGap.g20,
+
+                      Text(
+                        AppString.myGroups,
+                        style: AppTextStyles.captionBold(
+                            color: AppColor.textPrimary),
+                      ),
+
+                      AppGap.g12,
+
+                      const Expanded(child: GroupsList()),
+
                     ],
                   ),
                 )
