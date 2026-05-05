@@ -118,4 +118,9 @@ class AppString {
   static const String addAtLeastOneMember='Add at least one member';
   static const String enterGroupName='Enter group name';
 
+  static const String settled='Settled';
+  static const String youOwed='you are owed';
+  static const String owe='you owe';
+  static const String noGroups='No groups yet';
+  static const String createYourGroup='Tap + to create your first group';
 }
