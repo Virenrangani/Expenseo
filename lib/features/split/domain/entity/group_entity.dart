@@ -14,4 +14,8 @@ class GroupEntity {
     required this.memberNames,
     required this.createdAt,
   });
+
+  double yourBalance(String uid) {
+    return 0;
+  }
 }
