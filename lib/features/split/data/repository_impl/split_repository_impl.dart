@@ -1,6 +1,8 @@
 import 'package:expenseo/features/split/data/data_source/split_data_source.dart';
 import 'package:expenseo/features/split/data/model/group_model.dart';
+import 'package:expenseo/features/split/data/model/split_model.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
+import 'package:expenseo/features/split/domain/entity/split_entity.dart';
 import 'package:expenseo/features/split/domain/repository/split_repository.dart';
 import '../../domain/entity/user.dart';
 
@@ -31,5 +33,10 @@ class SplitRepositoryImpl implements SplitRepository{
   Future<List<GroupEntity>> getGroups()async {
     final groups=await dataSource.getGroups();
     return groups.map((e)=>e.toEntity()).toList();
+  }
+
+  @override
+  Future<void> addSplitExpense(SplitEntity expense) {
+    return dataSource.addSplitExpense(SplitModel.fromEntity(expense));
   }
 }
