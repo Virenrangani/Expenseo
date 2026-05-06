@@ -83,7 +83,7 @@ class SplitDataSourceImpl implements SplitDataSource {
   Future<void> addSplitExpense(SplitModel expense) async{
     try{
        await firestore.collection('groups')
-          .doc(uid)
+          .doc(expense.groupId)
           .collection('expense')
           .add(expense.toJson());
 
