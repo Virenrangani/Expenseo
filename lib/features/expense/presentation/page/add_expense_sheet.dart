@@ -1,4 +1,5 @@
 import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
+import 'package:expenseo/core/widget/amount_box/amount_box.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,39 +77,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                     ),
                   ),
                   AppGap.g16,
-                  Container(
-                    width: double.infinity,
-                    padding: AppPadding.edgeAll16,
-                    decoration: BoxDecoration(
-                      color: AppColor.primaryLight,
-                      borderRadius: AppBorderRadius.cir16,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          AppString.addAmount,
-                          style: AppTextStyles.captionMedium(color: AppColor.secondary),
-                        ),
-                        AppGap.g8,
-
-                        AppFormField(
-                          controller: amountController,
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.h2(color: AppColor.primary),
-
-                          hintText: '0',
-                          prefixText: '₹ ',
-                          prefixStyle: AppTextStyles.h2(color: AppColor.primary),
-
-                          contentPadding: EdgeInsets.zero,
-                          fillColor: AppColor.secondary,
-                          validator: (val)=>validateAmount(val!)
-                        ),
-                      ],
-                    ),
-                  ),
+                  AmountBox(controller:amountController,),
                   AppGap.g16,
                   ExpenseTypeToggle(
                     selectedType:context.read<ExpenseCubit>().type,
