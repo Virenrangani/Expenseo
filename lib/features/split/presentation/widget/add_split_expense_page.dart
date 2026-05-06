@@ -1,6 +1,8 @@
+import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
+import 'package:expenseo/core/widget/amount_box/amount_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +18,8 @@ class AddSplitExpensePage extends StatefulWidget {
 }
 
 class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
+
+  final formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +45,15 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         },
 
         builder: (context,state){
-          return const SizedBox.shrink();
+          return Form(
+            key:formKey,
+              child: ListView(
+                padding: AppPadding.edgeAll16,
+                children:const  [
+                   AmountBox()
+                ],
+              )
+          );
         }
       ),
     );
