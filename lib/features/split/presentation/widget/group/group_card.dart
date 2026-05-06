@@ -29,7 +29,7 @@ class GroupCard extends StatelessWidget {
             MaterialPageRoute<void>(
                 builder: (context)=>  BlocProvider.value(
                 value: splitCubit,
-                child:  GroupDetailsPage(group:group,groupId: group.id,),
+                child:  GroupDetailsPage(group: group,),
               )
             )
         );
