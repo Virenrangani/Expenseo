@@ -9,18 +9,19 @@ import 'package:expenseo/features/split/presentation/widget/add_split_expense/sp
 import 'package:expenseo/features/split/presentation/widget/add_split_expense/split_type_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/amount_box/amount_box.dart';
+import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import 'add_split_expense/paid_by_selector.dart';
 
 class AddSplitExpensePage extends StatefulWidget {
-  final String groupId;
   final GroupEntity group;
-  const AddSplitExpensePage({super.key,required this.group, required this.groupId});
+  const AddSplitExpensePage({super.key , required this.group});
 
   @override
   State<AddSplitExpensePage> createState() => _AddSplitExpensePageState();
@@ -85,14 +86,14 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     if (splitType == SplitType.unequal) {
       final sum = _unequalSplitAmong.values.fold(0.0, (a, b) => a + b);
       if ((sum - total).abs() > 0.01) {
-        return 'Split amounts must equal ₹${total.toStringAsFixed(0)}';
+        return '${AppString.splitAmountNotEquals}₹${total.toStringAsFixed(0)}';
       }
     }
     if (splitType == SplitType.percentage) {
       final sum = splitControllers.values
           .fold(0.0, (a, c) => a + (double.tryParse(c.text) ?? 0));
       if ((sum - 100).abs() > 0.01) {
-        return 'Percentages must add up to 100%';
+        return AppString.splitAmountMust100Per;
       }
     }
     return null;
@@ -123,6 +124,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         },
 
         builder: (context,state){
+          final isLoading=state is SplitLoading;
           return Form(
             key:formKey,
               child: ListView(
@@ -173,6 +175,15 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                       amountController: amountController,
                       splitControllers: splitControllers,
                   ),
+
+                  AppGap.g20,
+
+                  AppElevatedButton(
+                    text: AppString.addExpense,
+                    isLoading: isLoading,
+                    isEnabled: true,
+                    onPressed: onSubmit,
+                  ),
                 ],
               )
           );
@@ -185,4 +196,28 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     text,
     style: AppTextStyles.description(),
   );
+
+  void onSubmit() {
+    if (!formKey.currentState!.validate()) return;
+
+    final splitError = _validateSplit();
+    if (splitError != null) {
+      CustomSnacksBar.showError(context, splitError);
+      return;
+    }
+
+    context.read<SplitCubit>().addSplitExpense(
+      SplitEntity(
+          id: const Uuid().v4(),
+          groupId: widget.group.id,
+          title: titleController.text.trim(),
+          amount: double.parse(amountController.text.trim()),
+          paidBy: _paidByUid,
+          paidByName: _paidByName,
+          splitAmong: finalSplitAmong,
+          splitType: splitType,
+          createdAt: DateTime.now()
+      )
+    );
+  }
 }
