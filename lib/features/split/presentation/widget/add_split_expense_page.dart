@@ -1,3 +1,4 @@
+import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
@@ -9,6 +10,7 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/amount_box/amount_box.dart';
+import '../../../../core/widget/text_field/app_text_field.dart';
 
 class AddSplitExpensePage extends StatefulWidget {
   const AddSplitExpensePage({super.key});
@@ -20,6 +22,7 @@ class AddSplitExpensePage extends StatefulWidget {
 class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
 
   final TextEditingController amountController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final formKey=GlobalKey<FormState>();
 
   @override
@@ -50,9 +53,21 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
           return Form(
             key:formKey,
               child: ListView(
-                padding: AppPadding.edgeAll16,
+                padding: AppPadding.edgeAll20,
                 children:[
-                   AmountBox(controller: amountController,)
+                   AmountBox(controller: amountController,),
+
+                  AppGap.g20,
+
+                  buildLabel(AppString.title),
+                  AppGap.g8,
+                  AppFormField(
+                    controller: titleController,
+                    hintText: AppString.titleHint,
+                    validator:  (v) =>
+                    v!.trim().isEmpty ? AppString.titleInvalid : null,
+                  ),
+                  
                 ],
               )
           );
@@ -60,4 +75,10 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
       ),
     );
   }
+
+  Widget buildLabel(String text) => Text(
+    text,
+    style: AppTextStyles.description(),
+  );
+
 }
