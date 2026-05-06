@@ -5,6 +5,7 @@ import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/split_entity.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
+import 'package:expenseo/features/split/presentation/widget/add_split_expense/split_among.dart';
 import 'package:expenseo/features/split/presentation/widget/add_split_expense/split_type_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,14 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
   String _paidByUid = '';
   String _paidByName = '';
 
+  @override
+  void initState() {
+    super.initState();
+
+    final cubit = context.read<SplitCubit>();
+    _paidByUid  = cubit.currentUid;
+    _paidByName = cubit.currentName;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +109,16 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                       onChanged: (t)=> setState(() {
                         splitType = t;
                       })
-                  )
+                  ),
+                  
+                  AppGap.g20,
+                  
+                  buildLabel(AppString.splitAmong),
+                  SplitAmong(
+                      group: widget.group,
+                      splitType: splitType,
+                      amountController: amountController
+                  ),
                 ],
               )
           );
@@ -113,5 +131,4 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     text,
     style: AppTextStyles.description(),
   );
-
 }
