@@ -30,6 +30,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
 
   final TextEditingController amountController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
+  final Map<String, TextEditingController> splitControllers = {};
   final formKey=GlobalKey<FormState>();
 
   SplitType splitType =SplitType.equal;
@@ -44,7 +45,59 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     final cubit = context.read<SplitCubit>();
     _paidByUid  = cubit.currentUid;
     _paidByName = cubit.currentName;
+
+    for (final uid in widget.group.members) {
+      splitControllers[uid] = TextEditingController();
+    }
   }
+
+  Map<String, double> get _equalSplitAmong {
+    final count  = widget.group.members.length;
+    final share  = (double.tryParse(amountController.text) ?? 0) / count;
+    return {for (final uid in widget.group.members) uid: share};
+  }
+
+  Map<String, double> get _unequalSplitAmong {
+    return {
+      for (final uid in widget.group.members)
+        uid: double.tryParse(splitControllers[uid]!.text) ?? 0,
+    };
+  }
+
+  Map<String, double> get _percentageSplitAmong {
+    final total = double.tryParse(amountController.text) ?? 0;
+    return {
+      for (final uid in widget.group.members)
+        uid: ((double.tryParse(splitControllers[uid]!.text) ?? 0) / 100) * total,
+    };
+  }
+
+  Map<String, double> get finalSplitAmong {
+    switch (splitType) {
+      case SplitType.equal: return _equalSplitAmong;
+      case SplitType.unequal: return _unequalSplitAmong;
+      case SplitType.percentage: return _percentageSplitAmong;
+    }
+  }
+
+  String? _validateSplit() {
+    final total = double.tryParse(amountController.text) ?? 0;
+    if (splitType == SplitType.unequal) {
+      final sum = _unequalSplitAmong.values.fold(0.0, (a, b) => a + b);
+      if ((sum - total).abs() > 0.01) {
+        return 'Split amounts must equal ₹${total.toStringAsFixed(0)}';
+      }
+    }
+    if (splitType == SplitType.percentage) {
+      final sum = splitControllers.values
+          .fold(0.0, (a, c) => a + (double.tryParse(c.text) ?? 0));
+      if ((sum - 100).abs() > 0.01) {
+        return 'Percentages must add up to 100%';
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +170,8 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                   SplitAmong(
                       group: widget.group,
                       splitType: splitType,
-                      amountController: amountController
+                      amountController: amountController,
+                      splitControllers: splitControllers,
                   ),
                 ],
               )
