@@ -5,6 +5,8 @@ import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widget/add_split_expense_page.dart';
+
 class GroupDetailsPage extends StatefulWidget {
   const GroupDetailsPage({super.key});
 
@@ -37,6 +39,19 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             }
             return const SizedBox.shrink();
           }
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColor.secondary,
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => BlocProvider.value(
+              value: context.read<SplitCubit>(),
+              child: const AddSplitExpensePage(),
+            ),
+          ),
+        ),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
