@@ -1,4 +1,3 @@
-import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
 import 'package:expenseo/core/widget/amount_box/amount_box.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
