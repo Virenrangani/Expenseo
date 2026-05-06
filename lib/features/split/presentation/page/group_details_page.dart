@@ -9,9 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widget/add_split_expense_page.dart';
 
 class GroupDetailsPage extends StatefulWidget {
-  final String groupId;
   final GroupEntity group;
-  const GroupDetailsPage({super.key , required this.group, required this.groupId});
+  const GroupDetailsPage({super.key , required this.group});
 
   @override
   State<GroupDetailsPage> createState() => _GroupDetailsPageState();
@@ -50,7 +49,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
           MaterialPageRoute<void>(
             builder: (_) => BlocProvider.value(
               value: context.read<SplitCubit>(),
-              child:  AddSplitExpensePage(group: widget.group, groupId: widget.groupId,),
+              child:  AddSplitExpensePage(group: widget.group),
             ),
           ),
         ),
