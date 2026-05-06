@@ -13,12 +13,14 @@ class SplitAmong extends StatefulWidget {
   final GroupEntity group;
   final SplitType splitType;
   final TextEditingController amountController;
+  final Map<String, TextEditingController> splitControllers;
 
   const SplitAmong({
     super.key,
     required this.group,
     required this.splitType,
-    required this.amountController
+    required this.amountController,
+    required this.splitControllers
   });
 
   @override
@@ -27,23 +29,6 @@ class SplitAmong extends StatefulWidget {
 
 class _SplitAmongState extends State<SplitAmong> {
 
-  final Map<String, TextEditingController> _splitControllers = {};
-  @override
-
-  void initState() {
-    super.initState();
-    for (final uid in widget.group.members) {
-      _splitControllers[uid] = TextEditingController();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    for (final c in _splitControllers.values) {
-      c.dispose();
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -96,7 +81,7 @@ class _SplitAmongState extends State<SplitAmong> {
               ) else SizedBox(
                 width: 80,
                 child: AppFormField(
-                  controller: _splitControllers[uid],
+                  controller: widget.splitControllers[uid],
                   hintText:  widget.splitType == SplitType.percentage
                       ? '0%'
                       : '₹0',
