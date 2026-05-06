@@ -1,5 +1,6 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widget/add_split_expense_page.dart';
 
 class GroupDetailsPage extends StatefulWidget {
-  const GroupDetailsPage({super.key});
+  final String groupId;
+  final GroupEntity group;
+  const GroupDetailsPage({super.key , required this.group, required this.groupId});
 
   @override
   State<GroupDetailsPage> createState() => _GroupDetailsPageState();
@@ -47,7 +50,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
           MaterialPageRoute<void>(
             builder: (_) => BlocProvider.value(
               value: context.read<SplitCubit>(),
-              child: const AddSplitExpensePage(),
+              child:  AddSplitExpensePage(group: widget.group, groupId: widget.groupId,),
             ),
           ),
         ),
