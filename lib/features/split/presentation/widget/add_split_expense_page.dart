@@ -2,8 +2,10 @@ import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
+import 'package:expenseo/features/split/domain/entity/split_entity.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
+import 'package:expenseo/features/split/presentation/widget/add_split_expense/split_type_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +30,8 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
   final TextEditingController amountController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final formKey=GlobalKey<FormState>();
+
+  SplitType splitType =SplitType.equal;
 
   String _paidByUid = '';
   String _paidByName = '';
@@ -87,6 +91,16 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                       _paidByName = name;
                     }),
                   ),
+
+                  AppGap.g20,
+
+                  buildLabel(AppString.splitType),
+                  AppGap.g8,
+                  SplitTypeSelector(selected: splitType,
+                      onChanged: (t)=> setState(() {
+                        splitType = t;
+                      })
+                  )
                 ],
               )
           );
