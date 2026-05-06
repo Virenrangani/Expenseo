@@ -1,4 +1,5 @@
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
+import 'package:expenseo/features/split/domain/entity/split_entity.dart';
 import 'package:expenseo/features/split/domain/repository/split_repository.dart';
 
 import '../entity/user.dart';
@@ -17,5 +18,9 @@ class SplitUseCase {
 
   Future<List<GroupEntity>> getGroups(){
     return repository.getGroups();
+  }
+
+  Future<void> addSplitExpense(SplitEntity expense){
+    return repository.addSplitExpense(expense);
   }
 }
