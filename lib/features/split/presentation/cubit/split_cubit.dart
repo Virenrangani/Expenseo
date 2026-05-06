@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../domain/entity/split_entity.dart';
+
 class SplitCubit extends Cubit<SplitState> {
   final SplitUseCase useCase;
   SplitCubit(this.useCase) : super(SplitInitial());
@@ -71,4 +73,15 @@ class SplitCubit extends Cubit<SplitState> {
     }
   }
 
+  Future<void> addSplitExpense(
+      SplitEntity entity
+  ) async {
+    emit(SplitLoading());
+    try {
+      await useCase.addSplitExpense(entity);
+      emit(SplitSuccess('Expense added!'));
+    } catch (e) {
+      emit(SplitError(e.toString()));
+    }
+  }
 }
