@@ -18,7 +18,6 @@ class AmountBox extends StatefulWidget {
 }
 
 class _AmountBoxState extends State<AmountBox> {
-  final TextEditingController amountController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +35,7 @@ class _AmountBoxState extends State<AmountBox> {
           AppGap.g8,
 
           AppFormField(
-              controller: amountController,
+              controller: widget.controller,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
 
               textAlign: TextAlign.center,
