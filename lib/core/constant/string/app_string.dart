@@ -125,6 +125,7 @@ class AppString {
   static const String createYourGroup='Tap + to create your first group';
   static const String myGroups='My Groups';
   static const String paidBy='Paid By';
-
+  static const String splitType='Split Type';
+  static const String splitAmong='Split Among';
 
 }
