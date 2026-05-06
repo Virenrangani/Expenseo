@@ -124,4 +124,7 @@ class AppString {
   static const String noGroups='No groups yet';
   static const String createYourGroup='Tap + to create your first group';
   static const String myGroups='My Groups';
+  static const String paidBy='Paid By';
+
+
 }
