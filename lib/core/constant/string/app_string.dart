@@ -127,5 +127,6 @@ class AppString {
   static const String paidBy='Paid By';
   static const String splitType='Split Type';
   static const String splitAmong='Split Among';
-
+  static const String splitAmountNotEquals='Split amounts must equal';
+  static const String splitAmountMust100Per='Percentages must add up to 100%';
 }
