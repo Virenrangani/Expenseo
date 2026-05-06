@@ -2,13 +2,13 @@ import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
-import 'package:expenseo/core/widget/amount_box/amount_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/widget/amount_box/amount_box.dart';
 
 class AddSplitExpensePage extends StatefulWidget {
   const AddSplitExpensePage({super.key});
@@ -19,7 +19,9 @@ class AddSplitExpensePage extends StatefulWidget {
 
 class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
 
+  final TextEditingController amountController = TextEditingController();
   final formKey=GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +51,8 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
             key:formKey,
               child: ListView(
                 padding: AppPadding.edgeAll16,
-                children:const  [
-                   AmountBox()
+                children:[
+                   AmountBox(controller: amountController,)
                 ],
               )
           );
