@@ -1,5 +1,6 @@
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/widget/format_amount/format_amount.dart';
+import 'package:expenseo/features/split/presentation/page/group_details_page.dart';
 import 'package:expenseo/features/split/presentation/widget/group/group_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,13 @@ class GroupCard extends StatelessWidget {
     final balance = group.yourBalance(uid);
 
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        Navigator.push(context,
+            MaterialPageRoute<void>(
+                builder: (context)=>const GroupDetailsPage()
+            )
+        );
+      },
       child: Container(
         padding: AppPadding.edgeAll12,
         decoration: BoxDecoration(
