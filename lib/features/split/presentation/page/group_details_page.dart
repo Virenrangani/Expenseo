@@ -49,7 +49,9 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             }
 
             if(state is GroupDetailLoaded){
-              return GroupDetailsView(state:state);
+              final uid = context.read<SplitCubit>().currentUid;
+              final balances = state.calculateBalances(uid);
+              return GroupDetailsView(state:state,balance:balances);
             }
             return const SizedBox.shrink();
           }
