@@ -121,6 +121,7 @@ class AppString {
   static const String settled='Settled';
   static const String youOwed='you are owed';
   static const String owe='you owe';
+  static const String owesYou='owes you ';
   static const String noGroups='No groups yet';
   static const String createYourGroup='Tap + to create your first group';
   static const String myGroups='My Groups';
@@ -129,4 +130,8 @@ class AppString {
   static const String splitAmong='Split Among';
   static const String splitAmountNotEquals='Split amounts must equal';
   static const String splitAmountMust100Per='Percentages must add up to 100%';
+  static const String allSettleUp='All settled up!';
+  static const String settleUp='Settle up';
+  static const String markSettle='Mark as settled?';
+  static const String cancel='Cancel';
 }
