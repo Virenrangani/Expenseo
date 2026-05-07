@@ -76,7 +76,7 @@ class _SplitAmongState extends State<SplitAmong> {
               ),
 
               if (isEqual) Text(
-                '₹${share!.toStringAsFixed(0)}',
+                '₹${share!.toStringAsFixed(2)}',
                 style: AppTextStyles.captionBold(),
               ) else SizedBox(
                 width: 80,
