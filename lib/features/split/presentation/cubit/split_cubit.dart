@@ -84,4 +84,18 @@ class SplitCubit extends Cubit<SplitState> {
       emit(SplitError(e.toString()));
     }
   }
+
+  Future<void> loadGroupDetail(GroupEntity group) async {
+    emit(SplitLoading());
+    try {
+
+      final expenses = await useCase.getSplitExpense(group.id);
+
+      emit(
+        GroupDetailLoaded(group: group, expenses: expenses),
+      );
+    } catch (e) {
+      emit(SplitError(e.toString()));
+    }
+  }
 }
