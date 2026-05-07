@@ -24,7 +24,7 @@ class SplitUseCase {
     return repository.addSplitExpense(expense);
   }
 
-  Future<void> getSplitExpense(String groupId){
+  Future<List<SplitEntity>> getSplitExpense(String groupId){
     return repository.getSplitExpenses(groupId);
   }
 }
