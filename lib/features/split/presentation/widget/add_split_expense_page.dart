@@ -115,6 +115,9 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         listener: (context,state){
 
           if(state is SplitSuccess){
+
+            context.read<SplitCubit>().loadGroupDetail(widget.group);
+
             CustomSnacksBar.showSuccess(context,state.message);
           }
 
