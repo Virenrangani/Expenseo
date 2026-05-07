@@ -1,6 +1,7 @@
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
+import 'package:expenseo/features/split/presentation/widget/group_details_view/member_row.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../core/constant/text_style/app_text_style.dart';
@@ -23,6 +24,8 @@ class GroupDetailsView extends StatelessWidget {
               ),
 
               AppGap.g16,
+              
+              MemberRow(group: state.group)
 
             ],
           )
