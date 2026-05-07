@@ -1,5 +1,4 @@
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constant/colour/app_color.dart';
