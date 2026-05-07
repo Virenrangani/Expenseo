@@ -18,6 +18,13 @@ class GroupDetailsPage extends StatefulWidget {
 }
 
 class _GroupDetailsPageState extends State<GroupDetailsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<SplitCubit>().loadGroupDetail(widget.group);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
