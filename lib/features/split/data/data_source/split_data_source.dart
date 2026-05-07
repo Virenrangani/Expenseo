@@ -11,6 +11,7 @@ abstract class SplitDataSource {
   Future<UserModel?> searchUserByEmail(String email);
   Future<List<GroupModel>> getGroups();
   Future<void> addSplitExpense(SplitModel expense);
+  Future<List<SplitModel>> getSplitExpenses(String groupId);
 }
 
 class SplitDataSourceImpl implements SplitDataSource {
@@ -88,6 +89,27 @@ class SplitDataSourceImpl implements SplitDataSource {
           .add(expense.toJson());
 
     } on FirebaseException catch (e) {
+      throw Exception(AppErrors.handleFireStoreException(e));
+    } catch (e) {
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
+
+  @override
+  Future<List<SplitModel>> getSplitExpenses(String groupId) async {
+    try{
+
+      final splitExpense = await firestore.collection('groups')
+          .doc(groupId)
+          .collection('expense')
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      return splitExpense.docs.map(
+              (e)=> SplitModel.fromJson(e.data(), e.id)
+      ).toList();
+
+    }on FirebaseException catch (e) {
       throw Exception(AppErrors.handleFireStoreException(e));
     } catch (e) {
       throw Exception(AppString.somethingWentWrong);

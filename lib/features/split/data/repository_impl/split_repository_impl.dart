@@ -39,4 +39,13 @@ class SplitRepositoryImpl implements SplitRepository{
   Future<void> addSplitExpense(SplitEntity expense) {
     return dataSource.addSplitExpense(SplitModel.fromEntity(expense));
   }
+
+  @override
+  Future<List<SplitEntity>> getSplitExpenses(String groupId) async {
+    final splitExpense = await dataSource.getSplitExpenses(groupId);
+
+    return splitExpense.map( 
+            (e) => e.toEntity()
+    ).toList();
+  }
 }
