@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
-import 'group_details_view/expense_section.dart';
 import 'group_details_view/balance_card.dart';
+import 'group_details_view/expense_section.dart';
 import 'group_details_view/settled_card.dart';
 import 'group_details_view/show_settle_dialog.dart';
 
