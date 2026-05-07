@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widget/add_split_expense_page.dart';
+import '../widget/group_details_view.dart';
 
 class GroupDetailsPage extends StatefulWidget {
   final GroupEntity group;
@@ -38,6 +39,10 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            }
+
+            if(state is GroupDetailLoaded){
+              return GroupDetailsView(state:state);
             }
             return const SizedBox.shrink();
           }
