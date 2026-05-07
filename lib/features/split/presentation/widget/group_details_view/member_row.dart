@@ -1,6 +1,9 @@
+import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constant/colour/app_color.dart';
+import '../../../../../core/constant/text_style/app_text_style.dart';
 import '../../../domain/entity/group_entity.dart';
 
 class MemberRow extends StatelessWidget {
@@ -14,23 +17,38 @@ class MemberRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
-      child: ListView.builder(
+      height:75,
+      child: ListView(
         scrollDirection: Axis.horizontal,
-        itemCount: group.memberNames.length,
-        itemBuilder: (context,index){
-
-          final member = group.memberNames.entries.toList()[index];
-
-          return Padding(
-            padding: AppPadding.edgeSymmetricHori8,
-            child: CircleAvatar(
-              child: Text(
-                member.value[0].toUpperCase(),
-              ),
+        children: group.memberNames.entries.map((entry) {
+          return Container(
+            margin: const EdgeInsets.only(right: 8),
+            child: Column(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color:  AppColor.primary.withAlpha(40),
+                    shape:  BoxShape.circle,
+                    border: Border.all(
+                        color: AppColor.primary.withAlpha(75)),
+                  ),
+                  child: Center(
+                    child: Text(
+                      entry.value[0].toUpperCase(),
+                      style: AppTextStyles.captionBold(),
+                    ),
+                  ),
+                ),
+                AppGap.g8,
+                Text(entry.value ,
+                  style: AppTextStyles.bodyMedium(color: AppColor.textPrimary),overflow: TextOverflow.ellipsis,
+                )
+              ],
             ),
           );
-        },
+        }).toList(),
       ),
     );
   }
