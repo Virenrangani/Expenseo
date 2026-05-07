@@ -86,7 +86,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     if (splitType == SplitType.unequal) {
       final sum = _unequalSplitAmong.values.fold(0.0, (a, b) => a + b);
       if ((sum - total).abs() > 0.01) {
-        return '${AppString.splitAmountNotEquals}₹${total.toStringAsFixed(0)}';
+        return '${AppString.splitAmountNotEquals}₹${total.toStringAsFixed(2)}';
       }
     }
     if (splitType == SplitType.percentage) {
@@ -219,5 +219,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
           createdAt: DateTime.now()
       )
     );
+    amountController.clear();
+    titleController.clear();
   }
 }
