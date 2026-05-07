@@ -41,7 +41,8 @@ class SplitModel {
             (e) => e.name == data['splitType'],
         orElse: () => SplitType.equal,
       ),
-      createdAt: DateTime.parse(data['createdAt'].toString()),
+      createdAt:
+      (data['createdAt'] as Timestamp).toDate(),
     );
   }
 
