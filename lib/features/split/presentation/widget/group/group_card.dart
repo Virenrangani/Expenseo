@@ -88,6 +88,9 @@ class GroupCard extends StatelessWidget {
                 ),
               ],
             ),
+            IconButton(onPressed: ()async{
+              await context.read<SplitCubit>().deleteGroup(group.id);
+            }, icon: const Icon(Icons.delete))
           ],
         ),
       ),
