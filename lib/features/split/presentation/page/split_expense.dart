@@ -30,6 +30,11 @@ class SplitExpense extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                              onPressed: ()=> Navigator.pop(context),
+                              icon: const Icon(Icons.arrow_back_ios)
+                          ),
                           Text(AppString.splitBill,
                             style: AppTextStyles.h4(color: AppColor.secondary),),
                           IconButton(
