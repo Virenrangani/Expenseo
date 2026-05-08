@@ -98,4 +98,15 @@ class SplitCubit extends Cubit<SplitState> {
       emit(SplitError(e.toString()));
     }
   }
+
+  Future<void> deleteGroup(String groupId) async {
+    emit(SplitLoading());
+    try {
+      await useCase.deleteGroup(groupId);
+      emit(SplitSuccess('Group deleted!'));
+      await getGroups();
+    } catch (e) {
+      emit(SplitError(e.toString()));
+    }
+  }
 }
