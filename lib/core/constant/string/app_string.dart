@@ -134,4 +134,6 @@ class AppString {
   static const String settleUp='Settle up';
   static const String markSettle='Mark as settled?';
   static const String cancel='Cancel';
+  static const String settleBalance='Settlement Balance!';
+  static const String groupDeleted='Group deleted!';
 }
