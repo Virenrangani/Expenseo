@@ -1,5 +1,6 @@
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
+import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 import 'package:expenseo/features/split/domain/use_case/split_use_case.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -103,8 +104,34 @@ class SplitCubit extends Cubit<SplitState> {
     emit(SplitLoading());
     try {
       await useCase.deleteGroup(groupId);
-      emit(SplitSuccess('Group deleted!'));
+      emit(SplitSuccess(AppString.groupDeleted));
       await getGroups();
+    } catch (e) {
+      emit(SplitError(e.toString()));
+    }
+  }
+
+  Future<void> settleUp({
+    required String groupId,
+    required String toUid,
+    required String toName,
+    required double amount,
+  }) async {
+    emit(SplitLoading());
+    try {
+      final settlement = SettleBalance(
+        id:        const Uuid().v4(),
+        groupId:   groupId,
+        from:      currentUid,
+        fromName:  currentName,
+        to:        toUid,
+        toName:    toName,
+        amount:    amount,
+        createdAt: DateTime.now(),
+      );
+
+      await useCase.settleUp(settlement);
+      emit(SplitSuccess(AppString.settleBalance));
     } catch (e) {
       emit(SplitError(e.toString()));
     }
