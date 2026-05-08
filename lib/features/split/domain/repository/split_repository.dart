@@ -1,3 +1,4 @@
+import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 
 import '../entity/group_entity.dart';
 import '../entity/split_entity.dart';
@@ -16,4 +17,5 @@ abstract class SplitRepository {
 
   Future<void> deleteGroup(String groupId);
 
+  Future<void> settleUp(SettleBalance settlement);
 }
