@@ -27,4 +27,8 @@ class SplitUseCase {
   Future<List<SplitEntity>> getSplitExpense(String groupId){
     return repository.getSplitExpenses(groupId);
   }
+
+  Future<void> deleteGroup(String groupId){
+    return repository.deleteGroup(groupId);
+  }
 }

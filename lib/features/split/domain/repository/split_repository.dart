@@ -13,4 +13,7 @@ abstract class SplitRepository {
   Future<void> addSplitExpense(SplitEntity expense);
 
   Future<List<SplitEntity>> getSplitExpenses(String groupId);
+
+  Future<void> deleteGroup(String groupId);
+
 }
