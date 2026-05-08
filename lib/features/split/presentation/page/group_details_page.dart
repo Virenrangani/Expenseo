@@ -27,47 +27,55 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.primaryLight,
-      body:BlocConsumer<SplitCubit,SplitState>(
-          listener:(context,state){
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
 
-            if(state is SplitSuccess){
-              CustomSnacksBar.showSuccess(context, state.message);
-            }
+        if (didPop) {
+          context.read<SplitCubit>().getGroups();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColor.primaryLight,
+        body:BlocConsumer<SplitCubit,SplitState>(
+            listener:(context,state){
 
-            if(state is SplitError){
-              CustomSnacksBar.showError(context, state.message);
-            }
-          },
-          builder: (context,state){
+              if(state is SplitSuccess){
+                CustomSnacksBar.showSuccess(context, state.message);
+              }
 
-            if(state is SplitLoading){
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+              if(state is SplitError){
+                CustomSnacksBar.showError(context, state.message);
+              }
+            },
+            builder: (context,state){
 
-            if(state is GroupDetailLoaded){
-              final uid = context.read<SplitCubit>().currentUid;
-              final balances = state.calculateBalances(uid);
-              return GroupDetailsView(state:state,balance:balances);
+              if(state is SplitLoading){
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if(state is GroupDetailLoaded){
+                final uid = context.read<SplitCubit>().currentUid;
+                final balances = state.calculateBalances(uid);
+                return GroupDetailsView(state:state,balance:balances);
+              }
+              return const SizedBox.shrink();
             }
-            return const SizedBox.shrink();
-          }
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColor.secondary,
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => BlocProvider.value(
-              value: context.read<SplitCubit>(),
-              child:  AddSplitExpensePage(group: widget.group),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColor.secondary,
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (_) => BlocProvider.value(
+                value: context.read<SplitCubit>(),
+                child:  AddSplitExpensePage(group: widget.group),
+              ),
             ),
           ),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
