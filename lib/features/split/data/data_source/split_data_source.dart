@@ -12,6 +12,7 @@ abstract class SplitDataSource {
   Future<List<GroupModel>> getGroups();
   Future<void> addSplitExpense(SplitModel expense);
   Future<List<SplitModel>> getSplitExpenses(String groupId);
+  Future<void> deleteGroup(String groupId);
 }
 
 class SplitDataSourceImpl implements SplitDataSource {
@@ -116,6 +117,18 @@ class SplitDataSourceImpl implements SplitDataSource {
     }
   }
 
+  @override
+  Future<void> deleteGroup(String groupId) async{
+
+    try{
+      await firestore.collection('groups').doc(groupId).delete();
+
+    }on FirebaseException catch (e) {
+      throw Exception(AppErrors.handleFireStoreException(e));
+    } catch (e) {
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
 }
 
 

@@ -48,4 +48,9 @@ class SplitRepositoryImpl implements SplitRepository{
             (e) => e.toEntity()
     ).toList();
   }
+
+  @override
+  Future<void> deleteGroup(String groupId) {
+    return dataSource.deleteGroup(groupId);
+  }
 }
