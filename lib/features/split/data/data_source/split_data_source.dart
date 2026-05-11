@@ -15,6 +15,7 @@ abstract class SplitDataSource {
   Future<List<SplitModel>> getSplitExpenses(String groupId);
   Future<void> deleteGroup(String groupId);
   Future<void> settleUp(SettleBalanceModel settlement);
+  Future<List<SettleBalanceModel>> getSettlements(String groupId);
 }
 
 class SplitDataSourceImpl implements SplitDataSource {
@@ -163,6 +164,29 @@ class SplitDataSourceImpl implements SplitDataSource {
       throw Exception(AppString.somethingWentWrong);
     }
   }
+
+  @override
+  Future<List<SettleBalanceModel>> getSettlements(String groupId) async {
+    try {
+      final settlement = await firestore.collection('groups')
+          .doc(groupId)
+          .collection('settlements')
+          .orderBy('createdAt',descending: true).get();
+      
+      return settlement.docs.map(
+              (e)=> SettleBalanceModel.fromJson(
+                  e.id,
+                e.data()
+              )
+      ).toList();
+
+    } on FirebaseException catch (e) {
+      throw Exception(AppErrors.handleFireStoreException(e));
+    } catch (e) {
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
+
 }
 
 

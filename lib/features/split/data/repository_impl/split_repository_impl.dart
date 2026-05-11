@@ -60,4 +60,10 @@ class SplitRepositoryImpl implements SplitRepository{
   Future<void> settleUp(SettleBalance settlement) {
     return dataSource.settleUp(SettleBalanceModel.fromEntity(settlement));
   }
+
+  @override
+  Future<List<SettleBalance>> getSettlements(String groupId)async {
+    final models = await dataSource.getSettlements(groupId);
+    return models.map((e)=>e.toEntity()).toList();
+  }
 }
