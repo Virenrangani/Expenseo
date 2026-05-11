@@ -28,6 +28,7 @@ class AppString {
 
   static const String userNotVerify = 'user is not verified';
   static const String userLogin = 'User is Login Successfully';
+  static const String verifyEmail = 'Verify your email..!!';
 
   static const String emailRequired = 'Email is required';
   static const String emailHint = 'Enter Mail';
