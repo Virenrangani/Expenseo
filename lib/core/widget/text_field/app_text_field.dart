@@ -83,19 +83,18 @@ class AppFormField extends StatelessWidget {
           child: Padding(padding: AppPadding.edgeAll12, child: suffix),
         )
             : null,
-        border: InputBorder.none,
+        border: OutlineInputBorder(
+          borderRadius: AppBorderRadius.cir12,
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide.none,
-        ),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide.none,
-        ),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
         errorBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide.none,
-        ),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
       )
     );
   }
