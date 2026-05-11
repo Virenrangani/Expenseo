@@ -11,10 +11,9 @@ class AppElevatedButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? borderRadius;
-  final Color? color1;
-  final Color? color2;
+  final Color? color;
   final bool isEnabled;
-  final IconData? prefixIcon;
+  final Widget? prefix;
   final Widget? suffix;
 
   const AppElevatedButton({
@@ -25,11 +24,10 @@ class AppElevatedButton extends StatelessWidget {
     this.width,
     this.height = 52,
     this.borderRadius = 24,
-    this.color1,
-    this.color2,
+    this.color,
     this.isEnabled = false,
-    this.prefixIcon,
     this.suffix,
+    this.prefix,
   });
 
   @override
@@ -40,8 +38,12 @@ class AppElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: (!isEnabled || isLoading) ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color1 ?? AppColor.primary,
-          disabledBackgroundColor: color1 ?? AppColor.primary,
+          backgroundColor: color ?? AppColor.primary,
+          disabledBackgroundColor: color ?? AppColor.primary,
+          side: const BorderSide(
+            color: AppColor.textLight,
+            width: 1.5,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius!),
           ),
@@ -58,14 +60,17 @@ class AppElevatedButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (prefixIcon != null)
-                    Icon(prefixIcon, color: AppColor.background, size: 22),
-                  AppGap.g4,
+                  if (prefix != null) AppGap.g4,
+                  ?prefix,
+
+                  AppGap.g8,
+
                   Text(
                     text,
-                    style: AppTextStyles.h4(color: AppColor.background),
+                    style: AppTextStyles.h5(),
                   ),
                   AppGap.g4,
+
                   if (suffix != null) AppGap.g4,
                   ?suffix,
                 ],
