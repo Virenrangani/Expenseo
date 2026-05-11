@@ -1,4 +1,5 @@
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
+import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 
 import '../../domain/entity/split_entity.dart';
 import '../../domain/entity/user.dart';
@@ -27,10 +28,12 @@ final class SplitError extends SplitState {
 class GroupDetailLoaded extends SplitState {
   final GroupEntity group;
   final List<SplitEntity> expenses;
+  final List<SettleBalance>  settlements;
 
   GroupDetailLoaded({
     required this.group,
     required this.expenses,
+    required this.settlements,
   });
 
   Map<String, double> calculateBalances(String currentUid) {
@@ -48,6 +51,16 @@ class GroupDetailLoaded extends SplitState {
         if (myShare > 0) {
           balances[expense.paidBy] = (balances[expense.paidBy] ?? 0) - myShare;
         }
+      }
+    }
+
+    for (final settlement in settlements) {
+      if (settlement.from == currentUid) {
+        balances[settlement.to] =
+            (balances[settlement.to] ?? 0) + settlement.amount;
+      } else if (settlement.to == currentUid) {
+        balances[settlement.from] =
+            (balances[settlement.from] ?? 0) - settlement.amount;
       }
     }
     return balances;
