@@ -50,8 +50,12 @@ class _LogInPageState extends State<LogInPage> {
               return CustomSnacksBar.showError(context, state.message);
             }
             if (state is AuthSuccess) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute<void>(builder: (context)=>const AppBottomNav()));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => const AppBottomNav(),
+                ),
+              );
               return CustomSnacksBar.showSuccess(context, AppString.userLogin);
             }
           },
@@ -142,25 +146,23 @@ class _LogInPageState extends State<LogInPage> {
                                 ),
                                 AppGap.g16,
 
-                                if (isLoading) const CircularProgressIndicator() else AppElevatedButton(
-                                        text: AppString.signIN,
-                                        suffixIcon:
-                                            Icons.arrow_forward_outlined,
-                                        isEnabled: context
-                                            .read<LoginCubit>()
-                                            .isFormValid,
-                                        onPressed: () {
-                                          if (formKey.currentState
-                                                  ?.validate() ??
-                                              false) {
-                                            context.read<LoginCubit>().login(
-                                              email: emailController.text
-                                                  .trim(),
-                                              password: passController.text,
-                                            );
-                                          }
-                                        },
-                                      ),
+                                AppElevatedButton(
+                                  text: AppString.signIN,
+                                  isLoading: isLoading,
+                                  suffixIcon: Icons.arrow_forward_outlined,
+                                  isEnabled: context
+                                      .read<LoginCubit>()
+                                      .isFormValid,
+                                  onPressed: () {
+                                    if (formKey.currentState?.validate() ??
+                                        false) {
+                                      context.read<LoginCubit>().login(
+                                        email: emailController.text.trim(),
+                                        password: passController.text,
+                                      );
+                                    }
+                                  },
+                                ),
                                 AppGap.g24,
                                 const OrDivider(),
                                 AppGap.g24,
@@ -190,7 +192,9 @@ class _LogInPageState extends State<LogInPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute<void>(builder: (context) => const SignUpPage()),
+                          MaterialPageRoute<void>(
+                            builder: (context) => const SignUpPage(),
+                          ),
                         );
                       },
                       pageName: AppString.signUp,
