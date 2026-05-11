@@ -123,6 +123,23 @@ class SplitDataSourceImpl implements SplitDataSource {
   Future<void> deleteGroup(String groupId) async{
 
     try{
+
+      final groupExpense = await firestore.collection('groups')
+          .doc(groupId).collection('expense')
+          .get();
+
+      for (final doc in groupExpense.docs) {
+        await doc.reference.delete();
+      }
+
+      final groupSettlement = await firestore.collection('groups')
+          .doc(groupId).collection('settlements')
+          .get();
+
+      for (final doc in groupSettlement.docs) {
+        await doc.reference.delete();
+      }
+
       await firestore.collection('groups').doc(groupId).delete();
 
     }on FirebaseException catch (e) {
