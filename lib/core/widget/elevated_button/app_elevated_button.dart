@@ -15,7 +15,7 @@ class AppElevatedButton extends StatelessWidget {
   final Color? color2;
   final bool isEnabled;
   final IconData? prefixIcon;
-  final IconData? suffixIcon;
+  final Widget? suffix;
 
   const AppElevatedButton({
     super.key,
@@ -29,7 +29,7 @@ class AppElevatedButton extends StatelessWidget {
     this.color2,
     this.isEnabled = false,
     this.prefixIcon,
-    this.suffixIcon,
+    this.suffix,
   });
 
   @override
@@ -66,8 +66,8 @@ class AppElevatedButton extends StatelessWidget {
                     style: AppTextStyles.h4(color: AppColor.background),
                   ),
                   AppGap.g4,
-                  if (suffixIcon != null)
-                    Icon(suffixIcon, color: AppColor.background, size: 22),
+                  if (suffix != null) AppGap.g4,
+                  ?suffix,
                 ],
               ),
       ),
