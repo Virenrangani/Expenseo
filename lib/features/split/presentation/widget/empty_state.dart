@@ -14,12 +14,12 @@ class EmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.group_outlined, size: 64, color: AppColor.divider),
+          const Icon(Icons.library_books , size: 64, color: AppColor.divider),
           AppGap.g16,
-          Text(AppString.noGroups,
+          Text(AppString.noExpense,
               style: AppTextStyles.h5(color: AppColor.textSecondary)),
           AppGap.g8,
-          Text(AppString.createYourGroup,
+          Text(AppString.addYourFirstExpense,
               style: AppTextStyles.caption()),
         ],
       ),
