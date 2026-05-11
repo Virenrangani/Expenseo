@@ -28,7 +28,7 @@ class NavigationText extends StatelessWidget {
           child: Text(
             pageName,
             style: AppTextStyles.bodyMedium(
-              color: AppColor.secondary,
+              color: AppColor.primary,
             ),
           ),
         ),
