@@ -36,4 +36,8 @@ class SplitUseCase {
   Future<void> settleUp(SettleBalance settlement){
     return repository.settleUp(settlement);
   }
+
+  Future<List<SettleBalance>> getSettlements(String groupId){
+    return repository.getSettlements(groupId);
+  }
 }

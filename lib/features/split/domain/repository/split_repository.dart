@@ -18,4 +18,6 @@ abstract class SplitRepository {
   Future<void> deleteGroup(String groupId);
 
   Future<void> settleUp(SettleBalance settlement);
+
+  Future<List<SettleBalance>> getSettlements(String groupId);
 }
