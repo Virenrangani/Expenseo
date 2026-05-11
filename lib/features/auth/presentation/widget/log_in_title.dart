@@ -6,7 +6,9 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 
 class LogInTitle extends StatelessWidget {
-  const LogInTitle({super.key});
+  final String title;
+  final String subTitle;
+  const LogInTitle({super.key, required this.title, required this.subTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class LogInTitle extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            AppString.logInIntro,
+            title,
             textAlign: TextAlign.center,
             style: AppTextStyles.h1(
               color: AppColor.background,
@@ -24,7 +26,7 @@ class LogInTitle extends StatelessWidget {
           AppGap.g12,
 
           Text(
-            AppString.logInSubIntro,
+            subTitle,
             style: AppTextStyles.bodySmall(
               color: AppColor.background,
             ),
