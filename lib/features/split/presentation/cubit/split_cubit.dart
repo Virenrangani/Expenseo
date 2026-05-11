@@ -90,10 +90,15 @@ class SplitCubit extends Cubit<SplitState> {
     emit(SplitLoading());
     try {
 
-      final expenses = await useCase.getSplitExpense(group.id);
+      final results = await Future.wait([
+        useCase.getSplitExpense(group.id),
+        useCase.getSettlements(group.id),
+      ]);
 
+      final expenses    = results[0] as List<SplitEntity>;
+      final settlements = results[1] as List<SettleBalance>;
       emit(
-        GroupDetailLoaded(group: group, expenses: expenses),
+        GroupDetailLoaded(group: group, expenses: expenses, settlements: settlements),
       );
     } catch (e) {
       emit(SplitError(e.toString()));
