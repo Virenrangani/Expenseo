@@ -43,6 +43,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
       listener: (context, state) {
         if (state is SplitSuccess) {
           Navigator.pop(context);
+          context.read<SplitCubit>().getGroups();
           CustomSnacksBar.showSuccess(context, state.message);
         }
         if (state is SplitError) {
