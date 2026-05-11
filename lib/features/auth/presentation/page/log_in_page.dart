@@ -11,6 +11,7 @@ import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:expenseo/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/sign_up_page.dart';
+import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:expenseo/features/auth/presentation/widget/navigation_text.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
@@ -51,10 +52,7 @@ class _LogInPageState extends State<LogInPage> {
             }
 
             if (state is AuthSuccess) {
-              CustomSnacksBar.showSuccess(
-                context,
-                AppString.userLogin,
-              );
+              CustomSnacksBar.showSuccess(context, AppString.userLogin);
 
               Navigator.pushReplacement(
                 context,
@@ -93,28 +91,13 @@ class _LogInPageState extends State<LogInPage> {
 
                         AppGap.g24,
 
-                        Text(
-                          'Sign in to your\nAccount',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.h1(
-                            color: AppColor.background,
-                          ),
-                        ),
-
-                        AppGap.g12,
-
-                        Text(
-                          'Enter your email and password to log in',
-                          style: AppTextStyles.bodySmall(
-                            color: AppColor.background.withOpacity(0.8),
-                          ),
-                        ),
+                        const LogInTitle(),
 
                         AppGap.g32,
 
                         Container(
                           width: double.infinity,
-                          padding: AppPadding.edgeAll20,
+                          padding: AppPadding.edgeAll24,
                           decoration: BoxDecoration(
                             color: AppColor.background,
                             borderRadius: AppBorderRadius.cir12,
@@ -129,14 +112,13 @@ class _LogInPageState extends State<LogInPage> {
 
                           child: Form(
                             key: formKey,
-                            autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             child: Column(
                               children: [
                                 AppElevatedButton(
                                   text: AppString.signInWithGoogle,
                                   borderRadius: 12,
-
+                                  color: AppColor.background,
                                   prefix: Image.asset(
                                     AppImage.googleImage,
                                     height: 22,
@@ -148,16 +130,17 @@ class _LogInPageState extends State<LogInPage> {
                                   },
                                 ),
 
-                                AppGap.g20,
+                                AppGap.g24,
 
                                 const OrDivider(),
 
-                                AppGap.g20,
+                                AppGap.g24,
 
 
                                 AppFormField(
                                   controller: emailController,
                                   hintText: AppString.email,
+                                  fillColor: AppColor.background,
                                   validator: (_) => context.read<LoginCubit>().emailError,
 
                                   onChanged: (val) {
@@ -170,13 +153,10 @@ class _LogInPageState extends State<LogInPage> {
                                 AppFormField(
                                   controller: passController,
                                   hintText: AppString.password,
-                                  obscureText: context
-                                      .watch<LoginCubit>()
-                                      .isPasswordHidden,
-
+                                  obscureText: context.watch<LoginCubit>().isPasswordHidden,
+                                  fillColor: AppColor.background,
                                   suffix: Icon(
-                                    context.watch<LoginCubit>()
-                                        .isPasswordHidden
+                                    context.watch<LoginCubit>().isPasswordHidden
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
                                   ),
@@ -184,9 +164,7 @@ class _LogInPageState extends State<LogInPage> {
                                   onSuffixTap: () {
                                     context.read<LoginCubit>().showPassword();
                                   },
-
                                   validator: (_) => context.read<LoginCubit>().passwordError,
-
                                   onChanged: (val) {
                                     context.read<LoginCubit>().passwordValidation(val);
                                   },
@@ -202,7 +180,7 @@ class _LogInPageState extends State<LogInPage> {
                                       AppString.forgotPassword,
                                       style:
                                       AppTextStyles.description(
-                                        color: AppColor.secondary,
+                                        color: AppColor.primaryLight,
                                       ),
                                     ),
                                   ),
@@ -211,9 +189,9 @@ class _LogInPageState extends State<LogInPage> {
                                 AppGap.g24,
 
                                 AppElevatedButton(
-                                  text: AppString.signIN,
+                                  text: AppString.logIn,
                                   isLoading: isLoading,
-
+                                  borderRadius: 12,
                                   isEnabled: context.watch<LoginCubit>().isFormValid,
 
                                   onPressed: () {
