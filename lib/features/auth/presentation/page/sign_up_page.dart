@@ -51,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
             if (state is AuthSuccess) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute<void>(builder: (context)=>const LogInPage()));
-              return CustomSnacksBar.showSuccess(context, AppString.userLogin);
+              return CustomSnacksBar.showSuccess(context, AppString.verifyEmail);
             }
           },
             builder: (context, state) {
