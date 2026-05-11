@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../../core/constant/string/app_string.dart';
@@ -11,7 +12,9 @@ abstract class SignUpDataSource {
 
 class SignUpDataSourceImpl implements SignUpDataSource {
   final FirebaseAuth firebaseAuth;
-  SignUpDataSourceImpl(this.firebaseAuth);
+  final FirebaseFirestore firestore;
+
+  SignUpDataSourceImpl(this.firebaseAuth, this.firestore);
 
   @override
   Future<UserModel> signUp(String email, String name, String password) async {
@@ -24,6 +27,14 @@ class SignUpDataSourceImpl implements SignUpDataSource {
 
       await user.updateDisplayName(name);
       await user.reload();
+
+      await firestore.collection('users')
+          .doc(user.uid).set({
+        'id': user.uid,
+        'name': name,
+        'email': user.email,
+        'createdAt': DateTime.now().toLocal(),
+      });
 
       await SharedPrefService.saveUser(
         id: user.uid,
