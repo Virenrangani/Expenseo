@@ -11,6 +11,7 @@ import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:expenseo/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/sign_up_page.dart';
+import 'package:expenseo/features/auth/presentation/widget/grid_design.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:expenseo/features/auth/presentation/widget/navigation_text.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
@@ -70,18 +71,13 @@ class _LogInPageState extends State<LogInPage> {
               physics: const BouncingScrollPhysics(),
               child: Stack(
                 children: [
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * 0.5,
-                    width: double.infinity,
-                    color: AppColor.primary,
-                  ),
+                  const GridDesign(),
 
                   Padding(
                     padding: AppPadding.edgeSymmetricHori24,
                     child: Column(
                       children: [
-                        AppGap.g32,
-                        AppGap.g20,
+                      AppGap.g64,
 
                         const Icon(
                           Icons.account_balance_wallet,
@@ -91,7 +87,7 @@ class _LogInPageState extends State<LogInPage> {
 
                         AppGap.g24,
 
-                        const LogInTitle(),
+                        const LogInTitle(title: AppString.logInIntro,subTitle: AppString.logInSubIntro,),
 
                         AppGap.g32,
 
