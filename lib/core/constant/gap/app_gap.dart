@@ -8,4 +8,6 @@ class AppGap {
   static const g20 = Gap(20);
   static const g24 = Gap(24);
   static const g32 = Gap(32);
+  static const g64 = Gap(64);
+
 }
