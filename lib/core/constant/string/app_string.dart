@@ -123,7 +123,9 @@ class AppString {
   static const String owe='you owe';
   static const String owesYou='owes you ';
   static const String noGroups='No groups yet';
+  static const String noExpense='No expenses yet';
   static const String createYourGroup='Tap + to create your first group';
+  static const String addYourFirstExpense='Tap + to add your first expense';
   static const String myGroups='My Groups';
   static const String paidBy='Paid By';
   static const String splitType='Split Type';
