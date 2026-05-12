@@ -12,7 +12,7 @@ class AppString {
   static const String forgotPassword = 'Forgot Password?';
 
   static const String logIn = 'Log In';
-  static const String signInWithGoogle = 'Sign In with Google';
+  static const String signInWithGoogle = 'Continue with Google';
 
   static const String dontHaveAnAccount = "Don't have an account? ";
   static const String signUp = 'Sign up';
@@ -20,7 +20,7 @@ class AppString {
   static const String alReadyHaveAnAccount = 'Already have an account? ';
   static const String somethingWentWrong = 'Something went to wrong';
 
-  static const String signUpIntro = 'Create Your Narrative';
+  static const String signUpIntro = 'Create your \n Narrative';
   static const String signUpSubIntro = 'Start your journey to financial clarity.';
 
   static const String name = 'Name';
