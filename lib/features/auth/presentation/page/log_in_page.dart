@@ -176,7 +176,7 @@ class _LogInPageState extends State<LogInPage> {
                                     child: Text(
                                       AppString.forgotPassword,
                                       style:
-                                      AppTextStyles.description(
+                                      AppTextStyles.titleSmall(
                                         color: AppColor.primaryLight,
                                       ),
                                     ),
