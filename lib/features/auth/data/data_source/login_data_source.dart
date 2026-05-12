@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/error/app_errors.dart';
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../model/user_model.dart';
 
 abstract class LoginDataSource {
@@ -28,6 +30,21 @@ class LoginDataSourceImpl extends LoginDataSource {
         await firebaseAuth.signOut();
         throw Exception(AppString.userNotVerify);
       }
+
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      final data = doc.data();
+
+      final String name = data?['name'] as String? ?? '';
+
+      await SharedPrefService.saveUser(
+        id: user.uid,
+        email: user.email ?? '',
+        name: name,
+      );
 
       return UserModel(
         id: user.uid,
