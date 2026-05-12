@@ -13,6 +13,7 @@ class GridDesign extends StatelessWidget {
       color: AppColor.primary,
 
       child: GridView.builder(
+        padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 48,
 
@@ -27,6 +28,7 @@ class GridDesign extends StatelessWidget {
               border: Border.all(
                 color:
                 AppColor.background.withAlpha(16),
+                width: 0.4,
               ),
             ),
           );
