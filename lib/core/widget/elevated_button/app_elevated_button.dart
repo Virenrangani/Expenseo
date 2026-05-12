@@ -12,6 +12,7 @@ class AppElevatedButton extends StatelessWidget {
   final double? height;
   final double? borderRadius;
   final Color? color;
+  final Color textColor;
   final bool isEnabled;
   final Widget? prefix;
   final Widget? suffix;
@@ -28,6 +29,7 @@ class AppElevatedButton extends StatelessWidget {
     this.isEnabled = false,
     this.suffix,
     this.prefix,
+    this.textColor = AppColor.background,
   });
 
   @override
@@ -67,7 +69,7 @@ class AppElevatedButton extends StatelessWidget {
 
                   Text(
                     text,
-                    style: AppTextStyles.h5(),
+                    style: AppTextStyles.h5(color: textColor),
                   ),
                   AppGap.g4,
 
