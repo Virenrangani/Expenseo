@@ -139,8 +139,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                       obscureText: context.watch<SignUpCubit>().isPasswordHidden,
                                       suffix: Icon(
                                         context.watch<SignUpCubit>().isPasswordHidden
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined,
+                                        color: AppColor.textSecondary,
+                                        size: 22,
                                       ),
 
                                       onSuffixTap: () {
