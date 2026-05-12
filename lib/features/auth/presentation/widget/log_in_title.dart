@@ -19,7 +19,7 @@ class LogInTitle extends StatelessWidget {
             textAlign: TextAlign.center,
             style: AppTextStyles.h1(
               color: AppColor.background,
-            ),
+            ).copyWith(height:1.2),
           ),
 
           AppGap.g12,
