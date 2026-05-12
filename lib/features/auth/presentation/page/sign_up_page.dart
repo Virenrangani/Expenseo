@@ -72,8 +72,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         children: [
                           AppGap.g64,
 
-                          const Icon(Icons.account_balance_wallet_outlined,
-                            color: AppColor.background,size:42,),
+                          const Icon(
+                            Icons.account_balance_wallet,
+                            color: AppColor.background,
+                            size: 38,
+                          ),
 
                           AppGap.g20,
 
@@ -154,6 +157,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     AppElevatedButton(
                                       text: AppString.createAccount,
                                       isLoading: isLoading,
+                                      borderRadius: 12,
                                       isEnabled: context.watch<SignUpCubit>().isFormValid,
                                       suffix: const Icon(
                                         Icons.arrow_forward_rounded,
