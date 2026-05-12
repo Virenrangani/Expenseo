@@ -156,6 +156,8 @@ class _LogInPageState extends State<LogInPage> {
                                     context.watch<LoginCubit>().isPasswordHidden
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
+                                    color: AppColor.textSecondary,
+                                    size: 22,
                                   ),
 
                                   onSuffixTap: () {
