@@ -114,6 +114,7 @@ class _LogInPageState extends State<LogInPage> {
                                 AppElevatedButton(
                                   text: AppString.signInWithGoogle,
                                   textColor: AppColor.textPrimary,
+                                  isEnabled: true,
                                   borderRadius: 12,
                                   color: AppColor.background,
                                   prefix: Image.asset(
