@@ -23,7 +23,7 @@ class AppElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.width,
-    this.height = 52,
+    this.height = 60,
     this.borderRadius = 24,
     this.color,
     this.isEnabled = false,
