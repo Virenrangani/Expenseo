@@ -43,6 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocProvider(
       create: (context) => GetIt.I<SignUpCubit>(),
       child: Scaffold(
+        backgroundColor: AppColor.background,
         body: BlocConsumer<SignUpCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
