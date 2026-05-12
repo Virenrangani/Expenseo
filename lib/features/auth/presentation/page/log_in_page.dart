@@ -150,6 +150,7 @@ class _LogInPageState extends State<LogInPage> {
                                 AppFormField(
                                   controller: passController,
                                   hintText: AppString.password,
+                                  textAction: TextInputAction.done,
                                   obscureText: context.watch<LoginCubit>().isPasswordHidden,
                                   fillColor: AppColor.background,
                                   suffix: Icon(
