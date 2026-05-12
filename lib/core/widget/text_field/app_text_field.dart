@@ -19,6 +19,7 @@ class AppFormField extends StatelessWidget {
   final VoidCallback? onSuffixTap;
   final ValueChanged<String>? onChanged;
   final TextAlign textAlign;
+  final TextInputAction textAction;
   final TextStyle? style;
   final String? prefixText;
   final TextStyle? prefixStyle;
@@ -45,7 +46,8 @@ class AppFormField extends StatelessWidget {
     this.prefixText,
     this.prefixStyle,
     this.contentPadding,
-    this.fillColor
+    this.fillColor,
+    this.textAction = TextInputAction.next
   });
 
   @override
@@ -54,6 +56,7 @@ class AppFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       keyboardType: keyboardType,
+      textInputAction: textAction,
       textAlign: textAlign,
       style: style,
       obscureText: obscureText,
