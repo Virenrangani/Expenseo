@@ -14,8 +14,9 @@ abstract class LoginDataSource {
 
 class LoginDataSourceImpl extends LoginDataSource {
   final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firestore;
 
-  LoginDataSourceImpl(this.firebaseAuth);
+  LoginDataSourceImpl(this.firebaseAuth , this.firestore);
 
   @override
   Future<UserModel> login(String email, String password) async {
@@ -31,7 +32,7 @@ class LoginDataSourceImpl extends LoginDataSource {
         throw Exception(AppString.userNotVerify);
       }
 
-      final doc = await FirebaseFirestore.instance
+      final doc = await firestore
           .collection('users')
           .doc(user.uid)
           .get();
@@ -79,6 +80,28 @@ class LoginDataSourceImpl extends LoginDataSource {
 
       if (user == null) throw Exception(AppString.userNotFound);
 
+      final doc = await firestore
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (!doc.exists) {
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .set({
+          'id': user.uid,
+          'name': user.displayName ?? '',
+          'email': user.email ?? '',
+          'createdAt': DateTime.now(),
+        });
+      }
+
+      await SharedPrefService.saveUser(
+        id: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+      );
       return UserModel(
         id: user.uid,
         email: user.email ?? '',
