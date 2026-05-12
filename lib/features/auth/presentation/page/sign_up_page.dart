@@ -137,6 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       hintText: AppString.password,
                                       fillColor: AppColor.background,
                                       obscureText: context.watch<SignUpCubit>().isPasswordHidden,
+                                      textAction: TextInputAction.done,
                                       suffix: Icon(
                                         context.watch<SignUpCubit>().isPasswordHidden
                                             ? Icons.visibility_off_outlined
