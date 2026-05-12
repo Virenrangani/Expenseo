@@ -65,7 +65,7 @@ class AppFormField extends StatelessWidget {
         prefixStyle: prefixStyle,
         contentPadding: contentPadding,
         hintText: hintText,
-        hintStyle: AppTextStyles.bodyMedium(color: AppColor.textPrimary),
+        hintStyle: AppTextStyles.bodyMedium(),
         labelText: labelText,
         labelStyle:const TextStyle(color: AppColor.primary),
         fillColor: fillColor ?? AppColor.textLight,
