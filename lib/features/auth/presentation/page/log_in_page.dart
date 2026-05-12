@@ -1,6 +1,7 @@
 import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
+import 'package:expenseo/core/constant/image/app_image.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
@@ -10,14 +11,14 @@ import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:expenseo/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/sign_up_page.dart';
+import 'package:expenseo/features/auth/presentation/widget/grid_design.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
+import 'package:expenseo/features/auth/presentation/widget/navigation_text.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import '../widget/navigation_text.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -29,6 +30,7 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -41,162 +43,193 @@ class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.I<LoginCubit>(),
+      create: (_) => GetIt.I<LoginCubit>(),
       child: Scaffold(
-        backgroundColor: AppColor.primaryLight,
+        backgroundColor: AppColor.background,
         body: BlocConsumer<LoginCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              return CustomSnacksBar.showError(context, state.message);
+              CustomSnacksBar.showError(context, state.message);
             }
+
             if (state is AuthSuccess) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute<void>(builder: (context)=>const AppBottomNav()));
-              return CustomSnacksBar.showSuccess(context, AppString.userLogin);
+              CustomSnacksBar.showSuccess(context, AppString.userLogin);
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const AppBottomNav(),
+                ),
+              );
             }
           },
 
           builder: (context, state) {
             final isLoading = state is AuthLoading;
-            return SafeArea(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    const LogInTitle(),
-                    AppGap.g20,
-                    Padding(
-                      padding: AppPadding.edgeAll16,
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
+
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Stack(
+                children: [
+                  const GridDesign(),
+
+                  Padding(
+                    padding: AppPadding.edgeSymmetricHori24,
+                    child: Column(
+                      children: [
+                      AppGap.g64,
+
+                        const Icon(
+                          Icons.account_balance_wallet,
                           color: AppColor.background,
-                          borderRadius: AppBorderRadius.cir12,
+                          size: 38,
                         ),
-                        child: Padding(
-                          padding: AppPadding.edgeSymmetricHori24,
+
+                        AppGap.g24,
+
+                        const LogInTitle(title: AppString.logInIntro,subTitle: AppString.logInSubIntro,),
+
+                        AppGap.g32,
+
+                        Container(
+                          width: double.infinity,
+                          padding: AppPadding.edgeAll24,
+                          decoration: BoxDecoration(
+                            color: AppColor.background,
+                            borderRadius: AppBorderRadius.cir12,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                                color: Colors.black.withAlpha(20),
+                              ),
+                            ],
+                          ),
+
                           child: Form(
                             key: formKey,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                AppGap.g32,
-                                Text(
-                                  AppString.logInIntro,
-                                  style: AppTextStyles.captionBold(
-                                    color: AppColor.textPrimary,
+                                AppElevatedButton(
+                                  text: AppString.signInWithGoogle,
+                                  textColor: AppColor.textPrimary,
+                                  borderRadius: 12,
+                                  color: AppColor.background,
+                                  prefix: Image.asset(
+                                    AppImage.googleImage,
+                                    height: 22,
+                                    width: 22,
                                   ),
+
+                                  onPressed: () async {
+                                    await context.read<LoginCubit>().signInWithGoogle();
+                                  },
                                 ),
-                                AppGap.g4,
-                                Text(
-                                  AppString.logInSubIntro,
-                                  style: AppTextStyles.bodySmall(),
-                                ),
-                                AppGap.g32,
+
+                                AppGap.g24,
+
+                                const OrDivider(),
+
+                                AppGap.g24,
+
+
                                 AppFormField(
                                   controller: emailController,
                                   hintText: AppString.email,
-                                  labelText: AppString.email,
-                                  validator: (_) =>
-                                      context.read<LoginCubit>().emailError,
-                                  onChanged: (val) => context
-                                      .read<LoginCubit>()
-                                      .emailValidation(val),
+                                  fillColor: AppColor.background,
+                                  validator: (_) => context.read<LoginCubit>().emailError,
+
+                                  onChanged: (val) {
+                                    context.read<LoginCubit>().emailValidation(val);
+                                  },
                                 ),
-                                AppGap.g24,
+
+                                AppGap.g20,
+
                                 AppFormField(
                                   controller: passController,
                                   hintText: AppString.password,
-                                  labelText: AppString.password,
+                                  textAction: TextInputAction.done,
+                                  obscureText: context.watch<LoginCubit>().isPasswordHidden,
+                                  fillColor: AppColor.background,
                                   suffix: Icon(
                                     context.watch<LoginCubit>().isPasswordHidden
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                    color: AppColor.textSecondary,
+                                    size: 22,
                                   ),
-                                  obscureText: context
-                                      .read<LoginCubit>()
-                                      .isPasswordHidden,
+
                                   onSuffixTap: () {
                                     context.read<LoginCubit>().showPassword();
                                   },
-                                  validator: (_) =>
-                                      context.read<LoginCubit>().passwordError,
-                                  onChanged: (val) => context
-                                      .read<LoginCubit>()
-                                      .passwordValidation(val),
+                                  validator: (_) => context.read<LoginCubit>().passwordError,
+                                  onChanged: (val) {
+                                    context.read<LoginCubit>().passwordValidation(val);
+                                  },
                                 ),
+
                                 AppGap.g16,
+
                                 Align(
-                                  alignment: Alignment.topRight,
+                                  alignment: Alignment.centerRight,
                                   child: InkWell(
                                     onTap: () {},
                                     child: Text(
                                       AppString.forgotPassword,
-                                      style: AppTextStyles.description(
-                                        color: AppColor.secondary,
+                                      style:
+                                      AppTextStyles.titleSmall(
+                                        color: AppColor.primaryLight,
                                       ),
                                     ),
                                   ),
                                 ),
-                                AppGap.g16,
 
-                                if (isLoading) const CircularProgressIndicator() else AppElevatedButton(
-                                        text: AppString.signIN,
-                                        suffixIcon:
-                                            Icons.arrow_forward_outlined,
-                                        isEnabled: context
-                                            .read<LoginCubit>()
-                                            .isFormValid,
-                                        onPressed: () {
-                                          if (formKey.currentState
-                                                  ?.validate() ??
-                                              false) {
-                                            context.read<LoginCubit>().login(
-                                              email: emailController.text
-                                                  .trim(),
-                                              password: passController.text,
-                                            );
-                                          }
-                                        },
-                                      ),
                                 AppGap.g24,
-                                const OrDivider(),
-                                AppGap.g24,
+
                                 AppElevatedButton(
-                                  text: AppString.signInWithGoogle,
-                                  color1: AppColor.textPrimary,
-                                  prefixIcon: Icons.g_mobiledata_outlined,
-                                  onPressed: () async {
-                                    await context
-                                        .read<LoginCubit>()
-                                        .signInWithGoogle();
+                                  text: AppString.logIn,
+                                  isLoading: isLoading,
+                                  borderRadius: 12,
+                                  isEnabled: context.watch<LoginCubit>().isFormValid,
+
+                                  onPressed: () {
+                                    if (formKey.currentState?.validate() ?? false) {
+                                      context.read<LoginCubit>().login(
+                                        email: emailController.text.trim(),
+                                        password: passController.text,
+                                      );
+                                    }
                                   },
                                 ),
 
-                                AppGap.g32,
+                                AppGap.g24,
+
+                                NavigationText(
+                                  description:
+                                  AppString.dontHaveAnAccount,
+                                  pageName: AppString.signUp,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (_) =>
+                                        const SignUpPage(),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),
                         ),
-                      ),
-                    ),
 
-                    AppGap.g32,
-
-                    NavigationText(
-                      description: AppString.dontHaveAnAccount,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(builder: (context) => const SignUpPage()),
-                        );
-                      },
-                      pageName: AppString.signUp,
+                        AppGap.g24,
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },

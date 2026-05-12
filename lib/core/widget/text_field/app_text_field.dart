@@ -19,6 +19,7 @@ class AppFormField extends StatelessWidget {
   final VoidCallback? onSuffixTap;
   final ValueChanged<String>? onChanged;
   final TextAlign textAlign;
+  final TextInputAction textAction;
   final TextStyle? style;
   final String? prefixText;
   final TextStyle? prefixStyle;
@@ -45,7 +46,8 @@ class AppFormField extends StatelessWidget {
     this.prefixText,
     this.prefixStyle,
     this.contentPadding,
-    this.fillColor
+    this.fillColor,
+    this.textAction = TextInputAction.next
   });
 
   @override
@@ -54,6 +56,7 @@ class AppFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       keyboardType: keyboardType,
+      textInputAction: textAction,
       textAlign: textAlign,
       style: style,
       obscureText: obscureText,
@@ -65,7 +68,7 @@ class AppFormField extends StatelessWidget {
         prefixStyle: prefixStyle,
         contentPadding: contentPadding,
         hintText: hintText,
-        hintStyle: AppTextStyles.bodyMedium(color: AppColor.textPrimary),
+        hintStyle: AppTextStyles.bodyMedium(),
         labelText: labelText,
         labelStyle:const TextStyle(color: AppColor.primary),
         fillColor: fillColor ?? AppColor.textLight,
@@ -83,19 +86,18 @@ class AppFormField extends StatelessWidget {
           child: Padding(padding: AppPadding.edgeAll12, child: suffix),
         )
             : null,
-        border: InputBorder.none,
+        border: OutlineInputBorder(
+          borderRadius: AppBorderRadius.cir12,
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide.none,
-        ),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide.none,
-        ),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
         errorBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide.none,
-        ),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
       )
     );
   }

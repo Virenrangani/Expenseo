@@ -2,8 +2,8 @@ class AppString {
   static const appName = 'Expenseo';
   static const appIntro = 'Enter your fluid vault.';
 
-  static const logInIntro = 'Welcome back';
-  static const logInSubIntro = 'Sign in to continue your narrative.';
+  static const logInIntro = 'Sign in to your\nAccount';
+  static const logInSubIntro = 'Enter your email and password to log in';
 
   static const email = 'Email address';
   static const nameInvalid = 'Name is required';
@@ -11,8 +11,8 @@ class AppString {
   static const String password = 'Password';
   static const String forgotPassword = 'Forgot Password?';
 
-  static const String signIN = 'Sign In';
-  static const String signInWithGoogle = 'Sign In with Google';
+  static const String logIn = 'Log In';
+  static const String signInWithGoogle = 'Continue with Google';
 
   static const String dontHaveAnAccount = "Don't have an account? ";
   static const String signUp = 'Sign up';
@@ -20,7 +20,7 @@ class AppString {
   static const String alReadyHaveAnAccount = 'Already have an account? ';
   static const String somethingWentWrong = 'Something went to wrong';
 
-  static const String signUpIntro = 'Create Your Narrative';
+  static const String signUpIntro = 'Create your \n Narrative';
   static const String signUpSubIntro = 'Start your journey to financial clarity.';
 
   static const String name = 'Name';
@@ -28,6 +28,7 @@ class AppString {
 
   static const String userNotVerify = 'user is not verified';
   static const String userLogin = 'User is Login Successfully';
+  static const String verifyEmail = 'Verify your email..!!';
 
   static const String emailRequired = 'Email is required';
   static const String emailHint = 'Enter Mail';

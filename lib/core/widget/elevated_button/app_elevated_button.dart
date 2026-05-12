@@ -11,11 +11,11 @@ class AppElevatedButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? borderRadius;
-  final Color? color1;
-  final Color? color2;
+  final Color? color;
+  final Color textColor;
   final bool isEnabled;
-  final IconData? prefixIcon;
-  final IconData? suffixIcon;
+  final Widget? prefix;
+  final Widget? suffix;
 
   const AppElevatedButton({
     super.key,
@@ -23,13 +23,13 @@ class AppElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.width,
-    this.height = 52,
+    this.height = 60,
     this.borderRadius = 24,
-    this.color1,
-    this.color2,
+    this.color,
     this.isEnabled = false,
-    this.prefixIcon,
-    this.suffixIcon,
+    this.suffix,
+    this.prefix,
+    this.textColor = AppColor.background,
   });
 
   @override
@@ -40,34 +40,41 @@ class AppElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: (!isEnabled || isLoading) ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color1 ?? AppColor.primary,
-          disabledBackgroundColor: color1 ?? AppColor.primary,
+          backgroundColor: color ?? AppColor.primary,
+          disabledBackgroundColor: color ?? AppColor.primary,
+          side: const BorderSide(
+            color: AppColor.textLight,
+            width: 1.5,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius!),
           ),
         ),
         child: isLoading
             ? const SizedBox(
-                height: 22,
-                width: 22,
+                height: 30,
+                width: 30,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColor.divider,
+                  strokeWidth: 4,
+                  color: AppColor.background,
                 ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (prefixIcon != null)
-                    Icon(prefixIcon, color: AppColor.background, size: 22),
-                  AppGap.g4,
+                  if (prefix != null) AppGap.g4,
+                  ?prefix,
+
+                  AppGap.g8,
+
                   Text(
                     text,
-                    style: AppTextStyles.h4(color: AppColor.background),
+                    style: AppTextStyles.h5(color: textColor),
                   ),
                   AppGap.g4,
-                  if (suffixIcon != null)
-                    Icon(suffixIcon, color: AppColor.background, size: 22),
+
+                  if (suffix != null) AppGap.g4,
+                  ?suffix,
                 ],
               ),
       ),

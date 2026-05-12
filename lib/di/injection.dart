@@ -37,7 +37,7 @@ class Injection {
     ..registerLazySingleton(()=>LoginUseCase(sl()))
     ..registerFactory(()=>LoginCubit(sl()))
 
-    ..registerLazySingleton<SignUpDataSource>(()=>SignUpDataSourceImpl(sl()))
+    ..registerLazySingleton<SignUpDataSource>(()=>SignUpDataSourceImpl(sl(),sl()))
     ..registerLazySingleton<SignUpRepository>(()=>SignUpRepositoryImpl(sl()))
     ..registerLazySingleton(()=>SignUpUseCase(sl()))
     ..registerFactory(()=>SignUpCubit(sl()))

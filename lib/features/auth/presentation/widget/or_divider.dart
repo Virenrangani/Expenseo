@@ -6,8 +6,8 @@ class OrDivider extends StatelessWidget {
 
    const OrDivider({
     super.key,
-    this.text = 'OR',
-    this.lineColor =Colors.black26,
+    this.text = 'Or',
+    this.lineColor =Colors.black12,
     this.thickness = 1,
   });
   final String text;
