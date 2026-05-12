@@ -113,6 +113,7 @@ class _LogInPageState extends State<LogInPage> {
                               children: [
                                 AppElevatedButton(
                                   text: AppString.signInWithGoogle,
+                                  textColor: AppColor.textPrimary,
                                   borderRadius: 12,
                                   color: AppColor.background,
                                   prefix: Image.asset(
