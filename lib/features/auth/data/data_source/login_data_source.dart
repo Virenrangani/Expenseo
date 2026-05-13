@@ -21,6 +21,26 @@ class LoginDataSourceImpl extends LoginDataSource {
   @override
   Future<UserModel> login(String email, String password) async {
     try {
+
+      final snapshot = await firestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+
+        final data = snapshot.docs.first.data();
+
+        final provider =
+            data['provider'] as String? ?? '';
+
+        if (provider == 'google') {
+
+          throw Exception();
+        }
+      }
+
       final result = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -52,8 +72,8 @@ class LoginDataSourceImpl extends LoginDataSource {
         email: user.email ?? '',
         name: user.displayName ?? '',
       );
-    } on FirebaseAuthException catch (e) {
-      throw Exception(AppErrors.handleException(e));
+    } on FirebaseException catch (e) {
+      throw Exception(AppErrors.handleFireStoreException(e));
     } catch (e) {
       throw Exception(AppString.somethingWentWrong);
     }
