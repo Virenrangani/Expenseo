@@ -1,3 +1,4 @@
+import 'package:expenseo/features/auth/presentation/widget/loading_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -58,7 +59,7 @@ class _AuthGateState extends State<AuthGate> {
     if (isLoggedIn == null) {
       return const Scaffold(
         body: Center(
-          child: CircularProgressIndicator(),
+          child: LoadingScreen(),
         ),
       );
     }
