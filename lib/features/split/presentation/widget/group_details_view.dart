@@ -58,7 +58,7 @@ class GroupDetailsView extends StatelessWidget {
                   groupId: state.group.id,
                   onSettle: () => showSettleDialog(
                     context: context,
-                    groupId:state.group.id,
+                    group:state.group,
                     uid: entry.key,
                     name: memberName,
                     amount: entry.value,
