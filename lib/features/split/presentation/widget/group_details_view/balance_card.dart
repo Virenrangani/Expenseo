@@ -84,21 +84,26 @@ class BalanceCard extends StatelessWidget {
             ),
           ),
 
-          GestureDetector(
-            onTap: onSettle,
-            child: Container(
-              padding: AppPadding.edgeAll8,
-              decoration: BoxDecoration(
-                color: AppColor.primary.withAlpha(25),
-                borderRadius: AppBorderRadius.cir20,
-                border: Border.all(
-                    color: AppColor.primary.withAlpha(100)),
-              ),
-              child: Text(AppString.settleUp,
+          if (!isOwedToMe)
+            GestureDetector(
+              onTap: onSettle,
+              child: Container(
+                padding: AppPadding.edgeAll8,
+                decoration: BoxDecoration(
+                  color: AppColor.primary.withAlpha(25),
+                  borderRadius: AppBorderRadius.cir20,
+                  border: Border.all(
+                    color: AppColor.primary.withAlpha(100),
+                  ),
+                ),
+                child: Text(
+                  AppString.settleUp,
                   style: AppTextStyles.captionMedium(
-                      color: AppColor.secondary)),
+                    color: AppColor.secondary,
+                  ),
+                ),
+              ),
             ),
-          ),
         ],
       ),
     );
