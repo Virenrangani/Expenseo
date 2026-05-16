@@ -1,3 +1,4 @@
+import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,7 @@ import '../../cubit/split_cubit.dart';
 
 void showSettleDialog({
   required BuildContext context,
-  required String groupId,
+  required GroupEntity group,
   required String uid,
   required String name,
   required double amount,
@@ -133,7 +134,7 @@ void showSettleDialog({
                       onPressed: () {
                         Navigator.pop(context);
                         context.read<SplitCubit>().settleUp(
-                          groupId: groupId,
+                          group: group,
                           toUid: uid,
                           toName: name,
                           amount: amount.abs(),
