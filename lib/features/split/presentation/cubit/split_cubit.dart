@@ -117,7 +117,7 @@ class SplitCubit extends Cubit<SplitState> {
   }
 
   Future<void> settleUp({
-    required String groupId,
+    required GroupEntity group,
     required String toUid,
     required String toName,
     required double amount,
@@ -126,7 +126,7 @@ class SplitCubit extends Cubit<SplitState> {
     try {
       final settlement = SettleBalance(
         id:        const Uuid().v4(),
-        groupId:   groupId,
+        groupId:   group.id,
         from:      currentUid,
         fromName:  currentName,
         to:        toUid,
@@ -136,7 +136,9 @@ class SplitCubit extends Cubit<SplitState> {
       );
 
       await useCase.settleUp(settlement);
-      emit(SplitSuccess(AppString.settleBalance));
+
+      await loadGroupDetail(group);
+      // emit(SplitSuccess(AppString.settleBalance));
     } catch (e) {
       emit(SplitError(e.toString()));
     }
