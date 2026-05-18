@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_native_splash: ^2.4.1
   gap: ^3.0.1
   get_it: ^9.2.1
   google_sign_in: ^6.0.0
@@ -75,7 +76,17 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/expenseo.png
 
+  android: true
+  ios: true
+
+  android_12:
+      color: "#FFFFFF"
+      image: assets/images/expenseo.png
+      icon_background_color: "#FFFFFF"
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
 

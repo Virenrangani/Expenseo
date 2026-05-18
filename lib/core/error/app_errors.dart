@@ -55,6 +55,12 @@ class AppErrors {
       case 'cancelled':
         return AppString.operationCancelled;
 
+      case 'email-already-in-use':
+        return AppString.emailAlreadyInUse;
+
+      case 'invalid-credential':
+        return AppString.invalidCredential;
+
       case 'deadline-exceeded':
         return AppString.timeout;
 

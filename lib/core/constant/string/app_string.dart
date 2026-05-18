@@ -77,7 +77,7 @@ class AppString {
   static const String expense = 'Expense';
 
   static const String permissionDenied =
-      'You don’t have permission to perform this action.';
+      'This account uses Google Sign-In. Please continue with Google.';
   static const String dataNotFound =
       'Requested data was not found.';
   static const String dataAlreadyExists =

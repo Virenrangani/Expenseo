@@ -1,9 +1,7 @@
 import 'package:expenseo/di/injection.dart';
-import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expenseo/features/auth/presentation/page/auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'features/bottom_nav/app_bottom_nav.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -20,16 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final user =
-        FirebaseAuth.instance.currentUser;
-
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: user != null
-          ? const AppBottomNav()
-          : const LogInPage(),
+      home: const AuthGate()
     );
   }
 }

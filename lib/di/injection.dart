@@ -32,7 +32,7 @@ class Injection {
     sl..registerLazySingleton(()=>FirebaseAuth.instance)
     ..registerLazySingleton(()=>FirebaseFirestore.instance)
 
-    ..registerLazySingleton<LoginDataSource>(()=>LoginDataSourceImpl(sl()))
+    ..registerLazySingleton<LoginDataSource>(()=>LoginDataSourceImpl(sl() , sl()))
     ..registerLazySingleton<LogInRepository>(()=>LoginRepositoryImpl(sl()))
     ..registerLazySingleton(()=>LoginUseCase(sl()))
     ..registerFactory(()=>LoginCubit(sl()))
