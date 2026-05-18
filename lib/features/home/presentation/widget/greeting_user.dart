@@ -23,22 +23,23 @@ class GreetingUser extends StatelessWidget {
           children: [
             Text(
               '${AppString.hello}, $userName 👋',
-              style: AppTextStyles.h4(),
+              style: AppTextStyles.h4(color: AppColor.background),
             ),
             AppGap.g4,
             Text(
               getGreetingMessage(),
-              style: AppTextStyles.caption(color: AppColor.textPrimary),
+              style: AppTextStyles.caption(color: AppColor.background),
             ),
           ],
         ),
 
         CircleAvatar(
+          backgroundColor: AppColor.background,
           radius:28,
           child: userName.isNotEmpty
               ? Text(
             userName[0],
-            style: AppTextStyles.h3(
+            style: AppTextStyles.h2(
               color: AppColor.primary,
             ),
           )
