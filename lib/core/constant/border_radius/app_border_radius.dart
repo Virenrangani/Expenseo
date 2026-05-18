@@ -15,9 +15,12 @@ class AppBorderRadius {
   static BorderRadius verTop16=const BorderRadius.vertical(top:Radius.circular(16));
   static BorderRadius verTop20=const BorderRadius.vertical(top:Radius.circular(20));
   static BorderRadius verTop24=const BorderRadius.vertical(top: Radius.circular(24));
+  static BorderRadius verTop28=const BorderRadius.vertical(top: Radius.circular(28));
 
   static BorderRadius verBottom12=const BorderRadius.vertical(bottom:Radius.circular(12));
   static BorderRadius verBottom16=const BorderRadius.vertical(bottom:Radius.circular(16));
   static BorderRadius verBottom20=const BorderRadius.vertical(bottom:Radius.circular(20));
+  static BorderRadius verBottom24=const BorderRadius.vertical(bottom:Radius.circular(24));
+  static BorderRadius verBottom28=const BorderRadius.vertical(bottom:Radius.circular(28));
 
 }
