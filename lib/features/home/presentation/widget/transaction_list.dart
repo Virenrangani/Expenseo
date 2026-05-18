@@ -36,6 +36,8 @@ class TransactionList extends StatelessWidget {
               ? transaction.length
               : recentTransaction;
           return ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
             itemCount: count,
             itemBuilder: (context, index) {
               return ExpenseCard(expense: transaction[index]);
