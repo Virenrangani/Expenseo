@@ -1,3 +1,4 @@
+import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
@@ -43,111 +44,118 @@ class _HomePageState extends State<HomePage> {
   child: Builder(
         builder: (context) {
           return Scaffold(
-            body: SafeArea(
-              child: Padding(
-                padding: AppPadding.edgeSymmetricHori16,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppTitle(style: AppTextStyles.h3(color: AppColor.secondary)),
-                    AppGap.g16,
-                    BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        if (state is HomeLoading) {
-                          return const SizedBox(
-                            height: 48,
-                            child: Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
-                          );
-                        }
-                        return GreetingUser(userName: context.read<HomeCubit>().userName,);
-                        },
-                    ),
-                    AppGap.g20,
-                     BlocBuilder<ExpenseCubit, ExpenseState>(
-                      builder: (context, state) {
-                        if(state is ExpenseLoading){
-                          return Skeletonizer(
-                              child: ExpenseContainer(
-                                totalExpense: context.read<ExpenseCubit>().totalExpense,
-                                totalIncome: context.read<ExpenseCubit>().totalIncome,
-                              )
-                          );
-                        }
-                        if(state is ExpenseLoaded){
-                          return ExpenseContainer(
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppTitle(style: AppTextStyles.h3(color: AppColor.secondary)),
+                AppGap.g16,
+                BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    if (state is HomeLoading) {
+                      return const SizedBox(
+                        height: 48,
+                        child: Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      );
+                    }
+                    return GreetingUser(userName: context.read<HomeCubit>().userName,);
+                    },
+                ),
+                AppGap.g20,
+                 BlocBuilder<ExpenseCubit, ExpenseState>(
+                  builder: (context, state) {
+                    if(state is ExpenseLoading){
+                      return Skeletonizer(
+                          child: ExpenseContainer(
                             totalExpense: context.read<ExpenseCubit>().totalExpense,
                             totalIncome: context.read<ExpenseCubit>().totalIncome,
+                          )
+                      );
+                    }
+                    if(state is ExpenseLoaded){
+                      return ExpenseContainer(
+                        totalExpense: context.read<ExpenseCubit>().totalExpense,
+                        totalIncome: context.read<ExpenseCubit>().totalIncome,
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+                AppGap.g24,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppIconCard(
+                        icon: Icons.add_circle_outline_outlined,
+                        text: AppString.addExpense,
+                        onTap: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<ExpenseCubit>(),
+                              child: const AddExpenseSheet(),
+                            ),
                           );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                        },
+                      ),
                     ),
-                    AppGap.g24,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppIconCard(
-                            icon: Icons.add_circle_outline_outlined,
-                            text: AppString.addExpense,
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (_) => BlocProvider.value(
-                                  value: context.read<ExpenseCubit>(),
-                                  child: const AddExpenseSheet(),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        AppGap.g16,
-                        Expanded(
-                          child: AppIconCard(
-                            icon: Icons.splitscreen,
-                            text: AppString.split,
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute<void>(
-                                      builder: (context) => const UserExpensePage()));
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    AppGap.g32,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(AppString.recentTransaction,
-                          style: AppTextStyles.captionBold(
-                              color: AppColor.textPrimary),),
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (_) => BlocProvider.value(
-                                  value: context.read<ExpenseCubit>(),
-                                  child: const UserExpensePage(),
-                                ),
-                              ),
-                            );
-                          },
-                            child: Text(AppString.showAll,style: AppTextStyles.caption(),)
-                        )
-                      ],
-                    ),
-
                     AppGap.g16,
-
-                    const Expanded(child: TransactionList())
+                    Expanded(
+                      child: AppIconCard(
+                        icon: Icons.splitscreen,
+                        text: AppString.split,
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute<void>(
+                                  builder: (context) => const UserExpensePage()));
+                        },
+                      ),
+                    ),
                   ],
                 ),
-              ),
+                AppGap.g32,
+                Expanded(
+                  child: Container(
+                    padding: AppPadding.edgeAll16,
+                    decoration: BoxDecoration(
+                      borderRadius: AppBorderRadius.verTop24,
+                      color: AppColor.primary
+                    ),
+                    child: Column(
+                      children: [
+                        AppGap.g4,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppString.recentTransaction,
+                              style: AppTextStyles.captionBold(
+                                  color: AppColor.background),),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute<void>(
+                                      builder: (_) => BlocProvider.value(
+                                        value: context.read<ExpenseCubit>(),
+                                        child: const UserExpensePage(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Text(AppString.showAll,
+                                  style: AppTextStyles.caption(color: AppColor.background),)
+                            )
+                          ],
+                        ),
+
+                        AppGap.g20,
+                        const Flexible(child: TransactionList())
+                      ],
+                    ) ,
+                  ),
+                )
+              ],
             ),
           );
         }
