@@ -43,16 +43,11 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
             activeWidget: Lottie.asset(
               AppLottie.home,
-              width: 34,
+              width: 52,
               repeat: false,
             ),
 
-            inactiveWidget: Lottie.asset(
-              AppLottie.home,
-              width: 26,
-              repeat: false,
-              animate: false,
-            ),
+            inactiveWidget: const Icon(Icons.home)
           ),
 
           CurvedNavigationItemPro(
