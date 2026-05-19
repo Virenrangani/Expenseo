@@ -123,35 +123,14 @@ class _AmountFieldState extends State<AmountField>
           AppGap.g16,
 
           Row(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isFocused
-                      ? AppColor.primary.withAlpha(25)
-                      : Colors.transparent,
-                ),
-                child: AnimatedScale(
-                  duration: const Duration(milliseconds: 250),
-                  scale: isFocused ? 1.2 : 1,
-                  child: Text(
-                    '₹',
-                    style: AppTextStyles.h3(
-                      color: AppColor.primary,
-                    ),
-                  ),
-                ),
-              ),
-
-              AppGap.g12,
-
+            children:[
               Expanded(
                 child: SizedBox(
                   key: ValueKey(isFocused),
                   height: 55,
                   child: AppFormField(
+                    prefixIcon: Icon(Icons.attach_money,
+                      color: isFocused ? AppColor.primary : AppColor.textSecondary,),
                     controller: widget.controller,
                     focusNode: focusNode,
                     validator: widget.validator,
