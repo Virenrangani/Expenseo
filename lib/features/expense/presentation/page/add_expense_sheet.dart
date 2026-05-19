@@ -1,5 +1,6 @@
 import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/features/expense/presentation/widget/center_line_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
@@ -59,16 +60,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Center(
-                    child: Container(
-                      width:  40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: AppColor.divider,
-                        borderRadius: AppBorderRadius.cir8,
-                      ),
-                    ),
-                  ),
+                  const CenterLineDesign(),
+                  AppGap.g8,
+
                   Center(
                     child: Text(
                       context.read<ExpenseCubit>().type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
@@ -76,6 +70,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                     ),
                   ),
                   AppGap.g16,
+
                   Container(
                     width: double.infinity,
                     padding: AppPadding.edgeAll16,
