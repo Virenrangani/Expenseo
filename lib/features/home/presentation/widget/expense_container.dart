@@ -54,7 +54,7 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: AppColor.primary.withAlpha(180),
+        color: AppColor.primary,
       ),
       padding: AppPadding.edgeAll12,
       child: Column(
