@@ -92,13 +92,17 @@ class _HomePageState extends State<HomePage> {
                             icon: Icons.add_circle_outline_outlined,
                             text: AppString.addExpense,
                             onTap: () {
-                              showModalBottomSheet<void>(
+                              showBottomSheet(
                                 context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
+                                enableDrag: true,
+                                showDragHandle: true,
+                                backgroundColor: Colors.white,
                                 builder: (_) => BlocProvider.value(
                                   value: context.read<ExpenseCubit>(),
-                                  child: const AddExpenseSheet(),
+                                  child: const Padding(
+                                    padding: AppPadding.edgeSymmetricHori12,
+                                    child: AddExpenseSheet(),
+                                  ),
                                 ),
                               );
                             },
