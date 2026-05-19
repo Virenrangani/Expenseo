@@ -71,6 +71,8 @@ class AppString {
   static const String addIncome = 'Add Income';
   static const String addAmount='Enter Amount';
   static const String split = 'Split';
+  static const String invest = 'Investment';
+  static const String saving = 'Saving';
 
   static const String balance = 'Balance';
   static const String income = 'Income';
