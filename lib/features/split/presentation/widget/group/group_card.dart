@@ -1,5 +1,3 @@
-import 'package:expenseo/core/constant/string/app_string.dart';
-import 'package:expenseo/core/widget/format_amount/format_amount.dart';
 import 'package:expenseo/features/split/presentation/page/group_details_page.dart';
 import 'package:expenseo/features/split/presentation/widget/group/group_avatar.dart';
 import 'package:flutter/material.dart';
