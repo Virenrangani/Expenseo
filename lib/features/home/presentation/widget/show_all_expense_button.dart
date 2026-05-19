@@ -37,9 +37,12 @@ class ShowAllExpenseButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColor.background,
           borderRadius: AppBorderRadius.cir20,
-          border: Border.all(
-            color: AppColor.primary,
-          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColor.textPrimary.withAlpha(20),
+              offset: const Offset(0, 2)
+            )
+          ]
         ),
 
         child: Row(
