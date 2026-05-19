@@ -1,25 +1,22 @@
-import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
+import 'package:expenseo/features/home/presentation/widget/show_all_expense_button.dart';
 import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
-import '../../../../core/widget/app_title/app_title.dart';
 import '../../../expense/presentation/page/add_expense_sheet.dart';
 import '../cubit/home_cubit.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,137 +26,145 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-  providers: [
-    BlocProvider(
-      create: (_) => GetIt.I<HomeCubit>()..getUserName(),
-    ),
-    BlocProvider(
-      create: (_) => GetIt.I<ExpenseCubit>()..getExpense(),
-    ),
-  ],
-  child: Builder(
+      providers: [
+        BlocProvider(create: (_) => GetIt.I<HomeCubit>()..getUserName()),
+        BlocProvider(create: (_) => GetIt.I<ExpenseCubit>()..getExpense()),
+      ],
+      child: Builder(
         builder: (context) {
           return Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppTitle(style: AppTextStyles.h3(color: AppColor.secondary)),
-                AppGap.g16,
-                BlocBuilder<HomeCubit, HomeState>(
-                  builder: (context, state) {
-                    if (state is HomeLoading) {
-                      return const SizedBox(
-                        height: 48,
-                        child: Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
+            body: Padding(
+              padding: AppPadding.edgeAll16,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppGap.g32,
+                  AppGap.g12,
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      if (state is HomeLoading) {
+                        return const SizedBox(
+                          height: 48,
+                          child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        );
+                      }
+                      return GreetingUser(
+                        userName: context.read<HomeCubit>().userName,
                       );
-                    }
-                    return GreetingUser(userName: context.read<HomeCubit>().userName,);
                     },
-                ),
-                AppGap.g20,
-                 BlocBuilder<ExpenseCubit, ExpenseState>(
-                  builder: (context, state) {
-                    if(state is ExpenseLoading){
-                      return Skeletonizer(
-                          child: ExpenseContainer(
-                            totalExpense: context.read<ExpenseCubit>().totalExpense,
-                            totalIncome: context.read<ExpenseCubit>().totalIncome,
-                          )
-                      );
-                    }
-                    if(state is ExpenseLoaded){
-                      return ExpenseContainer(
-                        totalExpense: context.read<ExpenseCubit>().totalExpense,
-                        totalIncome: context.read<ExpenseCubit>().totalIncome,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-                AppGap.g24,
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppIconCard(
-                        icon: Icons.add_circle_outline_outlined,
-                        text: AppString.addExpense,
-                        onTap: () {
-                          showModalBottomSheet<void>(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (_) => BlocProvider.value(
-                              value: context.read<ExpenseCubit>(),
-                              child: const AddExpenseSheet(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    AppGap.g16,
-                    Expanded(
-                      child: AppIconCard(
-                        icon: Icons.splitscreen,
-                        text: AppString.split,
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute<void>(
-                                  builder: (context) => const UserExpensePage()));
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                AppGap.g32,
-                Expanded(
-                  child: Container(
-                    padding: AppPadding.edgeAll16,
-                    decoration: BoxDecoration(
-                      borderRadius: AppBorderRadius.verTop24,
-                      color: AppColor.primary
-                    ),
-                    child: Column(
-                      children: [
-                        AppGap.g4,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(AppString.recentTransaction,
-                              style: AppTextStyles.captionBold(
-                                  color: AppColor.background),),
-                            InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute<void>(
-                                      builder: (_) => BlocProvider.value(
-                                        value: context.read<ExpenseCubit>(),
-                                        child: const UserExpensePage(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Text(AppString.showAll,
-                                  style: AppTextStyles.caption(color: AppColor.background),)
-                            )
-                          ],
-                        ),
-
-                        AppGap.g20,
-                        const Flexible(child: TransactionList())
-                      ],
-                    ) ,
                   ),
-                )
-              ],
+                  AppGap.g20,
+                  BlocBuilder<ExpenseCubit, ExpenseState>(
+                    builder: (context, state) {
+                      if (state is ExpenseLoading) {
+                        return Skeletonizer(
+                          child: ExpenseContainer(
+                            totalExpense: context
+                                .read<ExpenseCubit>()
+                                .totalExpense,
+                            totalIncome: context
+                                .read<ExpenseCubit>()
+                                .totalIncome,
+                          ),
+                        );
+                      }
+                      if (state is ExpenseLoaded) {
+                        return ExpenseContainer(
+                          totalExpense: context
+                              .read<ExpenseCubit>()
+                              .totalExpense,
+                          totalIncome: context.read<ExpenseCubit>().totalIncome,
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+
+                  AppGap.g24,
+
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          AppIconCard(
+                            icon: Icons.add,
+                            text: AppString.addExpense,
+                            onTap: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (_) => BlocProvider.value(
+                                  value: context.read<ExpenseCubit>(),
+                                  child: const AddExpenseSheet(),
+                                ),
+                              );
+                            },
+                          ),
+
+                          AppGap.g8,
+
+                          AppIconCard(
+                            icon: Icons.splitscreen,
+                            text: AppString.split,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (context) => const UserExpensePage(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      AppGap.g8,
+                      Row(
+                        children: [
+                          AppIconCard(
+                            icon: Icons.savings_outlined,
+                            text: AppString.saving,
+                            onTap: () {},
+                          ),
+
+                          AppGap.g8,
+
+                          AppIconCard(
+                            icon: Icons.monetization_on_outlined,
+                            text: AppString.invest,
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  AppGap.g24,
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppString.recentTransaction,
+                        style: AppTextStyles.h5(),
+                      ),
+                      const ShowAllExpenseButton()
+                    ],
+                  ),
+
+                  AppGap.g20,
+                  const Flexible(child: TransactionList()),
+                ],
+              ),
             ),
           );
-        }
+        },
       ),
-  );
+    );
   }
 }
