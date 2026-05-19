@@ -25,6 +25,8 @@ class AppFormField extends StatelessWidget {
   final TextStyle? prefixStyle;
   final EdgeInsetsGeometry? contentPadding;
   final Color? fillColor;
+  final FocusNode? focusNode;
+  final Color? cursorColor;
 
   const AppFormField({
     super.key,
@@ -47,7 +49,9 @@ class AppFormField extends StatelessWidget {
     this.prefixStyle,
     this.contentPadding,
     this.fillColor,
-    this.textAction = TextInputAction.next
+    this.textAction = TextInputAction.next,
+    this.focusNode,
+    this.cursorColor
   });
 
   @override
@@ -58,6 +62,8 @@ class AppFormField extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: textAction,
       textAlign: textAlign,
+      focusNode: focusNode,
+      cursorColor: cursorColor,
       style: style,
       obscureText: obscureText,
       obscuringCharacter: '*',
