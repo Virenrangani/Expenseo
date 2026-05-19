@@ -15,36 +15,36 @@ class GreetingUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final last=userName.substring(1);
+    final firstChar =userName[0].toUpperCase();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        CircleAvatar(
+            backgroundColor: AppColor.primary.withAlpha(35),
+            radius:28,
+            child: userName.isNotEmpty
+                ? Text(
+              firstChar,
+              style: AppTextStyles.h2(
+                color: AppColor.primary,
+              ),
+            )
+                : const SizedBox()
+        ),
+        AppGap.g16,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${AppString.hello}, $userName 👋',
-              style: AppTextStyles.h4(color: AppColor.background),
+              getGreetingMessage(),
+              style: AppTextStyles.h3(),
             ),
             AppGap.g4,
             Text(
-              getGreetingMessage(),
-              style: AppTextStyles.caption(color: AppColor.background),
+              '$firstChar$last ',style: AppTextStyles.h4(),
             ),
           ],
         ),
-
-        CircleAvatar(
-          backgroundColor: AppColor.background,
-          radius:28,
-          child: userName.isNotEmpty
-              ? Text(
-            userName[0],
-            style: AppTextStyles.h2(
-              color: AppColor.primary,
-            ),
-          )
-              : const SizedBox()
-        )
       ],
     );
   }
