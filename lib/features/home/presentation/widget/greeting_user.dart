@@ -39,7 +39,6 @@ class GreetingUser extends StatelessWidget {
               getGreetingMessage(),
               style: AppTextStyles.h3(),
             ),
-            AppGap.g4,
             Text(
               '$firstChar$last ',style: AppTextStyles.h4(),
             ),
