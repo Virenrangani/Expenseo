@@ -40,7 +40,6 @@ class _AmountFieldState extends State<AmountField>
       vsync: this,
       duration: const Duration(milliseconds: 250),
       lowerBound: 0.95,
-      upperBound: 1,
     );
 
     scaleAnimation = CurvedAnimation(
