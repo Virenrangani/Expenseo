@@ -19,9 +19,6 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uid = context.read<SplitCubit>().currentUid;
-    final balance = group.yourBalance(uid);
-
     return GestureDetector(
       onTap: (){
         final splitCubit=context.read<SplitCubit>();
@@ -62,31 +59,6 @@ class GroupCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  balance == 0
-                      ? AppString.settled
-                      : '${balance > 0 ? '+' : '-'}₹${formatAmount(balance.abs())}',
-                  style: AppTextStyles.captionBold(
-                    color: balance == 0
-                        ? AppColor.textSecondary
-                        : balance > 0
-                        ? AppColor.success
-                        : AppColor.error,
-                  ),
-                ),
-                AppGap.g4,
-                Text(
-                  balance == 0
-                      ? ''
-                      : balance > 0 ? AppString.youOwed : AppString.owe,
-                  style: AppTextStyles.descriptionSmall(),
-                ),
-              ],
             ),
             IconButton(onPressed: ()async{
               await context.read<SplitCubit>().deleteGroup(group.id);
