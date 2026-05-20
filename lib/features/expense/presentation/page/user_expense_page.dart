@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/expense/presentation/widget/expense_card.dart';
 import 'package:expenseo/features/expense/presentation/widget/fake_expense.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/text_style/app_text_style.dart';
 import '../cubit/expense_cubit.dart';
 import './add_expense_sheet.dart';
 import 'expense_list_page.dart';
@@ -17,6 +19,12 @@ class UserExpensePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
+      appBar: AppBar(
+        title: Text(AppString.allExpenses , style:AppTextStyles.titleLarge()),
+        centerTitle: true,
+      ),
             body: BlocBuilder<ExpenseCubit, ExpenseState>(
               builder: (context, state) {
                 if (state is ExpenseLoading) {
@@ -48,6 +56,7 @@ class UserExpensePage extends StatelessWidget {
                       ),
                     ),
                   );
+
                 }
                 if (state is ExpenseError) {
                   return Center(child: Text(state.message));
@@ -58,26 +67,30 @@ class UserExpensePage extends StatelessWidget {
                 return const SizedBox.shrink();
               },
             ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColor.secondary,
-              onPressed: () {
-                final expenseCubit = context.read<ExpenseCubit>();
-
-                showModalBottomSheet<void>(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (_) => BlocProvider.value(
-                    value: expenseCubit,
-                    child: const AddExpenseSheet(),
+            floatingActionButton: Builder(
+              builder: (scaffoldContext) {
+                return FloatingActionButton(
+                  backgroundColor: AppColor.primary,
+                  onPressed: () {
+                    final expenseCubit = context.read<ExpenseCubit>();
+                    showBottomSheet(
+                        context: scaffoldContext,
+                        builder: (_)=>BlocProvider.value(
+                            value: expenseCubit,
+                          child: const AddExpenseSheet(),
+                        ),
+                      enableDrag: true,
+                      showDragHandle: true,
+                      backgroundColor: AppColor.background
+                    );
+                  },
+                  child: const Icon(
+                    Icons.add_circle_outline,
+                    size: 32,
+                    color: AppColor.background,
                   ),
                 );
-              },
-              child: const Icon(
-                Icons.add_circle_outline,
-                size: 32,
-                color: AppColor.background,
-              ),
+              }
             ),
           );
 
