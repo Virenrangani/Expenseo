@@ -26,86 +26,98 @@ class UserExpensePage extends StatelessWidget {
         title: Text(AppString.allExpenses, style: AppTextStyles.titleLarge()),
         centerTitle: true,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: AppPadding.edgeSymmetricVer12,
-            child: ScrollTabBar(
-              onFilterChanged: (filter) {
-                context.read<ExpenseCubit>().applyFilter(filter);
-              },
-            ),
-          ),
+          Column(
+            children: [
+              Padding(
+                padding: AppPadding.edgeSymmetricVer12,
+                child: ScrollTabBar(
+                  onFilterChanged: (filter) {
+                    context.read<ExpenseCubit>().applyFilter(filter);
+                  },
+                ),
+              ),
 
-          Expanded(
-            child: BlocBuilder<ExpenseCubit, ExpenseState>(
-              builder: (context, state) {
-                if (state is ExpenseLoading) {
-                  return Padding(
-                    padding: AppPadding.edgeAll16,
-                    child: Skeletonizer(
-                      child: ListView(
-                        children: List.generate(1, (index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 120,
-                                height: 14,
-                                margin: const EdgeInsets.symmetric(vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: AppColor.textLight,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                              ),
-                              ...List.generate(
-                                6,
-                                (_) => ExpenseCard(expense: FakeExpense.fake()),
-                              ),
-                              const SizedBox(height: 16),
-                            ],
-                          );
-                        }),
+              Expanded(
+                child: BlocBuilder<ExpenseCubit, ExpenseState>(
+                  builder: (context, state) {
+                    if (state is ExpenseLoading) {
+                      return Padding(
+                        padding: AppPadding.edgeAll16,
+                        child: Skeletonizer(
+                          child: ListView(
+                            children: List.generate(1, (index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 120,
+                                    height: 14,
+                                    margin: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppColor.textLight,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  ...List.generate(
+                                    6,
+                                    (_) => ExpenseCard(
+                                      expense: FakeExpense.fake(),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                ],
+                              );
+                            }),
+                          ),
+                        ),
+                      );
+                    }
+                    if (state is ExpenseError) {
+                      return Center(child: Text(state.message));
+                    }
+                    if (state is ExpenseLoaded) {
+                      return ExpenseListPage(expenses: state.expenses ?? []);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            right: 20,
+            bottom: 30,
+            child: Builder(
+              builder: (context) {
+                return FloatingActionButton(
+                  backgroundColor: AppColor.primary,
+                  onPressed: () {
+                    final expenseCubit = context.read<ExpenseCubit>();
+                    showBottomSheet(
+                      context: context,
+                      builder: (_) => BlocProvider.value(
+                        value: expenseCubit,
+                        child: const AddExpenseSheet(),
                       ),
-                    ),
-                  );
-                }
-                if (state is ExpenseError) {
-                  return Center(child: Text(state.message));
-                }
-                if (state is ExpenseLoaded) {
-                  return ExpenseListPage(expenses: state.expenses ?? []);
-                }
-                return const SizedBox.shrink();
-              },
+                      enableDrag: true,
+                      showDragHandle: true,
+                      backgroundColor: AppColor.background,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.add_circle_outline,
+                    size: 32,
+                    color: AppColor.background,
+                  ),
+                );
+              }
             ),
           ),
         ],
-      ),
-      floatingActionButton: Builder(
-        builder: (scaffoldContext) {
-          return FloatingActionButton(
-            backgroundColor: AppColor.primary,
-            onPressed: () {
-              final expenseCubit = context.read<ExpenseCubit>();
-              showBottomSheet(
-                context: scaffoldContext,
-                builder: (_) => BlocProvider.value(
-                  value: expenseCubit,
-                  child: const AddExpenseSheet(),
-                ),
-                enableDrag: true,
-                showDragHandle: true,
-                backgroundColor: AppColor.background,
-              );
-            },
-            child: const Icon(
-              Icons.add_circle_outline,
-              size: 32,
-              color: AppColor.background,
-            ),
-          );
-        },
       ),
     );
   }
