@@ -43,56 +43,63 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
             CustomSnacksBar.showSuccess(context, state.message);
           }
         },
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: Text(
-                    context.read<ExpenseCubit>().type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
-                    style: AppTextStyles.h5(),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 12,
+            right: 12,
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Text(
+                      context.read<ExpenseCubit>().type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
+                      style: AppTextStyles.h5(),
+                    ),
                   ),
-                ),
-                AppGap.g16,
+                  AppGap.g16,
 
-                AmountField(controller: amountController),
-                AppGap.g16,
+                  AmountField(controller: amountController),
+                  AppGap.g16,
 
-                ExpenseTypeToggle(
-                  selectedType:context.read<ExpenseCubit>().type,
-                  onChanged: (typeText) => setState(() => context.read<ExpenseCubit>().type = typeText),
-                ),
-                AppGap.g16,
+                  ExpenseTypeToggle(
+                    selectedType:context.read<ExpenseCubit>().type,
+                    onChanged: (typeText) => setState(() => context.read<ExpenseCubit>().type = typeText),
+                  ),
+                  AppGap.g16,
 
-                sectionLabel(AppString.title),
-                AppGap.g8,
-                AppFormField(
-                  controller: titleController,
-                  hintText: AppString.titleHint  ,
-                  validator:  (v) => v!.trim().isEmpty ? AppString.titleInvalid : null,
-                ),
+                  sectionLabel(AppString.title),
+                  AppGap.g8,
+                  AppFormField(
+                    controller: titleController,
+                    hintText: AppString.titleHint  ,
+                    validator:  (v) => v!.trim().isEmpty ? AppString.titleInvalid : null,
+                  ),
 
-                AppGap.g16,
-                sectionLabel(AppString.category),
-                AppGap.g8,
-                ExpenseCategorySelector(
-                  selectedCategory: context.read<ExpenseCubit>().category,
-                  onChanged: (cat) => setState(() => context.read<ExpenseCubit>().category = cat),
-                ),
+                  AppGap.g16,
+                  sectionLabel(AppString.category),
+                  AppGap.g8,
+                  ExpenseCategorySelector(
+                    selectedCategory: context.read<ExpenseCubit>().category,
+                    onChanged: (cat) => setState(() => context.read<ExpenseCubit>().category = cat),
+                  ),
 
-                AppGap.g16,
-                sectionLabel(AppString.paymentMethod),
-                AppGap.g8,
-                PaymentMethodSelector(
-                  selectedMethod: context.read<ExpenseCubit>().paymentMethod,
-                  onChanged: (method) => setState(() => context.read<ExpenseCubit>().paymentMethod = method),
-                ),
-                AppGap.g20,
-                submitButton(),
-              ],
+                  AppGap.g16,
+                  sectionLabel(AppString.paymentMethod),
+                  AppGap.g8,
+                  PaymentMethodSelector(
+                    selectedMethod: context.read<ExpenseCubit>().paymentMethod,
+                    onChanged: (method) => setState(() => context.read<ExpenseCubit>().paymentMethod = method),
+                  ),
+                  AppGap.g20,
+                  submitButton(),
+                ],
+              ),
             ),
           ),
         ),
