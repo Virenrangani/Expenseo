@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
@@ -129,8 +130,9 @@ class _AmountFieldState extends State<AmountField>
                   key: ValueKey(isFocused),
                   height: 55,
                   child: AppFormField(
-                    prefixIcon: Icon(Icons.attach_money,
-                      color: isFocused ? AppColor.primary : AppColor.textSecondary,),
+                    prefixIcon: FaIcon(FontAwesomeIcons.indianRupeeSign ,
+                      size: 20, color: isFocused ? AppColor.primary : AppColor.textSecondary,
+                    ),
                     controller: widget.controller,
                     focusNode: focusNode,
                     validator: widget.validator,
