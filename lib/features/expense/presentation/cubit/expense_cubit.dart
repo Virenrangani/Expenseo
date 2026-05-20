@@ -11,6 +11,11 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   final ExpenseUseCase useCase;
   ExpenseCubit(this.useCase):super(ExpenseInitial());
 
+  ExpenseFilter selectedFilter = ExpenseFilter.all;
+
+  List<Expense> allExpenses = [];
+  List<Expense> filteredExpenses = [];
+
   TransactionType type  = TransactionType.expense;
   ExpenseCategory category = ExpenseCategory.food;
   PaymentMethod paymentMethod = PaymentMethod.cash;
@@ -40,8 +45,9 @@ class ExpenseCubit extends Cubit<ExpenseState>{
       expense.sort((a,b)=>b.createdAt.compareTo(a.createdAt));
       totalIncome=0;
       totalExpense=0;
+      allExpenses = expense;
       getTotalIncomeExpense(expense);
-      emit(ExpenseLoaded(expense));
+      applyFilter(selectedFilter);
 
     }catch(e){
       emit(ExpenseError(e.toString()));
@@ -67,5 +73,51 @@ class ExpenseCubit extends Cubit<ExpenseState>{
         totalExpense = totalExpense+ item.amount;
       }
     }
+  }
+
+  void applyFilter(ExpenseFilter filter) {
+    selectedFilter = filter;
+    if (filter == ExpenseFilter.all) {
+      filteredExpenses = allExpenses;
+    }
+
+    else if (filter == ExpenseFilter.income) {
+      filteredExpenses = allExpenses.where((e) {
+        return e.type == TransactionType.income;
+      }).toList();
+    }
+
+    else if (filter == ExpenseFilter.expense) {
+      filteredExpenses = allExpenses.where((e) {
+        return e.type == TransactionType.expense;
+      }).toList();
+    }
+
+    else if (filter == ExpenseFilter.today) {
+      final now = DateTime.now();
+      filteredExpenses = allExpenses.where((e) {
+        return e.createdAt.day == now.day &&
+            e.createdAt.month == now.month &&
+            e.createdAt.year == now.year;
+      }).toList();
+
+    }
+
+    else if (filter == ExpenseFilter.week) {
+      final now = DateTime.now();
+      filteredExpenses = allExpenses.where((e) {
+        return now.difference(e.createdAt).inDays <= 7;
+      }).toList();
+    }
+
+    else if (filter == ExpenseFilter.month) {
+      final now = DateTime.now();
+      filteredExpenses = allExpenses.where((e) {
+        return e.createdAt.month == now.month &&
+            e.createdAt.year == now.year;
+      }).toList();
+    }
+
+    emit(ExpenseLoaded(filteredExpenses));
   }
 }
