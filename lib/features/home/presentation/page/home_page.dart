@@ -99,10 +99,7 @@ class _HomePageState extends State<HomePage> {
                                 backgroundColor: Colors.white,
                                 builder: (_) => BlocProvider.value(
                                   value: context.read<ExpenseCubit>(),
-                                  child: const Padding(
-                                    padding: AppPadding.edgeSymmetricHori12,
-                                    child: AddExpenseSheet(),
-                                  ),
+                                  child: const AddExpenseSheet(),
                                 ),
                               );
                             },
