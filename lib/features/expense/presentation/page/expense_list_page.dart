@@ -1,3 +1,4 @@
+import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
@@ -27,9 +28,21 @@ class ExpenseListPage extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                entry.key,
-                style: AppTextStyles.captionMedium(),
+              Row(
+                children: [
+                  Text(
+                    entry.key,
+                    style: AppTextStyles.description(),
+                  ),
+                  AppGap.g8,
+                  Expanded(
+                    child: Container(
+                      height: 2,
+                      width: double.infinity,
+                      color: AppColor.textLight,
+                    ),
+                  )
+                ],
               ),
               AppGap.g8,
 
