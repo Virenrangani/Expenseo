@@ -21,6 +21,7 @@ class UserExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchController = TextEditingController();
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
@@ -40,9 +41,14 @@ class UserExpensePage extends StatelessWidget {
                       child: SizedBox(
                         height: 48,
                         child: AppFormField(
+                          controller: searchController,
                           hintText: 'Search your Expense..',
                           fillColor: AppColor.primary.withAlpha(30),
-                          prefixIcon: const Icon(Icons.search_rounded , color: AppColor.textSecondary,),
+                          prefixIcon: const Icon(Icons.search_rounded ,
+                            color: AppColor.textSecondary,),
+                          onChanged: (value){
+                            context.read<ExpenseCubit>().searchExpense(value);
+                          },
                         ),
                       ),
                     ),
