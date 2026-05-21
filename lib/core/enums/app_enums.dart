@@ -45,12 +45,3 @@ enum TransactionType {
     expense => 'Expense',
   };
 }
-
-enum ExpenseFilter {
-  all,
-  today,
-  week,
-  month,
-  income,
-  expense,
-}
