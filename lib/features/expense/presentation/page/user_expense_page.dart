@@ -1,4 +1,3 @@
-import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
@@ -7,16 +6,13 @@ import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart'
 import 'package:expenseo/features/expense/presentation/widget/expense_card.dart';
 import 'package:expenseo/features/expense/presentation/widget/fake_expense.dart';
 import 'package:expenseo/features/expense/presentation/widget/filter_button.dart';
-import 'package:expenseo/features/expense/presentation/widget/scroll_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../cubit/expense_cubit.dart';
-import '../widget/filter_dailog.dart';
 import './add_expense_sheet.dart';
 import 'expense_list_page.dart';
 
