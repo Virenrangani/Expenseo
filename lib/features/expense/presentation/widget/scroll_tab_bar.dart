@@ -5,7 +5,10 @@ import '../../../../core/enums/expense_filter_enums.dart';
 import 'filter_tab_section.dart';
 
 class ScrollTabBar extends StatefulWidget {
-
+  final DateFilter selectedDateFilter;
+  final TypeFilter selectedTypeFilter;
+  final CategoryFilter selectedCategoryFilter;
+  final PaymentType selectedPaymentFilter;
   final void Function(
       DateFilter dateFilter,
       TypeFilter typeFilter,
@@ -16,6 +19,10 @@ class ScrollTabBar extends StatefulWidget {
   const ScrollTabBar({
     super.key,
     required this.onFilterChanged,
+    required this.selectedDateFilter,
+    required this.selectedTypeFilter,
+    required this.selectedCategoryFilter,
+    required this.selectedPaymentFilter,
   });
 
   @override
@@ -23,11 +30,6 @@ class ScrollTabBar extends StatefulWidget {
 }
 
 class _ScrollTabBarState extends State<ScrollTabBar> {
-
-  DateFilter selectedDateFilter = DateFilter.all;
-  TypeFilter selectedTypeFilter = TypeFilter.all;
-  CategoryFilter selectedCategoryFilter = CategoryFilter.all;
-  PaymentType selectPaymentFilter = PaymentType.all;
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +47,13 @@ class _ScrollTabBarState extends State<ScrollTabBar> {
           ],
 
           values: DateFilter.values,
-          selectedValue:selectedDateFilter,
+          selectedValue:widget.selectedDateFilter,
           onSelected: (value) {
-            setState(() {
-              selectedDateFilter = value;
-            });
             widget.onFilterChanged(
-              selectedDateFilter,
-              selectedTypeFilter,
-              selectedCategoryFilter,
-              selectPaymentFilter
+                value,
+                widget.selectedTypeFilter,
+                widget.selectedCategoryFilter,
+                widget.selectedPaymentFilter
             );
           },
         ),
@@ -70,17 +69,14 @@ class _ScrollTabBarState extends State<ScrollTabBar> {
           ],
 
           values: TypeFilter.values,
-          selectedValue: selectedTypeFilter,
+          selectedValue: widget.selectedTypeFilter,
           onSelected: (value) {
-            setState(() {
-              selectedTypeFilter = value;
-            });
 
             widget.onFilterChanged(
-              selectedDateFilter,
-              selectedTypeFilter,
-              selectedCategoryFilter,
-              selectPaymentFilter
+                widget.selectedDateFilter,
+                value,
+                widget.selectedCategoryFilter,
+                widget.selectedPaymentFilter
             );
           },
         ),
@@ -99,17 +95,14 @@ class _ScrollTabBarState extends State<ScrollTabBar> {
              'Other',
             ],
             values: CategoryFilter.values,
-            selectedValue: selectedCategoryFilter,
+            selectedValue: widget.selectedCategoryFilter,
             onSelected: (value) {
-              setState(() {
-                selectedCategoryFilter = value;
-              });
 
               widget.onFilterChanged(
-                selectedDateFilter,
-                selectedTypeFilter,
-                selectedCategoryFilter,
-                selectPaymentFilter
+                  widget.selectedDateFilter,
+                  widget.selectedTypeFilter,
+                  value,
+                  widget.selectedPaymentFilter
               );
             },
         ),
@@ -118,23 +111,20 @@ class _ScrollTabBarState extends State<ScrollTabBar> {
         FilterTabSection(
             tabs: const [
               'All',
-              'Upi',
               'Cash',
+              'Upi',
               'Card',
               'NetBanking'
             ],
             values: PaymentType.values,
-            selectedValue: selectPaymentFilter,
+            selectedValue: widget.selectedPaymentFilter,
             onSelected: (value) {
-              setState(() {
-                selectPaymentFilter = value;
-              });
 
               widget.onFilterChanged(
-                selectedDateFilter,
-                selectedTypeFilter,
-                selectedCategoryFilter,
-                selectPaymentFilter
+                  widget.selectedDateFilter,
+                  widget.selectedTypeFilter,
+                  widget.selectedCategoryFilter,
+                  value
               );
             },
         )
