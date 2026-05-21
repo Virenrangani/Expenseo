@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/enums/app_enums.dart';
+import '../../../../core/enums/expense_filter_enums.dart';
 import '../../domain/entity/expense.dart';
 import '../../domain/use_case/expense_use_case.dart';
 import './expense_state.dart';
@@ -11,7 +12,10 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   final ExpenseUseCase useCase;
   ExpenseCubit(this.useCase):super(ExpenseInitial());
 
-  ExpenseFilter selectedFilter = ExpenseFilter.all;
+  DateFilter selectedDateFilter = DateFilter.all;
+  TypeFilter selectedTypeFilter = TypeFilter.all;
+  CategoryFilter selectedCategoryFilter = CategoryFilter.all;
+  PaymentType selectedPaymentFilter = PaymentType.all;
 
   List<Expense> allExpenses = [];
   List<Expense> filteredExpenses = [];
@@ -47,8 +51,13 @@ class ExpenseCubit extends Cubit<ExpenseState>{
       totalExpense=0;
       allExpenses = expense;
       getTotalIncomeExpense(expense);
-      applyFilter(selectedFilter);
 
+      applyFilters(
+        dateFilter: selectedDateFilter,
+        typeFilter: selectedTypeFilter,
+        categoryFilter: selectedCategoryFilter,
+        paymentFilter: selectedPaymentFilter,
+      );
     }catch(e){
       emit(ExpenseError(e.toString()));
     }
@@ -75,48 +84,70 @@ class ExpenseCubit extends Cubit<ExpenseState>{
     }
   }
 
-  void applyFilter(ExpenseFilter filter) {
-    selectedFilter = filter;
-    if (filter == ExpenseFilter.all) {
-      filteredExpenses = allExpenses;
-    }
+  void applyFilters({
+    required DateFilter dateFilter,
+    required TypeFilter typeFilter,
+    required CategoryFilter categoryFilter,
+    required PaymentType paymentFilter,
+  }) {
 
-    else if (filter == ExpenseFilter.income) {
-      filteredExpenses = allExpenses.where((e) {
-        return e.type == TransactionType.income;
-      }).toList();
-    }
+    selectedDateFilter = dateFilter;
+    selectedTypeFilter = typeFilter;
+    selectedCategoryFilter = categoryFilter;
+    selectedPaymentFilter = paymentFilter;
 
-    else if (filter == ExpenseFilter.expense) {
-      filteredExpenses = allExpenses.where((e) {
-        return e.type == TransactionType.expense;
-      }).toList();
-    }
+    List<Expense> result = List.from(allExpenses);
 
-    else if (filter == ExpenseFilter.today) {
+    if (dateFilter == DateFilter.today) {
       final now = DateTime.now();
-      filteredExpenses = allExpenses.where((e) {
+      result = result.where((e) {
         return e.createdAt.day == now.day &&
             e.createdAt.month == now.month &&
             e.createdAt.year == now.year;
       }).toList();
-
     }
 
-    else if (filter == ExpenseFilter.week) {
+    else if (dateFilter == DateFilter.week) {
       final now = DateTime.now();
-      filteredExpenses = allExpenses.where((e) {
+      result = result.where((e) {
         return now.difference(e.createdAt).inDays <= 7;
       }).toList();
     }
 
-    else if (filter == ExpenseFilter.month) {
+    else if (dateFilter == DateFilter.month) {
       final now = DateTime.now();
-      filteredExpenses = allExpenses.where((e) {
-        return e.createdAt.month == now.month &&
-            e.createdAt.year == now.year;
+      result = result.where((e) {
+        return e.createdAt.month == now.month && e.createdAt.year == now.year;
       }).toList();
     }
+
+
+    if (typeFilter == TypeFilter.income) {
+      result = result.where((e) {
+        return e.type == TransactionType.income;
+      }).toList();
+    }
+
+    else if (typeFilter == TypeFilter.expense) {
+      result = result.where((e) {
+        return e.type == TransactionType.expense;
+      }).toList();
+    }
+
+
+    if (categoryFilter != CategoryFilter.all) {
+      result = result.where((e) {
+        return e.category.name == categoryFilter.name;
+      }).toList();
+    }
+
+    if (paymentFilter != PaymentType.all) {
+      result = result.where((e) {
+        return e.paymentMethod.name == paymentFilter.name;
+      }).toList();
+    }
+
+    filteredExpenses = result;
 
     emit(ExpenseLoaded(filteredExpenses));
   }
