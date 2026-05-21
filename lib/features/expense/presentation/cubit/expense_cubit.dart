@@ -17,6 +17,8 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   CategoryFilter selectedCategoryFilter = CategoryFilter.all;
   PaymentType selectedPaymentFilter = PaymentType.all;
 
+  String searchQuery = '';
+
   List<Expense> allExpenses = [];
   List<Expense> filteredExpenses = [];
 
@@ -84,6 +86,18 @@ class ExpenseCubit extends Cubit<ExpenseState>{
     }
   }
 
+  void searchExpense(String query) {
+
+    searchQuery = query.toLowerCase();
+
+    applyFilters(
+      dateFilter: selectedDateFilter,
+      typeFilter: selectedTypeFilter,
+      categoryFilter: selectedCategoryFilter,
+      paymentFilter: selectedPaymentFilter,
+    );
+  }
+
   void applyFilters({
     required DateFilter dateFilter,
     required TypeFilter typeFilter,
@@ -144,6 +158,21 @@ class ExpenseCubit extends Cubit<ExpenseState>{
     if (paymentFilter != PaymentType.all) {
       result = result.where((e) {
         return e.paymentMethod.name == paymentFilter.name;
+      }).toList();
+    }
+
+
+    /// SEARCH FILTER
+    if (searchQuery.isNotEmpty) {
+      result = result.where((e) {
+        final title = e.title.toLowerCase();
+        final amount = e.amount.toString();
+        final category = e.category.toString();
+        final paymentType = e.paymentMethod.toString();
+        return title.contains(searchQuery)
+            || amount.contains(searchQuery)
+            || category.contains(searchQuery)
+            || paymentType.contains(searchQuery);
       }).toList();
     }
 
