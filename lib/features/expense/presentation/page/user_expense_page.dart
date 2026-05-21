@@ -35,7 +35,12 @@ class UserExpensePage extends StatelessWidget {
                 child: ScrollTabBar(
 
                   onFilterChanged: (dateFilter, typeFilter, categoryFilter, paymentFilter) {
-
+                    context.read<ExpenseCubit>().applyFilters(
+                      dateFilter: dateFilter,
+                      typeFilter: typeFilter,
+                      categoryFilter: categoryFilter,
+                      paymentFilter: paymentFilter,
+                    );
                   },
                 )
               ),
