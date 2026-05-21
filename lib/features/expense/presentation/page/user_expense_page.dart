@@ -33,10 +33,11 @@ class UserExpensePage extends StatelessWidget {
               Padding(
                 padding: AppPadding.edgeSymmetricVer12,
                 child: ScrollTabBar(
-                  onFilterChanged: (filter) {
-                    context.read<ExpenseCubit>().applyFilter(filter);
+
+                  onFilterChanged: (dateFilter, typeFilter, categoryFilter, paymentFilter) {
+
                   },
-                ),
+                )
               ),
 
               Expanded(
