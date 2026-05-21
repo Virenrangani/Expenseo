@@ -151,4 +151,15 @@ class ExpenseCubit extends Cubit<ExpenseState>{
 
     emit(ExpenseLoaded(filteredExpenses));
   }
+
+  void clearFilter(){
+    selectedDateFilter=DateFilter.all;
+    selectedTypeFilter=TypeFilter.all;
+    selectedPaymentFilter=PaymentType.all;
+    selectedCategoryFilter=CategoryFilter.all;
+
+    filteredExpenses = allExpenses;
+
+    emit(ExpenseLoaded(filteredExpenses));
+  }
 }
