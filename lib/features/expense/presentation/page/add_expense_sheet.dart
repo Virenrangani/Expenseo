@@ -98,6 +98,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   ),
                   AppGap.g20,
                   submitButton(),
+                  AppGap.g20
                 ],
               ),
             ),
