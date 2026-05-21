@@ -13,7 +13,7 @@ enum TypeFilter {
 
 enum CategoryFilter {
   all,
-  ood,
+  food,
   shopping,
   transport,
   health,
