@@ -1,15 +1,17 @@
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/constant/border_radius/app_border_radius.dart';
-import '../../../../core/constant/colour/app_color.dart';
-import '../../../../core/constant/text_style/app_text_style.dart';
-import '../../../../core/enums/app_enums.dart';
+import '../../../../core/enums/expense_filter_enums.dart';
+import 'filter_tab_section.dart';
 
 class ScrollTabBar extends StatefulWidget {
 
-  final Function(ExpenseFilter filter) onFilterChanged;
+  final void Function(
+      DateFilter dateFilter,
+      TypeFilter typeFilter,
+      CategoryFilter categoryFilter,
+      PaymentType paymentFilter
+      ) onFilterChanged;
 
   const ScrollTabBar({
     super.key,
@@ -22,114 +24,121 @@ class ScrollTabBar extends StatefulWidget {
 
 class _ScrollTabBarState extends State<ScrollTabBar> {
 
-  final List<String> tabs = [
-    'All',
-    'Today',
-    'Week',
-    'Month',
-    'Income',
-    'Expense'
-  ];
-
-  int selectedIndex = 0;
+  DateFilter selectedDateFilter = DateFilter.all;
+  TypeFilter selectedTypeFilter = TypeFilter.all;
+  CategoryFilter selectedCategoryFilter = CategoryFilter.all;
+  PaymentType selectPaymentFilter = PaymentType.all;
 
   @override
   Widget build(BuildContext context) {
 
-    return SizedBox(
-      height: 44,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
 
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
+      children: [
+        FilterTabSection<DateFilter>(
+          tabs: const [
+            'All',
+            'Today',
+            'Week',
+            'Month',
+          ],
 
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+          values: DateFilter.values,
+          selectedValue:selectedDateFilter,
+          onSelected: (value) {
+            setState(() {
+              selectedDateFilter = value;
+            });
+            widget.onFilterChanged(
+              selectedDateFilter,
+              selectedTypeFilter,
+              selectedCategoryFilter,
+              selectPaymentFilter
+            );
+          },
+        ),
 
-        itemCount: tabs.length,
+       AppGap.g12,
 
-        separatorBuilder: (_, _) =>
-        AppGap.g8,
+        FilterTabSection<TypeFilter>(
 
-        itemBuilder: (context, index) {
+          tabs: const [
+            'All',
+            'Income',
+            'Expense',
+          ],
 
-          final isSelected =
-              selectedIndex == index;
+          values: TypeFilter.values,
+          selectedValue: selectedTypeFilter,
+          onSelected: (value) {
+            setState(() {
+              selectedTypeFilter = value;
+            });
 
-          return GestureDetector(
+            widget.onFilterChanged(
+              selectedDateFilter,
+              selectedTypeFilter,
+              selectedCategoryFilter,
+              selectPaymentFilter
+            );
+          },
+        ),
 
-            onTap: () {
-
+        AppGap.g12,
+        FilterTabSection(
+            tabs: const [
+              'All',
+              'Food',
+             'Shopping',
+             'Transport',
+             'Health',
+              'Entertainment',
+              'Salary',
+             'Rent',
+             'Other',
+            ],
+            values: CategoryFilter.values,
+            selectedValue: selectedCategoryFilter,
+            onSelected: (value) {
               setState(() {
-                selectedIndex = index;
+                selectedCategoryFilter = value;
               });
 
-              switch(index){
-                case 0:
-                  widget.onFilterChanged(
-                    ExpenseFilter.all,
-                  );
-
-                case 1:
-                  widget.onFilterChanged(
-                    ExpenseFilter.today,
-                  );
-
-                case 2:
-                  widget.onFilterChanged(
-                    ExpenseFilter.week,
-                  );
-
-                case 3:
-                  widget.onFilterChanged(
-                    ExpenseFilter.month,
-                  );
-
-                case 4:
-                  widget.onFilterChanged(
-                    ExpenseFilter.income,
-                  );
-
-                case 5:
-                  widget.onFilterChanged(
-                    ExpenseFilter.expense,
-                  );
-              }
+              widget.onFilterChanged(
+                selectedDateFilter,
+                selectedTypeFilter,
+                selectedCategoryFilter,
+                selectPaymentFilter
+              );
             },
+        ),
 
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250,),
+        AppGap.g12,
+        FilterTabSection(
+            tabs: const [
+              'All',
+              'Upi',
+              'Cash',
+              'Card',
+              'NetBanking'
+            ],
+            values: PaymentType.values,
+            selectedValue: selectPaymentFilter,
+            onSelected: (value) {
+              setState(() {
+                selectPaymentFilter = value;
+              });
 
-              padding: AppPadding.edgeSymmetricHori12,
-
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColor.primary
-                    : AppColor.primary.withAlpha(25),
-
-                borderRadius: AppBorderRadius.cir12,
-
-                border: Border.all(
-                  width: 1.5,
-                  color: isSelected
-                      ? AppColor.primary
-                      : AppColor.textSecondary,
-                ),
-              ),
-
-              child: Center(
-                child: Text(
-                  tabs[index],
-
-                  style: AppTextStyles.captionMedium(
-                    color: isSelected
-                        ? Colors.white
-                        : AppColor.textPrimary,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+              widget.onFilterChanged(
+                selectedDateFilter,
+                selectedTypeFilter,
+                selectedCategoryFilter,
+                selectPaymentFilter
+              );
+            },
+        )
+      ],
     );
   }
 }
