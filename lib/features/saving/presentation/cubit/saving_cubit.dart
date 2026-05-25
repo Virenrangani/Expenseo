@@ -1,0 +1,46 @@
+import 'package:expenseo/core/constant/string/app_string.dart';
+import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
+import 'package:expenseo/features/saving/domain/usecase/saving_use_case.dart';
+import 'package:expenseo/features/saving/presentation/cubit/saving_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../domain/entity/saving_goal.dart';
+
+class SavingCubit extends Cubit<SavingState>{
+  final SavingUseCase savingGoalUseCase;
+  SavingCubit(this.savingGoalUseCase):super(SavingInitial());
+
+  String? validateGoal(String value){
+    if(value.trim().isEmpty){
+      return AppString.goalRequired;
+    }
+    return null;
+  }
+
+  String? validateTargetAmount(String value){
+    return validateAmount(value);
+}
+
+  Future<void> createGoal({
+    required String goal,
+    required double targetAmount,
+  }) async {
+    emit(SavingLoading());
+    try {
+      final saveGoal = SavingGoal(
+        id: const Uuid().v4(),
+        goal: goal,
+        targetAmount: targetAmount,
+        savedAmount: 0,
+        isCompleted: false,
+        createdAt: DateTime.now(),
+      );
+
+      await savingGoalUseCase.createGoal(saveGoal);
+      emit(SavingSuccess(AppString.goalCreate));
+    } catch (e) {
+      emit(SavingError(e.toString()));
+    }
+  }
+}
