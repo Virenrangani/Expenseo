@@ -110,4 +110,10 @@ class AppString {
 
   static const String category='Category';
   static const String paymentMethod='Payment Method';
+
+  static const String goal='Goal';
+  static const String goalHint='Name of goal';
+  static const String targetAmount='Target Amount';
+  static const String targetAmountGoal='Target amount for goal';
+
 }
