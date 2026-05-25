@@ -1,4 +1,4 @@
-import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/features/saving/presentation/page/add_saving_goal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
@@ -21,6 +21,11 @@ class UserSavingPage extends StatelessWidget {
             ),
             child: IconButton(
               onPressed: () {
+                showModalBottomSheet<void>(
+                    context: context,
+                    showDragHandle: true,
+                    builder: (context) => const AddSavingGoal()
+                );
               },
               icon: const Icon(Icons.add, color: AppColor.background),
             ),
