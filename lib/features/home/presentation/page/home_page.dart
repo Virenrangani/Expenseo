@@ -5,6 +5,7 @@ import 'package:expenseo/features/home/presentation/widget/expense_container.dar
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
 import 'package:expenseo/features/home/presentation/widget/show_all_expense_button.dart';
 import 'package:expenseo/features/home/presentation/widget/transaction_list.dart';
+import 'package:expenseo/features/saving/presentation/page/user_saving_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -129,7 +130,14 @@ class _HomePageState extends State<HomePage> {
                           AppIconCard(
                             icon: Icons.savings_outlined,
                             text: AppString.saving,
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (context) => const UserSavingPage(),
+                                ),
+                              );
+                            },
                           ),
 
                           AppGap.g8,
