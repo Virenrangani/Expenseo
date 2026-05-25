@@ -38,10 +38,13 @@ class PaymentMethodSelector extends StatelessWidget {
                   ? AppColor.primary.withAlpha(15)
                   : AppColor.background,
             ),
-            child: Text(
-              method.label,
-              style: AppTextStyles.captionMedium(
-                color: isSelected ? AppColor.secondary : AppColor.textSecondary,
+            child: Padding(
+              padding:AppPadding.edgeAll4,
+              child: Text(
+                method.label,
+                style: AppTextStyles.captionMedium(
+                  color: isSelected ? AppColor.secondary : AppColor.textSecondary,
+                ),
               ),
             ),
           ),

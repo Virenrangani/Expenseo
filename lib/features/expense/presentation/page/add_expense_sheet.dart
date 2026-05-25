@@ -1,12 +1,9 @@
-import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/features/expense/presentation/widget/amount_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../core/constant/border_radius/app_border_radius.dart';
-import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
-import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
@@ -46,12 +43,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
             CustomSnacksBar.showSuccess(context, state.message);
           }
         },
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColor.background,
-            borderRadius: AppBorderRadius.verTop24,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 12,
+            right: 12,
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          padding: AppPadding.edgeAll16,
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -60,56 +57,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Center(
-                    child: Container(
-                      width:  40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: AppColor.divider,
-                        borderRadius: AppBorderRadius.cir8,
-                      ),
-                    ),
-                  ),
-                  Center(
                     child: Text(
                       context.read<ExpenseCubit>().type == TransactionType.expense ? AppString.addExpense : AppString.addIncome,
                       style: AppTextStyles.h5(),
                     ),
                   ),
                   AppGap.g16,
-                  Container(
-                    width: double.infinity,
-                    padding: AppPadding.edgeAll16,
-                    decoration: BoxDecoration(
-                      color: AppColor.primaryLight,
-                      borderRadius: AppBorderRadius.cir16,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          AppString.addAmount,
-                          style: AppTextStyles.captionMedium(color: AppColor.secondary),
-                        ),
-                        AppGap.g8,
 
-                        AppFormField(
-                          controller: amountController,
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.h2(color: AppColor.primary),
-
-                          hintText: '0',
-                          prefixText: '₹ ',
-                          prefixStyle: AppTextStyles.h2(color: AppColor.primary),
-
-                          contentPadding: EdgeInsets.zero,
-                          fillColor: AppColor.secondary,
-                          validator: (val)=>validateAmount(val!)
-                        ),
-                      ],
-                    ),
-                  ),
+                  AmountField(controller: amountController),
                   AppGap.g16,
+
                   ExpenseTypeToggle(
                     selectedType:context.read<ExpenseCubit>().type,
                     onChanged: (typeText) => setState(() => context.read<ExpenseCubit>().type = typeText),
@@ -141,11 +98,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                   ),
                   AppGap.g20,
                   submitButton(),
+                  AppGap.g20
                 ],
               ),
             ),
           ),
-    ),
+        ),
     );
   }
 

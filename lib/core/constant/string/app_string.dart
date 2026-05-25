@@ -67,6 +67,7 @@ class AppString {
   static const String recentTransaction = 'Recent Transactions';
   static const String showAll = 'Show All';
 
+  static const String allExpenses = 'All Expenses';
   static const String addExpense = 'Add Expense';
   static const String addIncome = 'Add Income';
   static const String addAmount='Enter Amount';
@@ -110,4 +111,8 @@ class AppString {
 
   static const String category='Category';
   static const String paymentMethod='Payment Method';
+
+  static const String filter='Filter';
+  static const String clearAll='Clear All';
+
 }
