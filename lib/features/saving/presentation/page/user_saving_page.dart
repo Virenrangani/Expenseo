@@ -12,27 +12,19 @@ class UserSavingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Savings' , style: AppTextStyles.h4()),
-        actions: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal:18),
-            decoration: const BoxDecoration(
-              color: AppColor.primary,
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                    context: context,
-                    showDragHandle: true,
-                    builder: (context) => const AddSavingGoal()
-                );
-              },
-              icon: const Icon(Icons.add, color: AppColor.background),
-            ),
-          ),
-        ],
       ),
       body: Container(),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            showModalBottomSheet<void>(
+                context: context,
+                showDragHandle: true,
+                builder: (context) => const AddSavingGoal()
+            );
+          },
+        backgroundColor: AppColor.primary,
+        child: const Icon(Icons.add, color: AppColor.background ,size: 28,),
+      ),
     );
   }
 }
