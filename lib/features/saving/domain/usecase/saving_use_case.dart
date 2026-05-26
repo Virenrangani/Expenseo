@@ -10,4 +10,8 @@ class SavingUseCase {
     await savingRepository.createGoal(savingGoal);
   }
 
+  Future<List<SavingGoal>> getAllGoal(){
+    return savingRepository.getAllGoal();
+  }
+
 }
