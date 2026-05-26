@@ -2,28 +2,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/entity/saving_goal.dart';
 
-class SavingGoalModel {
+class SavingModel {
   final String id;
   final String goal;
+  final String goalImage;
   final double targetAmount;
   final double savedAmount;
   final bool isCompleted;
   final DateTime createdAt;
 
-  const SavingGoalModel({
+  const SavingModel({
     required this.id,
     required this.goal,
+    required this.goalImage,
     required this.targetAmount,
     required this.savedAmount,
     required this.isCompleted,
     required this.createdAt,
   });
 
-  factory SavingGoalModel.fromJson(
+  factory SavingModel.fromJson(
       String id, Map<String, dynamic> json) {
-    return SavingGoalModel(
+    return SavingModel(
       id: id,
       goal: json['goal']?.toString() ?? '',
+      goalImage: json['goalImage']?.toString() ?? '',
       targetAmount: (json['targetAmount'] as num?)?.toDouble() ?? 0.0,
       savedAmount: (json['savedAmount'] as num?)?.toDouble() ?? 0.0,
       isCompleted: json['isCompleted'] as bool? ?? false,
@@ -33,6 +36,7 @@ class SavingGoalModel {
 
   Map<String, dynamic> toJson() => {
     'goal': goal,
+    'goalImage':goalImage,
     'targetAmount': targetAmount,
     'savedAmount': savedAmount,
     'isCompleted': isCompleted,
@@ -42,16 +46,18 @@ class SavingGoalModel {
   SavingGoal toEntity() => SavingGoal(
     id: id,
     goal: goal,
+    goalImage: goalImage,
     targetAmount: targetAmount,
     savedAmount: savedAmount,
     isCompleted: isCompleted,
     createdAt: createdAt,
   );
 
-  factory SavingGoalModel.fromEntity(SavingGoal entity) =>
-      SavingGoalModel(
+  factory SavingModel.fromEntity(SavingGoal entity) =>
+      SavingModel(
         id: entity.id,
         goal: entity.goal,
+        goalImage: entity.goalImage,
         targetAmount: entity.targetAmount,
         savedAmount: entity.savedAmount,
         isCompleted: entity.isCompleted,
