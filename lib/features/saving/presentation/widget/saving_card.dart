@@ -1,6 +1,6 @@
+import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/format_amount/format_amount.dart';
@@ -106,10 +106,12 @@ class SavingsCard extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(goal.goal,
+                        AutoSizeText(goal.goal,
+                            maxLines: 1,
                             style: AppTextStyles.h2(
                                 color: AppColor.background),
-                            overflow: TextOverflow.ellipsis),
+                            overflow: TextOverflow.ellipsis
+                        ),
                         Text(formatAmount(goal.targetAmount),
                           style: AppTextStyles.h5(
                             color: AppColor.background,),),
