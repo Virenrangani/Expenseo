@@ -19,4 +19,9 @@ class SavingRepositoryImpl extends SavingRepository{
     final models = await savingDatasource.getAllGoal();
     return models.map((m) => m.toEntity()).toList();
   }
+
+  @override
+  Future<void> addSavingAmount(String goalId, double savedAmount) async {
+    await savingDatasource.addSavingAmount(goalId, savedAmount);
+  }
 }

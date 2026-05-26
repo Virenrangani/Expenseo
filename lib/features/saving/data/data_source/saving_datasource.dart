@@ -8,6 +8,7 @@ import '../../../../core/error/app_errors.dart';
 abstract class SavingDatasource {
   Future<void> createGoal(SavingModel savingGoal);
   Future<List<SavingModel>> getAllGoal();
+  Future<void> addSavingAmount(String goalId , double savedAmount);
 }
 
 class SavingDatasourceImpl extends SavingDatasource{
@@ -47,6 +48,23 @@ class SavingDatasourceImpl extends SavingDatasource{
           e.id, e.data()
       )).toList();
 
+    }on FirebaseException catch (e){
+      throw Exception(AppErrors.handleFireStoreException(e));
+    }catch (e){
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
+
+  @override
+  Future<void> addSavingAmount(String goalId, double savedAmount)async {
+    try{
+      await firestore.collection('users')
+          .doc(uid)
+          .collection('saving')
+          .doc(goalId)
+          .update({
+            'savedAmount':FieldValue.increment(savedAmount)
+          });
     }on FirebaseException catch (e){
       throw Exception(AppErrors.handleFireStoreException(e));
     }catch (e){
