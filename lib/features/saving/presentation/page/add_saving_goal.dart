@@ -1,6 +1,5 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
@@ -23,6 +22,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController goalController = TextEditingController();
   final TextEditingController targetAmountController = TextEditingController();
+  final TextEditingController goalImageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,21 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                   style: AppTextStyles.h5(),
                 ),
               ),
-          
+
+              Text(AppString.goalImage,style: AppTextStyles.caption(color: AppColor.textPrimary)),
+              AppGap.g4,
+              AppFormField(
+                controller: goalImageController,
+                hintText: AppString.goalHint,
+                prefixIcon: const Icon(Icons.image_outlined ,color: AppColor.textSecondary,),
+                fillColor: AppColor.primaryLight.withAlpha(50),
+                validator:  (value) {
+                  return context.read<SavingCubit>().validateGoalImage(value ?? '');
+                },
+              ),
+
+              AppGap.g20,
+
               Text(AppString.goal,style: AppTextStyles.caption(color: AppColor.textPrimary)),
               AppGap.g4,
               AppFormField(
@@ -115,6 +129,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
     if (!_formKey.currentState!.validate()) return;
     await context.read<SavingCubit>().createGoal(
       goal: goalController.text.trim(),
+      goalImage: goalImageController.text.trim(),
       targetAmount: double.parse(targetAmountController.text.trim()),
     );
     Navigator.pop(context);
