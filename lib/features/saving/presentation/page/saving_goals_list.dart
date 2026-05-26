@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../domain/entity/saving_goal.dart';
