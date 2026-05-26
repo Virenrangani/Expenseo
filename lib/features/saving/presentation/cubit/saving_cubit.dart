@@ -9,11 +9,20 @@ import '../../domain/entity/saving_goal.dart';
 
 class SavingCubit extends Cubit<SavingState>{
   final SavingUseCase savingGoalUseCase;
-  SavingCubit(this.savingGoalUseCase):super(SavingInitial());
+  SavingCubit(this.savingGoalUseCase):super(SavingInitial()){
+    getAllGoal();
+  }
 
   String? validateGoal(String value){
     if(value.trim().isEmpty){
       return AppString.goalRequired;
+    }
+    return null;
+  }
+
+  String? validateGoalImage(String value){
+    if(value.trim().isEmpty){
+      return AppString.goalImageRequired;
     }
     return null;
   }
@@ -23,6 +32,7 @@ class SavingCubit extends Cubit<SavingState>{
 }
 
   Future<void> createGoal({
+    required String goalImage,
     required String goal,
     required double targetAmount,
   }) async {
@@ -31,6 +41,7 @@ class SavingCubit extends Cubit<SavingState>{
       final saveGoal = SavingGoal(
         id: const Uuid().v4(),
         goal: goal,
+        goalImage: goalImage,
         targetAmount: targetAmount,
         savedAmount: 0,
         isCompleted: false,
@@ -39,7 +50,18 @@ class SavingCubit extends Cubit<SavingState>{
 
       await savingGoalUseCase.createGoal(saveGoal);
       emit(SavingSuccess(AppString.goalCreate));
+      await getAllGoal();
     } catch (e) {
+      emit(SavingError(e.toString()));
+    }
+  }
+
+  Future<void> getAllGoal() async {
+    emit(SavingLoading());
+    try{
+      final goals = await savingGoalUseCase.getAllGoal();
+      emit(SavingLoaded(goals));
+    }catch(e){
       emit(SavingError(e.toString()));
     }
   }
