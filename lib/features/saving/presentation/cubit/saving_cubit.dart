@@ -65,4 +65,15 @@ class SavingCubit extends Cubit<SavingState>{
       emit(SavingError(e.toString()));
     }
   }
+
+  Future<void> addSavingAmount(String goalId , double savedAmount)async{
+    emit(SavingLoading());
+    try{
+       await savingGoalUseCase.addSavingAmount(goalId , savedAmount);
+      emit(SavingSuccess('Saved amount added..!!'));
+      await getAllGoal();
+    }catch (e){
+      emit(SavingError(e.toString()));
+    }
+  }
 }
