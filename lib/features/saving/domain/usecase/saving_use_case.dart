@@ -14,4 +14,8 @@ class SavingUseCase {
     return savingRepository.getAllGoal();
   }
 
+  Future<void> addSavingAmount(String goalId , double savedAmount)async {
+    await savingRepository.addSavingAmount(goalId , savedAmount);
+  }
+
 }
