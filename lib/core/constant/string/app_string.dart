@@ -121,5 +121,9 @@ class AppString {
   static const String goalRequired='Goal is required';
   static const String goalImageRequired='Goal image is required';
   static const String goalCreate='Goal is create!';
+  static const String addSaving='Add Saving';
+  static const String save='Save';
+  static const String cancel='Cancel';
+  static const String savingAmountAdded='Saving amount is added..!!';
 
 }
