@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+
+import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/padding/app_padding.dart';
+
+class SideButton extends StatelessWidget {
+  final IconData iconData;
+  const SideButton({super.key, required this.iconData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: AppPadding.edgeAll8,
+        child: Container(
+          height: 68,
+          width: 68,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                  width: 2,
+                  color: AppColor.textLight.withAlpha(100)
+              )
+          ),
+          child: Icon(iconData , size: 32 , color: AppColor.background),
+        )
+    );
+  }
+}
