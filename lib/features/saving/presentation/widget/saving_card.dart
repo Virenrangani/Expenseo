@@ -4,6 +4,7 @@ import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/format_amount/format_amount.dart';
 import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
+import 'package:expenseo/features/saving/presentation/widget/progress_bar.dart';
 import 'package:expenseo/features/saving/presentation/widget/side_button.dart';
 import 'package:flutter/material.dart';
 
@@ -24,26 +25,31 @@ class SavingsCard extends StatelessWidget {
 
               Image.network(goal.goalImage, fit: BoxFit.fill,),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SideButton(iconData: Icons.add),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(goal.goal,
-                          style: AppTextStyles.h2(color: AppColor.background),overflow: TextOverflow.ellipsis),
-                        Text(formatAmount(goal.targetAmount),
-                          style: AppTextStyles.h5(color: AppColor.background,),),
-                        AppGap.g8
-                      ],
-                    ),
-                  ),
 
-                 const SideButton(iconData: Icons.arrow_forward)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ProgressBar(goal: goal),
+                  AppGap.g4,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SideButton(iconData: Icons.add),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(goal.goal,
+                              style: AppTextStyles.h2(color: AppColor.background),overflow: TextOverflow.ellipsis),
+                            Text(formatAmount(goal.targetAmount),
+                              style: AppTextStyles.h5(color: AppColor.background,),),
+                            AppGap.g8
+                          ],
+                        ),
+                      ),
+
+                     const SideButton(iconData: Icons.arrow_forward)
+                    ],
+                  ),
                 ],
               ),
             ],
