@@ -75,28 +75,37 @@ class SavingsCard extends StatelessWidget {
                               ),
 
                               actions: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: AppElevatedButton(
+                                        isEnabled: true,
+                                        color: AppColor.error.withAlpha(100),
+                                        text: AppString.cancel,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                    AppGap.g8,
+                                    Expanded(
+                                      child: AppElevatedButton(
+                                        isEnabled: true,
+                                        text: AppString.save,
+                                        onPressed: () {
+                                          context.read<SavingCubit>().addSavingAmount(
+                                              goal.id,
+                                              double.tryParse(savingAmountController.text) ?? 0
+                                          );
+                                          Navigator.pop(context);
 
-                                AppElevatedButton(
-                                  isEnabled: true,
-                                  text: AppString.cancel,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
+                                          CustomSnacksBar.showSuccess(context, AppString.savingAmountAdded);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
 
-                                AppElevatedButton(
-                                  isEnabled: true,
-                                  text: AppString.save,
-                                  onPressed: () {
-                                    context.read<SavingCubit>().addSavingAmount(
-                                        goal.id,
-                                        double.tryParse(savingAmountController.text) ?? 0
-                                    );
-                                    Navigator.pop(context);
-
-                                    CustomSnacksBar.showSuccess(context, AppString.savingAmountAdded);
-                                  },
-                                ),
                               ],
                             ),
                           );
