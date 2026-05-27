@@ -1,5 +1,6 @@
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
+import 'package:expenseo/features/saving/domain/entity/deposit.dart';
 import 'package:expenseo/features/saving/domain/usecase/saving_use_case.dart';
 import 'package:expenseo/features/saving/presentation/cubit/saving_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,15 @@ class SavingCubit extends Cubit<SavingState>{
   Future<void> addSavingAmount(String goalId , double savedAmount)async{
     emit(SavingLoading());
     try{
-       await savingGoalUseCase.addSavingAmount(goalId , savedAmount);
+
+      final deposit = Deposit(
+          id: const Uuid().v4(),
+          goalId: goalId,
+          amount: savedAmount,
+          createdAt: DateTime.now()
+      );
+
+       await savingGoalUseCase.addSavingAmount(deposit);
       emit(SavingSuccess('Saved amount added..!!'));
       await getAllGoal();
     }catch (e){
