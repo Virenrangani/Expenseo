@@ -1,3 +1,5 @@
+import 'package:expenseo/features/saving/domain/entity/deposit.dart';
+
 import '../../domain/entity/saving_goal.dart';
 
 abstract class SavingState {}
@@ -24,4 +26,9 @@ final class SavingLoaded extends SavingState {
 
   List<SavingGoal> get completedGoals =>
       goals.where((g) => g.isCompleted).toList();
+}
+
+final class DepositLoaded extends SavingState{
+  final List<Deposit> deposits;
+  DepositLoaded(this.deposits);
 }
