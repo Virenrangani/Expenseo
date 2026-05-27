@@ -18,8 +18,8 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
   final pages = [
     const HomePage(),
-    const Center(child: Text('stats'),),
-    const Center(child: Text('profile'),)
+    const Center(child: Text('stats')),
+    const Center(child: Text('profile')),
   ];
 
   @override
@@ -37,7 +37,6 @@ class _AppBottomNavState extends State<AppBottomNav> {
         },
 
         items: [
-
           CurvedNavigationItemPro(
             label: 'Home',
 
@@ -47,59 +46,48 @@ class _AppBottomNavState extends State<AppBottomNav> {
               repeat: false,
             ),
 
-            inactiveWidget: const Icon(Icons.home)
+            inactiveWidget: const Icon(Icons.home),
           ),
 
           CurvedNavigationItemPro(
-              label: 'Graphs',
+            label: 'Graphs',
 
-              activeWidget: Lottie.asset(
-                AppLottie.graph,
-                width: 34,
-                repeat: false,
-              ),
+            activeWidget: Lottie.asset(
+              AppLottie.graph,
+              width: 34,
+              repeat: false,
+            ),
 
-              inactiveWidget: const Icon(Icons.bar_chart_outlined )
+            inactiveWidget: const Icon(Icons.bar_chart_outlined),
           ),
 
           CurvedNavigationItemPro(
-              label: 'Profile',
+            label: 'Profile',
 
-              activeWidget: Lottie.asset(
-                AppLottie.profile,
-                width: 34,
-                repeat: false,
-              ),
+            activeWidget: Lottie.asset(
+              AppLottie.profile,
+              width: 34,
+              repeat: false,
+            ),
 
-              inactiveWidget: const Icon(Icons.person)
+            inactiveWidget: const Icon(Icons.person),
           ),
         ],
 
-        backgroundColor:AppColor.background,
-
+        backgroundColor: AppColor.background,
         activeColor: AppColor.textPrimary,
-
         fabColor: AppColor.primary,
-
         inactiveColor: AppColor.textSecondary,
-
         barHeight: 84,
-
         fabRadius: 28,
-
-        fabGap: 8,
-
-        cornerRadius: 28,
-
+        fabGap: 4,
+        cornerRadius: 0,
         elevation: 20,
-
+        fabSink: 16,
         animationDuration: const Duration(milliseconds: 600),
-
         animationCurve: Curves.easeInOutCubicEmphasized,
-
         activeTextStyle: AppTextStyles.captionBold(color: AppColor.textPrimary),
-
-        inactiveTextStyle: AppTextStyles.descriptionSmall()
+        inactiveTextStyle: AppTextStyles.descriptionSmall(),
       ),
     );
   }
