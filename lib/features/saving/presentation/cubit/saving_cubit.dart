@@ -85,4 +85,17 @@ class SavingCubit extends Cubit<SavingState>{
       emit(SavingError(e.toString()));
     }
   }
+
+  Future<void> getAllDeposit(String goalId)async {
+    emit(SavingLoading());
+    {
+      try{
+        final deposits = await savingGoalUseCase.getAllDeposit(goalId);
+
+        emit(DepositLoaded(deposits));
+      }catch (e){
+        emit(SavingError(e.toString()));
+      }
+    }
+  }
 }
