@@ -1,5 +1,7 @@
 import 'package:expenseo/features/saving/data/data_source/saving_datasource.dart';
+import 'package:expenseo/features/saving/data/model/deposit_model.dart';
 import 'package:expenseo/features/saving/data/model/saving_model.dart';
+import 'package:expenseo/features/saving/domain/entity/deposit.dart';
 import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
 import 'package:expenseo/features/saving/domain/repository/saving_repository.dart';
 
@@ -21,7 +23,13 @@ class SavingRepositoryImpl extends SavingRepository{
   }
 
   @override
-  Future<void> addSavingAmount(String goalId, double savedAmount) async {
-    await savingDatasource.addSavingAmount(goalId, savedAmount);
+  Future<void> addSavingAmount(Deposit deposit) async {
+    await savingDatasource.addSavingAmount(DepositModel.fromEntity(deposit));
+  }
+
+  @override
+  Future<List<Deposit>> getAllDeposit(String goalId) {
+    // TODO: implement getAllDeposit
+    throw UnimplementedError();
   }
 }
