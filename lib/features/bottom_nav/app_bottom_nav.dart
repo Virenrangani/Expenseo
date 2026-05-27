@@ -89,8 +89,6 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
         fabGap: 8,
 
-        fabSink: 18,
-
         cornerRadius: 28,
 
         elevation: 20,
