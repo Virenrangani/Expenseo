@@ -19,4 +19,8 @@ class SavingUseCase {
     await savingRepository.addSavingAmount(deposit);
   }
 
+  Future<List<Deposit>> getAllDeposit(String goalId) {
+    return savingRepository.getAllDeposit(goalId);
+  }
+
 }
