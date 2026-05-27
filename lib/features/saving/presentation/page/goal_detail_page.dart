@@ -10,27 +10,35 @@ class GoalDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Deposit History' , style: AppTextStyles.h4(),),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+
+        if (didPop) {
+          context.read<SavingCubit>().getAllGoal();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Deposit History' , style: AppTextStyles.h4(),),
+        ),
+        body: BlocBuilder<SavingCubit , SavingState>(
+            builder: (context , state){
+              if (state is SavingLoading){
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if(state is SavingError){
+                return Center(child: Text(state.message),);
+              }
+
+              if(state is DepositLoaded){
+                return DepositList(deposits: state.deposits);
+              }
+
+              return const SizedBox.shrink();
+            }
+        )
       ),
-      body: BlocBuilder<SavingCubit , SavingState>(
-          builder: (context , state){
-            if (state is SavingLoading){
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if(state is SavingError){
-              return Center(child: Text(state.message),);
-            }
-
-            if(state is DepositLoaded){
-              return DepositList(deposits: state.deposits);
-            }
-
-            return const SizedBox.shrink();
-          }
-      )
     );
   }
 }
