@@ -26,7 +26,6 @@ class SavingGoalsList extends StatelessWidget {
         aspectRatio: 1.8,
         enlargeFactor: 0.35,
         viewportFraction: 0.65,
-        clipBehavior: Clip.none,
         scrollPhysics:const BouncingScrollPhysics(),
       ),
     );
