@@ -60,7 +60,7 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   }
 
   void getTotalIncomeExpense(List<Expense> expense){
-    for (var item in expense){
+    for (final item in expense){
       if(item.type ==TransactionType.income){
         totalIncome=totalIncome+item.amount;
       }else if(item.type ==TransactionType.expense){
