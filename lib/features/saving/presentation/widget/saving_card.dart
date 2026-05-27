@@ -8,6 +8,7 @@ import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
 import 'package:expenseo/features/saving/presentation/cubit/saving_cubit.dart';
+import 'package:expenseo/features/saving/presentation/page/goal_detail_page.dart';
 import 'package:expenseo/features/saving/presentation/widget/progress_bar.dart';
 import 'package:expenseo/features/saving/presentation/widget/side_button.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,16 @@ class SavingsCard extends StatelessWidget {
                     ),
                   ),
 
-                  const SideButton(iconData: Icons.arrow_forward)
+                  SideButton(
+                      iconData: Icons.arrow_forward,
+                      onTap: (){
+                        Navigator.push(context,
+                            MaterialPageRoute<void>(
+                                builder: (context)=> const GoalDetailPage()
+                            )
+                        );
+                      },
+                  )
                 ],
               ),
             ],
