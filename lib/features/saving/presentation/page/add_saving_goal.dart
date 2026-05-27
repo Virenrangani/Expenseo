@@ -31,6 +31,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
 
     if(state is SavingSuccess){
       CustomSnacksBar.showSuccess(context, state.message);
+      Navigator.pop(context);
     }
 
     if(state is SavingError){
@@ -132,6 +133,5 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
       goalImage: goalImageController.text.trim(),
       targetAmount: double.parse(targetAmountController.text.trim()),
     );
-    Navigator.pop(context);
   }
 }
