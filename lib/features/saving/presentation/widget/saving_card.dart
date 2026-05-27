@@ -24,6 +24,8 @@ class SavingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final savingAmountController = TextEditingController();
+    final savingCubit = context.read<SavingCubit>();
+
     return ClipPath(
       clipper: CardClipper(),
       child: Stack(
@@ -54,7 +56,6 @@ class SavingsCard extends StatelessWidget {
                   SideButton(
                     iconData: Icons.add,
                     onTap: () {
-                      final savingCubit = context.read<SavingCubit>();
                       showDialog<void>(
                         context: context,
                         builder: (_) {
@@ -133,9 +134,13 @@ class SavingsCard extends StatelessWidget {
                   SideButton(
                       iconData: Icons.arrow_forward,
                       onTap: (){
+                        context.read<SavingCubit>().getAllDeposit(goal.id);
                         Navigator.push(context,
                             MaterialPageRoute<void>(
-                                builder: (context)=> const GoalDetailPage()
+                                builder: (context) => BlocProvider.value(
+                                              value: savingCubit ,
+                                              child: const GoalDetailPage(),
+                                            )
                             )
                         );
                       },
