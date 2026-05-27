@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:expenseo/features/saving/data/data_source/saving_datasource.dart';
 import 'package:expenseo/features/saving/data/model/deposit_model.dart';
 import 'package:expenseo/features/saving/data/model/saving_model.dart';
@@ -28,8 +30,8 @@ class SavingRepositoryImpl extends SavingRepository{
   }
 
   @override
-  Future<List<Deposit>> getAllDeposit(String goalId) {
-    // TODO: implement getAllDeposit
-    throw UnimplementedError();
+  Future<List<Deposit>> getAllDeposit(String goalId) async{
+     final deposits = await savingDatasource.getAllDeposit(goalId);
+     return deposits.map( (d) => d.toEntity()).toList();
   }
 }
