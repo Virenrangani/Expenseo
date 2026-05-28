@@ -26,185 +26,204 @@ class SavingsCard extends StatelessWidget {
     final savingAmountController = TextEditingController();
     final savingCubit = context.read<SavingCubit>();
 
-    return ClipPath(
-      clipper: CardClipper(),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.network(goal.goalImage, fit: BoxFit.fill,),
-          Container(
-            decoration:  BoxDecoration(
-              gradient: LinearGradient(
-                begin:Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    AppColor.textPrimary,
-                    AppColor.textPrimary.withAlpha(100),
-                    Colors.transparent
-              ])
-            ),
-          ),
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+    return Hero(
+      tag: goal.id,
+      child: Material(
+        color: Colors.transparent,
+        child: ClipPath(
+          clipper: CardClipper(),
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              ProgressBar(goal: goal),
-              AppGap.g4,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Image.network(goal.goalImage, fit: BoxFit.fill),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      AppColor.textPrimary,
+                      AppColor.textPrimary.withAlpha(100),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SideButton(
-                    iconData: Icons.add,
-                    onTap: () {
-                      showDialog<void>(
-                        context: context,
-                        builder: (_) {
-                          return BlocProvider.value(
-                            value: savingCubit,
-                            child: AlertDialog(
-                              title:  const Text(AppString.addSaving),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  AppFormField(
-                                    controller: savingAmountController,
-                                    hintText: AppString.addAmount,
-                                    prefixText: '₹ ',
-                                    fillColor: AppColor.primaryLight.withAlpha(50),
+                  ProgressBar(goal: goal),
+                  AppGap.g4,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SideButton(
+                        iconData: Icons.add,
+                        onTap: () {
+                          showDialog<void>(
+                            context: context,
+                            builder: (_) {
+                              return BlocProvider.value(
+                                value: savingCubit,
+                                child: AlertDialog(
+                                  title: const Text(AppString.addSaving),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      AppFormField(
+                                        controller: savingAmountController,
+                                        hintText: AppString.addAmount,
+                                        prefixText: '₹ ',
+                                        fillColor: AppColor.primaryLight
+                                            .withAlpha(50),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
 
-                              actions: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: AppElevatedButton(
-                                        isEnabled: true,
-                                        color: AppColor.error.withAlpha(100),
-                                        text: AppString.cancel,
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                    AppGap.g8,
-                                    Expanded(
-                                      child: AppElevatedButton(
-                                        isEnabled: true,
-                                        text: AppString.save,
-                                        onPressed: () {
-                                          context.read<SavingCubit>().addSavingAmount(
-                                              goal.id,
-                                              double.tryParse(savingAmountController.text) ?? 0
-                                          );
-                                          Navigator.pop(context);
+                                  actions: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: AppElevatedButton(
+                                            isEnabled: true,
+                                            color: AppColor.error.withAlpha(
+                                              100,
+                                            ),
+                                            text: AppString.cancel,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                        AppGap.g8,
+                                        Expanded(
+                                          child: AppElevatedButton(
+                                            isEnabled: true,
+                                            text: AppString.save,
+                                            onPressed: () {
+                                              context
+                                                  .read<SavingCubit>()
+                                                  .addSavingAmount(
+                                                    goal.id,
+                                                    double.tryParse(
+                                                          savingAmountController
+                                                              .text,
+                                                        ) ??
+                                                        0,
+                                                  );
+                                              Navigator.pop(context);
 
-                                          CustomSnacksBar.showSuccess(context, AppString.savingAmountAdded);
-                                        },
-                                      ),
+                                              CustomSnacksBar.showSuccess(
+                                                context,
+                                                AppString.savingAmountAdded,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                )
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            AutoSizeText(
+                              goal.goal,
+                              maxLines: 1,
+                              style: AppTextStyles.h2(
+                                color: AppColor.background,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              formatAmount(goal.targetAmount),
+                              style: AppTextStyles.h5(
+                                color: AppColor.background,
+                              ),
+                            ),
+                            AppGap.g8,
+                          ],
+                        ),
+                      ),
 
-                              ],
+                      SideButton(
+                        iconData: Icons.arrow_forward,
+                        onTap: () {
+                          context.read<SavingCubit>().getAllDeposit(goal.id);
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder<void>(
+                              transitionDuration: const Duration(
+                                milliseconds: 800,
+                              ),
+
+                              reverseTransitionDuration: const Duration(
+                                milliseconds: 800,
+                              ),
+
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                    return BlocProvider.value(
+                                      value: savingCubit,
+
+                                      child: GoalDetailPage(goal: goal),
+                                    );
+                                  },
+
+                              transitionsBuilder:
+                                  (
+                                    context,
+                                    animation,
+                                    secondaryAnimation,
+                                    child,
+                                  ) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
                             ),
                           );
                         },
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        AutoSizeText(goal.goal,
-                            maxLines: 1,
-                            style: AppTextStyles.h2(
-                                color: AppColor.background),
-                            overflow: TextOverflow.ellipsis
-                        ),
-                        Text(formatAmount(goal.targetAmount),
-                          style: AppTextStyles.h5(
-                            color: AppColor.background,),),
-                        AppGap.g8
-                      ],
-                    ),
-                  ),
-
-                  SideButton(
-                      iconData: Icons.arrow_forward,
-                      onTap: (){
-                        context.read<SavingCubit>().getAllDeposit(goal.id);
-                        Navigator.push(context,
-                            MaterialPageRoute<void>(
-                                builder: (context) => BlocProvider.value(
-                                              value: savingCubit ,
-                                              child: const GoalDetailPage(),
-                                            )
-                            )
-                        );
-                      },
-                  )
                 ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
 class CardClipper extends CustomClipper<Path> {
-
   @override
   Path getClip(Size size) {
     const double radius = 60;
 
     final path = Path()
-
       ..moveTo(radius, 0)
-
-      ..quadraticBezierTo(
-        size.width / 2,
-        10,
-        size.width - radius,
-        0,
-      )..quadraticBezierTo(
-        size.width,
-        0,
-        size.width,
-        radius,
-      )
-
+      ..quadraticBezierTo(size.width / 2, 10, size.width - radius, 0)
+      ..quadraticBezierTo(size.width, 0, size.width, radius)
       ..lineTo(size.width, size.height - radius)
-
       ..quadraticBezierTo(
         size.width,
         size.height,
         size.width - radius,
         size.height,
-      )..quadraticBezierTo(
-        size.width / 2,
-        size.height - 10,
-        radius,
-        size.height,
-      )..quadraticBezierTo(
-        0,
-        size.height,
-        0,
-        size.height - radius,
       )
-
+      ..quadraticBezierTo(size.width / 2, size.height - 10, radius, size.height)
+      ..quadraticBezierTo(0, size.height, 0, size.height - radius)
       ..lineTo(0, radius)
-
-      ..quadraticBezierTo(
-        0,
-        0,
-        radius,
-        0,
-      )
-
+      ..quadraticBezierTo(0, 0, radius, 0)
       ..close();
 
     return path;
