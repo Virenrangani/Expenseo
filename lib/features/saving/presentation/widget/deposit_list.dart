@@ -23,7 +23,7 @@ class DepositList extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.5,
             width: double.infinity,
 
             child: Hero(
@@ -35,7 +35,7 @@ class DepositList extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
 
-                    colors: [Colors.black.withAlpha(200), Colors.transparent],
+                    colors: [Colors.black.withAlpha(240), Colors.transparent],
                   ).createShader(bounds);
                 },
                 blendMode: BlendMode.darken,
@@ -54,7 +54,7 @@ class DepositList extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   icon: const Icon(
-                    Icons.arrow_back,
+                    Icons.arrow_back_ios_new_outlined,
                     color: AppColor.background,
                   ),
                 ),
