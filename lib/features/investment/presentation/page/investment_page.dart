@@ -2,6 +2,7 @@ import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/features/investment/main_page/stocks/presentation/page/stocks_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
@@ -82,6 +83,15 @@ class _InvestmentPageState extends State<InvestmentPage> {
                   setState(() {
                     selectedIndex = index;
                   });
+
+                  if (index == 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (context) => StocksPage(title: item.title),
+                      ),
+                    );
+                  }
                 },
 
                 child: Padding(
