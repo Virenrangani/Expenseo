@@ -95,32 +95,32 @@ class DepositList extends StatelessWidget {
 
                     AppGap.g12,
 
-                    Padding(
-                      padding: AppPadding.edgeSymmetricHori16,
-
-                      child: Column(
-                        children: [
-                          Text(
-                            'Deposit History',
-                            style: AppTextStyles.captionBold(),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    AppGap.g12,
-
                     Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.zero,
                         controller: scrollController,
-
-                        physics: const BouncingScrollPhysics(),
-
-                        itemCount: deposits.length,
-
+                        itemCount: deposits.length + 1,
+                        padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
-                          return DepositTile(deposit: deposits[index]);
+                          if (index == 0) {
+                            return Padding(
+                              padding: AppPadding.edgeSymmetricHori16,
+
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Deposit History',
+                                    style: AppTextStyles.captionBold(),
+                                  ),
+
+                                  AppGap.g12,
+                                ],
+                              ),
+                            );
+                          }
+
+                          final deposit = deposits[index - 1];
+                          return DepositTile(deposit: deposit);
                         },
                       ),
                     ),
