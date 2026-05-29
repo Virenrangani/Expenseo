@@ -9,11 +9,18 @@ import '../../domain/entity/deposit.dart';
 import '../../domain/entity/saving_goal.dart';
 import 'deposit_tile.dart';
 
-class DepositList extends StatelessWidget {
+class DepositList extends StatefulWidget {
   final List<Deposit> deposits;
   final SavingGoal goal;
 
   const DepositList({super.key, required this.deposits, required this.goal});
+
+  @override
+  State<DepositList> createState() => _DepositListState();
+}
+
+class _DepositListState extends State<DepositList> {
+  bool showDepositTitle = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +34,7 @@ class DepositList extends StatelessWidget {
             width: double.infinity,
 
             child: Hero(
-              tag: goal.id,
+              tag: widget.goal.id,
 
               child: ShaderMask(
                 shaderCallback: (bounds) {
@@ -39,7 +46,7 @@ class DepositList extends StatelessWidget {
                   ).createShader(bounds);
                 },
                 blendMode: BlendMode.darken,
-                child: Image.network(goal.goalImage, fit: BoxFit.cover),
+                child: Image.network(widget.goal.goalImage, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -58,9 +65,13 @@ class DepositList extends StatelessWidget {
                     color: AppColor.background,
                   ),
                 ),
-                Text(
-                  'Goal Details',
-                  style: AppTextStyles.h4(color: AppColor.background),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: Text(
+                    showDepositTitle ? 'Deposit History' : 'Goal Details',
+                    key: ValueKey(showDepositTitle),
+                    style: AppTextStyles.h4(color: AppColor.background),
+                  ),
                 ),
               ],
             ),
@@ -74,6 +85,17 @@ class DepositList extends StatelessWidget {
             snap: true,
             snapSizes: const [0.55, 0.86],
             builder: (context, scrollController) {
+              scrollController.addListener(() {
+                if (scrollController.offset > 40 && !showDepositTitle) {
+                  setState(() {
+                    showDepositTitle = true;
+                  });
+                } else if (scrollController.offset <= 40 && showDepositTitle) {
+                  setState(() {
+                    showDepositTitle = false;
+                  });
+                }
+              });
               return Container(
                 decoration: BoxDecoration(
                   color: AppColor.background,
@@ -98,7 +120,7 @@ class DepositList extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         controller: scrollController,
-                        itemCount: deposits.length + 1,
+                        itemCount: widget.deposits.length + 1,
                         padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           if (index == 0) {
@@ -119,7 +141,7 @@ class DepositList extends StatelessWidget {
                             );
                           }
 
-                          final deposit = deposits[index - 1];
+                          final deposit = widget.deposits[index - 1];
                           return DepositTile(deposit: deposit);
                         },
                       ),
