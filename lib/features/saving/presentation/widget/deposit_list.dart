@@ -21,6 +21,21 @@ class DepositList extends StatefulWidget {
 
 class _DepositListState extends State<DepositList> {
   bool showDepositTitle = false;
+  double scrollOffset = 0;
+  double sheetSize = 0.55;
+  final DraggableScrollableController sheetController =
+      DraggableScrollableController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    sheetController.addListener(() {
+      setState(() {
+        sheetSize = sheetController.size;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +44,28 @@ class _DepositListState extends State<DepositList> {
 
       body: Stack(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: double.infinity,
+          Opacity(
+            opacity: (1 - (sheetSize - 0.55) / 0.45).clamp(0.0, 1.0),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: double.infinity,
+              child: Hero(
+                tag: widget.goal.id,
+                child: ShaderMask(
+                  shaderCallback: (bounds) {
+                    return LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.black.withAlpha(240), Colors.transparent],
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.darken,
 
-            child: Hero(
-              tag: widget.goal.id,
-
-              child: ShaderMask(
-                shaderCallback: (bounds) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-
-                    colors: [Colors.black.withAlpha(240), Colors.transparent],
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.darken,
-                child: Image.network(widget.goal.goalImage, fit: BoxFit.cover),
+                  child: Image.network(
+                    widget.goal.goalImage,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
           ),
@@ -79,6 +98,7 @@ class _DepositListState extends State<DepositList> {
 
           /// DRAGGABLE SHEET
           DraggableScrollableSheet(
+            controller: sheetController,
             initialChildSize: 0.55,
             minChildSize: 0.55,
             maxChildSize: 0.86,
@@ -95,6 +115,10 @@ class _DepositListState extends State<DepositList> {
                     showDepositTitle = false;
                   });
                 }
+
+                setState(() {
+                  scrollOffset = scrollController.offset;
+                });
               });
               return Container(
                 decoration: BoxDecoration(
