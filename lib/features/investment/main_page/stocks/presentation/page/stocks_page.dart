@@ -1,4 +1,6 @@
+import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/features/investment/main_page/stocks/presentation/add_stock_page.dart';
 import 'package:flutter/material.dart';
 
 class StocksPage extends StatefulWidget {
@@ -15,7 +17,28 @@ class _StocksPageState extends State<StocksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title, style: AppTextStyles.h4())),
-      body: Container(),
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 38,
+            right: 28,
+            child: FloatingActionButton(
+              backgroundColor: AppColor.primary,
+              foregroundColor: AppColor.background,
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  showDragHandle: true,
+                  builder: (context) {
+                    return const AddStockPage();
+                  },
+                );
+              },
+              child: const Icon(Icons.add, size: 28),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
