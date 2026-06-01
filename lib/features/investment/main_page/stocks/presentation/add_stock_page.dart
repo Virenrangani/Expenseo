@@ -1,3 +1,4 @@
+import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
@@ -39,6 +40,7 @@ class _AddStockPageState extends State<AddStockPage> {
               AppFormField(
                 hintText: 'Stock name',
                 controller: stockNameController,
+                fillColor: AppColor.secondaryLight,
                 prefixIcon: const Icon(
                   Icons.show_chart,
                   color: AppColor.textSecondary,
@@ -52,6 +54,7 @@ class _AddStockPageState extends State<AddStockPage> {
               AppFormField(
                 controller: stockSymbolController,
                 hintText: 'Stock Symbol',
+                fillColor: AppColor.secondaryLight,
                 prefixIcon: const Icon(
                   Icons.image,
                   color: AppColor.textSecondary,
@@ -71,6 +74,7 @@ class _AddStockPageState extends State<AddStockPage> {
                         AppFormField(
                           controller: buyStockController,
                           hintText: 'Buy Price',
+                          fillColor: AppColor.secondaryLight,
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
@@ -91,6 +95,7 @@ class _AddStockPageState extends State<AddStockPage> {
                         AppFormField(
                           hintText: 'Buy Date',
                           controller: dateController,
+                          fillColor: AppColor.secondaryLight,
                           suffix: IconButton(
                             onPressed: () async {
                               final DateTime? pickedDate = await showDatePicker(
@@ -119,21 +124,26 @@ class _AddStockPageState extends State<AddStockPage> {
               Row(
                 children: [
                   label('Quantity'),
-                  AppGap.g8,
-                  Expanded(
-                    child: AppFormField(
-                      controller: stockQuantityController,
-                      hintText: 'Stock quantity',
-                      keyboardType: TextInputType.number,
-                      suffix: SpinBox(
-                        max: 1000,
-                        min: 1,
-                        onChanged: (value) {
-                          stockQuantityController.text = value
-                              .toInt()
-                              .toString();
-                        },
+                  AppGap.g16,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: SpinBox(
+                      max: 1000,
+                      min: 1,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColor.secondaryLight,
+                        border: OutlineInputBorder(
+                          borderRadius: AppBorderRadius.cir12,
+                          borderSide: BorderSide.none,
+                        ),
                       ),
+                      textStyle: AppTextStyles.bodyMedium(
+                        color: AppColor.textPrimary,
+                      ),
+                      onChanged: (value) {
+                        stockQuantityController.text = value.toInt().toString();
+                      },
                     ),
                   ),
                 ],
@@ -152,12 +162,12 @@ class _AddStockPageState extends State<AddStockPage> {
                 },
                 child: const Row(
                   children: [
-                    Radio<String>(value: 'NSE'),
+                    Radio<String>(value: 'NSE', activeColor: AppColor.primary),
                     Text('NSE'),
 
                     AppGap.g12,
 
-                    Radio<String>(value: 'BSE'),
+                    Radio<String>(value: 'BSE', activeColor: AppColor.primary),
                     Text('BSE'),
                   ],
                 ),
