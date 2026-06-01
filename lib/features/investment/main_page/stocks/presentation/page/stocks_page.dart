@@ -1,6 +1,6 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
-import 'package:expenseo/features/investment/main_page/stocks/presentation/add_stock_page.dart';
+import 'package:expenseo/features/investment/main_page/stocks/presentation/page/add_stock_page.dart';
 import 'package:flutter/material.dart';
 
 class StocksPage extends StatefulWidget {
