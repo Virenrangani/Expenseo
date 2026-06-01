@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../constant/border_radius/app_border_radius.dart';
 import '../../constant/colour/app_color.dart';
-import '../../constant/padding/app_padding.dart';
 import '../../constant/text_style/app_text_style.dart';
 
 class AppFormField extends StatelessWidget {
@@ -51,7 +51,7 @@ class AppFormField extends StatelessWidget {
     this.fillColor,
     this.textAction = TextInputAction.next,
     this.focusNode,
-    this.cursorColor
+    this.cursorColor,
   });
 
   @override
@@ -76,35 +76,40 @@ class AppFormField extends StatelessWidget {
         hintText: hintText,
         hintStyle: AppTextStyles.bodyMedium(),
         labelText: labelText,
-        labelStyle:const TextStyle(color: AppColor.primary),
+        labelStyle: const TextStyle(color: AppColor.primary),
         fillColor: fillColor ?? AppColor.textLight,
         focusColor: AppColor.background,
         filled: true,
         prefixIcon: prefixIcon != null
             ? Padding(
-          padding: const EdgeInsetsGeometry.only(left: 12,top: 16, bottom: 16),
-          child: prefixIcon,
-        )
+                padding: const EdgeInsetsGeometry.only(
+                  left: 12,
+                  top: 16,
+                  bottom: 16,
+                ),
+                child: prefixIcon,
+              )
             : null,
         suffixIcon: suffix != null
-            ? InkWell(
-          onTap: onSuffixTap,
-          child: Padding(padding: AppPadding.edgeAll12, child: suffix),
-        )
+            ? InkWell(onTap: onSuffixTap, child: suffix)
             : null,
         border: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),
+        ),
         errorBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.cir12,
-          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),),
-      )
+          borderSide: BorderSide(color: borderColor ?? Colors.grey.shade300),
+        ),
+      ),
     );
   }
 }
