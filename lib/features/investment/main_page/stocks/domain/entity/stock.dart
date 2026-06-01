@@ -1,4 +1,4 @@
-class StockEntity {
+class Stock {
   final String stockName;
   final String stockSymbol;
 
@@ -11,7 +11,6 @@ class StockEntity {
   final int quantity;
 
   final double investedAmount;
-  final double currentValue;
 
   final double profitLoss;
   final double profitLossPercentage;
@@ -22,7 +21,7 @@ class StockEntity {
   final String sector;
   final String exchange;
 
-  const StockEntity({
+  const Stock({
     required this.stockName,
     required this.stockSymbol,
 
@@ -35,7 +34,6 @@ class StockEntity {
     required this.quantity,
 
     required this.investedAmount,
-    required this.currentValue,
 
     required this.profitLoss,
     required this.profitLossPercentage,
