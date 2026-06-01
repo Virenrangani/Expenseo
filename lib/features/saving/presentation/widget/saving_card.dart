@@ -35,7 +35,7 @@ class SavingsCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Image.network(goal.goalImage, fit: BoxFit.fill),
+              Image.network(goal.goalImage, fit: BoxFit.cover),
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -158,36 +158,11 @@ class SavingsCard extends StatelessWidget {
                           context.read<SavingCubit>().getAllDeposit(goal.id);
                           Navigator.push(
                             context,
-                            PageRouteBuilder<void>(
-                              transitionDuration: const Duration(
-                                milliseconds: 800,
+                            MaterialPageRoute<void>(
+                              builder: (context) => BlocProvider.value(
+                                value: savingCubit,
+                                child: GoalDetailPage(goal: goal),
                               ),
-
-                              reverseTransitionDuration: const Duration(
-                                milliseconds: 800,
-                              ),
-
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                    return BlocProvider.value(
-                                      value: savingCubit,
-
-                                      child: GoalDetailPage(goal: goal),
-                                    );
-                                  },
-
-                              transitionsBuilder:
-                                  (
-                                    context,
-                                    animation,
-                                    secondaryAnimation,
-                                    child,
-                                  ) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
                             ),
                           );
                         },
