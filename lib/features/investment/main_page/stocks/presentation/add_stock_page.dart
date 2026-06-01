@@ -3,6 +3,7 @@ import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 
 class AddStockPage extends StatefulWidget {
   const AddStockPage({super.key});
@@ -16,6 +17,7 @@ class _AddStockPageState extends State<AddStockPage> {
   final TextEditingController buyStockController = TextEditingController();
   final TextEditingController stockNameController = TextEditingController();
   final TextEditingController stockSymbolController = TextEditingController();
+  final TextEditingController stockQuantityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class _AddStockPageState extends State<AddStockPage> {
       padding: EdgeInsets.only(
         left: 16,
         right: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 30,
       ),
       child: SingleChildScrollView(
         child: Form(
@@ -67,6 +69,9 @@ class _AddStockPageState extends State<AddStockPage> {
                         AppFormField(
                           controller: buyStockController,
                           hintText: 'Buy Price',
+                          keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
                           prefixIcon: const Icon(
                             Icons.monetization_on_outlined,
                             color: AppColor.textSecondary,
@@ -106,7 +111,23 @@ class _AddStockPageState extends State<AddStockPage> {
                   ),
                 ],
               ),
-              AppGap.g32,
+
+              AppGap.g12,
+
+              Row(
+                children: [
+                  label('Quantity'),
+                  AppGap.g8,
+                  Expanded(
+                    child: AppFormField(
+                      controller: stockQuantityController,
+                      hintText: 'Stock quantity',
+                      keyboardType: TextInputType.number,
+                      suffix: SpinBox(max: 1000, min: 1),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
