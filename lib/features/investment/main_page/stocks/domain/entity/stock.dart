@@ -22,8 +22,6 @@ class StockEntity {
   final String sector;
   final String exchange;
 
-  final String note;
-
   const StockEntity({
     required this.stockName,
     required this.stockSymbol,
@@ -47,7 +45,5 @@ class StockEntity {
 
     required this.sector,
     required this.exchange,
-
-    required this.note,
   });
 }

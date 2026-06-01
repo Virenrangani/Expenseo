@@ -23,8 +23,6 @@ class StockModel {
   final String sector;
   final String exchange;
 
-  final String note;
-
   const StockModel({
     required this.stockName,
     required this.stockSymbol,
@@ -49,8 +47,6 @@ class StockModel {
 
     required this.sector,
     required this.exchange,
-
-    required this.note,
   });
 
   factory StockModel.fromJson(Map<String, dynamic> json) {
@@ -83,8 +79,6 @@ class StockModel {
 
       sector: json['sector'].toString(),
       exchange: json['exchange'].toString(),
-
-      note: json['note'].toString(),
     );
   }
 
@@ -115,8 +109,6 @@ class StockModel {
 
       'sector': sector,
       'exchange': exchange,
-
-      'note': note,
     };
   }
 }
