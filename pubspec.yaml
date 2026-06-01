@@ -37,6 +37,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.1.1
   flutter_native_splash: ^2.4.1
+  flutter_spinbox: ^0.13.1
   font_awesome_flutter: ^11.0.0
   gap: ^3.0.1
   get_it: ^9.2.1
@@ -88,9 +89,9 @@ flutter_native_splash:
   ios: true
 
   android_12:
-      color: "#FFFFFF"
-      image: assets/images/expenseo.png
-      icon_background_color: "#FFFFFF"
+    color: "#FFFFFF"
+    image: assets/images/expenseo.png
+    icon_background_color: "#FFFFFF"
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
 
