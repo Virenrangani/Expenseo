@@ -123,7 +123,15 @@ class _AddStockPageState extends State<AddStockPage> {
                       controller: stockQuantityController,
                       hintText: 'Stock quantity',
                       keyboardType: TextInputType.number,
-                      suffix: SpinBox(max: 1000, min: 1),
+                      suffix: SpinBox(
+                        max: 1000,
+                        min: 1,
+                        onChanged: (value) {
+                          stockQuantityController.text = value
+                              .toInt()
+                              .toString();
+                        },
+                      ),
                     ),
                   ),
                 ],
