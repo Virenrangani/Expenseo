@@ -19,6 +19,8 @@ class _AddStockPageState extends State<AddStockPage> {
   final TextEditingController stockSymbolController = TextEditingController();
   final TextEditingController stockQuantityController = TextEditingController();
 
+  String selectedExchange = 'NSE';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -135,6 +137,30 @@ class _AddStockPageState extends State<AddStockPage> {
                     ),
                   ),
                 ],
+              ),
+
+              AppGap.g12,
+
+              label('Select Exchange'),
+
+              RadioGroup<String>(
+                groupValue: selectedExchange,
+                onChanged: (value) {
+                  setState(() {
+                    selectedExchange = value!;
+                  });
+                },
+                child: const Row(
+                  children: [
+                    Radio<String>(value: 'NSE'),
+                    Text('NSE'),
+
+                    AppGap.g12,
+
+                    Radio<String>(value: 'BSE'),
+                    Text('BSE'),
+                  ],
+                ),
               ),
             ],
           ),
