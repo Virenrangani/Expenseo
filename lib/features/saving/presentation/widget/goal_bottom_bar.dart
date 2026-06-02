@@ -1,0 +1,83 @@
+import 'package:auto_size_text_plus/auto_size_text_plus.dart';
+import 'package:expenseo/features/saving/presentation/widget/add_saving_alert_box.dart';
+import 'package:expenseo/features/saving/presentation/widget/progress_bar.dart';
+import 'package:expenseo/features/saving/presentation/widget/side_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/gap/app_gap.dart';
+import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/widget/format_amount/format_amount.dart';
+import '../../domain/entity/saving_goal.dart';
+import '../cubit/saving_cubit.dart';
+import '../page/goal_detail_page.dart';
+
+class GoalBottomBar extends StatelessWidget {
+  final SavingGoal goal;
+
+  const GoalBottomBar({super.key, required this.goal});
+
+  @override
+  Widget build(BuildContext context) {
+    final savingCubit = context.read<SavingCubit>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ProgressBar(goal: goal),
+        AppGap.g4,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SideButton(
+              iconData: Icons.add,
+              onTap: () {
+                showDialog<void>(
+                  context: context,
+                  builder: (_) {
+                    return BlocProvider.value(
+                      value: savingCubit,
+                      child: AddSavingAlertBox(goal: goal),
+                    );
+                  },
+                );
+              },
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  AutoSizeText(
+                    goal.goal,
+                    maxLines: 1,
+                    style: AppTextStyles.h2(color: AppColor.background),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    formatAmount(goal.targetAmount),
+                    style: AppTextStyles.h5(color: AppColor.background),
+                  ),
+                  AppGap.g8,
+                ],
+              ),
+            ),
+
+            SideButton(
+              iconData: Icons.arrow_forward,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => BlocProvider.value(
+                      value: savingCubit,
+                      child: GoalDetailPage(goal: goal),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
