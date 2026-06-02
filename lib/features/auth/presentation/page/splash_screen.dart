@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import '../../../bottom_nav/app_bottom_nav.dart';
 import 'log_in_page.dart';
 
-class AuthGate extends StatefulWidget {
-  const AuthGate({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<AuthGate> createState() => _AuthGateState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _AuthGateState extends State<AuthGate> {
-
+class _SplashScreenState extends State<SplashScreen> {
   bool? isLoggedIn;
 
   @override
@@ -45,7 +44,6 @@ class _AuthGateState extends State<AuthGate> {
           isLoggedIn = true;
         });
       }
-
     } catch (e) {
       await FirebaseAuth.instance.signOut();
       setState(() {
@@ -53,19 +51,13 @@ class _AuthGateState extends State<AuthGate> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     if (isLoggedIn == null) {
-      return const Scaffold(
-        body: Center(
-          child: LoadingScreen(),
-        ),
-      );
+      return const Scaffold(body: Center(child: LoadingScreen()));
     }
 
-    return isLoggedIn!
-        ? const AppBottomNav()
-        : const LogInPage();
+    return isLoggedIn! ? const AppBottomNav() : const LogInPage();
   }
 }
