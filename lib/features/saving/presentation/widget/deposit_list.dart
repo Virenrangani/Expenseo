@@ -51,19 +51,22 @@ class _DepositListState extends State<DepositList> {
               width: double.infinity,
               child: Hero(
                 tag: widget.goal.id,
-                child: ShaderMask(
-                  shaderCallback: (bounds) {
-                    return LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.black.withAlpha(240), Colors.transparent],
-                    ).createShader(bounds);
-                  },
-                  blendMode: BlendMode.darken,
+                child: Material(
+                  color: Colors.transparent,
+                  child: ShaderMask(
+                    shaderCallback: (bounds) {
+                      return LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.black.withAlpha(240), Colors.transparent],
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.darken,
 
-                  child: Image.network(
-                    widget.goal.goalImage,
-                    fit: BoxFit.cover,
+                    child: Image.network(
+                      widget.goal.goalImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
