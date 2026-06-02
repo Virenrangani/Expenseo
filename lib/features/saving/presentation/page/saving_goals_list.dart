@@ -5,13 +5,9 @@ import '../../domain/entity/saving_goal.dart';
 import '../widget/saving_card.dart';
 
 class SavingGoalsList extends StatelessWidget {
-
   final List<SavingGoal> savingGoals;
 
-  const SavingGoalsList({
-    super.key,
-    required this.savingGoals,
-  });
+  const SavingGoalsList({super.key, required this.savingGoals});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +22,8 @@ class SavingGoalsList extends StatelessWidget {
         aspectRatio: 1.8,
         enlargeFactor: 0.35,
         viewportFraction: 0.65,
-        scrollPhysics:const BouncingScrollPhysics(),
+        enableInfiniteScroll: false,
+        scrollPhysics: const BouncingScrollPhysics(),
       ),
     );
   }
