@@ -1,12 +1,12 @@
+import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
-import 'package:expenseo/features/saving/presentation/cubit/saving_cubit.dart';
-import 'package:expenseo/features/saving/presentation/cubit/saving_state.dart';
+import 'package:expenseo/features/saving/presentation/cubit/deposit_cubit.dart';
+import 'package:expenseo/features/saving/presentation/cubit/deposit_state.dart';
 import 'package:expenseo/features/saving/presentation/widget/deposit_list.dart';
 import 'package:expenseo/features/saving/presentation/widget/goal_detail_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/constant/colour/app_color.dart';
+import 'package:get_it/get_it.dart';
 
 class ShowingGoalData extends StatefulWidget {
   final SavingGoal goal;
@@ -57,16 +57,19 @@ class _ShowingGoalDataState extends State<ShowingGoalData> {
               ),
             ),
 
-            GoalDetailAppBar(showDepositTitle: showDepositTitle),
+            GoalDetailAppBar(
+              showDepositTitle: showDepositTitle,
+              goal: widget.goal,
+            ),
 
-            BlocBuilder<SavingCubit, SavingState>(
-              bloc: context.read<SavingCubit>(),
+            BlocBuilder<DepositCubit, DepositState>(
+              bloc: GetIt.I<DepositCubit>(),
               builder: (context, state) {
-                if (state is SavingLoading) {
+                if (state is DepositLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (state is SavingError) {
+                if (state is DepositError) {
                   return Center(child: Text(state.message));
                 }
 

@@ -1,12 +1,18 @@
+import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 
 class GoalDetailAppBar extends StatelessWidget {
+  final SavingGoal goal;
   final bool showDepositTitle;
 
-  const GoalDetailAppBar({super.key, required this.showDepositTitle});
+  const GoalDetailAppBar({
+    super.key,
+    required this.showDepositTitle,
+    required this.goal,
+  });
 
   @override
   Widget build(BuildContext context) {

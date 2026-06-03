@@ -10,15 +10,20 @@ import '../../../../core/widget/snack_bar/custom_snack_bar.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../cubit/saving_cubit.dart';
 
-class AddSavingAlertBox extends StatelessWidget {
+class AddSavingAlertBox extends StatefulWidget {
   final SavingGoal goal;
 
   const AddSavingAlertBox({super.key, required this.goal});
 
   @override
-  Widget build(BuildContext context) {
-    final savingAmountController = TextEditingController();
+  State<AddSavingAlertBox> createState() => _AddSavingAlertBoxState();
+}
 
+class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
+  final savingAmountController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(AppString.addSaving),
       content: Column(
@@ -53,7 +58,7 @@ class AddSavingAlertBox extends StatelessWidget {
                 text: AppString.save,
                 onPressed: () {
                   context.read<SavingCubit>().addSavingAmount(
-                    goal.id,
+                    widget.goal.id,
                     double.tryParse(savingAmountController.text) ?? 0,
                   );
                   Navigator.pop(context);

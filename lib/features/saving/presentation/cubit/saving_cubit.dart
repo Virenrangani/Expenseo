@@ -8,29 +8,30 @@ import 'package:uuid/uuid.dart';
 
 import '../../domain/entity/saving_goal.dart';
 
-class SavingCubit extends Cubit<SavingState>{
+class SavingCubit extends Cubit<SavingState> {
   final SavingUseCase savingGoalUseCase;
-  SavingCubit(this.savingGoalUseCase):super(SavingInitial()){
+
+  SavingCubit(this.savingGoalUseCase) : super(SavingInitial()) {
     getAllGoal();
   }
 
-  String? validateGoal(String value){
-    if(value.trim().isEmpty){
+  String? validateGoal(String value) {
+    if (value.trim().isEmpty) {
       return AppString.goalRequired;
     }
     return null;
   }
 
-  String? validateGoalImage(String value){
-    if(value.trim().isEmpty){
+  String? validateGoalImage(String value) {
+    if (value.trim().isEmpty) {
       return AppString.goalImageRequired;
     }
     return null;
   }
 
-  String? validateTargetAmount(String value){
+  String? validateTargetAmount(String value) {
     return validateAmount(value);
-}
+  }
 
   Future<void> createGoal({
     required String goalImage,
@@ -59,41 +60,40 @@ class SavingCubit extends Cubit<SavingState>{
 
   Future<void> getAllGoal() async {
     emit(SavingLoading());
-    try{
+    try {
       final goals = await savingGoalUseCase.getAllGoal();
-      emit(SavingLoaded(goals));
-    }catch(e){
+      emit(SavingLoaded(goals, []));
+    } catch (e) {
       emit(SavingError(e.toString()));
     }
   }
 
-  Future<void> addSavingAmount(String goalId , double savedAmount)async{
+  Future<void> addSavingAmount(String goalId, double savedAmount) async {
     emit(SavingLoading());
-    try{
-
+    try {
       final deposit = Deposit(
-          id: const Uuid().v4(),
-          goalId: goalId,
-          amount: savedAmount,
-          createdAt: DateTime.now()
+        id: const Uuid().v4(),
+        goalId: goalId,
+        amount: savedAmount,
+        createdAt: DateTime.now(),
       );
 
-       await savingGoalUseCase.addSavingAmount(deposit);
+      await savingGoalUseCase.addSavingAmount(deposit);
       emit(SavingSuccess('Saved amount added..!!'));
       await getAllGoal();
-    }catch (e){
+    } catch (e) {
       emit(SavingError(e.toString()));
     }
   }
 
-  Future<void> getAllDeposit(String goalId)async {
+  Future<void> getAllDeposit(String goalId) async {
     emit(SavingLoading());
     {
-      try{
+      try {
         final deposits = await savingGoalUseCase.getAllDeposit(goalId);
 
-        emit(DepositLoaded(deposits));
-      }catch (e){
+        emit(SavingLoaded([], deposits));
+      } catch (e) {
         emit(SavingError(e.toString()));
       }
     }

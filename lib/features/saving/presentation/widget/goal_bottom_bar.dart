@@ -4,6 +4,7 @@ import 'package:expenseo/features/saving/presentation/widget/progress_bar.dart';
 import 'package:expenseo/features/saving/presentation/widget/side_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
@@ -20,9 +21,9 @@ class GoalBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final savingCubit = context.read<SavingCubit>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
         ProgressBar(goal: goal),
         AppGap.g4,
@@ -32,6 +33,7 @@ class GoalBottomBar extends StatelessWidget {
             SideButton(
               iconData: Icons.add,
               onTap: () {
+                final savingCubit = GetIt.I<SavingCubit>();
                 showDialog<void>(
                   context: context,
                   builder: (_) {
@@ -63,16 +65,15 @@ class GoalBottomBar extends StatelessWidget {
 
             SideButton(
               iconData: Icons.arrow_forward,
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                final shouldRefresh = await Navigator.push<bool>(
                   context,
-                  MaterialPageRoute<void>(
-                    builder: (context) => BlocProvider.value(
-                      value: savingCubit,
-                      child: GoalDetailPage(goal: goal),
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (_) => GoalDetailPage(goal: goal)),
                 );
+
+                if (shouldRefresh == true && context.mounted) {
+                  await context.read<SavingCubit>().getAllGoal();
+                }
               },
             ),
           ],
