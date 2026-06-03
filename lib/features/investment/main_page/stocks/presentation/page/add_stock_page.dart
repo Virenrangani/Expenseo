@@ -3,10 +3,16 @@ import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
+import 'package:expenseo/di/injection.dart';
+import 'package:expenseo/features/investment/main_page/stocks/domain/entity/stock.dart';
+import 'package:expenseo/features/investment/main_page/stocks/presentation/cubit/stock_cubit.dart';
 import 'package:expenseo/features/investment/main_page/stocks/presentation/widget/sector_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:intl/intl.dart';
 
 class AddStockPage extends StatefulWidget {
   const AddStockPage({super.key});
@@ -21,191 +27,247 @@ class _AddStockPageState extends State<AddStockPage> {
   final TextEditingController stockNameController = TextEditingController();
   final TextEditingController stockSymbolController = TextEditingController();
   final TextEditingController stockQuantityController = TextEditingController();
+  final TextEditingController stockSectorController = TextEditingController();
 
   String selectedExchange = 'NSE';
+  late DateTime selectedBuyDate;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 16,
-        right: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 30,
-      ),
-      child: SingleChildScrollView(
-        child: Form(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              label('Stock'),
-              AppGap.g4,
-              AppFormField(
-                hintText: 'Stock name',
-                controller: stockNameController,
-                fillColor: AppColor.secondaryLight,
-                prefixIcon: const Icon(
-                  Icons.show_chart,
-                  color: AppColor.textSecondary,
+    return BlocProvider.value(
+      value: Injection().sl<StockCubit>(),
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 30,
+        ),
+        child: SingleChildScrollView(
+          child: Form(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                label('Stock'),
+                AppGap.g4,
+                AppFormField(
+                  hintText: 'Stock name',
+                  controller: stockNameController,
+                  fillColor: AppColor.secondaryLight,
+                  prefixIcon: const Icon(
+                    Icons.show_chart,
+                    color: AppColor.textSecondary,
+                  ),
                 ),
-              ),
 
-              AppGap.g12,
+                AppGap.g12,
 
-              label('Stock Symbol'),
-              AppGap.g4,
-              AppFormField(
-                controller: stockSymbolController,
-                hintText: 'Stock Symbol',
-                fillColor: AppColor.secondaryLight,
-                prefixIcon: const Icon(
-                  Icons.image,
-                  color: AppColor.textSecondary,
+                label('Stock Symbol'),
+                AppGap.g4,
+                AppFormField(
+                  controller: stockSymbolController,
+                  hintText: 'Stock Symbol',
+                  fillColor: AppColor.secondaryLight,
+                  prefixIcon: const Icon(
+                    Icons.image,
+                    color: AppColor.textSecondary,
+                  ),
                 ),
-              ),
 
-              AppGap.g12,
+                AppGap.g12,
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        label('Buy Price'),
-                        AppGap.g4,
-                        AppFormField(
-                          controller: buyStockController,
-                          hintText: 'Buy Price',
-                          fillColor: AppColor.secondaryLight,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.monetization_on_outlined,
-                            color: AppColor.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  AppGap.g8,
-                  Expanded(
-                    child: Column(
-                      children: [
-                        label('Buy Date'),
-                        AppGap.g4,
-                        AppFormField(
-                          hintText: 'Buy Date',
-                          controller: dateController,
-                          fillColor: AppColor.secondaryLight,
-                          suffix: IconButton(
-                            onPressed: () async {
-                              final DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(3000),
-                              );
-
-                              if (pickedDate != null) {
-                                dateController.text =
-                                    '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}';
-                              }
-                            },
-                            icon: const Icon(Icons.date_range),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              AppGap.g12,
-
-              Row(
-                children: [
-                  label('Quantity'),
-                  AppGap.g16,
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: SpinBox(
-                      max: 1000,
-                      min: 1,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: AppColor.secondaryLight,
-                        border: OutlineInputBorder(
-                          borderRadius: AppBorderRadius.cir12,
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      textStyle: AppTextStyles.bodyMedium(
-                        color: AppColor.textPrimary,
-                      ),
-                      onChanged: (value) {
-                        stockQuantityController.text = value.toInt().toString();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-
-              AppGap.g12,
-
-              label('Select Exchange'),
-
-              RadioGroup<String>(
-                groupValue: selectedExchange,
-                onChanged: (value) {
-                  setState(() {
-                    selectedExchange = value!;
-                  });
-                },
-                child: const Row(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Radio<String>(value: 'NSE', activeColor: AppColor.primary),
-                    Text('NSE'),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          label('Buy Price'),
+                          AppGap.g4,
+                          AppFormField(
+                            controller: buyStockController,
+                            hintText: 'Buy Price',
+                            fillColor: AppColor.secondaryLight,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.monetization_on_outlined,
+                              color: AppColor.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    AppGap.g8,
+                    Expanded(
+                      child: Column(
+                        children: [
+                          label('Buy Date'),
+                          AppGap.g4,
+                          AppFormField(
+                            hintText: 'Buy Date',
+                            controller: dateController,
+                            fillColor: AppColor.secondaryLight,
+                            suffix: IconButton(
+                              onPressed: () async {
+                                final DateTime? pickedDate =
+                                    await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(3000),
+                                    );
 
-                    AppGap.g12,
+                                if (pickedDate != null) {
+                                  selectedBuyDate = pickedDate;
 
-                    Radio<String>(value: 'BSE', activeColor: AppColor.primary),
-                    Text('BSE'),
+                                  dateController.text = DateFormat(
+                                    'dd/MM/yyyy',
+                                  ).format(pickedDate);
+                                }
+                              },
+                              icon: const Icon(Icons.date_range),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
 
-              AppGap.g12,
+                AppGap.g12,
 
-              label('Sector'),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: SectorData.sectors
-                      .map(
-                        (sector) => Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          padding: AppPadding.edgeAll12,
-                          decoration: BoxDecoration(
-                            color: AppColor.secondaryLight,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: AppColor.background,
-                                child: Text(sector.icon),
-                              ),
-                              AppGap.g8,
-                              Text(sector.name),
-                            ],
+                Row(
+                  children: [
+                    label('Quantity'),
+                    AppGap.g16,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: SpinBox(
+                        max: 1000,
+                        min: 1,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColor.secondaryLight,
+                          border: OutlineInputBorder(
+                            borderRadius: AppBorderRadius.cir12,
+                            borderSide: BorderSide.none,
                           ),
                         ),
-                      )
-                      .toList(),
+                        textStyle: AppTextStyles.bodyMedium(
+                          color: AppColor.textPrimary,
+                        ),
+                        onChanged: (value) {
+                          stockQuantityController.text = value
+                              .toInt()
+                              .toString();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+
+                AppGap.g12,
+
+                label('Select Exchange'),
+
+                RadioGroup<String>(
+                  groupValue: selectedExchange,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedExchange = value!;
+                    });
+                  },
+                  child: const Row(
+                    children: [
+                      Radio<String>(
+                        value: 'NSE',
+                        activeColor: AppColor.primary,
+                      ),
+                      Text('NSE'),
+
+                      AppGap.g12,
+
+                      Radio<String>(
+                        value: 'BSE',
+                        activeColor: AppColor.primary,
+                      ),
+                      Text('BSE'),
+                    ],
+                  ),
+                ),
+
+                AppGap.g12,
+
+                label('Sector'),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: SectorData.sectors
+                        .map(
+                          (sector) => InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            onTap: () {
+                              setState(() {
+                                stockSectorController.text = sector.name;
+                              });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              padding: AppPadding.edgeAll12,
+                              decoration: BoxDecoration(
+                                color: AppColor.secondaryLight,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: AppColor.background,
+                                    child: Text(
+                                      sector.icon,
+                                      style: const TextStyle(fontSize: 26),
+                                    ),
+                                  ),
+                                  AppGap.g8,
+                                  Text(sector.name),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+
+                AppGap.g12,
+
+                AppElevatedButton(
+                  isEnabled: true,
+                  text: 'Add Stock',
+                  onPressed: () {
+                    final stockData = Stock(
+                      stockName: stockNameController.text.trim(),
+                      stockSymbol: stockSymbolController.text.trim(),
+                      buyPrice: double.parse(buyStockController.text),
+                      sellPrice: 0,
+                      buyDate: selectedBuyDate,
+                      quantity: int.parse(stockQuantityController.text),
+                      investedAmount:
+                          double.parse(buyStockController.text) *
+                          int.parse(stockQuantityController.text),
+                      profitLoss: 0,
+                      profitLossPercentage: 0,
+                      isProfit: false,
+                      isSold: false,
+                      sector: selectedExchange,
+                      exchange: stockSectorController.text,
+                    );
+
+                    Injection().sl<StockCubit>().createStock(stockData);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
