@@ -17,39 +17,55 @@ import 'package:expenseo/features/home/data/repository/home_repository_impl.dart
 import 'package:expenseo/features/home/domain/repository/home_repository.dart';
 import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
 import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:expenseo/features/investment/main_page/stocks/data/data_source/stock_data_source.dart';
+import 'package:expenseo/features/investment/main_page/stocks/data/repository_impl/stock_repository_impl.dart';
+import 'package:expenseo/features/investment/main_page/stocks/domain/repository/stock_repository.dart';
+import 'package:expenseo/features/investment/main_page/stocks/domain/use_case/stock_use_case.dart';
+import 'package:expenseo/features/investment/main_page/stocks/presentation/cubit/stock_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
 import '../features/auth/presentation/cubit/login_cubit.dart';
 import '../features/auth/presentation/cubit/sign_up_cubit.dart';
 
-
 class Injection {
-  final GetIt sl=GetIt.instance;
+  final GetIt sl = GetIt.instance;
 
-  void configDependency(){
-
-    sl..registerLazySingleton(()=>FirebaseAuth.instance)
-    ..registerLazySingleton(()=>FirebaseFirestore.instance)
-
-    ..registerLazySingleton<LoginDataSource>(()=>LoginDataSourceImpl(sl() , sl()))
-    ..registerLazySingleton<LogInRepository>(()=>LoginRepositoryImpl(sl()))
-    ..registerLazySingleton(()=>LoginUseCase(sl()))
-    ..registerFactory(()=>LoginCubit(sl()))
-
-    ..registerLazySingleton<SignUpDataSource>(()=>SignUpDataSourceImpl(sl(),sl()))
-    ..registerLazySingleton<SignUpRepository>(()=>SignUpRepositoryImpl(sl()))
-    ..registerLazySingleton(()=>SignUpUseCase(sl()))
-    ..registerFactory(()=>SignUpCubit(sl()))
-
-    ..registerLazySingleton<ExpenseDataSource>(()=>ExpenseDataSourceImpl(sl()))
-    ..registerLazySingleton<ExpenseRepository>(()=>ExpenseRepositoryImpl(sl()))
-    ..registerLazySingleton(()=>ExpenseUseCase(sl()))
-    ..registerFactory(()=>ExpenseCubit(sl()))
-
-    ..registerLazySingleton<HomeDataSource>(HomeDataSourceImpl.new)
-    ..registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(sl()))
-    ..registerLazySingleton(()=>HomeUseCase(sl()))
-    ..registerFactory(()=>HomeCubit(sl()));
+  void configDependency() {
+    sl
+      ..registerLazySingleton(() => FirebaseAuth.instance)
+      ..registerLazySingleton(() => FirebaseFirestore.instance)
+      ..registerLazySingleton<LoginDataSource>(
+        () => LoginDataSourceImpl(sl(), sl()),
+      )
+      ..registerLazySingleton<LogInRepository>(() => LoginRepositoryImpl(sl()))
+      ..registerLazySingleton(() => LoginUseCase(sl()))
+      ..registerFactory(() => LoginCubit(sl()))
+      ..registerLazySingleton<SignUpDataSource>(
+        () => SignUpDataSourceImpl(sl(), sl()),
+      )
+      ..registerLazySingleton<SignUpRepository>(
+        () => SignUpRepositoryImpl(sl()),
+      )
+      ..registerLazySingleton(() => SignUpUseCase(sl()))
+      ..registerFactory(() => SignUpCubit(sl()))
+      ..registerLazySingleton<ExpenseDataSource>(
+        () => ExpenseDataSourceImpl(sl()),
+      )
+      ..registerLazySingleton<ExpenseRepository>(
+        () => ExpenseRepositoryImpl(sl()),
+      )
+      ..registerLazySingleton(() => ExpenseUseCase(sl()))
+      ..registerFactory(() => ExpenseCubit(sl()))
+      ..registerLazySingleton<HomeDataSource>(HomeDataSourceImpl.new)
+      ..registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()))
+      ..registerLazySingleton(() => HomeUseCase(sl()))
+      ..registerFactory(() => HomeCubit(sl()))
+      ..registerLazySingleton<StockDataSource>(
+        () => StockDataSourceImpl(sl(), sl()),
+      )
+      ..registerLazySingleton<StockRepository>(() => StockRepositoryImpl(sl()))
+      ..registerLazySingleton(() => StockUseCase(sl()))
+      ..registerLazySingleton(() => StockCubit(sl()));
   }
 }
