@@ -1,4 +1,6 @@
 class Stock {
+  final String id;
+
   final String stockName;
   final String stockSymbol;
 
@@ -19,6 +21,8 @@ class Stock {
   final String exchange;
 
   const Stock({
+    required this.id,
+
     required this.stockName,
     required this.stockSymbol,
 

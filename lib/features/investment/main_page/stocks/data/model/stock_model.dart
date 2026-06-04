@@ -1,6 +1,7 @@
 import '../../domain/entity/stock.dart';
 
 class StockModel {
+  final String id;
   final String stockName;
   final String stockSymbol;
 
@@ -21,6 +22,8 @@ class StockModel {
   final String exchange;
 
   const StockModel({
+    required this.id,
+
     required this.stockName,
     required this.stockSymbol,
 
@@ -43,6 +46,7 @@ class StockModel {
 
   factory StockModel.fromJson(Map<String, dynamic> json) {
     return StockModel(
+      id: json['id'].toString(),
       stockName: json['stock_name'].toString(),
       stockSymbol: json['stock_symbol'].toString(),
 
@@ -70,6 +74,7 @@ class StockModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'stock_name': stockName,
       'stock_symbol': stockSymbol,
 
@@ -114,6 +119,7 @@ class StockModel {
 
       sector: model.sector,
       exchange: model.exchange,
+      id: model.id,
     );
   }
 
@@ -138,6 +144,7 @@ class StockModel {
 
       sector: entity.sector,
       exchange: entity.exchange,
+      id: entity.id,
     );
   }
 }
