@@ -17,9 +17,6 @@ class StockModel {
   final double profitLoss;
   final double profitLossPercentage;
 
-  final bool isProfit;
-  final bool isSold;
-
   final String sector;
   final String exchange;
 
@@ -39,9 +36,6 @@ class StockModel {
 
     required this.profitLoss,
     required this.profitLossPercentage,
-
-    required this.isProfit,
-    required this.isSold,
 
     required this.sector,
     required this.exchange,
@@ -69,9 +63,6 @@ class StockModel {
 
       profitLossPercentage: (json['profit_loss_percentage'] as num).toDouble(),
 
-      isProfit: json['is_profit'] as bool,
-      isSold: json['is_sold'] as bool,
-
       sector: json['sector'].toString(),
       exchange: json['exchange'].toString(),
     );
@@ -97,9 +88,6 @@ class StockModel {
 
       'profit_loss_percentage': profitLossPercentage,
 
-      'is_profit': isProfit,
-      'is_sold': isSold,
-
       'sector': sector,
       'exchange': exchange,
     };
@@ -124,9 +112,6 @@ class StockModel {
 
       profitLossPercentage: model.profitLossPercentage,
 
-      isProfit: model.isProfit,
-      isSold: model.isSold,
-
       sector: model.sector,
       exchange: model.exchange,
     );
@@ -150,9 +135,6 @@ class StockModel {
       profitLoss: entity.profitLoss,
 
       profitLossPercentage: entity.profitLossPercentage,
-
-      isProfit: entity.isProfit,
-      isSold: entity.isSold,
 
       sector: entity.sector,
       exchange: entity.exchange,

@@ -15,9 +15,6 @@ class Stock {
   final double profitLoss;
   final double profitLossPercentage;
 
-  final bool isProfit;
-  final bool isSold;
-
   final String sector;
   final String exchange;
 
@@ -37,9 +34,6 @@ class Stock {
 
     required this.profitLoss,
     required this.profitLossPercentage,
-
-    required this.isProfit,
-    required this.isSold,
 
     required this.sector,
     required this.exchange,
