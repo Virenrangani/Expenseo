@@ -9,8 +9,8 @@ class StockRepositoryImpl extends StockRepository {
   StockRepositoryImpl(this.stockDataSource);
 
   @override
-  Future<void> createStock(Stock stock) async {
-    await stockDataSource.createStock(StockModel.fromEntity(stock));
+  Future<void> createStock(String stockId, Stock stock) async {
+    await stockDataSource.createStock(stockId, StockModel.fromEntity(stock));
   }
 
   @override
@@ -18,5 +18,10 @@ class StockRepositoryImpl extends StockRepository {
     final stocks = await stockDataSource.getAllStock();
 
     return stocks.map(StockModel.toEntity).toList();
+  }
+
+  @override
+  Future<void> removeStock(String stockId) async {
+    await stockDataSource.removeStock(stockId);
   }
 }

@@ -10,10 +10,10 @@ class StockCubit extends Cubit<StockState> {
     getAllStock();
   }
 
-  Future<void> createStock(Stock stock) async {
+  Future<void> createStock(String stockId, Stock stock) async {
     emit(StockLoading());
     try {
-      await stockUseCase.createStock(stock);
+      await stockUseCase.createStock(stockId, stock);
 
       emit(StockSuccess('Stock is added successfully..!!'));
       await getAllStock();
@@ -28,6 +28,18 @@ class StockCubit extends Cubit<StockState> {
       final stocks = await stockUseCase.getAllStocks();
 
       emit(StockLoaded(stocks));
+    } catch (e) {
+      emit(StockError(e.toString()));
+    }
+  }
+
+  Future<void> removeStock(String stockId) async {
+    emit(StockLoading());
+    try {
+      await stockUseCase.removeStock(stockId);
+
+      emit(StockSuccess('Stock Deleted Successfully..!!'));
+      await getAllStock();
     } catch (e) {
       emit(StockError(e.toString()));
     }

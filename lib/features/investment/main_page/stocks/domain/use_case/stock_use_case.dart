@@ -7,11 +7,15 @@ class StockUseCase {
 
   StockUseCase(this.stockRepository);
 
-  Future<void> createStock(Stock stock) {
-    return stockRepository.createStock(stock);
+  Future<void> createStock(String stockId, Stock stock) {
+    return stockRepository.createStock(stockId, stock);
   }
 
   Future<List<Stock>> getAllStocks() {
     return stockRepository.getAllStocks();
+  }
+
+  Future<void> removeStock(String stockId) {
+    return stockRepository.removeStock(stockId);
   }
 }
