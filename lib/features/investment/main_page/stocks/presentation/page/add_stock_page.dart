@@ -1,14 +1,13 @@
 import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/di/injection.dart';
 import 'package:expenseo/features/investment/main_page/stocks/domain/entity/stock.dart';
 import 'package:expenseo/features/investment/main_page/stocks/presentation/cubit/stock_cubit.dart';
-import 'package:expenseo/features/investment/main_page/stocks/presentation/widget/sector_data.dart';
+import 'package:expenseo/features/investment/main_page/stocks/presentation/widget/stock_sectors_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
@@ -34,8 +33,9 @@ class _AddStockPageState extends State<AddStockPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = Injection().sl<StockCubit>();
     return BlocProvider.value(
-      value: Injection().sl<StockCubit>(),
+      value: cubit,
       child: Padding(
         padding: EdgeInsets.only(
           left: 16,
@@ -200,45 +200,11 @@ class _AddStockPageState extends State<AddStockPage> {
                 AppGap.g12,
 
                 label('Sector'),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: SectorData.sectors
-                        .map(
-                          (sector) => InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap: () {
-                              setState(() {
-                                stockSectorController.text = sector.name;
-                              });
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              padding: AppPadding.edgeAll12,
-                              decoration: BoxDecoration(
-                                color: AppColor.secondaryLight,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: AppColor.background,
-                                    child: Text(
-                                      sector.icon,
-                                      style: const TextStyle(fontSize: 26),
-                                    ),
-                                  ),
-                                  AppGap.g8,
-                                  Text(sector.name),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
+                StockSectorsList(
+                  onSectorSelected: (value) {
+                    stockSectorController.text = value;
+                  },
                 ),
-
                 AppGap.g12,
 
                 AppElevatedButton(
@@ -257,13 +223,11 @@ class _AddStockPageState extends State<AddStockPage> {
                           int.parse(stockQuantityController.text),
                       profitLoss: 0,
                       profitLossPercentage: 0,
-                      isProfit: false,
-                      isSold: false,
                       sector: selectedExchange,
                       exchange: stockSectorController.text,
                     );
 
-                    Injection().sl<StockCubit>().createStock(stockData);
+                    cubit.createStock(stockData);
                   },
                 ),
               ],
