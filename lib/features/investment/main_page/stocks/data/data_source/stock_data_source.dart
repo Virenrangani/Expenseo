@@ -7,6 +7,8 @@ import '../../../../../../core/error/app_errors.dart';
 
 abstract class StockDataSource {
   Future<void> createStock(StockModel stockModel);
+
+  Future<List<StockModel>> getAllStock();
 }
 
 class StockDataSourceImpl extends StockDataSource {
@@ -25,6 +27,23 @@ class StockDataSourceImpl extends StockDataSource {
           .doc(userId)
           .collection('investment')
           .add(stockModel.toJson());
+    } on FirebaseException catch (e) {
+      throw Exception(AppErrors.handleFireStoreException(e));
+    } catch (e) {
+      throw Exception(AppString.somethingWentWrong);
+    }
+  }
+
+  @override
+  Future<List<StockModel>> getAllStock() async {
+    try {
+      final stocks = await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('investment')
+          .get();
+
+      return stocks.docs.map((e) => StockModel.fromJson(e.data())).toList();
     } on FirebaseException catch (e) {
       throw Exception(AppErrors.handleFireStoreException(e));
     } catch (e) {

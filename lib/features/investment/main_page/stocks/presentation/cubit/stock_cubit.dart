@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class StockCubit extends Cubit<StockState> {
   final StockUseCase stockUseCase;
 
-  StockCubit(this.stockUseCase) : super(StockInitial());
+  StockCubit(this.stockUseCase) : super(StockInitial()) {
+    getAllStock();
+  }
 
   Future<void> createStock(Stock stock) async {
     emit(StockLoading());
@@ -14,6 +16,18 @@ class StockCubit extends Cubit<StockState> {
       await stockUseCase.createStock(stock);
 
       emit(StockSuccess('Stock is added successfully..!!'));
+      await getAllStock();
+    } catch (e) {
+      emit(StockError(e.toString()));
+    }
+  }
+
+  Future<void> getAllStock() async {
+    emit(StockLoading());
+    try {
+      final stocks = await stockUseCase.getAllStocks();
+
+      emit(StockLoaded(stocks));
     } catch (e) {
       emit(StockError(e.toString()));
     }

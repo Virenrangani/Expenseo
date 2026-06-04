@@ -10,4 +10,8 @@ class StockUseCase {
   Future<void> createStock(Stock stock) {
     return stockRepository.createStock(stock);
   }
+
+  Future<List<Stock>> getAllStocks() {
+    return stockRepository.getAllStocks();
+  }
 }

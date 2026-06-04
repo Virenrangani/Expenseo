@@ -12,4 +12,11 @@ class StockRepositoryImpl extends StockRepository {
   Future<void> createStock(Stock stock) async {
     await stockDataSource.createStock(StockModel.fromEntity(stock));
   }
+
+  @override
+  Future<List<Stock>> getAllStocks() async {
+    final stocks = await stockDataSource.getAllStock();
+
+    return stocks.map(StockModel.toEntity).toList();
+  }
 }
