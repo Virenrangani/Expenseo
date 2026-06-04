@@ -66,6 +66,6 @@ class Injection {
       )
       ..registerLazySingleton<StockRepository>(() => StockRepositoryImpl(sl()))
       ..registerLazySingleton(() => StockUseCase(sl()))
-      ..registerLazySingleton(() => StockCubit(sl()));
+      ..registerFactory(() => StockCubit(sl()));
   }
 }
