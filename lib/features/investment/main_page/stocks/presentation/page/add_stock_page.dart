@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class AddStockPage extends StatefulWidget {
   const AddStockPage({super.key});
@@ -212,6 +213,7 @@ class _AddStockPageState extends State<AddStockPage> {
                   text: 'Add Stock',
                   onPressed: () {
                     final stockData = Stock(
+                      id: const Uuid().v4(),
                       stockName: stockNameController.text.trim(),
                       stockSymbol: stockSymbolController.text.trim(),
                       buyPrice: double.parse(buyStockController.text),
@@ -227,7 +229,7 @@ class _AddStockPageState extends State<AddStockPage> {
                       exchange: stockSectorController.text,
                     );
 
-                    cubit.createStock(stockData);
+                    cubit.createStock(stockData.id, stockData);
                   },
                 ),
               ],
