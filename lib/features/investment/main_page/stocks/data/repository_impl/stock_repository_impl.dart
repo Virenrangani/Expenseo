@@ -24,4 +24,9 @@ class StockRepositoryImpl extends StockRepository {
   Future<void> removeStock(String stockId) async {
     await stockDataSource.removeStock(stockId);
   }
+
+  @override
+  Future<void> sellStock(String stockId, double sellPrice) {
+    return stockDataSource.sellStock(stockId, sellPrice);
+  }
 }

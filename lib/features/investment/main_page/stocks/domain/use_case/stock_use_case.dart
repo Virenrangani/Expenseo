@@ -18,4 +18,8 @@ class StockUseCase {
   Future<void> removeStock(String stockId) {
     return stockRepository.removeStock(stockId);
   }
+
+  Future<void> sellStock(String stockId, double sellPrice) {
+    return stockRepository.sellStock(stockId, sellPrice);
+  }
 }

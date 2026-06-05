@@ -6,4 +6,6 @@ abstract class StockRepository {
   Future<List<Stock>> getAllStocks();
 
   Future<void> removeStock(String stockId);
+
+  Future<void> sellStock(String stockId, double sellPrice);
 }

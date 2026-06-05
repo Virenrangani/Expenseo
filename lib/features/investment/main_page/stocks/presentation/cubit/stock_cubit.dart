@@ -44,4 +44,15 @@ class StockCubit extends Cubit<StockState> {
       emit(StockError(e.toString()));
     }
   }
+
+  Future<void> sellStock(String stockId, double sellPrice) async {
+    try {
+      await stockUseCase.sellStock(stockId, sellPrice);
+
+      emit(StockSuccess('Sell price is added..!'));
+      await getAllStock();
+    } catch (e) {
+      emit(StockError(e.toString()));
+    }
+  }
 }
