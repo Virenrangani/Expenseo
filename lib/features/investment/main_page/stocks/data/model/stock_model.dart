@@ -44,9 +44,9 @@ class StockModel {
     required this.exchange,
   });
 
-  factory StockModel.fromJson(Map<String, dynamic> json) {
+  factory StockModel.fromJson(String id, Map<String, dynamic> json) {
     return StockModel(
-      id: json['id'].toString(),
+      id: id,
       stockName: json['stock_name'].toString(),
       stockSymbol: json['stock_symbol'].toString(),
 
