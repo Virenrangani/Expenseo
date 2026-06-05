@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/investment/main_page/stocks/presentation/cubit/stock_cubit.dart';
 import 'package:expenseo/features/investment/main_page/stocks/presentation/cubit/stock_state.dart';
 import 'package:expenseo/features/investment/main_page/stocks/presentation/page/stock_detail_page.dart';
@@ -23,41 +24,63 @@ class _StocksPageState extends State<StocksPage> {
   Widget build(BuildContext context) {
     return BlocProvider<StockCubit>(
       create: (_) => GetIt.I<StockCubit>(),
-      child: Scaffold(
-        appBar: AppBar(title: Text(widget.title, style: AppTextStyles.h4())),
-        body: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<StockCubit, StockState>(
-                builder: (context, state) {
-                  if (state is StockLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (state is StockLoaded) {
-                    return StockDetailPage(stocks: state.stocks);
-                  }
-
-                  return const SizedBox.shrink();
-                },
-              ),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(widget.title, style: AppTextStyles.h4()),
             ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColor.primary,
-          foregroundColor: AppColor.background,
-          onPressed: () {
-            showModalBottomSheet<void>(
-              context: context,
-              showDragHandle: true,
-              builder: (context) {
-                return const AddStockPage();
+            body: Column(
+              children: [
+                Expanded(
+                  child: BlocConsumer<StockCubit, StockState>(
+                    listener: (context, state) {
+                      if (state is StockSuccess) {
+                        Navigator.pop(context);
+                        return CustomSnacksBar.showSuccess(
+                          context,
+                          state.message,
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is StockLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is StockError) {
+                        return Center(child: Text(state.message));
+                      }
+
+                      if (state is StockLoaded) {
+                        return StockDetailPage(stocks: state.stocks);
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColor.primary,
+              foregroundColor: AppColor.background,
+              onPressed: () {
+                final stockCubit = context.read<StockCubit>();
+                showModalBottomSheet<void>(
+                  context: context,
+                  showDragHandle: true,
+                  builder: (context) {
+                    return BlocProvider.value(
+                      value: stockCubit,
+                      child: const AddStockPage(),
+                    );
+                  },
+                );
               },
-            );
-          },
-          child: const Icon(Icons.add, size: 28),
-        ),
+              child: const Icon(Icons.add, size: 28),
+            ),
+          );
+        },
       ),
     );
   }
