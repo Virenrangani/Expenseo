@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:flutter/material.dart';
 
@@ -67,9 +68,13 @@ class AppElevatedButton extends StatelessWidget {
 
                   AppGap.g8,
 
-                  Text(
-                    text,
-                    style: AppTextStyles.h5(color: textColor),
+                  Flexible(
+                    child: AutoSizeText(
+                      minFontSize: 10,
+                      maxLines: 1,
+                      text,
+                      style: AppTextStyles.h5(color: textColor),
+                    ),
                   ),
                   AppGap.g4,
 
