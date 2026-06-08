@@ -116,4 +116,16 @@ class AppString {
   static const String sellingPrice = 'Selling Price';
   static const String confirm = 'Confirm';
   static const String cancel = 'Cancel';
+
+  static const String stock = 'Stock';
+  static const String stockName = 'Stock name';
+  static const String stockSymbol = 'Stock Symbol';
+  static const String stockPrice = 'Buy Price';
+  static const String stockDate = 'Buy Date';
+  static const String quantity = 'Quantity';
+  static const String selectExchange = 'Select Exchange';
+  static const String nse = 'NSE';
+  static const String bse = 'BSE';
+  static const String sector = 'Sector';
+  static const String addStock = 'Add Stock';
 }
