@@ -21,7 +21,8 @@ class AppString {
   static const String somethingWentWrong = 'Something went to wrong';
 
   static const String signUpIntro = 'Create your \n Narrative';
-  static const String signUpSubIntro = 'Start your journey to financial clarity.';
+  static const String signUpSubIntro =
+      'Start your journey to financial clarity.';
 
   static const String name = 'Name';
   static const createAccount = 'Create Account';
@@ -70,7 +71,7 @@ class AppString {
   static const String allExpenses = 'All Expenses';
   static const String addExpense = 'Add Expense';
   static const String addIncome = 'Add Income';
-  static const String addAmount='Enter Amount';
+  static const String addAmount = 'Enter Amount';
   static const String split = 'Split';
   static const String invest = 'Investment';
   static const String saving = 'Saving';
@@ -81,10 +82,8 @@ class AppString {
 
   static const String permissionDenied =
       'This account uses Google Sign-In. Please continue with Google.';
-  static const String dataNotFound =
-      'Requested data was not found.';
-  static const String dataAlreadyExists =
-      'This data already exists.';
+  static const String dataNotFound = 'Requested data was not found.';
+  static const String dataAlreadyExists = 'This data already exists.';
   static const String resourceExhausted =
       'Service limit reached. Please try again later.';
   static const String serviceUnavailable =
@@ -95,24 +94,26 @@ class AppString {
       'Request timed out. Please check your internet connection.';
   static const String invalidArgument =
       'Invalid data provided. Please check and try again.';
-  static const String operationAborted =
-      'Operation failed. Please try again.';
+  static const String operationAborted = 'Operation failed. Please try again.';
 
   static const String amountRequired = 'Amount is required';
   static const String amountInvalid = 'Enter a valid amount';
   static const String amountGreaterThanZero = 'Amount must be greater than 0';
 
-  static const String title='Title';
-  static const String titleHint='e.g. Lunch, Salary...';
-  static const String titleInvalid='Title is required';
-  static const String expenseAdded='Expense is added..!';
-  static const String noExpenseYet='No expenses yet';
-  static const String addFirstExpense='Tap + to add your first expense';
+  static const String title = 'Title';
+  static const String titleHint = 'e.g. Lunch, Salary...';
+  static const String titleInvalid = 'Title is required';
+  static const String expenseAdded = 'Expense is added..!';
+  static const String noExpenseYet = 'No expenses yet';
+  static const String addFirstExpense = 'Tap + to add your first expense';
 
-  static const String category='Category';
-  static const String paymentMethod='Payment Method';
+  static const String category = 'Category';
+  static const String paymentMethod = 'Payment Method';
 
-  static const String filter='Filter';
-  static const String clearAll='Clear All';
-
+  static const String filter = 'Filter';
+  static const String clearAll = 'Clear All';
+  static const String updateSellPrice = 'UPDATE SELL PRICE';
+  static const String sellingPrice = 'Selling Price';
+  static const String confirm = 'Confirm';
+  static const String cancel = 'Cancel';
 }
