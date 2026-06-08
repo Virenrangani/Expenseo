@@ -2,6 +2,7 @@ import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:expenseo/features/auth/presentation/cubit/sign_up_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
+import 'package:expenseo/features/auth/presentation/page/otp_verification_screen.dart';
 import 'package:expenseo/features/auth/presentation/widget/grid_design.dart';
 import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:flutter/material.dart';
@@ -50,163 +51,204 @@ class _SignUpPageState extends State<SignUpPage> {
               return CustomSnacksBar.showError(context, state.message);
             }
             if (state is AuthSuccess) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute<void>(builder: (context)=>const LogInPage()));
-              return CustomSnacksBar.showSuccess(context, AppString.verifyEmail);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => const LogInPage(),
+                ),
+              );
+              return CustomSnacksBar.showSuccess(
+                context,
+                AppString.verifyEmail,
+              );
             }
           },
-            builder: (context, state) {
-              final isLoading = state is AuthLoading;
+          builder: (context, state) {
+            final isLoading = state is AuthLoading;
 
-              return SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
 
-                child: Stack(
-                  children: [
-                    const GridDesign(),
+              child: Stack(
+                children: [
+                  const GridDesign(),
 
-                    Padding(
-                      padding: AppPadding.edgeSymmetricHori16,
+                  Padding(
+                    padding: AppPadding.edgeSymmetricHori16,
 
-                      child: Column(
-                        children: [
-                          AppGap.g64,
+                    child: Column(
+                      children: [
+                        AppGap.g64,
 
-                          const Icon(
-                            Icons.account_balance_wallet,
+                        const Icon(
+                          Icons.account_balance_wallet,
+                          color: AppColor.background,
+                          size: 38,
+                        ),
+
+                        AppGap.g20,
+
+                        const LogInTitle(
+                          title: AppString.signUpIntro,
+                          subTitle: AppString.signUpSubIntro,
+                        ),
+
+                        AppGap.g32,
+
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
                             color: AppColor.background,
-                            size: 38,
+                            borderRadius: AppBorderRadius.cir24,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                                color: AppColor.textPrimary.withAlpha(15),
+                              ),
+                            ],
                           ),
 
-                          AppGap.g20,
+                          child: Padding(
+                            padding: AppPadding.edgeSymmetricHori24,
 
-                          const LogInTitle(title: AppString.signUpIntro, subTitle: AppString.signUpSubIntro,),
+                            child: Form(
+                              key: formKey,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              child: Column(
+                                children: [
+                                  AppGap.g32,
 
-                          AppGap.g32,
+                                  AppFormField(
+                                    controller: nameController,
+                                    fillColor: AppColor.background,
+                                    hintText: AppString.name,
+                                    validator: (_) =>
+                                        context.read<SignUpCubit>().nameError,
+                                    onChanged: (val) {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .nameValidation(val);
+                                    },
+                                  ),
 
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: AppColor.background,
-                              borderRadius: AppBorderRadius.cir24,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 10),
-                                  color: AppColor.textPrimary.withAlpha(15),
-                                ),
-                              ],
-                            ),
+                                  AppGap.g24,
 
-                            child: Padding(
-                              padding: AppPadding.edgeSymmetricHori24,
+                                  AppFormField(
+                                    controller: emailController,
+                                    fillColor: AppColor.background,
+                                    hintText: AppString.email,
+                                    validator: (_) =>
+                                        context.read<SignUpCubit>().emailError,
+                                    onChanged: (val) {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .emailValidation(val);
+                                    },
+                                  ),
 
-                              child: Form(
-                                key: formKey,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                child: Column(
-                                  children: [
-                                    AppGap.g32,
+                                  AppGap.g24,
 
-                                    AppFormField(
-                                      controller: nameController,
-                                      fillColor: AppColor.background,
-                                      hintText: AppString.name,
-                                      validator: (_) => context.read<SignUpCubit>().nameError,
-                                      onChanged: (val) {
-                                        context.read<SignUpCubit>().nameValidation(val);
-                                      },
+                                  AppFormField(
+                                    controller: passwordController,
+                                    hintText: AppString.password,
+                                    fillColor: AppColor.background,
+                                    obscureText: context
+                                        .watch<SignUpCubit>()
+                                        .isPasswordHidden,
+                                    textAction: TextInputAction.done,
+                                    suffix: Icon(
+                                      context
+                                              .watch<SignUpCubit>()
+                                              .isPasswordHidden
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
+                                      color: AppColor.textSecondary,
+                                      size: 22,
                                     ),
 
-                                    AppGap.g24,
+                                    onSuffixTap: () {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .showPassword();
+                                    },
+                                    validator: (_) => context
+                                        .read<SignUpCubit>()
+                                        .passwordError,
+                                    onChanged: (val) {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .passwordValidation(val);
+                                    },
+                                  ),
 
-                                    AppFormField(
-                                      controller: emailController,
-                                      fillColor: AppColor.background,
-                                      hintText: AppString.email,
-                                      validator: (_) => context.read<SignUpCubit>().emailError,
-                                      onChanged: (val) {
-                                        context.read<SignUpCubit>().emailValidation(val);
-                                      },
+                                  AppGap.g32,
+
+                                  AppElevatedButton(
+                                    text: AppString.createAccount,
+                                    isLoading: isLoading,
+                                    borderRadius: 12,
+                                    isEnabled: context
+                                        .watch<SignUpCubit>()
+                                        .isFormValid,
+                                    suffix: const Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: AppColor.background,
                                     ),
 
-                                    AppGap.g24,
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        await context
+                                            .read<SignUpCubit>()
+                                            .signUp(
+                                              email: emailController.text
+                                                  .trim(),
+                                              password: passwordController.text,
+                                              name: nameController.text.trim(),
+                                            );
+                                      }
 
-                                    AppFormField(
-                                      controller: passwordController,
-                                      hintText: AppString.password,
-                                      fillColor: AppColor.background,
-                                      obscureText: context.watch<SignUpCubit>().isPasswordHidden,
-                                      textAction: TextInputAction.done,
-                                      suffix: Icon(
-                                        context.watch<SignUpCubit>().isPasswordHidden
-                                            ? Icons.visibility_off_outlined
-                                            : Icons.visibility_outlined,
-                                        color: AppColor.textSecondary,
-                                        size: 22,
-                                      ),
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (context) =>
+                                              const OtpVerificationScreen(),
+                                        ),
+                                      );
+                                    },
+                                  ),
 
-                                      onSuffixTap: () {
-                                        context.read<SignUpCubit>().showPassword();
-                                      },
-                                      validator: (_) => context.read<SignUpCubit>().passwordError,
-                                      onChanged: (val) {
-                                        context.read<SignUpCubit>().passwordValidation(val);
-                                      },
-                                    ),
+                                  AppGap.g24,
 
-                                    AppGap.g32,
+                                  NavigationText(
+                                    description: AppString.alReadyHaveAnAccount,
+                                    pageName: AppString.logIn,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (_) => const LogInPage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
 
-                                    AppElevatedButton(
-                                      text: AppString.createAccount,
-                                      isLoading: isLoading,
-                                      borderRadius: 12,
-                                      isEnabled: context.watch<SignUpCubit>().isFormValid,
-                                      suffix: const Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: AppColor.background,
-                                      ),
-
-                                      onPressed: () {
-                                        if (formKey.currentState!.validate()) {
-                                          context.read<SignUpCubit>().signUp(
-                                            email: emailController.text.trim(),
-                                            password: passwordController.text,
-                                            name: nameController.text.trim(),
-                                          );
-                                        }
-                                      },
-                                    ),
-
-                                    AppGap.g24,
-
-                                    NavigationText(
-                                      description:
-                                      AppString.alReadyHaveAnAccount,
-                                      pageName: AppString.logIn,
-                                      onTap: () {
-                                        Navigator.push(context,
-                                          MaterialPageRoute<void>(builder:
-                                              (_) => const LogInPage(),),
-                                        );
-                                      },
-                                    ),
-
-                                    AppGap.g24,
-                                  ],
-                                ),
+                                  AppGap.g24,
+                                ],
                               ),
                             ),
                           ),
+                        ),
 
-                          AppGap.g32,
-                        ],
-                      ),
+                        AppGap.g32,
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
