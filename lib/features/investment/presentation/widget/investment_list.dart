@@ -25,7 +25,7 @@ final List<InvestmentModel> investments = [
     icon: Icons.currency_bitcoin,
     color: Colors.deepPurple,
   ),
-  InvestmentModel(title: 'ETF', icon: Icons.bar_chart, color: Colors.teal,),
+  InvestmentModel(title: 'ETF', icon: Icons.bar_chart, color: Colors.teal),
   InvestmentModel(
     title: 'Bonds',
     icon: Icons.receipt_long,
