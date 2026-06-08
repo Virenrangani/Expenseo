@@ -34,11 +34,9 @@ class _StockCardBodyState extends State<StockCardBody> {
         children: [
           Row(
             children: [
-              StockSectorChip(stockName: widget.stock.sector),
+              StockSectorChip(sector: widget.stock.sector),
               AppGap.g8,
-              Flexible(
-                child: StockSectorChip(stockName: widget.stock.exchange),
-              ),
+              Flexible(child: StockSectorChip(sector: widget.stock.exchange)),
             ],
           ),
           AppGap.g12,
