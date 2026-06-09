@@ -4,13 +4,19 @@ import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
+import '../cubit/otp_cubit.dart';
+import '../cubit/otp_state.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+  final String email;
+
+  const OtpVerificationScreen({super.key, required this.email});
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -78,14 +84,36 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
               AppGap.g32,
 
-              SizedBox(
-                height: 48,
-                child: AppElevatedButton(
-                  text: AppString.verifyOtp,
-                  isEnabled: otpController.text.length == 6,
-                  isLoading: isLoading,
-                  onPressed: () {},
-                ),
+              BlocConsumer<OtpCubit, OtpState>(
+                listener: (context, state) {
+                  if (state is OtpSuccess) {
+                    CustomSnacksBar.showSuccess(context, 'Otp is verified');
+
+                    // Navigate to home screen
+                  }
+
+                  if (state is OtpFailure) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                },
+                builder: (context, state) {
+                  return SizedBox(
+                    height: 48,
+                    child: AppElevatedButton(
+                      text: AppString.verifyOtp,
+                      isEnabled: otpController.text.length == 6,
+                      isLoading: state is OtpLoading,
+                      onPressed: () {
+                        context.read<OtpCubit>().verifyOtp(
+                          otpController.text.trim(),
+                          widget.email,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
 
               AppGap.g16,
