@@ -1,9 +1,10 @@
-import 'package:expenseo/features/auth/data/data_source/sign_up_data_source.dart';
+import 'package:expenseo/features/auth/data/data_source/sign_up_remote_data_source.dart';
 import 'package:expenseo/features/auth/domain/entity/user.dart';
 import 'package:expenseo/features/auth/domain/repository/sign_up_repository.dart';
 
-class SignUpRepositoryImpl implements SignUpRepository{
-  final SignUpDataSource signUpDataSource;
+class SignUpRepositoryImpl implements SignUpRepository {
+  final SignUpRemoteDataSource signUpDataSource;
+
   SignUpRepositoryImpl(this.signUpDataSource);
 
   @override
