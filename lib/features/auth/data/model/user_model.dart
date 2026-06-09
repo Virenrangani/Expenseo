@@ -1,30 +1,19 @@
-
-import '../../domain/entity/user.dart';
-
 class UserModel {
   final String id;
   final String email;
   final String name;
 
-  UserModel({
-    required this.id,
-    required this.email,
-    required this.name
-  });
+  UserModel({required this.id, required this.email, required this.name});
 
-  factory UserModel.fromJson(User user){
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-        id: user.id,
-        email: user.email,
-        name: user.name??''
+      id: (json['id'] ?? '').toString(),
+      email: (json['email'] ?? '').toString(),
+      name: (json['name'] ?? '').toString(),
     );
   }
 
-  Map<String , dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'name': name
-    };
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'email': email, 'name': name};
   }
 }
