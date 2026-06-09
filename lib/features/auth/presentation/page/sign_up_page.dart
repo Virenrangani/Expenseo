@@ -1,5 +1,6 @@
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
+import 'package:expenseo/features/auth/presentation/cubit/otp_cubit.dart';
 import 'package:expenseo/features/auth/presentation/cubit/sign_up_cubit.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:expenseo/features/auth/presentation/page/otp_verification_screen.dart';
@@ -212,8 +213,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                       await Navigator.push(
                                         context,
                                         MaterialPageRoute<void>(
-                                          builder: (context) =>
-                                              const OtpVerificationScreen(),
+                                          builder: (_) => BlocProvider(
+                                            create: (_) => GetIt.I<OtpCubit>(),
+                                            child: OtpVerificationScreen(
+                                              email: emailController.text
+                                                  .trim(),
+                                            ),
+                                          ),
                                         ),
                                       );
                                     },
