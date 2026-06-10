@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:expenseo/core/dio/token_storage_impl.dart';
 import 'package:expenseo/features/auth/data/data_source/login_data_source.dart';
 import 'package:expenseo/features/auth/data/data_source/otp_remote_data_source.dart';
 import 'package:expenseo/features/auth/data/repository_impl/login_repository_impl.dart';
@@ -25,6 +26,8 @@ import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
+import '../core/dio/dio_client.dart';
+import '../core/dio/token_storage.dart';
 import '../features/auth/data/data_source/sign_up_remote_data_source.dart';
 import '../features/auth/presentation/cubit/login_cubit.dart';
 import '../features/auth/presentation/cubit/sign_up_cubit.dart';
@@ -36,7 +39,11 @@ class Injection {
     sl
       ..registerLazySingleton(() => FirebaseAuth.instance)
       ..registerLazySingleton(() => FirebaseFirestore.instance)
-      ..registerLazySingleton(() => Dio())
+    ..registerLazySingleton<TokenStorage>(
+          TokenStorageImpl.new)
+
+   ..registerLazySingleton<Dio>(
+          () => DioClient.create(sl()))
       ..registerLazySingleton<LoginDataSource>(
         () => LoginDataSourceImpl(sl(), sl()),
       )
