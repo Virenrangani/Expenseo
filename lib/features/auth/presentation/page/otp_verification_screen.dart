@@ -108,7 +108,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     height: 48,
                     child: AppElevatedButton(
                       text: AppString.verifyOtp,
-                      isEnabled: otpController.text.length == 6,
+                      isEnabled: true,
                       isLoading: state is OtpLoading,
                       onPressed: () {
                         context.read<OtpCubit>().verifyOtp(
@@ -141,7 +141,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       alignment: PlaceholderAlignment.middle,
                       child: InkWell(
                         onTap: () {
-                          /// resend otp api
+                          context.read<OtpCubit>().resendOtp(widget.email);
                         },
                         child: Text(
                           AppString.resendOtp,
