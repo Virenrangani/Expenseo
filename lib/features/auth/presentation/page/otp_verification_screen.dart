@@ -5,6 +5,7 @@ import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
@@ -89,7 +90,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   if (state is OtpSuccess) {
                     CustomSnacksBar.showSuccess(context, 'Otp is verified');
 
-                    // Navigate to home screen
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute<void>(builder:
+                            (context)=>const LogInPage())
+                    );
                   }
 
                   if (state is OtpFailure) {
