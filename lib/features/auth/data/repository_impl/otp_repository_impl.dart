@@ -10,4 +10,9 @@ class OtpRepositoryImpl extends OtpRepository {
   Future<void> verifyOtp(String otp, String email) {
     return otpDataSource.verifyOtp(otp, email);
   }
+
+  @override
+  Future<void> resendOtp(String email) {
+    return otpDataSource.resendOtp(email);
+  }
 }

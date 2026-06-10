@@ -12,10 +12,20 @@ class OtpCubit extends Cubit<OtpState> {
     try {
       emit(OtpLoading());
 
-      await verifyOtpUseCase(otp, email);
+      await verifyOtpUseCase.call(otp, email);
 
       emit(OtpSuccess());
     } catch (e) {
+      emit(OtpFailure(e.toString()));
+    }
+  }
+
+  Future<void> resendOtp(String email)async {
+    try{
+      emit(OtpLoading());
+      await verifyOtpUseCase.resendOtp(email);
+      emit(OtpSuccess());
+    }catch(e){
       emit(OtpFailure(e.toString()));
     }
   }
