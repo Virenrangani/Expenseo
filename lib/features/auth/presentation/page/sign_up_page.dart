@@ -52,10 +52,16 @@ class _SignUpPageState extends State<SignUpPage> {
               return CustomSnacksBar.showError(context, state.message);
             }
             if (state is AuthSuccess) {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (context) => const LogInPage(),
+                  builder: (_) => BlocProvider(
+                    create: (_) => GetIt.I<OtpCubit>(),
+                    child: OtpVerificationScreen(
+                      email: emailController.text
+                          .trim(),
+                    ),
+                  ),
                 ),
               );
               return CustomSnacksBar.showSuccess(
@@ -209,19 +215,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                               name: nameController.text.trim(),
                                             );
                                       }
-
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (_) => BlocProvider(
-                                            create: (_) => GetIt.I<OtpCubit>(),
-                                            child: OtpVerificationScreen(
-                                              email: emailController.text
-                                                  .trim(),
-                                            ),
-                                          ),
-                                        ),
-                                      );
                                     },
                                   ),
 
