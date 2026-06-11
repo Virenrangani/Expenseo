@@ -47,7 +47,7 @@ class SignUpDataSourceImpl implements SignUpDataSource {
       return UserModel(
         id: user.uid,
         email: user.email ?? '',
-        name: user.displayName ?? '',
+        name: user.displayName ?? '', token: '',
       );
     } on FirebaseAuthException catch (e) {
       throw Exception(AppErrors.handleException(e));
