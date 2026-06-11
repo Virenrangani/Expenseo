@@ -5,6 +5,7 @@ class SharedPrefService {
   static const _keyUserEmail = 'user_email';
   static const _keyUserName  = 'user_name';
   static const _keyIsLoggedIn = 'is_logged_in';
+  static const _keyAccessToken = 'access_token';
 
   static Future<void> saveUser({
     required String id,
@@ -38,4 +39,40 @@ class SharedPrefService {
     return prefs.getBool(_keyIsLoggedIn) ?? false;
   }
 
+  static Future<void> saveAccessToken(
+      String token,
+      ) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(
+      _keyAccessToken,
+      token,
+    );
+  }
+
+  static Future<String?> getAccessToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(
+      _keyAccessToken,
+    );
+  }
+
+  static Future<void> removeAccessToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(
+      _keyAccessToken,
+    );
+  }
+
+  static Future<void> clearUser() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(_keyUserId);
+    await prefs.remove(_keyUserEmail);
+    await prefs.remove(_keyUserName);
+    await prefs.remove(_keyIsLoggedIn);
+    await prefs.remove(_keyAccessToken);
+  }
 }
