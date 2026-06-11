@@ -1,25 +1,24 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:expenseo/core/dio/token_storage.dart';
 
-import 'token_storage.dart';
+import '../storage/shared_pref/shared_pref_service.dart';
 
 class TokenStorageImpl implements TokenStorage {
-  static const String accessTokenKey = 'access_token';
-
   @override
-  Future<String?> getAccessToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(accessTokenKey);
+  Future<String?> getAccessToken() {
+    return SharedPrefService.getAccessToken();
   }
 
   @override
-  Future<void> saveAccessToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(accessTokenKey, token);
+  Future<void> saveAccessToken(
+      String token,
+      ) {
+    return SharedPrefService.saveAccessToken(
+      token,
+    );
   }
 
   @override
-  Future<void> clear() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(accessTokenKey);
+  Future<void> clear() {
+    return SharedPrefService.removeAccessToken();
   }
 }
