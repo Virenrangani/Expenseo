@@ -31,6 +31,11 @@ import '../core/dio/token_storage.dart';
 import '../features/auth/data/data_source/sign_up_remote_data_source.dart';
 import '../features/auth/presentation/cubit/login_cubit.dart';
 import '../features/auth/presentation/cubit/sign_up_cubit.dart';
+import '../features/forgot_password/data/data_source/forgot_password_data_source.dart';
+import '../features/forgot_password/data/repository_impl/forgot_password_repository_impl.dart';
+import '../features/forgot_password/domain/repository/forgot_password_repository.dart';
+import '../features/forgot_password/domain/use_case/forgot_password_use_case.dart';
+import '../features/forgot_password/presentation/cubit/forgot_password_cubit.dart';
 
 class Injection {
   final GetIt sl = GetIt.instance;
@@ -75,6 +80,11 @@ class Injection {
       )
       ..registerLazySingleton<OtpRepository>(() => OtpRepositoryImpl(sl()))
       ..registerLazySingleton(() => VerifyOtpUseCase(sl()))
-      ..registerFactory(() => OtpCubit(sl()));
+      ..registerFactory(() => OtpCubit(sl()))
+
+        ..registerLazySingleton<ForgotPasswordDataSource>(()=>ForgotPasswordDataSourceImpl(sl()))
+    ..registerLazySingleton<ForgotPasswordRepository>(()=>ForgotPasswordRepositoryImpl(sl()))
+      ..registerLazySingleton(() => ForgotPasswordUseCase(sl()))
+        ..registerFactory(() => ForgotPasswordCubit(sl()));
   }
 }
