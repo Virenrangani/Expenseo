@@ -98,9 +98,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   }
 
                   if (state is OtpFailure) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                    CustomSnacksBar.showError(context, state.message);
                   }
                 },
                 builder: (context, state) {
