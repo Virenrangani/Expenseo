@@ -16,6 +16,7 @@ import 'package:expenseo/features/auth/presentation/widget/log_in_title.dart';
 import 'package:expenseo/features/auth/presentation/widget/navigation_text.dart';
 import 'package:expenseo/features/auth/presentation/widget/or_divider.dart';
 import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
+import 'package:expenseo/features/forgot_password/presentation/page/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -57,9 +58,7 @@ class _LogInPageState extends State<LogInPage> {
 
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute<void>(
-                  builder: (_) => const AppBottomNav(),
-                ),
+                MaterialPageRoute<void>(builder: (_) => const AppBottomNav()),
               );
             }
           },
@@ -77,7 +76,7 @@ class _LogInPageState extends State<LogInPage> {
                     padding: AppPadding.edgeSymmetricHori24,
                     child: Column(
                       children: [
-                      AppGap.g64,
+                        AppGap.g64,
 
                         const Icon(
                           Icons.account_balance_wallet,
@@ -87,7 +86,10 @@ class _LogInPageState extends State<LogInPage> {
 
                         AppGap.g24,
 
-                        const LogInTitle(title: AppString.logInIntro,subTitle: AppString.logInSubIntro,),
+                        const LogInTitle(
+                          title: AppString.logInIntro,
+                          subTitle: AppString.logInSubIntro,
+                        ),
 
                         AppGap.g32,
 
@@ -108,7 +110,8 @@ class _LogInPageState extends State<LogInPage> {
 
                           child: Form(
                             key: formKey,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             child: Column(
                               children: [
                                 AppElevatedButton(
@@ -124,7 +127,9 @@ class _LogInPageState extends State<LogInPage> {
                                   ),
 
                                   onPressed: () async {
-                                    await context.read<LoginCubit>().signInWithGoogle();
+                                    await context
+                                        .read<LoginCubit>()
+                                        .signInWithGoogle();
                                   },
                                 ),
 
@@ -134,15 +139,17 @@ class _LogInPageState extends State<LogInPage> {
 
                                 AppGap.g24,
 
-
                                 AppFormField(
                                   controller: emailController,
                                   hintText: AppString.email,
                                   fillColor: AppColor.background,
-                                  validator: (_) => context.read<LoginCubit>().emailError,
+                                  validator: (_) =>
+                                      context.read<LoginCubit>().emailError,
 
                                   onChanged: (val) {
-                                    context.read<LoginCubit>().emailValidation(val);
+                                    context.read<LoginCubit>().emailValidation(
+                                      val,
+                                    );
                                   },
                                 ),
 
@@ -152,7 +159,9 @@ class _LogInPageState extends State<LogInPage> {
                                   controller: passController,
                                   hintText: AppString.password,
                                   textAction: TextInputAction.done,
-                                  obscureText: context.watch<LoginCubit>().isPasswordHidden,
+                                  obscureText: context
+                                      .watch<LoginCubit>()
+                                      .isPasswordHidden,
                                   fillColor: AppColor.background,
                                   suffix: Icon(
                                     context.watch<LoginCubit>().isPasswordHidden
@@ -165,9 +174,12 @@ class _LogInPageState extends State<LogInPage> {
                                   onSuffixTap: () {
                                     context.read<LoginCubit>().showPassword();
                                   },
-                                  validator: (_) => context.read<LoginCubit>().passwordError,
+                                  validator: (_) =>
+                                      context.read<LoginCubit>().passwordError,
                                   onChanged: (val) {
-                                    context.read<LoginCubit>().passwordValidation(val);
+                                    context
+                                        .read<LoginCubit>()
+                                        .passwordValidation(val);
                                   },
                                 ),
 
@@ -176,11 +188,18 @@ class _LogInPageState extends State<LogInPage> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (context) =>
+                                              const ForgetPassword(),
+                                        ),
+                                      );
+                                    },
                                     child: Text(
                                       AppString.forgotPassword,
-                                      style:
-                                      AppTextStyles.titleSmall(
+                                      style: AppTextStyles.titleSmall(
                                         color: AppColor.primaryLight,
                                       ),
                                     ),
@@ -193,10 +212,13 @@ class _LogInPageState extends State<LogInPage> {
                                   text: AppString.logIn,
                                   isLoading: isLoading,
                                   borderRadius: 12,
-                                  isEnabled: context.watch<LoginCubit>().isFormValid,
+                                  isEnabled: context
+                                      .watch<LoginCubit>()
+                                      .isFormValid,
 
                                   onPressed: () {
-                                    if (formKey.currentState?.validate() ?? false) {
+                                    if (formKey.currentState?.validate() ??
+                                        false) {
                                       context.read<LoginCubit>().login(
                                         email: emailController.text.trim(),
                                         password: passController.text,
@@ -208,15 +230,13 @@ class _LogInPageState extends State<LogInPage> {
                                 AppGap.g24,
 
                                 NavigationText(
-                                  description:
-                                  AppString.dontHaveAnAccount,
+                                  description: AppString.dontHaveAnAccount,
                                   pageName: AppString.signUp,
                                   onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute<void>(
-                                        builder: (_) =>
-                                        const SignUpPage(),
+                                        builder: (_) => const SignUpPage(),
                                       ),
                                     );
                                   },
