@@ -1,11 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefService {
-  static const _keyUserId    = 'user_id';
+  static const _keyUserId = 'user_id';
   static const _keyUserEmail = 'user_email';
-  static const _keyUserName  = 'user_name';
+  static const _keyUserName = 'user_name';
   static const _keyIsLoggedIn = 'is_logged_in';
   static const _keyAccessToken = 'access_token';
+  static const _keyRefreshToken = 'refresh_token';
 
   static Future<void> saveUser({
     required String id,
@@ -39,31 +40,34 @@ class SharedPrefService {
     return prefs.getBool(_keyIsLoggedIn) ?? false;
   }
 
-  static Future<void> saveAccessToken(
-      String token,
-      ) async {
+  static Future<void> saveTokens({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(
-      _keyAccessToken,
-      token,
-    );
+    await prefs.setString(_keyAccessToken, accessToken);
+
+    await prefs.setString(_keyRefreshToken, refreshToken);
   }
 
   static Future<String?> getAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString(
-      _keyAccessToken,
-    );
+    return prefs.getString(_keyAccessToken);
   }
 
   static Future<void> removeAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.remove(
-      _keyAccessToken,
-    );
+    await prefs.remove(_keyAccessToken);
+  }
+
+  static Future<void> clearAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(_keyAccessToken);
+    await prefs.remove(_keyRefreshToken);
   }
 
   static Future<void> clearUser() async {
@@ -73,6 +77,24 @@ class SharedPrefService {
     await prefs.remove(_keyUserEmail);
     await prefs.remove(_keyUserName);
     await prefs.remove(_keyIsLoggedIn);
-    await prefs.remove(_keyAccessToken);
+    await clearAuth();
+  }
+
+  static Future<void> saveRefreshToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(_keyRefreshToken, token);
+  }
+
+  static Future<String?> getRefreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(_keyRefreshToken);
+  }
+
+  static Future<void> removeRefreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(_keyRefreshToken);
   }
 }
