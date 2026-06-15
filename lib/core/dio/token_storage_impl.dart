@@ -9,16 +9,23 @@ class TokenStorageImpl implements TokenStorage {
   }
 
   @override
-  Future<void> saveAccessToken(
-      String token,
-      ) {
-    return SharedPrefService.saveAccessToken(
-      token,
+  Future<String?> getRefreshToken() {
+    return SharedPrefService.getRefreshToken();
+  }
+
+  @override
+  Future<void> saveTokens({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await SharedPrefService.saveTokens(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     );
   }
 
   @override
-  Future<void> clear() {
-    return SharedPrefService.removeAccessToken();
+  Future<void> clear() async {
+    await SharedPrefService.clearUser();
   }
 }
