@@ -44,11 +44,8 @@ class Injection {
     sl
       ..registerLazySingleton(() => FirebaseAuth.instance)
       ..registerLazySingleton(() => FirebaseFirestore.instance)
-    ..registerLazySingleton<TokenStorage>(
-          TokenStorageImpl.new)
-
-   ..registerLazySingleton<Dio>(
-          () => DioClient.create(sl()))
+      ..registerLazySingleton<TokenStorage>(TokenStorageImpl.new)
+      ..registerLazySingleton<Dio>(() => DioClient.create(tokenStorage: sl()))
       ..registerLazySingleton<LoginDataSource>(
         () => LoginDataSourceImpl(sl(), sl()),
       )
@@ -81,10 +78,13 @@ class Injection {
       ..registerLazySingleton<OtpRepository>(() => OtpRepositoryImpl(sl()))
       ..registerLazySingleton(() => VerifyOtpUseCase(sl()))
       ..registerFactory(() => OtpCubit(sl()))
-
-        ..registerLazySingleton<ForgotPasswordDataSource>(()=>ForgotPasswordDataSourceImpl(sl()))
-    ..registerLazySingleton<ForgotPasswordRepository>(()=>ForgotPasswordRepositoryImpl(sl()))
+      ..registerLazySingleton<ForgotPasswordDataSource>(
+        () => ForgotPasswordDataSourceImpl(sl()),
+      )
+      ..registerLazySingleton<ForgotPasswordRepository>(
+        () => ForgotPasswordRepositoryImpl(sl()),
+      )
       ..registerLazySingleton(() => ForgotPasswordUseCase(sl()))
-        ..registerFactory(() => ForgotPasswordCubit(sl()));
+      ..registerFactory(() => ForgotPasswordCubit(sl()));
   }
 }
