@@ -15,18 +15,12 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   @override
   Future<UserModel> login(String email, String password) async {
     try {
-      final response =
-      await dio.post<Map<String, dynamic>>(
+      final response = await dio.post<Map<String, dynamic>>(
         '/login',
-        data: {
-          'email': email,
-          'password': password,
-        },
+        data: {'email': email, 'password': password},
       );
 
-      final user = UserModel.fromJson(
-        response.data!,
-      );
+      final user = UserModel.fromJson(response.data!);
 
       await SharedPrefService.saveUser(
         id: user.id,
@@ -34,16 +28,16 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
         name: user.name,
       );
 
-      await SharedPrefService.saveAccessToken(
-        user.token,
+      await SharedPrefService.saveTokens(
+        accessToken: user.token,
+        refreshToken: '',
       );
 
       return user;
     } on DioException catch (e) {
       final data = e.response?.data;
 
-      final message =
-      data is Map<String, dynamic>
+      final message = data is Map<String, dynamic>
           ? data['message']?.toString()
           : 'Login failed';
 
