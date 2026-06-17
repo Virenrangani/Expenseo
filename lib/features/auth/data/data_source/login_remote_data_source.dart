@@ -30,7 +30,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
 
       await SharedPrefService.saveTokens(
         accessToken: user.token,
-        refreshToken: '',
+        refreshToken: user.refreshToken ?? ' ',
       );
 
       return user;
