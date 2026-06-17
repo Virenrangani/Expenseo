@@ -1,4 +1,5 @@
 import 'package:expenseo/di/injection.dart';
+import 'package:expenseo/features/auth/presentation/page/auth_gate.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const LogInPage(),
+      home: const AuthGate(),
     );
   }
 }
