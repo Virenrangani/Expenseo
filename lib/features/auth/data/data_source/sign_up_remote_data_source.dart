@@ -17,7 +17,7 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
   Future<UserModel> signUp(String email, String name, String password) async {
     try {
       final response = await dio.post<Map<String, dynamic>>(
-        '/signup',
+        '/auth/signup',
         data: {'email': email, 'name': name, 'password': password},
       );
 

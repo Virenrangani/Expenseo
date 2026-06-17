@@ -16,7 +16,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   Future<UserModel> login(String email, String password) async {
     try {
       final response = await dio.post<Map<String, dynamic>>(
-        '/login',
+        '/auth/login',
         data: {'email': email, 'password': password},
       );
 

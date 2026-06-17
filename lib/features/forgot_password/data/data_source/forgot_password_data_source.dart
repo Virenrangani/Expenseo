@@ -11,7 +11,7 @@ class ForgotPasswordDataSourceImpl extends ForgotPasswordDataSource {
   @override
   Future<void> forgotPassword(String email) async {
     try{
-      await dio.post<String>('/forgot-password', data: {
+      await dio.post<String>('/auth/forgot-password', data: {
         'email': email,
       });
     }on DioException catch (e) {
@@ -29,7 +29,7 @@ class ForgotPasswordDataSourceImpl extends ForgotPasswordDataSource {
   @override
   Future<void> resetPassword(String email , String password , String otp) async {
     try{
-      await dio.post<String>('/reset-password', data: {
+      await dio.post<String>('/auth/reset-password', data: {
         'email':email,
         'password': password,
         'otp':otp

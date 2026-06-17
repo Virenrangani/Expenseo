@@ -14,7 +14,7 @@ class OtpRemoteDataSourceImpl extends OtpRemoteDataSource {
   Future<void> verifyOtp(String otp, String email) async {
     try {
       await dio.post<String>(
-        '/verify',
+        '/auth/verify',
         data: {'email': email, 'otp': otp},
       );
     } on DioException catch (e) {
@@ -32,7 +32,7 @@ class OtpRemoteDataSourceImpl extends OtpRemoteDataSource {
   Future<void> resendOtp(String email) async {
     try{
       await dio.post<String>(
-        '/resend-otp',
+        '/auth/resend-otp',
         data: {'email':email}
       );
     }on DioException catch (e) {
