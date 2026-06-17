@@ -1,8 +1,8 @@
-import 'package:expenseo/features/auth/presentation/widget/loading_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../bottom_nav/app_bottom_nav.dart';
+import '../widget/loading_screen.dart';
 import 'log_in_page.dart';
 
 class AuthGate extends StatefulWidget {
@@ -13,7 +13,6 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-
   bool? isLoggedIn;
 
   @override
@@ -23,49 +22,19 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> checkUser() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final hasSession = await SharedPrefService.isLoggedIn();
 
-    if (user == null) {
-      setState(() {
-        isLoggedIn = false;
-      });
-      return;
-    }
-
-    try {
-      await user.reload();
-      final refreshedUser = FirebaseAuth.instance.currentUser;
-
-      if (refreshedUser == null) {
-        setState(() {
-          isLoggedIn = false;
-        });
-      } else {
-        setState(() {
-          isLoggedIn = true;
-        });
-      }
-
-    } catch (e) {
-      await FirebaseAuth.instance.signOut();
-      setState(() {
-        isLoggedIn = false;
-      });
-    }
+    setState(() {
+      isLoggedIn = hasSession;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-
     if (isLoggedIn == null) {
-      return const Scaffold(
-        body: Center(
-          child: LoadingScreen(),
-        ),
-      );
+      return const Scaffold(body: Center(child: LoadingScreen()));
     }
 
-    return isLoggedIn!
-        ? const AppBottomNav()
-        : const LogInPage();
+    return isLoggedIn! ? const AppBottomNav() : const LogInPage();
   }
 }
