@@ -36,7 +36,7 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   Future<void> addNewExpense(Expense expense) async {
     emit(ExpenseLoading());
     try{
-      await useCase.addExpense(currentUid,expense);
+      await useCase.addExpense(expense);
       emit(ExpenseSuccess(AppString.expenseAdded));
       await getExpense();
     }catch (e){
@@ -77,7 +77,7 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   }
 
   void getTotalIncomeExpense(List<Expense> expense){
-    for (var item in expense){
+    for (final item in expense){
       if(item.type ==TransactionType.income){
         totalIncome=totalIncome+item.amount;
       }else if(item.type ==TransactionType.expense){

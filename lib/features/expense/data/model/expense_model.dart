@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/enums/app_enums.dart';
 
@@ -21,24 +20,24 @@ class ExpenseModel {
     required this.createdAt,
   });
 
-  factory ExpenseModel.fromJson(String id, Map<String, dynamic> json) {
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
-      id: id,
+      id: json['id'] as String,
       title: json['title'] as String,
       amount: (json['amount'] as num).toDouble(),
       category: ExpenseCategory.values.firstWhere(
-        (e) => e.key == json['category'],
+        (e) => e.key == json['expenseCategory'],
         orElse: () => ExpenseCategory.other,
       ),
       type: TransactionType.values.firstWhere(
-        (e) => e.key == json['type'],
+        (e) => e.key == json['expenseType'],
         orElse: () => TransactionType.expense,
       ),
       paymentMethod: PaymentMethod.values.firstWhere(
-        (e) => e.key == json['paymentMethod'],
+        (e) => e.key == json['transactionType'],
         orElse: () => PaymentMethod.cash,
       ),
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
   }
 
@@ -46,9 +45,9 @@ class ExpenseModel {
     return {
       'title': title,
       'amount': amount,
-      'category': category.key,
-      'type': type.key,
-      'paymentMethod': paymentMethod.key,
+      'expenseCategory': category.key,
+      'expenseType': type.key,
+      'transactionType': paymentMethod.key,
       'createdAt': createdAt,
     };
   }
