@@ -48,7 +48,7 @@ class ExpenseModel {
       'expenseCategory': category.key,
       'expenseType': type.key,
       'transactionType': paymentMethod.key,
-      'createdAt': createdAt,
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }
