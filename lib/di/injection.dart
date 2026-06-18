@@ -12,7 +12,6 @@ import 'package:expenseo/features/auth/domain/use_case/login_use_case.dart';
 import 'package:expenseo/features/auth/domain/use_case/otp_verify_use_case.dart';
 import 'package:expenseo/features/auth/domain/use_case/sign_up_use_case.dart';
 import 'package:expenseo/features/auth/presentation/cubit/otp_cubit.dart';
-import 'package:expenseo/features/expense/data/data_source/expense_data_source.dart';
 import 'package:expenseo/features/expense/data/repository_impl/expense_repository_impl.dart';
 import 'package:expenseo/features/expense/domain/repository/expense_repository.dart';
 import 'package:expenseo/features/expense/domain/use_case/expense_use_case.dart';
@@ -31,6 +30,7 @@ import '../features/auth/data/data_source/login_remote_data_source.dart';
 import '../features/auth/data/data_source/sign_up_remote_data_source.dart';
 import '../features/auth/presentation/cubit/login_cubit.dart';
 import '../features/auth/presentation/cubit/sign_up_cubit.dart';
+import '../features/expense/data/data_source/expense_remote_data_source.dart';
 import '../features/forgot_password/data/data_source/forgot_password_data_source.dart';
 import '../features/forgot_password/data/repository_impl/forgot_password_repository_impl.dart';
 import '../features/forgot_password/domain/repository/forgot_password_repository.dart';
@@ -61,8 +61,8 @@ class Injection {
       )
       ..registerLazySingleton(() => SignUpUseCase(sl()))
       ..registerFactory(() => SignUpCubit(sl()))
-      ..registerLazySingleton<ExpenseDataSource>(
-        () => ExpenseDataSourceImpl(sl()),
+      ..registerLazySingleton<ExpenseRemoteDataSource>(
+        () => ExpenseRemoteDataSourceImpl(sl()),
       )
       ..registerLazySingleton<ExpenseRepository>(
         () => ExpenseRepositoryImpl(sl()),
