@@ -21,86 +21,100 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  final TextEditingController emailController =
-  TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FocusNode emailFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    emailFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ForgotPasswordCubit>(
       create: (_) => GetIt.I<ForgotPasswordCubit>(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: Padding(
-          padding: AppPadding.edgeAll20,
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Forgot Password',
-                  style: AppTextStyles.h4(),
-                ),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          appBar: AppBar(),
+          body: Padding(
+            padding: AppPadding.edgeAll20,
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Forgot Password', style: AppTextStyles.h4()),
 
-                AppGap.g12,
+                  AppGap.g12,
 
-                Text(
-                  "Enter your registered email address and we'll send you a verification code to reset your password.",
-                  style: AppTextStyles.bodyMedium(),
-                ),
+                  Text(
+                    "Enter your registered email address and we'll send you a verification code to reset your password.",
+                    style: AppTextStyles.bodyMedium(),
+                  ),
 
-                AppGap.g32,
+                  AppGap.g32,
 
-                AppFormField(
-                  controller: emailController,
-                  hintText: 'Enter your email',
-                  prefixIcon: const Icon(Icons.mail_outline,color: AppColor.textSecondary,),
-                  keyboardType: TextInputType.emailAddress,
-                ),
+                  AppFormField(
+                    controller: emailController,
+                    hintText: 'Enter your email',
+                    prefixIcon: const Icon(
+                      Icons.mail_outline,
+                      color: AppColor.textSecondary,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    focusNode: emailFocusNode,
+                  ),
 
-                AppGap.g32,
+                  AppGap.g32,
 
-                BlocConsumer<ForgotPasswordCubit,ForgotPasswordState>(
-                  builder: (context, state) {
-                    return SizedBox(
-                      height: 48,
+                  BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+                    builder: (context, state) {
+                      return SizedBox(
+                        height: 48,
                         child: AppElevatedButton(
                           text: 'Send OTP',
                           isEnabled: true,
                           isLoading: state is ForgotPasswordLoading,
                           onPressed: () {
-                            if (formKey.currentState!
-                                .validate()) {
-                              context.read<ForgotPasswordCubit>().forgotPassword(
-                                emailController.text.trim(),
-                              );
+                            if (formKey.currentState!.validate()) {
+                              context
+                                  .read<ForgotPasswordCubit>()
+                                  .forgotPassword(emailController.text.trim());
                             }
                           },
-                        )
-                    );
-                  }, listener: (context, state) {
-                    final cubit = context.read<ForgotPasswordCubit>();
-                    if (state is ForgotPasswordSuccess) {
-                      CustomSnacksBar.showSuccess(context, state.message);
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(builder:
-                              (context)=>BlocProvider.value(
-                                  value: cubit,
-                              child: ResetPasswordPage(email: emailController.text.trim()))
-                          )
+                        ),
                       );
-                    }
+                    },
+                    listener: (context, state) {
+                      final cubit = context.read<ForgotPasswordCubit>();
+                      if (state is ForgotPasswordSuccess) {
+                        emailFocusNode.unfocus();
+                        CustomSnacksBar.showSuccess(context, state.message);
 
-                    if(state is ForgotPasswordFailure){
-                      CustomSnacksBar.showError(context, state.message);
-                    }
-                  },
-                ),
-              ],
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => BlocProvider.value(
+                              value: cubit,
+                              child: ResetPasswordPage(
+                                email: emailController.text.trim(),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      if (state is ForgotPasswordFailure) {
+                        CustomSnacksBar.showError(context, state.message);
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
