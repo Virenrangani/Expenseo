@@ -4,8 +4,8 @@ import '../model/expense_model.dart';
 
 abstract class ExpenseRemoteDataSource {
   Future<void> addExpense(ExpenseModel expense);
-  Future<List<ExpenseModel>> getExpense(String uid);
-  Future<void> removeExpense(String uid, String expenseId);
+  Future<List<ExpenseModel>> getExpense();
+  Future<void> removeExpense(String expenseId);
 }
 
 class ExpenseRemoteDataSourceImpl extends ExpenseRemoteDataSource {
@@ -29,11 +29,11 @@ class ExpenseRemoteDataSourceImpl extends ExpenseRemoteDataSource {
   }
 
   @override
-  Future<List<ExpenseModel>> getExpense(String uid) async {
+  Future<List<ExpenseModel>> getExpense() async {
     try {
       final response = await dio.get<List<dynamic>>('/expenses');
 
-      final data = response.data!;
+      final data = response.data ?? [];
 
       return data
           .map((json) => ExpenseModel.fromJson(json as Map<String, dynamic>))
@@ -50,9 +50,9 @@ class ExpenseRemoteDataSourceImpl extends ExpenseRemoteDataSource {
   }
 
   @override
-  Future<void> removeExpense(String uid, String expenseId) async {
+  Future<void> removeExpense(String expenseId) async {
     try {
-      await dio.delete<String>('/expenses/$uid');
+      await dio.delete<String>('/expenses/$expenseId');
     } on DioException catch (e) {
       final data = e.response?.data;
 

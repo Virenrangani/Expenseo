@@ -1,5 +1,4 @@
 import 'package:expenseo/core/constant/string/app_string.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/enums/app_enums.dart';
@@ -31,8 +30,6 @@ class ExpenseCubit extends Cubit<ExpenseState>{
 
   final int recentTransactionCount=4;
 
-  String get currentUid => FirebaseAuth.instance.currentUser!.uid;
-
   Future<void> addNewExpense(Expense expense) async {
     emit(ExpenseLoading());
     try{
@@ -47,7 +44,7 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   Future<void> getExpense() async {
     emit(ExpenseLoading());
     try{
-      final expense=await useCase.getExpense(currentUid);
+      final expense=await useCase.getExpense();
       expense.sort((a,b)=>b.createdAt.compareTo(a.createdAt));
       totalIncome=0;
       totalExpense=0;
@@ -68,7 +65,7 @@ class ExpenseCubit extends Cubit<ExpenseState>{
   Future<void> removeExpense(String expenseId) async {
     emit(ExpenseLoading());
     try{
-      await useCase.removeExpense(currentUid, expenseId);
+      await useCase.removeExpense(expenseId);
       emit(ExpenseSuccess('Expense Removed...!'));
       await getExpense();
     }catch(e){

@@ -9,7 +9,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
   ExpenseRepositoryImpl(this.dataSource);
 
   @override
-  Future<void> addExpense( Expense expense) {
+  Future<void> addExpense(Expense expense) {
     final model = ExpenseModel(
       id: expense.id,
       title: expense.title,
@@ -24,8 +24,8 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
   }
 
   @override
-  Future<List<Expense>> getExpense(String uid)async {
-    final expense=await dataSource.getExpense(uid);
+  Future<List<Expense>> getExpense()async {
+    final expense=await dataSource.getExpense();
     return expense.map((e)=>
         Expense(
             id: e.id,
@@ -40,7 +40,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository{
   }
 
   @override
-  Future<void> removeExpense(String uid,String expenseId) async {
-    await dataSource.removeExpense(uid, expenseId);
+  Future<void> removeExpense(String expenseId) async {
+    await dataSource.removeExpense(expenseId);
   }
 }
