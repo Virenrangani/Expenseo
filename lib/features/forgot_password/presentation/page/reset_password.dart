@@ -24,13 +24,12 @@ class ResetPasswordPage extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final formKey = GlobalKey<FormState>();
 
-  final TextEditingController newPasswordController =
-  TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-  TextEditingController();
-  final TextEditingController otpController =
-  TextEditingController();
+      TextEditingController();
+  final TextEditingController otpController = TextEditingController();
+  final FocusNode newPasswordFocusNode = FocusNode();
 
   bool obscureNewPassword = true;
   bool obscureConfirmPassword = true;
@@ -39,6 +38,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   void dispose() {
     newPasswordController.dispose();
     confirmPasswordController.dispose();
+    newPasswordFocusNode.dispose();
     super.dispose();
   }
 
@@ -46,99 +46,102 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-          width: double.infinity,
-          padding: AppPadding.edgeAll20,
-          decoration: BoxDecoration(
-            color: AppColor.background,
-            borderRadius: AppBorderRadius.cir20,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-                color: Colors.black.withAlpha(20),
-              ),
-            ],
-          ),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                /// Title
-                Text(
-                  'Reset Password',
-                  style: AppTextStyles.h5(),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+            width: double.infinity,
+            padding: AppPadding.edgeAll20,
+            decoration: BoxDecoration(
+              color: AppColor.background,
+              borderRadius: AppBorderRadius.cir20,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20,
+                  offset: const Offset(0, 4),
+                  color: Colors.black.withAlpha(20),
                 ),
+              ],
+            ),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  /// Title
+                  Text('Reset Password', style: AppTextStyles.h5()),
 
-                AppGap.g12,
+                  AppGap.g12,
 
-                /// Subtitle
-                Text(
-                  'Create a new password for your account. '
-                      'Make sure it is strong and easy for you to remember.',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.bodySmall(),
-                ),
+                  /// Subtitle
+                  Text(
+                    'Create a new password for your account. '
+                    'Make sure it is strong and easy for you to remember.',
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.bodySmall(),
+                  ),
 
-                AppGap.g24,
+                  AppGap.g24,
 
-                AppFormField(
-                  hintText: 'Enter OTP',
-                  controller: otpController,
-                  keyboardType: TextInputType.number,
-                  prefixIcon: const Icon(Icons.verified_outlined,color: AppColor.textSecondary,),
-                ),
-
-                AppGap.g16,
-                /// New Password Field
-                AppFormField(
-                  controller: newPasswordController,
-                  hintText: 'New Password',
-                  obscureText: obscureNewPassword,
-                  suffix: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        obscureNewPassword =
-                        !obscureNewPassword;
-                      });
-                    },
-                    icon: Icon(
-                      obscureNewPassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+                  AppFormField(
+                    hintText: 'Enter OTP',
+                    controller: otpController,
+                    keyboardType: TextInputType.number,
+                    prefixIcon: const Icon(
+                      Icons.verified_outlined,
+                      color: AppColor.textSecondary,
                     ),
                   ),
-                ),
 
-                AppGap.g16,
+                  AppGap.g16,
 
-                /// Confirm Password Field
-                AppFormField(
-                  controller: confirmPasswordController,
-                  hintText: 'Confirm Password',
-                  obscureText: obscureConfirmPassword,
-                  suffix: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        obscureConfirmPassword =
-                        !obscureConfirmPassword;
-                      });
-                    },
-                    icon: Icon(
-                      obscureConfirmPassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+                  /// New Password Field
+                  AppFormField(
+                    controller: newPasswordController,
+                    hintText: 'New Password',
+                    obscureText: obscureNewPassword,
+                    suffix: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscureNewPassword = !obscureNewPassword;
+                        });
+                      },
+                      icon: Icon(
+                        obscureNewPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
                     ),
                   ),
-                ),
 
-                AppGap.g32,
+                  AppGap.g16,
 
-                /// Button
-                BlocConsumer<ForgotPasswordCubit,ForgotPasswordState>(
-                  builder: (context, state) {
-                    return SizedBox(
+                  /// Confirm Password Field
+                  AppFormField(
+                    controller: confirmPasswordController,
+                    hintText: 'Confirm Password',
+                    obscureText: obscureConfirmPassword,
+                    textAction: TextInputAction.done,
+                    focusNode: newPasswordFocusNode,
+                    suffix: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscureConfirmPassword = !obscureConfirmPassword;
+                        });
+                      },
+                      icon: Icon(
+                        obscureConfirmPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
+                  ),
+
+                  AppGap.g32,
+
+                  /// Button
+                  BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+                    builder: (context, state) {
+                      return SizedBox(
                         height: 48,
                         child: AppElevatedButton(
                           text: 'Reset Password',
@@ -157,29 +160,32 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               context.read<ForgotPasswordCubit>().resetPassword(
                                 widget.email,
                                 newPasswordController.text.trim(),
-                                otpController.text.trim()
+                                otpController.text.trim(),
                               );
                             }
                           },
-                        )
-                    );
-                  }, listener: (context, state) {
-                    if (state is ForgotPasswordSuccess) {
-                      CustomSnacksBar.showSuccess(context, state.message);
-
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute<void>(builder:
-                              (context)=>const LogInPage()
-                          )
+                        ),
                       );
-                    }
-                    if (state is ForgotPasswordFailure) {
-                      CustomSnacksBar.showError(context, state.message);
-                    }
-                },
-                ),
-              ],
+                    },
+                    listener: (context, state) {
+                      if (state is ForgotPasswordSuccess) {
+                        newPasswordFocusNode.unfocus();
+                        CustomSnacksBar.showSuccess(context, state.message);
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => const LogInPage(),
+                          ),
+                        );
+                      }
+                      if (state is ForgotPasswordFailure) {
+                        CustomSnacksBar.showError(context, state.message);
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
