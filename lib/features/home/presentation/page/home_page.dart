@@ -87,79 +87,89 @@ class _HomePageState extends State<HomePage> {
 
                   AppGap.g24,
 
-                  Column(
-                    children: [
-                      Row(
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      padding: const EdgeInsets.only(bottom: 18),
+                      child: Column(
                         children: [
-                          AppIconCard(
-                            icon: Icons.add,
-                            text: AppString.addExpense,
-                            onTap: () {
-                              showBottomSheet(
-                                context: context,
-                                enableDrag: true,
-                                showDragHandle: true,
-                                backgroundColor: Colors.white,
-                                builder: (_) => BlocProvider.value(
-                                  value: context.read<ExpenseCubit>(),
-                                  child: const AddExpenseSheet(),
-                                ),
-                              );
-                            },
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  AppIconCard(
+                                    icon: Icons.add,
+                                    text: AppString.addExpense,
+                                    onTap: () {
+                                      showBottomSheet(
+                                        context: context,
+                                        enableDrag: true,
+                                        showDragHandle: true,
+                                        backgroundColor: Colors.white,
+                                        builder: (_) => BlocProvider.value(
+                                          value: context.read<ExpenseCubit>(),
+                                          child: const AddExpenseSheet(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+
+                                  AppGap.g8,
+
+                                  AppIconCard(
+                                    icon: Icons.splitscreen,
+                                    text: AppString.split,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (context) => const UserExpensePage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                              AppGap.g8,
+                              Row(
+                                children: [
+                                  AppIconCard(
+                                    icon: Icons.savings_outlined,
+                                    text: AppString.saving,
+                                    onTap: () {},
+                                  ),
+
+                                  AppGap.g8,
+
+                                  AppIconCard(
+                                    icon: Icons.monetization_on_outlined,
+                                    text: AppString.invest,
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
 
-                          AppGap.g8,
+                          AppGap.g24,
 
-                          AppIconCard(
-                            icon: Icons.splitscreen,
-                            text: AppString.split,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (context) => const UserExpensePage(),
-                                ),
-                              );
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                AppString.recentTransaction,
+                                style: AppTextStyles.h5(),
+                              ),
+                              const ShowAllExpenseButton()
+                            ],
                           ),
+
+                          AppGap.g20,
+                          const TransactionList(),
                         ],
                       ),
-                      AppGap.g8,
-                      Row(
-                        children: [
-                          AppIconCard(
-                            icon: Icons.savings_outlined,
-                            text: AppString.saving,
-                            onTap: () {},
-                          ),
-
-                          AppGap.g8,
-
-                          AppIconCard(
-                            icon: Icons.monetization_on_outlined,
-                            text: AppString.invest,
-                            onTap: () {},
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-
-                  AppGap.g24,
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        AppString.recentTransaction,
-                        style: AppTextStyles.h5(),
-                      ),
-                      const ShowAllExpenseButton()
-                    ],
-                  ),
-
-                  AppGap.g20,
-                  const Flexible(child: TransactionList()),
                 ],
               ),
             ),
