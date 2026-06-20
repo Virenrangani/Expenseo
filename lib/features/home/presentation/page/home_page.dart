@@ -8,7 +8,6 @@ import 'package:expenseo/features/home/presentation/widget/transaction_list.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
