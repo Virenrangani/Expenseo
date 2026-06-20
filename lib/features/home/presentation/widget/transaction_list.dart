@@ -18,6 +18,9 @@ class TransactionList extends StatelessWidget {
           return Skeletonizer(
             child: ListView.builder(
               itemCount: 3,
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (_, _) => ExpenseCard(expense: FakeExpense.fake()),
             ),
           );
@@ -38,7 +41,7 @@ class TransactionList extends StatelessWidget {
           return ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: count,
             itemBuilder: (context, index) {
               return ExpenseCard(expense: transaction[index]);
