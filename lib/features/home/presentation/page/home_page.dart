@@ -1,6 +1,5 @@
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
-import 'package:expenseo/features/expense/presentation/page/user_expense_page.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
 import 'package:expenseo/features/home/presentation/widget/greeting_user.dart';
 import 'package:expenseo/features/home/presentation/widget/show_all_expense_button.dart';
@@ -8,6 +7,7 @@ import 'package:expenseo/features/home/presentation/widget/transaction_list.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
@@ -15,6 +15,7 @@ import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import '../../../expense/presentation/page/add_expense_sheet.dart';
+import '../../../split/presentation/page/split_expense.dart';
 import '../cubit/home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute<void>(
-                                          builder: (context) => const UserExpensePage(),
+                                          builder: (context) => const SplitExpense(),
                                         ),
                                       );
                                     },
