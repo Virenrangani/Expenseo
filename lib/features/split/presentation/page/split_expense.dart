@@ -18,63 +18,61 @@ class SplitExpense extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<SplitCubit>(
       create: (_) => GetIt.I<SplitCubit>()..getGroups(),
-      child: Scaffold(
-        backgroundColor: AppColor.background,
-        body: Builder(
-          builder: (context) {
-            return SafeArea(
-                child: Padding(
-                  padding: AppPadding.edgeAll12,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            backgroundColor: AppColor.background,
+            body: SafeArea(
+                    child: Padding(
+                      padding: AppPadding.edgeAll12,
+                      child: Column(
                         children: [
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                              onPressed: ()=> Navigator.pop(context),
-                              icon: const Icon(Icons.arrow_back_ios)
+                          Row(
+                            children: [
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                  onPressed: ()=> Navigator.pop(context),
+                                  icon: const Icon(Icons.arrow_back_ios)
+                              ),
+                              Text(AppString.splitBill,
+                                style: AppTextStyles.h4(),),
+                            ],
                           ),
-                          Text(AppString.splitBill,
-                            style: AppTextStyles.h4(color: AppColor.secondary),),
-                          IconButton(
-                              onPressed: () {
-                                final splitCubit = context.read<SplitCubit>();
-                                showModalBottomSheet<void>(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (_) =>
-                                      BlocProvider.value(
-                                        value: splitCubit,
-                                        child: const SplitGroupBottomSheet(),
-                                      ),
-                                );
-                              },
-                              icon: const Icon(Icons.add_circle, size: 32,
-                                color: AppColor.secondary,)
+
+                          AppGap.g20,
+
+                          Text(
+                            AppString.myGroups,
+                            style: AppTextStyles.captionBold(
+                                color: AppColor.textPrimary),
                           ),
+
+                          AppGap.g12,
+
+                          const Expanded(child: GroupsList()),
+
                         ],
                       ),
+                    )
+                ),
 
-                      AppGap.g20,
-
-                      Text(
-                        AppString.myGroups,
-                        style: AppTextStyles.captionBold(
-                            color: AppColor.textPrimary),
-                      ),
-
-                      AppGap.g12,
-
-                      const Expanded(child: GroupsList()),
-
-                    ],
-                  ),
-                )
-            );
-          }
-        ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColor.primary,
+                onPressed: (){
+                  final splitCubit = context.read<SplitCubit>();
+                  showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (_) =>
+                        BlocProvider.value(
+                          value: splitCubit,
+                          child: const SplitGroupBottomSheet(),
+                        ),
+                  );
+            },child: const Icon(Icons.add_circle_outline,size: 28,color: AppColor.background,),),
+          );
+        }
       ),
     );
   }
