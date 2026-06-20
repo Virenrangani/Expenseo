@@ -120,4 +120,35 @@ class AppString {
   static const String otpExpireIn10Min = 'OTP expires within 10 minutes';
   static const String notReceivingOtp = "Didn't receive the OTP? ";
   static const String resendOtp = 'Resend OTP';
+
+  static const String splitBill='Split Your Bill';
+  static const String groupName='Group name';
+  static const String groupHint='e.g. Goa Trip, Flatmates...';
+  static const String addMember='Add Members';
+  static const String createGroup='Create Group';
+  static const String youCanNotAddYourSelf='You can not add yourself';
+  static const String groupCreated='Group is created successfully';
+  static const String addAtLeastOneMember='Add at least one member';
+  static const String enterGroupName='Enter group name';
+
+  static const String settled='Settled';
+  static const String youOwed='you are owed';
+  static const String owe='you owe';
+  static const String owesYou='owes you ';
+  static const String noGroups='No groups yet';
+  static const String noExpense='No expenses yet';
+  static const String createYourGroup='Tap + to create your first group';
+  static const String addYourFirstExpense='Tap + to add your first expense';
+  static const String myGroups='My Groups';
+  static const String paidBy='Paid By';
+  static const String splitType='Split Type';
+  static const String splitAmong='Split Among';
+  static const String splitAmountNotEquals='Split amounts must equal';
+  static const String splitAmountMust100Per='Percentages must add up to 100%';
+  static const String allSettleUp='All settled up!';
+  static const String settleUp='Settle up';
+  static const String markSettle='Mark as settled?';
+  static const String cancel='Cancel';
+  static const String settleBalance='Settlement Balance!';
+  static const String groupDeleted='Group deleted!';
 }
