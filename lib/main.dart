@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
+final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      navigatorKey: appNavigatorKey,
       home: const AuthGate(),
     );
   }
