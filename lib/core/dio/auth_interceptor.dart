@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:expenseo/core/dio/refresh_token_service.dart';
 import 'package:expenseo/core/dio/token_storage.dart';
+import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
+import 'package:flutter/material.dart';
+
+import '../../main.dart';
 
 class AuthInterceptor extends Interceptor {
   final Dio dio;
@@ -74,6 +78,18 @@ class AuthInterceptor extends Interceptor {
     } catch (_) {
       _isRefreshing = false;
       await tokenStorage.clear();
+
+      if (appNavigatorKey.currentContext != null) {
+        ScaffoldMessenger.of(appNavigatorKey.currentContext!).showSnackBar(
+          const SnackBar(content: Text('Session expired. Please log in again.')),
+        );
+      }
+
+      await appNavigatorKey.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (context) => const LogInPage()),
+            (route) => false,
+      );
+
       return handler.next(err);
     }
   }
