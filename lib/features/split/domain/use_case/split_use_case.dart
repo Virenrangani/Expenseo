@@ -1,3 +1,4 @@
+import 'package:expenseo/features/split/data/model/create_group_request_model.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 import 'package:expenseo/features/split/domain/entity/split_entity.dart';
@@ -9,7 +10,7 @@ class SplitUseCase {
   final SplitRepository repository;
   SplitUseCase(this.repository);
 
-  Future<void> createGroup(GroupEntity group){
+  Future<void> createGroup(CreateGroupRequest group){
     return repository.createGroup(group);
   }
 
