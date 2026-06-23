@@ -1,3 +1,4 @@
+import 'package:expenseo/features/split/data/model/create_group_request_model.dart';
 import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 
 import '../entity/group_entity.dart';
@@ -5,7 +6,7 @@ import '../entity/split_entity.dart';
 import '../entity/user.dart';
 
 abstract class SplitRepository {
-  Future<void> createGroup(GroupEntity group);
+  Future<void> createGroup(CreateGroupRequest group);
 
   Future<User?> searchUserByEmail(String email);
 
