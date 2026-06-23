@@ -1,20 +1,21 @@
 import 'package:expenseo/core/constant/string/app_string.dart';
+import 'package:expenseo/features/split/data/model/create_group_request_model.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 import 'package:expenseo/features/split/domain/use_case/split_use_case.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../domain/entity/split_entity.dart';
 
 class SplitCubit extends Cubit<SplitState> {
   final SplitUseCase useCase;
   SplitCubit(this.useCase) : super(SplitInitial());
 
-  String get currentUid  => FirebaseAuth.instance.currentUser!.uid;
-  String get currentName => FirebaseAuth.instance.currentUser!.displayName ?? '';
+  String get currentUid  => SharedPrefService.getUserId() ?? '';
+  String get currentName => SharedPrefService.getUserName() ?? '';
 
   Future<void> searchUser(String email) async {
     emit(UserSearchLoading());
@@ -40,28 +41,23 @@ class SplitCubit extends Cubit<SplitState> {
 
   Future<void> createGroup({
     required String name,
-    required List<String> memberUids,
-    required Map<String, String> memberNames,
+    required List<String> memberEmails,
   }) async {
-    emit(SplitLoading());
-    try {
-      final allUids  = [currentUid, ...memberUids];
-      final allNames = {currentUid: currentName, ...memberNames};
 
-      final group = GroupEntity(
-        id: const Uuid().v4(),
+    emit(SplitLoading());
+    try{
+      final request = CreateGroupRequest(
         name: name,
-        createdBy: currentUid,
-        members: allUids,
-        memberNames: allNames,
-        createdAt: DateTime.now(),
+        memberEmails: memberEmails,
       );
 
-      await useCase.createGroup(group);
+      await useCase.createGroup(request);
+
       emit(SplitSuccess(AppString.groupCreated));
-    } catch (e) {
+    }catch (e){
       emit(SplitError(e.toString()));
     }
+
   }
 
   Future<void> getGroups() async {
