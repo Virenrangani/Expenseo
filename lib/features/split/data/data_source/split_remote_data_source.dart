@@ -8,7 +8,7 @@ abstract class SplitRemoteDataSource {
   Future<GroupResponseModel> createGroup(CreateGroupRequest request);
   Future<UserModel?> searchUserByEmail(String email);
   Future<List<GroupResponseModel>> getGroups();
-
+  Future<void> deleteGroup(String groupId);
 }
 
 class SplitRemoteDataSourceImpl extends SplitRemoteDataSource {
@@ -81,6 +81,25 @@ class SplitRemoteDataSourceImpl extends SplitRemoteDataSource {
       throw Exception(message);
     } catch (e) {
       throw Exception('An unexpected error occurred');
+    }
+  }
+
+  @override
+  Future<void> deleteGroup(String groupId) async {
+    try {
+
+      await dio.delete<String>('/group/$groupId');
+
+    } on DioException catch (e) {
+      final data = e.response?.data;
+
+      final message = data is Map<String, dynamic>
+          ? data['message']?.toString()
+          : 'Failed to delete group';
+
+      throw Exception(message);
+    } catch (e) {
+      throw Exception('An unexpected error occurred while deleting the group');
     }
   }
 }
