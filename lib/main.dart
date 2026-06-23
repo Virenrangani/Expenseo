@@ -4,6 +4,7 @@ import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'core/storage/shared_pref/shared_pref_service.dart';
 import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
@@ -11,6 +12,8 @@ final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await SharedPrefService.init();
 
   Injection().configDependency();
   runApp(const MyApp());
