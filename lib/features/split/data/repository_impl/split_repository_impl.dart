@@ -7,13 +7,14 @@ import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 import 'package:expenseo/features/split/domain/entity/split_entity.dart';
 import 'package:expenseo/features/split/domain/repository/split_repository.dart';
+
 import '../../domain/entity/user.dart';
 
-class SplitRepositoryImpl implements SplitRepository{
+class SplitRepositoryImpl implements SplitRepository {
   final SplitDataSource dataSource;
   final SplitRemoteDataSource remoteDataSource;
 
-  SplitRepositoryImpl(this.dataSource,  this.remoteDataSource);
+  SplitRepositoryImpl(this.dataSource, this.remoteDataSource);
 
   @override
   Future<void> createGroup(CreateGroupRequest group) {
@@ -26,19 +27,31 @@ class SplitRepositoryImpl implements SplitRepository{
 
     if (model == null) return null;
 
-    return User(
-      uid: model.id,
-      name: model.name,
-      email: model.email,
-    );
+    return User(uid: model.id, name: model.name, email: model.email);
   }
 
   @override
-  Future<List<GroupEntity>> getGroups()async {
-    final groups=await remoteDataSource.getGroups();
-    return groups.map(
-            (e)=> GroupEntity(id: e.id, name:e.name, createdBy: e.id,  createdAt: e.createdAt, members: [], memberNames: {})
-    ).toList();
+  Future<List<GroupEntity>> getGroups() async {
+    final groups = await remoteDataSource.getGroups();
+
+    return groups.map((model) {
+      final List<String> memberIds = [];
+      final Map<String, String> namesMap = {};
+
+      for (final user in model.members) {
+        memberIds.add(user.uid);
+        namesMap[user.uid] = user.name;
+      }
+
+      return GroupEntity(
+        id: model.id,
+        name: model.name,
+        createdBy: model.id,
+        createdAt: model.createdAt,
+        members: memberIds,
+        memberNames: namesMap,
+      );
+    }).toList();
   }
 
   @override
@@ -50,9 +63,7 @@ class SplitRepositoryImpl implements SplitRepository{
   Future<List<SplitEntity>> getSplitExpenses(String groupId) async {
     final splitExpense = await dataSource.getSplitExpenses(groupId);
 
-    return splitExpense.map( 
-            (e) => e.toEntity()
-    ).toList();
+    return splitExpense.map((e) => e.toEntity()).toList();
   }
 
   @override
@@ -66,8 +77,8 @@ class SplitRepositoryImpl implements SplitRepository{
   }
 
   @override
-  Future<List<SettleBalance>> getSettlements(String groupId)async {
+  Future<List<SettleBalance>> getSettlements(String groupId) async {
     final models = await dataSource.getSettlements(groupId);
-    return models.map((e)=>e.toEntity()).toList();
+    return models.map((e) => e.toEntity()).toList();
   }
 }
