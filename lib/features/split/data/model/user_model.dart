@@ -5,36 +5,41 @@ class UserModel {
   final String name;
   final String email;
 
-  UserModel({
+  const UserModel({
     required this.uid,
     required this.name,
     required this.email,
   });
 
-  factory UserModel.fromFirestore(
-      Map<String, dynamic> data,
-      String docId,
-      ) {
+  factory UserModel.fromJson(Map<String, dynamic> data) {
     return UserModel(
-      uid: (data['uid'] ?? docId).toString(),
+      uid: (data['id'] ?? data['uid'] ?? '').toString(),
       name: (data['name'] ?? '').toString(),
       email: (data['email'] ?? '').toString(),
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'uid': uid,
+      'id': uid,
       'name': name,
       'email': email,
     };
   }
 
   User toEntity() {
-    return User(uid:uid, name:name, email:email);
+    return User(
+      uid: uid,
+      name: name,
+      email: email,
+    );
   }
 
   factory UserModel.fromEntity(User user) {
-    return UserModel(uid: user.uid, name: user.name, email: user.email);
+    return UserModel(
+      uid: user.uid,
+      name: user.name,
+      email: user.email,
+    );
   }
 }
