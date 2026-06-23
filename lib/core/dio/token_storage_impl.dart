@@ -4,12 +4,12 @@ import '../storage/shared_pref/shared_pref_service.dart';
 
 class TokenStorageImpl implements TokenStorage {
   @override
-  Future<String?> getAccessToken() {
+  Future<String?> getAccessToken() async {
     return SharedPrefService.getAccessToken();
   }
 
   @override
-  Future<String?> getRefreshToken() {
+  Future<String?> getRefreshToken() async {
     return SharedPrefService.getRefreshToken();
   }
 
