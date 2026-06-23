@@ -68,7 +68,7 @@ class SplitRepositoryImpl implements SplitRepository {
 
   @override
   Future<void> deleteGroup(String groupId) {
-    return dataSource.deleteGroup(groupId);
+    return remoteDataSource.deleteGroup(groupId);
   }
 
   @override
