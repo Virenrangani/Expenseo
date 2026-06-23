@@ -1,5 +1,6 @@
 import 'package:expenseo/features/split/data/data_source/split_data_source.dart';
-import 'package:expenseo/features/split/data/model/group_model.dart';
+import 'package:expenseo/features/split/data/data_source/split_remote_data_source.dart';
+import 'package:expenseo/features/split/data/model/create_group_request_model.dart';
 import 'package:expenseo/features/split/data/model/settle_balance_model.dart';
 import 'package:expenseo/features/split/data/model/split_model.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
@@ -10,22 +11,23 @@ import '../../domain/entity/user.dart';
 
 class SplitRepositoryImpl implements SplitRepository{
   final SplitDataSource dataSource;
+  final SplitRemoteDataSource remoteDataSource;
 
-  SplitRepositoryImpl(this.dataSource);
+  SplitRepositoryImpl(this.dataSource,  this.remoteDataSource);
 
   @override
-  Future<void> createGroup(GroupEntity group) {
-    return dataSource.createGroup(GroupModel.fromEntity(group));
+  Future<void> createGroup(CreateGroupRequest group) {
+    return remoteDataSource.createGroup(group);
   }
 
   @override
   Future<User?> searchUserByEmail(String email) async {
-    final model = await dataSource.searchUserByEmail(email);
+    final model = await remoteDataSource.searchUserByEmail(email);
 
     if (model == null) return null;
 
     return User(
-      uid: model.uid,
+      uid: model.id,
       name: model.name,
       email: model.email,
     );
@@ -33,8 +35,10 @@ class SplitRepositoryImpl implements SplitRepository{
 
   @override
   Future<List<GroupEntity>> getGroups()async {
-    final groups=await dataSource.getGroups();
-    return groups.map((e)=>e.toEntity()).toList();
+    final groups=await remoteDataSource.getGroups();
+    return groups.map(
+            (e)=> GroupEntity(id: e.id, name:e.name, createdBy: e.id,  createdAt: e.createdAt, members: [], memberNames: {})
+    ).toList();
   }
 
   @override
