@@ -78,6 +78,9 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
       case SplitType.equal: return _equalSplitAmong;
       case SplitType.unequal: return _unequalSplitAmong;
       case SplitType.percentage: return _percentageSplitAmong;
+      case SplitType.settlement:
+        // TODO: Handle this case.
+        throw UnimplementedError();
     }
   }
 
