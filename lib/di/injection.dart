@@ -21,7 +21,6 @@ import 'package:expenseo/features/home/data/repository/home_repository_impl.dart
 import 'package:expenseo/features/home/domain/repository/home_repository.dart';
 import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
 import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
-import 'package:expenseo/features/split/data/data_source/split_data_source.dart';
 import 'package:expenseo/features/split/data/data_source/split_remote_data_source.dart';
 import 'package:expenseo/features/split/data/repository_impl/split_repository_impl.dart';
 import 'package:expenseo/features/split/domain/repository/split_repository.dart';
@@ -94,9 +93,8 @@ class Injection {
       ..registerLazySingleton(() => ForgotPasswordUseCase(sl()))
       ..registerFactory(() => ForgotPasswordCubit(sl()))
 
-        ..registerLazySingleton<SplitDataSource>(()=> SplitDataSourceImpl(sl()))
       ..registerLazySingleton<SplitRemoteDataSource>(()=>SplitRemoteDataSourceImpl(sl()))
-        ..registerLazySingleton<SplitRepository>(()=> SplitRepositoryImpl(sl(),sl()))
+        ..registerLazySingleton<SplitRepository>(()=> SplitRepositoryImpl(sl()))
         ..registerLazySingleton(()=> SplitUseCase(sl()))
         ..registerFactory(()=> SplitCubit(sl()));
   }
