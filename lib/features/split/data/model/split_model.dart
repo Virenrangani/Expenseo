@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/entity/split_entity.dart';
 
 class SplitModel {
@@ -6,7 +5,7 @@ class SplitModel {
   final String groupId;
   final String title;
   final double amount;
-  final String paidBy;
+  final String paidByUserId;
   final String paidByName;
   final Map<String, double> splitAmong;
   final SplitType splitType;
@@ -17,49 +16,57 @@ class SplitModel {
     required this.groupId,
     required this.title,
     required this.amount,
-    required this.paidBy,
+    required this.paidByUserId,
     required this.paidByName,
     required this.splitAmong,
     required this.splitType,
     required this.createdAt,
   });
 
-  factory SplitModel.fromJson(Map<String, dynamic> data, String id) {
+  factory SplitModel.fromJson(Map<String, dynamic> data) {
+    final splitsList = data['splits'] as List<dynamic>? ?? [];
+    final parsedSplitAmong = <String, double>{};
+    for (final split in splitsList) {
+      parsedSplitAmong[split['userId'].toString()] = (split['amountOwed'] as num).toDouble();
+    }
+
     return SplitModel(
-      id: id,
+      id: (data['id'] ?? '').toString(),
       groupId: (data['groupId'] ?? '').toString(),
       title: (data['title'] ?? '').toString(),
       amount: (data['amount'] as num?)?.toDouble() ?? 0.0,
-      paidBy: (data['paidBy'] ?? '').toString(),
-      paidByName: (data['paidByName'] ?? '').toString(),
-      splitAmong: Map<String, double>.from(
-        (data['splitAmong'] as Map<String, dynamic>? ?? {}).map(
-              (k, v) => MapEntry(k, (v as num).toDouble()),
-        ),
-      ),
+      paidByUserId: (data['paidByUserId'] ?? '').toString(),
+      paidByName: (data['paidByUserName'] ?? 'Unknown').toString(),
+      splitAmong: parsedSplitAmong,
       splitType: SplitType.values.firstWhere(
-            (e) => e.name == data['splitType'],
+            (e) => e.name.toUpperCase() == (data['splitExpenseType'] ?? '').toString().toUpperCase(),
         orElse: () => SplitType.equal,
       ),
-      createdAt:
-      (data['createdAt'] as Timestamp).toDate(),
+      createdAt: data['createdAt'] != null
+          ? DateTime.parse(data['createdAt'].toString()).toLocal()
+          : DateTime.now(),
     );
   }
 
-
   Map<String, dynamic> toJson() {
+    final List<Map<String, dynamic>> splitsList = splitAmong.entries.map((entry) {
+      return {
+        'userId': entry.key,
+        'amountOwed': entry.value,
+      };
+    }).toList();
+
     return {
       'groupId': groupId,
       'title': title,
       'amount': amount,
-      'paidBy': paidBy,
-      'paidByName': paidByName,
-      'splitAmong': splitAmong,
-      'splitType': splitType.name,
-      'createdAt': Timestamp.fromDate(createdAt),
+      'paidByUserId': paidByUserId,
+      'splitExpenseType': splitType.name.toUpperCase(),
+      'splits': splitsList,
+      'paidByUserName':paidByName
+      // We do not send createdAt; Spring Boot generates it
     };
   }
-
 
   SplitEntity toEntity() {
     return SplitEntity(
@@ -67,7 +74,7 @@ class SplitModel {
       groupId: groupId,
       title: title,
       amount: amount,
-      paidBy: paidBy,
+      paidBy: paidByUserId,
       paidByName: paidByName,
       splitAmong: splitAmong,
       splitType: splitType,
@@ -75,14 +82,13 @@ class SplitModel {
     );
   }
 
-  /// 🔹 Convert Entity → Model
   factory SplitModel.fromEntity(SplitEntity entity) {
     return SplitModel(
       id: entity.id,
       groupId: entity.groupId,
       title: entity.title,
       amount: entity.amount,
-      paidBy: entity.paidBy,
+      paidByUserId: entity.paidBy,
       paidByName: entity.paidByName,
       splitAmong: entity.splitAmong,
       splitType: entity.splitType,
