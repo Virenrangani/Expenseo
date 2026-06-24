@@ -1,4 +1,4 @@
-import 'package:auto_size_text_plus/auto_size_text_plus.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:expenseo/features/saving/presentation/widget/add_saving_alert_box.dart';
 import 'package:expenseo/features/saving/presentation/widget/progress_bar.dart';
 import 'package:expenseo/features/saving/presentation/widget/side_button.dart';

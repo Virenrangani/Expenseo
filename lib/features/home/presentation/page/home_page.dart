@@ -124,7 +124,8 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute<void>(
-                                          builder: (context) => const SplitExpense(),
+                                          builder: (context) =>
+                                              const SplitExpense(),
                                         ),
                                       );
                                     },
@@ -137,37 +138,16 @@ class _HomePageState extends State<HomePage> {
                                   AppIconCard(
                                     icon: Icons.savings_outlined,
                                     text: AppString.saving,
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (context) =>
+                                              const UserSavingPage(),
+                                        ),
+                                      );
+                                    },
                                   ),
-                          AppIconCard(
-                            icon: Icons.splitscreen,
-                            text: AppString.split,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (context) => const UserExpensePage(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      AppGap.g8,
-                      Row(
-                        children: [
-                          AppIconCard(
-                            icon: Icons.savings_outlined,
-                            text: AppString.saving,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (context) => const UserSavingPage(),
-                                ),
-                              );
-                            },
-                          ),
 
                                   AppGap.g8,
 
@@ -190,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                                 AppString.recentTransaction,
                                 style: AppTextStyles.h5(),
                               ),
-                              const ShowAllExpenseButton()
+                              const ShowAllExpenseButton(),
                             ],
                           ),
 

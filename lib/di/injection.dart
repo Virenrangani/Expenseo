@@ -21,17 +21,12 @@ import 'package:expenseo/features/home/data/repository/home_repository_impl.dart
 import 'package:expenseo/features/home/domain/repository/home_repository.dart';
 import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
 import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:expenseo/features/saving/data/repository_impl/saving_repository_impl.dart';
 import 'package:expenseo/features/split/data/data_source/split_remote_data_source.dart';
 import 'package:expenseo/features/split/data/repository_impl/split_repository_impl.dart';
 import 'package:expenseo/features/split/domain/repository/split_repository.dart';
 import 'package:expenseo/features/split/domain/use_case/split_use_case.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
-import 'package:expenseo/features/saving/data/data_source/saving_datasource.dart';
-import 'package:expenseo/features/saving/data/repository_impl/saving_repository_impl.dart';
-import 'package:expenseo/features/saving/domain/repository/saving_repository.dart';
-import 'package:expenseo/features/saving/domain/usecase/saving_use_case.dart';
-import 'package:expenseo/features/saving/presentation/cubit/deposit_cubit.dart';
-import 'package:expenseo/features/saving/presentation/cubit/saving_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
@@ -47,6 +42,11 @@ import '../features/forgot_password/data/repository_impl/forgot_password_reposit
 import '../features/forgot_password/domain/repository/forgot_password_repository.dart';
 import '../features/forgot_password/domain/use_case/forgot_password_use_case.dart';
 import '../features/forgot_password/presentation/cubit/forgot_password_cubit.dart';
+import '../features/saving/data/data_source/saving_datasource.dart';
+import '../features/saving/domain/repository/saving_repository.dart';
+import '../features/saving/domain/usecase/saving_use_case.dart';
+import '../features/saving/presentation/cubit/deposit_cubit.dart';
+import '../features/saving/presentation/cubit/saving_cubit.dart';
 
 class Injection {
   final GetIt sl = GetIt.instance;
@@ -57,7 +57,6 @@ class Injection {
       ..registerLazySingleton(() => FirebaseFirestore.instance)
       ..registerLazySingleton<TokenStorage>(TokenStorageImpl.new)
       ..registerLazySingleton<Dio>(() => DioClient.create(tokenStorage: sl()))
-
       ..registerLazySingleton<LoginRemoteDataSource>(
         () => LoginRemoteDataSourceImpl(sl()),
       )
@@ -98,41 +97,12 @@ class Injection {
       )
       ..registerLazySingleton(() => ForgotPasswordUseCase(sl()))
       ..registerFactory(() => ForgotPasswordCubit(sl()))
-
-      ..registerLazySingleton<SplitRemoteDataSource>(()=>SplitRemoteDataSourceImpl(sl()))
-        ..registerLazySingleton<SplitRepository>(()=> SplitRepositoryImpl(sl()))
-        ..registerLazySingleton(()=> SplitUseCase(sl()))
-        ..registerFactory(()=> SplitCubit(sl()));
-  void configDependency() {
-    sl
-      ..registerLazySingleton(() => FirebaseAuth.instance)
-      ..registerLazySingleton(() => FirebaseFirestore.instance)
-      ..registerLazySingleton<LoginDataSource>(
-        () => LoginDataSourceImpl(sl(), sl()),
+      ..registerLazySingleton<SplitRemoteDataSource>(
+        () => SplitRemoteDataSourceImpl(sl()),
       )
-      ..registerLazySingleton<LogInRepository>(() => LoginRepositoryImpl(sl()))
-      ..registerLazySingleton(() => LoginUseCase(sl()))
-      ..registerFactory(() => LoginCubit(sl()))
-      ..registerLazySingleton<SignUpDataSource>(
-        () => SignUpDataSourceImpl(sl(), sl()),
-      )
-      ..registerLazySingleton<SignUpRepository>(
-        () => SignUpRepositoryImpl(sl()),
-      )
-      ..registerLazySingleton(() => SignUpUseCase(sl()))
-      ..registerFactory(() => SignUpCubit(sl()))
-      ..registerLazySingleton<ExpenseDataSource>(
-        () => ExpenseDataSourceImpl(sl()),
-      )
-      ..registerLazySingleton<ExpenseRepository>(
-        () => ExpenseRepositoryImpl(sl()),
-      )
-      ..registerLazySingleton(() => ExpenseUseCase(sl()))
-      ..registerFactory(() => ExpenseCubit(sl()))
-      ..registerLazySingleton<HomeDataSource>(HomeDataSourceImpl.new)
-      ..registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()))
-      ..registerLazySingleton(() => HomeUseCase(sl()))
-      ..registerFactory(() => HomeCubit(sl()))
+      ..registerLazySingleton<SplitRepository>(() => SplitRepositoryImpl(sl()))
+      ..registerLazySingleton(() => SplitUseCase(sl()))
+      ..registerFactory(() => SplitCubit(sl()))
       ..registerLazySingleton<SavingDatasource>(
         () => SavingDatasourceImpl(sl(), sl()),
       )

@@ -17,7 +17,7 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
   @override
   void initState() {
     super.initState();
-    Injection.sl<DepositCubit>().getAllDeposit(widget.goal.id);
+    Injection().sl<DepositCubit>().getAllDeposit(widget.goal.id);
   }
 
   @override
