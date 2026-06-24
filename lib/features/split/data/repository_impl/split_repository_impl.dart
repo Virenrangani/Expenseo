@@ -1,4 +1,3 @@
-import 'package:expenseo/features/split/data/data_source/split_data_source.dart';
 import 'package:expenseo/features/split/data/data_source/split_remote_data_source.dart';
 import 'package:expenseo/features/split/data/model/create_group_request_model.dart';
 import 'package:expenseo/features/split/data/model/settle_balance_model.dart';
@@ -11,10 +10,9 @@ import 'package:expenseo/features/split/domain/repository/split_repository.dart'
 import '../../domain/entity/user.dart';
 
 class SplitRepositoryImpl implements SplitRepository {
-  final SplitDataSource dataSource;
   final SplitRemoteDataSource remoteDataSource;
 
-  SplitRepositoryImpl(this.dataSource, this.remoteDataSource);
+  SplitRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<void> createGroup(CreateGroupRequest group) {
@@ -56,29 +54,53 @@ class SplitRepositoryImpl implements SplitRepository {
 
   @override
   Future<void> addSplitExpense(SplitEntity expense) {
-    return dataSource.addSplitExpense(SplitModel.fromEntity(expense));
+    return remoteDataSource.addSplitExpense(SplitModel.fromEntity(expense));
   }
+
 
   @override
   Future<List<SplitEntity>> getSplitExpenses(String groupId) async {
-    final splitExpense = await dataSource.getSplitExpenses(groupId);
+    final allExpenses = await remoteDataSource.getGroupExpenses(groupId);
 
-    return splitExpense.map((e) => e.toEntity()).toList();
+    return allExpenses
+        .where((e) => e.splitType != SplitType.settlement)
+        .map((e) => e.toEntity())
+        .toList();
   }
+
 
   @override
   Future<void> deleteGroup(String groupId) {
     return remoteDataSource.deleteGroup(groupId);
   }
 
+
   @override
   Future<void> settleUp(SettleBalance settlement) {
-    return dataSource.settleUp(SettleBalanceModel.fromEntity(settlement));
+    return remoteDataSource.settleUp(SettleBalanceModel.fromEntity(settlement));
   }
+
 
   @override
   Future<List<SettleBalance>> getSettlements(String groupId) async {
-    final models = await dataSource.getSettlements(groupId);
-    return models.map((e) => e.toEntity()).toList();
+    final allExpenses = await remoteDataSource.getGroupExpenses(groupId);
+
+    final settlementModels = allExpenses.where((e) => e.splitType == SplitType.settlement);
+
+    return settlementModels.map((e) {
+
+      final receiverId = e.splitAmong.keys.first;
+
+      return SettleBalance(
+        id: e.id,
+        groupId: e.groupId,
+        from: e.paidByUserId,
+        fromName: e.paidByName,
+        to: receiverId,
+        toName: 'Receiver',
+        amount: e.amount,
+        createdAt: e.createdAt,
+      );
+    }).toList();
   }
 }
