@@ -1,5 +1,5 @@
 
-enum SplitType { equal, unequal, percentage }
+enum SplitType { equal, unequal, percentage, settlement }
 
 class SplitEntity {
   final String  id;
