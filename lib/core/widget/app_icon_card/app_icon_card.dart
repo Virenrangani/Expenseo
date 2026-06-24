@@ -56,7 +56,7 @@ class _AppIconCardState extends State<AppIconCard> {
           duration: const Duration(milliseconds: 180),
 
           transform: Matrix4.identity()
-            ..scale(isPressed ? 0.96 : 1.0),
+            ..scaleAdjoint(isPressed ? 0.96 : 1.0),
 
           padding: AppPadding.edgeAll12,
           decoration: BoxDecoration(

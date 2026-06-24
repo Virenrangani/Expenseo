@@ -14,3 +14,4 @@ analyzer:
     always_put_control_body_on_new_line: ignore
     eol_at_end_of_file: ignore
     sort_constructors_first: ignore
+    cascade_invocations: ignore

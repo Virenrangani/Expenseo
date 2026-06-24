@@ -151,4 +151,22 @@ class AppString {
   static const String cancel='Cancel';
   static const String settleBalance='Settlement Balance!';
   static const String groupDeleted='Group deleted!';
+  static const String category='Category';
+  static const String paymentMethod='Payment Method';
+
+  static const String goal='Goal';
+  static const String goalImage='Goal Image';
+  static const String goalHint='Name of goal';
+  static const String targetAmount='Target Amount';
+  static const String targetAmountGoal='Target amount for goal';
+  static const String newSavingGoal='New Saving Goal';
+  static const String addGoal='Add Goal';
+  static const String goalRequired='Goal is required';
+  static const String goalImageRequired='Goal image is required';
+  static const String goalCreate='Goal is create!';
+  static const String addSaving='Add Saving';
+  static const String save='Save';
+  static const String cancel='Cancel';
+  static const String savingAmountAdded='Saving amount is added..!!';
+
 }
