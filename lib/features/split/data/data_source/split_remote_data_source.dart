@@ -1,14 +1,20 @@
 import 'package:dio/dio.dart';
+import 'package:expenseo/features/split/data/model/settle_balance_model.dart';
 
 import '../../../auth/data/model/user_model.dart';
 import '../model/create_group_request_model.dart';
 import '../model/group_response_model.dart';
+import '../model/split_model.dart';
 
 abstract class SplitRemoteDataSource {
   Future<GroupResponseModel> createGroup(CreateGroupRequest request);
   Future<UserModel?> searchUserByEmail(String email);
   Future<List<GroupResponseModel>> getGroups();
   Future<void> deleteGroup(String groupId);
+
+  Future<void> addSplitExpense(SplitModel expense);
+  Future<List<SplitModel>> getGroupExpenses(String groupId);
+  Future<void> settleUp(SettleBalanceModel settlement);
 }
 
 class SplitRemoteDataSourceImpl extends SplitRemoteDataSource {
@@ -100,6 +106,51 @@ class SplitRemoteDataSourceImpl extends SplitRemoteDataSource {
       throw Exception(message);
     } catch (e) {
       throw Exception('An unexpected error occurred while deleting the group');
+    }
+  }
+
+  @override
+  Future<void> addSplitExpense(SplitModel expense) async {
+    try {
+      await dio.post<Map<String,dynamic>>(
+        '/group-expenses',
+        data: expense.toJson(),
+      );
+    } on DioException catch (e) {
+      final message = e.response?.data is Map<String, dynamic>
+          ? e.response?.data['message']?.toString()
+          : 'Failed to add expense';
+      throw Exception(message);
+    }
+  }
+
+  @override
+  Future<List<SplitModel>> getGroupExpenses(String groupId) async {
+    try {
+      final response = await dio.get<List<dynamic>>('/group-expenses/group/$groupId');
+      final data = response.data ?? [];
+
+      return data.map((json) => SplitModel.fromJson(json as Map<String, dynamic>)).toList();
+    } on DioException catch (e) {
+      final message = e.response?.data is Map<String, dynamic>
+          ? e.response?.data['message']?.toString()
+          : 'Failed to fetch group details';
+      throw Exception(message);
+    }
+  }
+
+  @override
+  Future<void> settleUp(SettleBalanceModel settlement) async {
+    try {
+      await dio.post<Map<String,dynamic>>(
+        '/group-expenses/settle',
+        data: settlement.toJson(),
+      );
+    } on DioException catch (e) {
+      final message = e.response?.data is Map<String, dynamic>
+          ? e.response?.data['message']?.toString()
+          : 'Failed to settle up';
+      throw Exception(message);
     }
   }
 }
