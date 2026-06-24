@@ -58,6 +58,8 @@ class SplitTypeSelector extends StatelessWidget {
       case SplitType.equal:      return 'Equal';
       case SplitType.unequal:    return 'Unequal';
       case SplitType.percentage: return 'Percent';
+      case SplitType.settlement: return 'Settlement';
+
     }
   }
 }
