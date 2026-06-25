@@ -14,7 +14,11 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double progress = goal.savedAmount / goal.targetAmount;
+    final double rawProgress = goal.targetAmount > 0
+        ? (goal.savedAmount / goal.targetAmount)
+        : 0.0;
+
+    final double progress = rawProgress.clamp(0.0, 1.0);
     return Padding(
       padding: AppPadding.edgeSymmetricHori12,
       child: Column(
