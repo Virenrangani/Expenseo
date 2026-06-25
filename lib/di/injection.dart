@@ -42,7 +42,7 @@ import '../features/forgot_password/data/repository_impl/forgot_password_reposit
 import '../features/forgot_password/domain/repository/forgot_password_repository.dart';
 import '../features/forgot_password/domain/use_case/forgot_password_use_case.dart';
 import '../features/forgot_password/presentation/cubit/forgot_password_cubit.dart';
-import '../features/saving/data/data_source/saving_datasource.dart';
+import '../features/saving/data/data_source/saving_remote_data_source.dart';
 import '../features/saving/domain/repository/saving_repository.dart';
 import '../features/saving/domain/usecase/saving_use_case.dart';
 import '../features/saving/presentation/cubit/deposit_cubit.dart';
@@ -103,8 +103,8 @@ class Injection {
       ..registerLazySingleton<SplitRepository>(() => SplitRepositoryImpl(sl()))
       ..registerLazySingleton(() => SplitUseCase(sl()))
       ..registerFactory(() => SplitCubit(sl()))
-      ..registerLazySingleton<SavingDatasource>(
-        () => SavingDatasourceImpl(sl(), sl()),
+      ..registerLazySingleton<SavingRemoteDataSource>(
+        () => SavingRemoteDataSourceImpl(sl()),
       )
       ..registerLazySingleton<SavingRepository>(
         () => SavingRepositoryImpl(sl()),
