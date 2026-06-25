@@ -33,12 +33,11 @@ class GoalBottomBar extends StatelessWidget {
             SideButton(
               iconData: Icons.add,
               onTap: () {
-                final savingCubit = GetIt.I<SavingCubit>();
                 showDialog<void>(
                   context: context,
                   builder: (_) {
                     return BlocProvider.value(
-                      value: savingCubit,
+                      value: GetIt.I<SavingCubit>(),
                       child: AddSavingAlertBox(goal: goal),
                     );
                   },
