@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/entity/deposit.dart';
 
 class DepositModel {
@@ -14,23 +13,29 @@ class DepositModel {
     required this.createdAt,
   });
 
-  factory DepositModel.fromJson(String id, Map<String, dynamic> json) {
+  factory DepositModel.fromJson(Map<String, dynamic> json) {
     return DepositModel(
-      id: id,
-      goalId: json['goalId'].toString(),
-      amount: (json['amount'] as num).toDouble(),
-      createdAt: (json['createdAt'] as Timestamp).toDate().toLocal(),
+      id: (json['id'] ?? '').toString(),
+      goalId: (json['savingGoalId'] ?? json['goalId'] ?? '').toString(),
+      amount: (json['savedAmount'] as num?)?.toDouble() ??
+          (json['amount'] as num?)?.toDouble() ?? 0.0,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString()).toLocal()
+          : DateTime.now(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'goalId': goalId,
-    'amount': amount,
-    'createdAt': Timestamp.fromDate(createdAt),
+    'savingGoalId': goalId,
+    'savedAmount': amount,
   };
 
-  Deposit toEntity() =>
-      Deposit(id: id, goalId: goalId, amount: amount, createdAt: createdAt);
+  Deposit toEntity() => Deposit(
+      id: id,
+      goalId: goalId,
+      amount: amount,
+      createdAt: createdAt
+  );
 
   factory DepositModel.fromEntity(Deposit entity) => DepositModel(
     id: entity.id,

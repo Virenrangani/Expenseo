@@ -1,5 +1,3 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/entity/saving_goal.dart';
 
 class SavingModel {
@@ -21,26 +19,24 @@ class SavingModel {
     required this.createdAt,
   });
 
-  factory SavingModel.fromJson(
-      String id, Map<String, dynamic> json) {
+  factory SavingModel.fromJson(Map<String, dynamic> json) {
     return SavingModel(
-      id: id,
-      goal: json['goal']?.toString() ?? '',
-      goalImage: json['goalImage']?.toString() ?? '',
+      id: (json['id'] ?? '').toString(),
+      goal: (json['goal'] ?? '').toString(),
+      goalImage: (json['imageUrl'] ?? '').toString(),
       targetAmount: (json['targetAmount'] as num?)?.toDouble() ?? 0.0,
-      savedAmount: (json['savedAmount'] as num?)?.toDouble() ?? 0.0,
+      savedAmount: (json['savingAmount'] as num?)?.toDouble() ?? 0.0,
       isCompleted: json['isCompleted'] as bool? ?? false,
-      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString()).toLocal()
+          : DateTime.now(),
     );
   }
 
   Map<String, dynamic> toJson() => {
     'goal': goal,
-    'goalImage':goalImage,
+    'imageUrl': goalImage,
     'targetAmount': targetAmount,
-    'savedAmount': savedAmount,
-    'isCompleted': isCompleted,
-    'createdAt':  Timestamp.fromDate(createdAt),
   };
 
   SavingGoal toEntity() => SavingGoal(
@@ -53,14 +49,13 @@ class SavingModel {
     createdAt: createdAt,
   );
 
-  factory SavingModel.fromEntity(SavingGoal entity) =>
-      SavingModel(
-        id: entity.id,
-        goal: entity.goal,
-        goalImage: entity.goalImage,
-        targetAmount: entity.targetAmount,
-        savedAmount: entity.savedAmount,
-        isCompleted: entity.isCompleted,
-        createdAt: entity.createdAt,
-      );
+  factory SavingModel.fromEntity(SavingGoal entity) => SavingModel(
+    id: entity.id,
+    goal: entity.goal,
+    goalImage: entity.goalImage,
+    targetAmount: entity.targetAmount,
+    savedAmount: entity.savedAmount,
+    isCompleted: entity.isCompleted,
+    createdAt: entity.createdAt,
+  );
 }
