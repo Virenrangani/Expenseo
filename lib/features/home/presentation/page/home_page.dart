@@ -1,3 +1,4 @@
+import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
@@ -94,11 +95,14 @@ class _HomePageState extends State<HomePage> {
                           icon: Icons.add,
                           text: AppString.addExpense,
                           onTap: () {
-                            showBottomSheet(
+                            showModalBottomSheet<void>(
                               context: context,
-                              enableDrag: true,
-                              showDragHandle: true,
+                              isScrollControlled: true,
                               backgroundColor: Colors.white,
+                              showDragHandle: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                              ),
                               builder: (_) => BlocProvider.value(
                                 value: context.read<ExpenseCubit>(),
                                 child: const AddExpenseSheet(),
