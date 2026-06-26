@@ -58,7 +58,7 @@ class _AppIconCardState extends State<AppIconCard> {
           transform: Matrix4.identity()
             ..scaleAdjoint(isPressed ? 0.96 : 1.0),
 
-          padding: AppPadding.edgeAll12,
+          padding: AppPadding.edgeAll8,
           decoration: BoxDecoration(
             color: isPressed
                 ? AppColor.primary.withAlpha(18)
@@ -80,7 +80,7 @@ class _AppIconCardState extends State<AppIconCard> {
             ],
           ),
 
-          child: Row(
+          child: Column(
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 180),
@@ -99,10 +99,9 @@ class _AppIconCardState extends State<AppIconCard> {
                 ),
               ),
 
-              AppGap.g8,
+              AppGap.g4,
 
-              Expanded(
-                child: AnimatedDefaultTextStyle(
+               AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 180),
                   style: AppTextStyles.captionMedium(
                     color: isPressed
@@ -115,18 +114,6 @@ class _AppIconCardState extends State<AppIconCard> {
                     maxLines: 1,overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-
-              AnimatedSlide(
-                duration: const Duration(milliseconds: 180),
-                offset: isPressed
-                    ? const Offset(0.15, 0)
-                    : Offset.zero,
-                child: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14, color: AppColor.textSecondary,
-                ),
-              ),
             ],
           ),
         ),

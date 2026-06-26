@@ -40,8 +40,6 @@ class TransactionList extends StatelessWidget {
               : recentTransaction;
           return ListView.builder(
             padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             itemCount: count,
             itemBuilder: (context, index) {
               return ExpenseCard(expense: transaction[index]);

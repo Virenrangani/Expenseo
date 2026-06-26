@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
-                  AppGap.g20,
+                  AppGap.g12,
                   BlocBuilder<ExpenseCubit, ExpenseState>(
                     builder: (context, state) {
                       if (state is ExpenseLoading) {
@@ -86,100 +86,74 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
 
-                  AppGap.g24,
+                  AppGap.g16,
 
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      padding: const EdgeInsets.only(bottom: 18),
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  AppIconCard(
-                                    icon: Icons.add,
-                                    text: AppString.addExpense,
-                                    onTap: () {
-                                      showBottomSheet(
-                                        context: context,
-                                        enableDrag: true,
-                                        showDragHandle: true,
-                                        backgroundColor: Colors.white,
-                                        builder: (_) => BlocProvider.value(
-                                          value: context.read<ExpenseCubit>(),
-                                          child: const AddExpenseSheet(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-
-                                  AppGap.g8,
-
-                                  AppIconCard(
-                                    icon: Icons.splitscreen,
-                                    text: AppString.split,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (context) =>
-                                              const SplitExpense(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
+                   Row(
+                      children: [
+                        AppIconCard(
+                          icon: Icons.add,
+                          text: AppString.addExpense,
+                          onTap: () {
+                            showBottomSheet(
+                              context: context,
+                              enableDrag: true,
+                              showDragHandle: true,
+                              backgroundColor: Colors.white,
+                              builder: (_) => BlocProvider.value(
+                                value: context.read<ExpenseCubit>(),
+                                child: const AddExpenseSheet(),
                               ),
-                              AppGap.g8,
-                              Row(
-                                children: [
-                                  AppIconCard(
-                                    icon: Icons.savings_outlined,
-                                    text: AppString.saving,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (context) =>
-                                              const UserSavingPage(),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                            );
+                          },
+                        ),
 
-                                  AppGap.g8,
+                        AppGap.g8,
 
-                                  AppIconCard(
-                                    icon: Icons.monetization_on_outlined,
-                                    text: AppString.invest,
-                                    onTap: () {},
-                                  ),
-                                ],
+                        AppIconCard(
+                          icon: Icons.splitscreen,
+                          text: AppString.split,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (context) =>
+                                    const SplitExpense(),
                               ),
-                            ],
-                          ),
+                            );
+                          },
+                        ),
 
-                          AppGap.g24,
+                        AppGap.g8,
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                AppString.recentTransaction,
-                                style: AppTextStyles.h5(),
+                        AppIconCard(
+                          icon: Icons.savings_outlined,
+                          text: AppString.saving,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (context) =>
+                                const UserSavingPage(),
                               ),
-                              const ShowAllExpenseButton(),
-                            ],
-                          ),
-
-                          AppGap.g20,
-                          const TransactionList(),
-                        ],
-                      ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
+
+                  AppGap.g16,
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppString.recentTransaction,
+                        style: AppTextStyles.h5(),
+                      ),
+                      const ShowAllExpenseButton(),
+                    ],
                   ),
+                  const Flexible(child: TransactionList()),
                 ],
               ),
             ),

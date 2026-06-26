@@ -63,7 +63,7 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
             selectedTab: _selectedTab,
             onTabChanged: (tab) => setState(() => _selectedTab = tab),
           ),
-          AppGap.g24,
+          AppGap.g8,
           ShowAmount(
             displayLabel: displayLabel,
             displayAmount: displayAmount,

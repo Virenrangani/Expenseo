@@ -32,7 +32,6 @@ class ShowAmount extends StatelessWidget {
             color: Colors.white.withAlpha(200),
           ),
         ),
-        AppGap.g4,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
