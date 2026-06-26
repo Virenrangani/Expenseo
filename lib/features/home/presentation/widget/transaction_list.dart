@@ -1,6 +1,7 @@
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/expense/presentation/widget/expense_card.dart';
+import 'package:expenseo/features/expense/presentation/widget/expense_empty_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -32,15 +33,21 @@ class TransactionList extends StatelessWidget {
 
         if (state is ExpenseLoaded) {
           final transaction = state.expenses;
+
+          if(transaction == null || transaction.isEmpty){
+            return const ExpenseEmptyListScreen();
+          }
           final recentTransaction = context
               .read<ExpenseCubit>()
               .recentTransactionCount;
-          final count = (transaction!.length < recentTransaction)
+          final count = (transaction.length < recentTransaction)
               ? transaction.length
               : recentTransaction;
           return ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: count,
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
             itemBuilder: (context, index) {
               return ExpenseCard(expense: transaction[index]);
             },

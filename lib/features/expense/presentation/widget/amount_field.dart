@@ -84,17 +84,6 @@ class _AmountFieldState extends State<AmountField>
       padding: AppPadding.edgeAll16,
       decoration: BoxDecoration(
         borderRadius: AppBorderRadius.cir20,
-        gradient: LinearGradient(
-          colors: isFocused
-              ? [
-            AppColor.primary.withAlpha(25),
-            AppColor.background,
-          ]
-              : [
-            AppColor.background,
-            AppColor.background,
-          ],
-        ),
         border: Border.all(
           color: AppColor.divider.withAlpha(80),
         ),
@@ -127,7 +116,6 @@ class _AmountFieldState extends State<AmountField>
             children:[
               Expanded(
                 child: SizedBox(
-                  key: ValueKey(isFocused),
                   height: 55,
                   child: AppFormField(
                     prefixIcon: FaIcon(FontAwesomeIcons.indianRupeeSign ,
