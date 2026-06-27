@@ -29,25 +29,25 @@ class _AmountBoxState extends State<AmountBox> {
       ),
       child: Column(
         children: [
-          Text(AppString.addAmount,
-              style: AppTextStyles.captionMedium(
-                  color: AppColor.secondary)),
+          Text(
+            AppString.addAmount,
+            style: AppTextStyles.captionMedium(color: AppColor.background),
+          ),
           AppGap.g8,
 
           AppFormField(
-              controller: widget.controller,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            controller: widget.controller,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
 
-              textAlign: TextAlign.center,
-              style: AppTextStyles.h3(color: AppColor.primary),
+            textAlign: TextAlign.center,
+            style: AppTextStyles.h3(color: AppColor.primary),
 
-              hintText: '0',
-              prefixText: '₹ ',
-              prefixStyle: AppTextStyles.h2(color: AppColor.primary),
+            hintText: '0',
+            prefixText: '₹ ',
+            prefixStyle: AppTextStyles.h2(color: AppColor.primary),
 
-              contentPadding: EdgeInsets.zero,
-              fillColor: AppColor.secondary,
-              validator: (val)=>validateAmount(val!)
+            contentPadding: EdgeInsets.zero,
+            validator: (val) => validateAmount(val!),
           ),
         ],
       ),

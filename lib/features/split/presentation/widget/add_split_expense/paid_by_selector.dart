@@ -12,7 +12,8 @@ class PaidBySelector extends StatelessWidget {
   final String selectedUid;
   final void Function(String uid, String name) onChanged;
 
-  const PaidBySelector({super.key,
+  const PaidBySelector({
+    super.key,
     required this.group,
     required this.selectedUid,
     required this.onChanged,
@@ -21,12 +22,11 @@ class PaidBySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 52,
+      height: 60,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: group.members.map((uid) {
-
-          final name  = group.memberNames[uid] ?? '';
+          final name = group.memberNames[uid] ?? '';
           final isSelected = selectedUid == uid;
 
           return GestureDetector(
@@ -41,9 +41,7 @@ class PaidBySelector extends StatelessWidget {
                     : AppColor.background,
                 borderRadius: AppBorderRadius.cir12,
                 border: Border.all(
-                  color: isSelected
-                      ? AppColor.primary
-                      : AppColor.divider,
+                  color: isSelected ? AppColor.primary : AppColor.divider,
                   width: isSelected ? 1.5 : 0.5,
                 ),
               ),
@@ -61,17 +59,22 @@ class PaidBySelector extends StatelessWidget {
                     child: Center(
                       child: Text(
                         name[0].toUpperCase(),
-                        style: isSelected ?
-                        AppTextStyles.captionBold(color: AppColor.textSecondary)
-                            : AppTextStyles.description()
+                        style: isSelected
+                            ? AppTextStyles.captionBold(
+                                color: AppColor.background,
+                              )
+                            : AppTextStyles.description(
+                                color: AppColor.divider,
+                              ),
                       ),
                     ),
                   ),
                   AppGap.g8,
-                  Text(name,
-                      style: isSelected ?
-                      AppTextStyles.captionBold()
-                          : AppTextStyles.description()
+                  Text(
+                    name,
+                    style: isSelected
+                        ? AppTextStyles.captionBold()
+                        : AppTextStyles.description(),
                   ),
                 ],
               ),

@@ -21,30 +21,27 @@ import 'add_split_expense/paid_by_selector.dart';
 
 class AddSplitExpensePage extends StatefulWidget {
   final GroupEntity group;
-  const AddSplitExpensePage({super.key , required this.group});
+  const AddSplitExpensePage({super.key, required this.group});
 
   @override
   State<AddSplitExpensePage> createState() => _AddSplitExpensePageState();
 }
 
 class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
-
   final TextEditingController amountController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final Map<String, TextEditingController> splitControllers = {};
-  final formKey=GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
-  SplitType splitType =SplitType.equal;
-
+  SplitType splitType = SplitType.equal;
   String _paidByUid = '';
   String _paidByName = '';
 
   @override
   void initState() {
     super.initState();
-
     final cubit = context.read<SplitCubit>();
-    _paidByUid  = cubit.currentUid;
+    _paidByUid = cubit.currentUid;
     _paidByName = cubit.currentName;
 
     for (final uid in widget.group.members) {
@@ -53,8 +50,8 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
   }
 
   Map<String, double> get _equalSplitAmong {
-    final count  = widget.group.members.length;
-    final share  = (double.tryParse(amountController.text) ?? 0) / count;
+    final count = widget.group.members.length;
+    final share = (double.tryParse(amountController.text) ?? 0) / count;
     return {for (final uid in widget.group.members) uid: share};
   }
 
@@ -69,18 +66,21 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     final total = double.tryParse(amountController.text) ?? 0;
     return {
       for (final uid in widget.group.members)
-        uid: ((double.tryParse(splitControllers[uid]!.text) ?? 0) / 100) * total,
+        uid:
+            ((double.tryParse(splitControllers[uid]!.text) ?? 0) / 100) * total,
     };
   }
 
   Map<String, double> get finalSplitAmong {
     switch (splitType) {
-      case SplitType.equal: return _equalSplitAmong;
-      case SplitType.unequal: return _unequalSplitAmong;
-      case SplitType.percentage: return _percentageSplitAmong;
+      case SplitType.equal:
+        return _equalSplitAmong;
+      case SplitType.unequal:
+        return _unequalSplitAmong;
+      case SplitType.percentage:
+        return _percentageSplitAmong;
       case SplitType.settlement:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        return {};
     }
   }
 
@@ -89,12 +89,14 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     if (splitType == SplitType.unequal) {
       final sum = _unequalSplitAmong.values.fold(0.0, (a, b) => a + b);
       if ((sum - total).abs() > 0.01) {
-        return '${AppString.splitAmountNotEquals}₹${total.toStringAsFixed(2)}';
+        return '${AppString.splitAmountNotEquals} ₹${total.toStringAsFixed(2)}';
       }
     }
     if (splitType == SplitType.percentage) {
-      final sum = splitControllers.values
-          .fold(0.0, (a, c) => a + (double.tryParse(c.text) ?? 0));
+      final sum = splitControllers.values.fold(
+        0.0,
+        (a, c) => a + (double.tryParse(c.text) ?? 0),
+      );
       if ((sum - 100).abs() > 0.01) {
         return AppString.splitAmountMust100Per;
       }
@@ -105,103 +107,142 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        backgroundColor: AppColor.background,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          icon:const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.close, color: AppColor.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(AppString.addExpense, style: AppTextStyles.h5()),
+        title: Text(
+          'New Split',
+          style: AppTextStyles.h5().copyWith(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
-      body:BlocConsumer<SplitCubit,SplitState>(
-
-        listener: (context,state){
-
-          if(state is SplitSuccess){
-
+      body: BlocConsumer<SplitCubit, SplitState>(
+        listener: (context, state) {
+          if (state is SplitSuccess) {
             context.read<SplitCubit>().loadGroupDetail(widget.group);
-
-            CustomSnacksBar.showSuccess(context,state.message);
+            Navigator.pop(context);
+            CustomSnacksBar.showSuccess(context, state.message);
           }
-
-          if(state is SplitError){
+          if (state is SplitError) {
             CustomSnacksBar.showError(context, state.message);
           }
         },
+        builder: (context, state) {
+          final isLoading = state is SplitLoading;
 
-        builder: (context,state){
-          final isLoading=state is SplitLoading;
           return Form(
-            key:formKey,
-              child: ListView(
-                padding: AppPadding.edgeAll20,
-                children:[
-                   AmountBox(controller: amountController,),
+            key: formKey,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: AppPadding.edgeAll20,
+                    children: [
+                      AmountBox(controller: amountController),
+                      AppGap.g32,
 
-                  AppGap.g20,
+                      _buildSectionHeader(
+                        Icons.description_outlined,
+                        AppString.title,
+                      ),
+                      AppGap.g8,
+                      AppFormField(
+                        controller: titleController,
+                        hintText: 'What was this for?',
+                        fillColor: Colors.white,
+                        validator: (v) =>
+                            v!.trim().isEmpty ? AppString.titleInvalid : null,
+                      ),
+                      AppGap.g32,
 
-                  buildLabel(AppString.title),
-                  AppGap.g8,
-                  AppFormField(
-                    controller: titleController,
-                    hintText: AppString.titleHint,
-                    validator:  (v) =>
-                    v!.trim().isEmpty ? AppString.titleInvalid : null,
+                      _buildSectionHeader(
+                        Icons.person_outline,
+                        AppString.paidBy,
+                      ),
+                      AppGap.g8,
+                      PaidBySelector(
+                        group: widget.group,
+                        selectedUid: _paidByUid,
+                        onChanged: (uid, name) => setState(() {
+                          _paidByUid = uid;
+                          _paidByName = name;
+                        }),
+                      ),
+                      AppGap.g32,
+
+                      _buildSectionHeader(
+                        Icons.pie_chart_outline,
+                        AppString.splitType,
+                      ),
+                      AppGap.g12,
+                      SplitTypeSelector(
+                        selected: splitType,
+                        onChanged: (t) => setState(() => splitType = t),
+                      ),
+                      AppGap.g24,
+
+                      SplitAmong(
+                        group: widget.group,
+                        splitType: splitType,
+                        amountController: amountController,
+                        splitControllers: splitControllers,
+                      ),
+                    ],
                   ),
+                ),
 
-                  AppGap.g20,
-
-                  buildLabel(AppString.paidBy),
-                  AppGap.g8,
-                  PaidBySelector(
-                    group: widget.group,
-                    selectedUid: _paidByUid,
-                    onChanged: (uid, name) => setState(() {
-                      _paidByUid  = uid;
-                      _paidByName = name;
-                    }),
+                // STICKY BOTTOM BUTTON
+                Container(
+                  padding: AppPadding.edgeAll20.copyWith(
+                    bottom: MediaQuery.of(context).padding.bottom + 20,
                   ),
-
-                  AppGap.g20,
-
-                  buildLabel(AppString.splitType),
-                  AppGap.g8,
-                  SplitTypeSelector(selected: splitType,
-                      onChanged: (t)=> setState(() {
-                        splitType = t;
-                      })
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(10),
+                        blurRadius: 10,
+                        offset: const Offset(0, -5),
+                      ),
+                    ],
                   ),
-                  
-                  AppGap.g20,
-                  
-                  buildLabel(AppString.splitAmong),
-                  SplitAmong(
-                      group: widget.group,
-                      splitType: splitType,
-                      amountController: amountController,
-                      splitControllers: splitControllers,
-                  ),
-
-                  AppGap.g20,
-
-                  AppElevatedButton(
+                  child: AppElevatedButton(
                     text: AppString.addExpense,
                     isLoading: isLoading,
                     isEnabled: true,
+                    borderRadius: 16,
                     onPressed: onSubmit,
                   ),
-                ],
-              )
+                ),
+              ],
+            ),
           );
-        }
+        },
       ),
     );
   }
 
-  Widget buildLabel(String text) => Text(
-    text,
-    style: AppTextStyles.description(),
-  );
+  Widget _buildSectionHeader(IconData icon, String title) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: AppColor.primary),
+        AppGap.g8,
+        Text(
+          title,
+          style: AppTextStyles.h5().copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
 
   void onSubmit() {
     if (!formKey.currentState!.validate()) return;
@@ -214,18 +255,16 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
 
     context.read<SplitCubit>().addSplitExpense(
       SplitEntity(
-          id: const Uuid().v4(),
-          groupId: widget.group.id,
-          title: titleController.text.trim(),
-          amount: double.parse(amountController.text.trim()),
-          paidBy: _paidByUid,
-          paidByName: _paidByName,
-          splitAmong: finalSplitAmong,
-          splitType: splitType,
-          createdAt: DateTime.now()
-      )
+        id: const Uuid().v4(),
+        groupId: widget.group.id,
+        title: titleController.text.trim(),
+        amount: double.parse(amountController.text.trim()),
+        paidBy: _paidByUid,
+        paidByName: _paidByName,
+        splitAmong: finalSplitAmong,
+        splitType: splitType,
+        createdAt: DateTime.now(),
+      ),
     );
-    amountController.clear();
-    titleController.clear();
   }
 }
