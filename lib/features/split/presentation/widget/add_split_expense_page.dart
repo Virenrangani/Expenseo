@@ -183,7 +183,18 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                       AppGap.g12,
                       SplitTypeSelector(
                         selected: splitType,
-                        onChanged: (t) => setState(() => splitType = t),
+                        onChanged: (newType) {
+                          if (splitType != newType) {
+                            setState(() {
+                              splitType = newType;
+
+                              for (final controller
+                                  in splitControllers.values) {
+                                controller.clear();
+                              }
+                            });
+                          }
+                        },
                       ),
                       AppGap.g24,
 
