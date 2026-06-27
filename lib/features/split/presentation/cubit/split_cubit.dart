@@ -14,7 +14,7 @@ class SplitCubit extends Cubit<SplitState> {
   final SplitUseCase useCase;
   SplitCubit(this.useCase) : super(SplitInitial());
 
-  String get currentUid  => SharedPrefService.getUserId() ?? '';
+  String get currentUid => SharedPrefService.getUserId() ?? '';
   String get currentName => SharedPrefService.getUserName() ?? '';
 
   Future<void> searchUser(String email) async {
@@ -27,13 +27,12 @@ class SplitCubit extends Cubit<SplitState> {
         return;
       }
 
-      if(user.uid==currentUid){
+      if (user.uid == currentUid) {
         emit(SplitError(AppString.youCanNotAddYourSelf));
         return;
       }
 
       emit(UserSearchResult(user: user));
-
     } catch (e) {
       emit(SplitError(e.toString()));
     }
@@ -43,9 +42,8 @@ class SplitCubit extends Cubit<SplitState> {
     required String name,
     required List<String> memberEmails,
   }) async {
-
     emit(SplitLoading());
-    try{
+    try {
       final request = CreateGroupRequest(
         name: name,
         memberEmails: memberEmails,
@@ -54,25 +52,22 @@ class SplitCubit extends Cubit<SplitState> {
       await useCase.createGroup(request);
 
       emit(SplitSuccess(AppString.groupCreated));
-    }catch (e){
+    } catch (e) {
       emit(SplitError(e.toString()));
     }
-
   }
 
   Future<void> getGroups() async {
     emit(SplitLoading());
-    try{
+    try {
       final groups = await useCase.getGroups();
       emit(SplitLoaded(groups));
-    }catch (e){
+    } catch (e) {
       emit(SplitError(e.toString()));
     }
   }
 
-  Future<void> addSplitExpense(
-      SplitEntity entity
-  ) async {
+  Future<void> addSplitExpense(SplitEntity entity) async {
     emit(SplitLoading());
     try {
       await useCase.addSplitExpense(entity);
@@ -85,16 +80,19 @@ class SplitCubit extends Cubit<SplitState> {
   Future<void> loadGroupDetail(GroupEntity group) async {
     emit(SplitLoading());
     try {
-
       final results = await Future.wait([
         useCase.getSplitExpense(group.id),
         useCase.getSettlements(group.id),
       ]);
 
-      final expenses    = results[0] as List<SplitEntity>;
+      final expenses = results[0] as List<SplitEntity>;
       final settlements = results[1] as List<SettleBalance>;
       emit(
-        GroupDetailLoaded(group: group, expenses: expenses, settlements: settlements),
+        GroupDetailLoaded(
+          group: group,
+          expenses: expenses,
+          settlements: settlements,
+        ),
       );
     } catch (e) {
       emit(SplitError(e.toString()));
@@ -121,13 +119,13 @@ class SplitCubit extends Cubit<SplitState> {
     emit(SplitLoading());
     try {
       final settlement = SettleBalance(
-        id:        const Uuid().v4(),
-        groupId:   group.id,
-        from:      currentUid,
-        fromName:  currentName,
-        to:        toUid,
-        toName:    toName,
-        amount:    amount,
+        id: const Uuid().v4(),
+        groupId: group.id,
+        from: currentUid,
+        fromName: currentName,
+        to: toUid,
+        toName: toName,
+        amount: amount,
         createdAt: DateTime.now(),
       );
 

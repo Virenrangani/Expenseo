@@ -13,14 +13,13 @@ import '../widget/group_details_view.dart';
 
 class GroupDetailsPage extends StatefulWidget {
   final GroupEntity group;
-  const GroupDetailsPage({super.key , required this.group});
+  const GroupDetailsPage({super.key, required this.group});
 
   @override
   State<GroupDetailsPage> createState() => _GroupDetailsPageState();
 }
 
 class _GroupDetailsPageState extends State<GroupDetailsPage> {
-
   @override
   void initState() {
     super.initState();
@@ -31,59 +30,55 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-
         if (didPop) {
           context.read<SplitCubit>().getGroups();
         }
       },
       child: Scaffold(
         backgroundColor: AppColor.background,
-        body:Column(
+        body: Column(
           children: [
             Expanded(
-              child: BlocConsumer<SplitCubit,SplitState>(
-                  listener:(context,state){
-              
-                    if(state is SplitSuccess){
-                      CustomSnacksBar.showSuccess(context, state.message);
-                    }
-              
-                    if(state is SplitError){
-                      CustomSnacksBar.showError(context, state.message);
-                    }
-                  },
-                  builder: (context,state){
-              
-                    if(state is SplitLoading){
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-              
-                    if(state is GroupDetailLoaded){
-                      final uid = context.read<SplitCubit>().currentUid;
-                      final balances = state.calculateBalances(uid);
-                      return GroupDetailsView(state:state,balance:balances);
-                    }
-                    return const SizedBox.shrink();
+              child: BlocConsumer<SplitCubit, SplitState>(
+                listener: (context, state) {
+                  if (state is SplitSuccess) {
+                    CustomSnacksBar.showSuccess(context, state.message);
                   }
+
+                  if (state is SplitError) {
+                    CustomSnacksBar.showError(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SplitLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (state is GroupDetailLoaded) {
+                    final uid = context.read<SplitCubit>().currentUid;
+                    final balances = state.calculateBalances(uid);
+                    return GroupDetailsView(state: state, balance: balances);
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
             ),
             Padding(
               padding: AppPadding.edgeAll12,
               child: AppElevatedButton(
-                  text: 'Add Group Expense....',
-                  onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => BlocProvider.value(
-                    value: context.read<SplitCubit>(),
-                    child:  AddSplitExpensePage(group: widget.group),
+                text: 'Add Group Expense....',
+                isEnabled: true,
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<SplitCubit>(),
+                      child: AddSplitExpensePage(group: widget.group),
+                    ),
                   ),
                 ),
-              )
               ),
-            )
+            ),
           ],
         ),
       ),

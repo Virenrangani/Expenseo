@@ -39,12 +39,9 @@ class SplitExpense extends StatelessWidget {
                             ],
                           ),
 
-                          AppGap.g20,
-
                           Text(
                             AppString.myGroups,
-                            style: AppTextStyles.captionBold(
-                                color: AppColor.textPrimary),
+                            style: AppTextStyles.h5(),
                           ),
 
                           AppGap.g12,

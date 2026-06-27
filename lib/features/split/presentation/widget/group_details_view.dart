@@ -3,6 +3,7 @@ import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
+import 'package:expenseo/features/split/presentation/widget/group_details_view/group_expense_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant/text_style/app_text_style.dart';
@@ -16,12 +17,15 @@ class GroupDetailsView extends StatelessWidget {
   const GroupDetailsView({
     super.key,
     required this.state,
-    required this.balance
+    required this.balance,
   });
 
   @override
   Widget build(BuildContext context) {
-    final totalGroupExpense = state.expenses.fold(0.0, (sum, e) => sum + e.amount);
+    final totalGroupExpense = state.expenses.fold(
+      0.0,
+      (sum, e) => sum + e.amount,
+    );
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -33,24 +37,68 @@ class GroupDetailsView extends StatelessWidget {
 
             AppGap.g24,
 
-            Container(
-              width: double.infinity,
-              padding: AppPadding.edgeAll16,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: AppColor.textPrimary,
-                borderRadius: AppBorderRadius.cir20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (balance.isEmpty)
-                    const Center(child: Text('All balances are settled! 🎉', style: TextStyle(fontWeight: FontWeight.bold)))
-                  else
-                    _buildVerticalBalances(context),
-                ],
-              ),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(
+                    top: 32,
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                  ),
+                  margin: const EdgeInsets.only(top: 24, left: 16, right: 16),
+                  decoration: BoxDecoration(
+                    color: AppColor.textPrimary,
+                    borderRadius: AppBorderRadius.cir20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (balance.isEmpty)
+                        const Center(
+                          child: Text(
+                            'All balances are settled! 🎉',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      else
+                        _buildVerticalBalances(context),
+                    ],
+                  ),
+                ),
+
+                Positioned(
+                  top: 0,
+                  right: 40,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.list_alt_outlined,
+                        color: AppColor.primary,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) =>
+                                GroupExpensesPage(expenses: state.expenses),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
+
+            AppGap.g32,
           ],
         ),
       ),
@@ -67,24 +115,19 @@ class GroupDetailsView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Total Group Expense',
-                  style: AppTextStyles.h5()
-                ),
+                Text('Total Group Expense', style: AppTextStyles.h5()),
                 AppGap.g4,
-                Text(
-                  formatAmount(totalExpense),
-                  style: AppTextStyles.h2()
-                ),
+                Text(formatAmount(totalExpense), style: AppTextStyles.h2()),
                 AppGap.g8,
                 Row(
                   children: [
-                    const Icon(Icons.pie_chart, size: 16, color: AppColor.primaryLight),
-                    const SizedBox(width: 4),
-                    Text(
-                      state.group.name,
-                      style: AppTextStyles.titleLarge(),
+                    const Icon(
+                      Icons.pie_chart,
+                      size: 16,
+                      color: AppColor.primaryLight,
                     ),
+                    const SizedBox(width: 4),
+                    Text(state.group.name, style: AppTextStyles.titleLarge()),
                   ],
                 ),
               ],
@@ -101,11 +144,13 @@ class GroupDetailsView extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                state.group.name.isNotEmpty ? state.group.name[0].toUpperCase() : 'G',
+                state.group.name.isNotEmpty
+                    ? state.group.name[0].toUpperCase()
+                    : 'G',
                 style: AppTextStyles.h2(color: Colors.blue.shade700),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -124,7 +169,7 @@ class GroupDetailsView extends StatelessWidget {
       Colors.orange,
       Colors.indigo,
       Colors.pinkAccent,
-      Colors.lightBlue
+      Colors.lightBlue,
     ];
 
     return SizedBox(
@@ -182,7 +227,7 @@ class GroupDetailsView extends StatelessWidget {
           children: [
             Text(
               shortName,
-              style: AppTextStyles.captionBold(),
+              style: AppTextStyles.captionBold(color: AppColor.background),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -230,9 +275,12 @@ class GroupDetailsView extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: color,
                             shape: BoxShape.circle,
-                            border: Border.all(color: AppColor.background, width: 2),
+                            border: Border.all(
+                              color: AppColor.textPrimary,
+                              width: 2,
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -244,8 +292,10 @@ class GroupDetailsView extends StatelessWidget {
 
             Text(
               amount > 0 ? 'Owes You' : (amount < 0 ? 'You Owe' : 'Settled'),
-              style: AppTextStyles.descriptionSmall(
-                  color: amount > 0 ? Colors.green : (amount < 0 ? Colors.red : Colors.grey)
+              style: AppTextStyles.captionBold(
+                color: amount > 0
+                    ? AppColor.success
+                    : (amount < 0 ? Colors.red : Colors.grey),
               ),
             ),
             Text(
