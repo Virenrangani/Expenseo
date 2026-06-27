@@ -1,5 +1,4 @@
 import 'package:expenseo/features/split/presentation/page/group_details_page.dart';
-import 'package:expenseo/features/split/presentation/widget/group/group_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,55 +12,159 @@ import '../../cubit/split_cubit.dart';
 
 class GroupCard extends StatelessWidget {
   final GroupEntity group;
+
   const GroupCard({super.key, required this.group});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        final splitCubit=context.read<SplitCubit>();
-        Navigator.push(context,
-            MaterialPageRoute<void>(
-                builder: (context)=>  BlocProvider.value(
-                value: splitCubit,
-                child:  GroupDetailsPage(group: group,),
-              )
-            )
+      onTap: () {
+        final splitCubit = context.read<SplitCubit>();
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (context) => BlocProvider.value(
+              value: splitCubit,
+              child: GroupDetailsPage(group: group),
+            ),
+          ),
         );
       },
       child: Container(
-        padding: AppPadding.edgeAll12,
+        padding: AppPadding.edgeAll16,
         decoration: BoxDecoration(
-          color: AppColor.background,
+          color: AppColor.textPrimary,
           borderRadius: AppBorderRadius.cir16,
-          border: Border.all(color: AppColor.divider.withAlpha(100)),
         ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           GroupAvatar(group: group),
+            _buildOverlappingAvatars(group.memberNames.values.toList()),
 
-            AppGap.g12,
+            AppGap.g16,
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(group.name,
-                      style: AppTextStyles.bodySmall(
-                          color: AppColor.textPrimary)
-                          .copyWith(fontWeight: FontWeight.w500)),
-                  AppGap.g4,
-                  Text(
-                    _memberPreview(group),
-                    style: AppTextStyles.descriptionSmall(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    group.name,
+                    style: AppTextStyles.h4(color: AppColor.primary).copyWith(
+                      fontWeight: FontWeight.w700),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await context.read<SplitCubit>().deleteGroup(group.id);
+                  },
+                  child: Icon(
+                    Icons.delete_outline,
+                    color: AppColor.error.withAlpha(200),
+                  ),
+                ),
+              ],
             ),
-            IconButton(onPressed: ()async{
-              await context.read<SplitCubit>().deleteGroup(group.id);
-            }, icon: const Icon(Icons.delete))
+
+            AppGap.g16,
+
+            _buildDataRow('Members:', _memberPreview(group)),
+            AppGap.g12,
+            _buildDataRow('Created:', _formatDate(group.createdAt)),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDataRow(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 100,
+          child: Text(
+            label,
+            style: AppTextStyles.bodySmall(color: AppColor.background).copyWith(fontWeight: FontWeight.w500),
+          ),
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              if (label == 'Created:') ...[
+                Container(
+                  width: 6,
+                  height: 6,
+                  margin: const EdgeInsets.only(right: 6, top: 2),
+                  decoration: const BoxDecoration(
+                    color: Colors.deepOrange,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
+              Expanded(
+                child: Text(
+                  value,
+                  style: AppTextStyles.bodySmall(
+                    color: AppColor.background,
+                  ).copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOverlappingAvatars(List<String> names) {
+    final displayNames = names.take(4).toList();
+    final extraCount = names.length > 4 ? names.length - 4 : 0;
+
+    return SizedBox(
+      height: 36,
+      child: Stack(
+        children: List.generate(
+          displayNames.length + (extraCount > 0 ? 1 : 0),
+              (index) {
+            if (index == displayNames.length) {
+              return Positioned(
+                left: index * 24.0,
+                child: _buildAvatarCircle('+$extraCount', Colors.grey.shade300, Colors.black87),
+              );
+            }
+
+            final initial = displayNames[index].isNotEmpty
+                ? displayNames[index][0].toUpperCase()
+                : '?';
+
+            final colorIndex = displayNames[index].codeUnitAt(0) % Colors.primaries.length;
+            final bgColor = Colors.primaries[colorIndex].withAlpha(200);
+
+            return Positioned(
+              left: index * 24.0,
+              child: _buildAvatarCircle(initial, bgColor, AppColor.background),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAvatarCircle(String text, Color bgColor, Color textColor) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColor.background, width: 2),
+      ),
+      child: CircleAvatar(
+        radius: 16,
+        backgroundColor: bgColor,
+        child: Text(
+          text,
+          style: AppTextStyles.captionBold(color: textColor)
         ),
       ),
     );
@@ -73,4 +176,11 @@ class GroupCard extends StatelessWidget {
     return '${names.take(3).join(', ')} +${names.length - 3}';
   }
 
+  String _formatDate(DateTime date) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
 }

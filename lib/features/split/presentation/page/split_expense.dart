@@ -63,7 +63,8 @@ class SplitExpense extends StatelessWidget {
                   showModalBottomSheet<void>(
                     context: context,
                     isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
+                    showDragHandle: true,
+                    backgroundColor: AppColor.background,
                     builder: (_) =>
                         BlocProvider.value(
                           value: splitCubit,
