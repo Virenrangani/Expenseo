@@ -67,7 +67,7 @@ class _SplitAmongState extends State<SplitAmong> {
             margin: const EdgeInsets.only(bottom: 12),
             padding: AppPadding.edgeAll12,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColor.background,
               borderRadius: AppBorderRadius.cir16,
               border: Border.all(color: Colors.grey.shade200),
             ),
@@ -139,7 +139,7 @@ class _SplitAmongState extends State<SplitAmong> {
     return Container(
       padding: AppPadding.edgeAll16,
       decoration: BoxDecoration(
-        color: statusColor.withAlpha(15), // Very light tint of the status color
+        color: statusColor.withAlpha(15),
         borderRadius: AppBorderRadius.cir16,
         border: Border.all(color: statusColor.withAlpha(50)),
       ),
