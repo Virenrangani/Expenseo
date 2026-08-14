@@ -3,6 +3,7 @@ import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/lotties/app_lottie.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/features/home/presentation/page/home_page.dart';
+import 'package:expenseo/features/profile/presentation/page/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -19,7 +20,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
   final pages = [
     const HomePage(),
     const Center(child: Text('stats')),
-    const Center(child: Text('profile')),
+    const ProfileScreen(),
   ];
 
   @override
