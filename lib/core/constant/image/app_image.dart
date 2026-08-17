@@ -10,4 +10,6 @@ class AppImage {
   static const String E = 'assets/images/memo_16.png';
   static const String F = 'assets/images/memo_34.png';
   static const String G = 'assets/images/memo_30.png';
+
+  static const String goal = 'assets/images/goal.png';
 }

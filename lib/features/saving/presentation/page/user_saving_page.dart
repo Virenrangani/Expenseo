@@ -1,6 +1,7 @@
 import 'package:expenseo/features/saving/presentation/cubit/saving_cubit.dart';
 import 'package:expenseo/features/saving/presentation/page/add_saving_goal.dart';
 import 'package:expenseo/features/saving/presentation/page/saving_goals_list.dart';
+import 'package:expenseo/features/saving/presentation/widget/goal_empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -33,6 +34,10 @@ class UserSavingPage extends StatelessWidget {
             }
 
             if (state is SavingLoaded) {
+              if (state.goals.isEmpty) {
+                return const GoalEmptyState();
+              }
+
               return SavingGoalsList(savingGoals: state.goals);
             }
 
