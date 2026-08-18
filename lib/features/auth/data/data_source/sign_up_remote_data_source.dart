@@ -27,11 +27,15 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
         id: user.id,
         email: user.email,
         name: user.name,
+        // isProfileComplete: user.isProfileComplete,
       );
 
       return user;
     } on DioException catch (e) {
-      throw Exception(e.response?.data['message'] ?? 'Registration failed');
+      throw Exception(
+        ((e.response?.data as Map<String, dynamic>?)?['message'])?.toString() ??
+            'Registration failed',
+      );
     } catch (_) {
       throw Exception(AppString.somethingWentWrong);
     }

@@ -7,10 +7,10 @@ class SharedPrefService {
   static const _keyUserEmail = 'user_email';
   static const _keyUserName = 'user_name';
   static const _keyIsLoggedIn = 'is_logged_in';
+  static const _keyIsProfileComplete = 'is_profile_complete';
   static const _keyAccessToken = 'access_token';
   static const _keyRefreshToken = 'refresh_token';
 
-  // 🚨 1. CALL THIS ONCE IN MAIN.DART
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
@@ -19,11 +19,17 @@ class SharedPrefService {
     required String id,
     required String email,
     required String name,
+    bool isProfileComplete = false,
   }) async {
     await _prefs?.setString(_keyUserId, id);
     await _prefs?.setString(_keyUserEmail, email);
     await _prefs?.setString(_keyUserName, name);
     await _prefs?.setBool(_keyIsLoggedIn, true);
+    await _prefs?.setBool(_keyIsProfileComplete, isProfileComplete);
+  }
+
+  static Future<void> setProfileComplete(bool complete) async {
+    await _prefs?.setBool(_keyIsProfileComplete, complete);
   }
 
   // ✅ 2. THESE ARE NOW SYNCHRONOUS! (No more Future)
@@ -41,6 +47,10 @@ class SharedPrefService {
 
   static bool isLoggedIn() {
     return _prefs?.getBool(_keyIsLoggedIn) ?? false;
+  }
+
+  static bool isProfileComplete() {
+    return _prefs?.getBool(_keyIsProfileComplete) ?? false;
   }
 
   static Future<void> saveTokens({
@@ -69,6 +79,7 @@ class SharedPrefService {
     await _prefs?.remove(_keyUserEmail);
     await _prefs?.remove(_keyUserName);
     await _prefs?.remove(_keyIsLoggedIn);
+    await _prefs?.remove(_keyIsProfileComplete);
     await clearAuth();
   }
 

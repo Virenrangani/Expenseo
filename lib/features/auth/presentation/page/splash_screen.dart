@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../bottom_nav/app_bottom_nav.dart';
 import '../widget/loading_screen.dart';
+import 'complete_profile_page.dart';
 import 'log_in_page.dart';
 
 class AuthGate extends StatefulWidget {
@@ -14,6 +15,7 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   bool? isLoggedIn;
+  bool? isProfileComplete;
 
   @override
   void initState() {
@@ -22,10 +24,12 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> checkUser() async {
-    final hasSession = await SharedPrefService.isLoggedIn();
+    final hasSession = SharedPrefService.isLoggedIn();
+    final profileComplete = SharedPrefService.isProfileComplete();
 
     setState(() {
       isLoggedIn = hasSession;
+      isProfileComplete = profileComplete;
     });
   }
 
@@ -35,6 +39,14 @@ class _AuthGateState extends State<AuthGate> {
       return const Scaffold(body: Center(child: LoadingScreen()));
     }
 
-    return isLoggedIn! ? const AppBottomNav() : const LogInPage();
+    if (!isLoggedIn!) {
+      return const LogInPage();
+    }
+
+    if (!isProfileComplete!) {
+      return const CompleteProfilePage();
+    }
+
+    return const AppBottomNav();
   }
 }

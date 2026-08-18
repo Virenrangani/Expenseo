@@ -5,7 +5,13 @@ class UserModel {
   final String token;
   final String? refreshToken;
 
-  UserModel({required this.id, required this.email, required this.name, required this.token, this.refreshToken});
+  UserModel({
+    required this.id,
+    required this.email,
+    required this.name,
+    required this.token,
+    this.refreshToken,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -18,6 +24,12 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'email': email, 'name': name,'token':token,'refreshToken':refreshToken};
+    return {
+      'id': id,
+      'email': email,
+      'name': name,
+      'token': token,
+      'refreshToken': refreshToken,
+    };
   }
 }
