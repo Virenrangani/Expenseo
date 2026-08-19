@@ -1,4 +1,5 @@
-import 'package:expenseo/core/constant/colour/app_color.dart';
+import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
+import 'package:expenseo/core/widget/login_required_dialog/login_required_dialog.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/home/presentation/widget/expense_container.dart';
@@ -55,9 +56,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       }
-                      return GreetingUser(
-                        userName: context.read<HomeCubit>().userName,
-                      );
+
+                      final userName = SharedPrefService.isGuest()
+                          ? 'Guest'
+                          : context.read<HomeCubit>().userName;
+
+                      return GreetingUser(userName: userName);
                     },
                   ),
                   AppGap.g12,
@@ -89,61 +93,65 @@ class _HomePageState extends State<HomePage> {
 
                   AppGap.g16,
 
-                   Row(
-                      children: [
-                        AppIconCard(
-                          icon: Icons.add,
-                          text: AppString.addExpense,
-                          onTap: () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.white,
-                              showDragHandle: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  Row(
+                    children: [
+                      AppIconCard(
+                        icon: Icons.add,
+                        text: AppString.addExpense,
+                        onTap: () {
+                          if (SharedPrefService.isGuest()) {
+                            LoginRequiredDialog.show(context, 'Add Expense');
+                            return;
+                          }
+                          showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.white,
+                            showDragHandle: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(24),
                               ),
-                              builder: (_) => BlocProvider.value(
-                                value: context.read<ExpenseCubit>(),
-                                child: const AddExpenseSheet(),
-                              ),
-                            );
-                          },
-                        ),
+                            ),
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<ExpenseCubit>(),
+                              child: const AddExpenseSheet(),
+                            ),
+                          );
+                        },
+                      ),
 
-                        AppGap.g8,
+                      AppGap.g8,
 
-                        AppIconCard(
-                          icon: Icons.splitscreen,
-                          text: AppString.split,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (context) =>
-                                    const SplitExpense(),
-                              ),
-                            );
-                          },
-                        ),
+                      AppIconCard(
+                        icon: Icons.splitscreen,
+                        text: AppString.split,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => const SplitExpense(),
+                            ),
+                          );
+                        },
+                      ),
 
-                        AppGap.g8,
+                      AppGap.g8,
 
-                        AppIconCard(
-                          icon: Icons.savings_outlined,
-                          text: AppString.saving,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (context) =>
-                                const UserSavingPage(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                      AppIconCard(
+                        icon: Icons.savings_outlined,
+                        text: AppString.saving,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => const UserSavingPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
 
                   AppGap.g16,
 

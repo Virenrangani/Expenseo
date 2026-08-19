@@ -7,6 +7,7 @@ class SharedPrefService {
   static const _keyUserEmail = 'user_email';
   static const _keyUserName = 'user_name';
   static const _keyIsLoggedIn = 'is_logged_in';
+  static const _keyIsGuest = 'is_guest';
   static const _keyIsProfileComplete = 'is_profile_complete';
   static const _keyAccessToken = 'access_token';
   static const _keyRefreshToken = 'refresh_token';
@@ -25,14 +26,21 @@ class SharedPrefService {
     await _prefs?.setString(_keyUserEmail, email);
     await _prefs?.setString(_keyUserName, name);
     await _prefs?.setBool(_keyIsLoggedIn, true);
+    await _prefs?.setBool(_keyIsGuest, false);
     await _prefs?.setBool(_keyIsProfileComplete, isProfileComplete);
+  }
+
+  static Future<void> setGuestMode(bool isGuest) async {
+    await _prefs?.setBool(_keyIsGuest, isGuest);
+    if (isGuest) {
+      await _prefs?.setBool(_keyIsLoggedIn, false);
+    }
   }
 
   static Future<void> setProfileComplete(bool complete) async {
     await _prefs?.setBool(_keyIsProfileComplete, complete);
   }
 
-  // ✅ 2. THESE ARE NOW SYNCHRONOUS! (No more Future)
   static String? getUserId() {
     return _prefs?.getString(_keyUserId);
   }
@@ -47,6 +55,10 @@ class SharedPrefService {
 
   static bool isLoggedIn() {
     return _prefs?.getBool(_keyIsLoggedIn) ?? false;
+  }
+
+  static bool isGuest() {
+    return _prefs?.getBool(_keyIsGuest) ?? false;
   }
 
   static bool isProfileComplete() {
@@ -79,6 +91,7 @@ class SharedPrefService {
     await _prefs?.remove(_keyUserEmail);
     await _prefs?.remove(_keyUserName);
     await _prefs?.remove(_keyIsLoggedIn);
+    await _prefs?.remove(_keyIsGuest);
     await _prefs?.remove(_keyIsProfileComplete);
     await clearAuth();
   }

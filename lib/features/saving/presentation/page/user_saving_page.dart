@@ -8,6 +8,8 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
+import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
 import '../cubit/saving_state.dart';
 
 class UserSavingPage extends StatelessWidget {
@@ -49,6 +51,10 @@ class UserSavingPage extends StatelessWidget {
           builder: (context) {
             return FloatingActionButton(
               onPressed: () {
+                if (SharedPrefService.isGuest()) {
+                  LoginRequiredDialog.show(context, 'Saving Goals');
+                  return;
+                }
                 showModalBottomSheet<void>(
                   context: context,
                   showDragHandle: true,

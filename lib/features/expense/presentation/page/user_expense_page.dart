@@ -12,6 +12,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
+import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
 import '../cubit/expense_cubit.dart';
 import './add_expense_sheet.dart';
 import 'expense_list_page.dart';
@@ -44,16 +46,18 @@ class UserExpensePage extends StatelessWidget {
                           controller: searchController,
                           hintText: 'Search your Expense..',
                           fillColor: AppColor.primary.withAlpha(30),
-                          prefixIcon: const Icon(Icons.search_rounded ,
-                            color: AppColor.textSecondary,),
-                          onChanged: (value){
+                          prefixIcon: const Icon(
+                            Icons.search_rounded,
+                            color: AppColor.textSecondary,
+                          ),
+                          onChanged: (value) {
                             context.read<ExpenseCubit>().searchExpense(value);
                           },
                         ),
                       ),
                     ),
                     AppGap.g8,
-                    const FilterButton()
+                    const FilterButton(),
                   ],
                 ),
               ),
@@ -83,10 +87,9 @@ class UserExpensePage extends StatelessWidget {
                                   ),
                                   ...List.generate(
                                     6,
-                                        (_) =>
-                                        ExpenseCard(
-                                          expense: FakeExpense.fake(),
-                                        ),
+                                    (_) => ExpenseCard(
+                                      expense: FakeExpense.fake(),
+                                    ),
                                   ),
                                   const SizedBox(height: 16),
                                 ],
@@ -112,30 +115,33 @@ class UserExpensePage extends StatelessWidget {
             right: 20,
             bottom: 30,
             child: Builder(
-                builder: (context) {
-                  return FloatingActionButton(
-                    backgroundColor: AppColor.primary,
-                    onPressed: () {
-                      final expenseCubit = context.read<ExpenseCubit>();
-                      showBottomSheet(
-                        context: context,
-                        builder: (_) =>
-                            BlocProvider.value(
-                              value: expenseCubit,
-                              child: const AddExpenseSheet(),
-                            ),
-                        enableDrag: true,
-                        showDragHandle: true,
-                        backgroundColor: AppColor.background,
-                      );
-                    },
-                    child: const Icon(
-                      Icons.add_circle_outline,
-                      size: 32,
-                      color: AppColor.background,
-                    ),
-                  );
-                }
+              builder: (context) {
+                return FloatingActionButton(
+                  backgroundColor: AppColor.primary,
+                  onPressed: () {
+                    if (SharedPrefService.isGuest()) {
+                      LoginRequiredDialog.show(context, 'Add Expense');
+                      return;
+                    }
+                    final expenseCubit = context.read<ExpenseCubit>();
+                    showBottomSheet(
+                      context: context,
+                      builder: (_) => BlocProvider.value(
+                        value: expenseCubit,
+                        child: const AddExpenseSheet(),
+                      ),
+                      enableDrag: true,
+                      showDragHandle: true,
+                      backgroundColor: AppColor.background,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.add_circle_outline,
+                    size: 32,
+                    color: AppColor.background,
+                  ),
+                );
+              },
             ),
           ),
         ],
