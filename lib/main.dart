@@ -38,7 +38,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Expenseo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
       navigatorKey: appNavigatorKey,
       home: const AuthGate(),
     );

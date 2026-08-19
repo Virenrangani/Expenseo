@@ -1,11 +1,8 @@
-import 'package:curved_navigation_bar_pro/curved_navigation_bar_pro.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
-import 'package:expenseo/core/constant/lotties/app_lottie.dart';
-import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/features/home/presentation/page/home_page.dart';
 import 'package:expenseo/features/profile/presentation/page/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class AppBottomNav extends StatefulWidget {
   const AppBottomNav({super.key});
@@ -15,80 +12,53 @@ class AppBottomNav extends StatefulWidget {
 }
 
 class _AppBottomNavState extends State<AppBottomNav> {
-  int index = 0;
+  int _selectedIndex = 0;
 
-  final pages = [
+  final List<Widget> _pages = [
     const HomePage(),
-    const Center(child: Text('stats')),
+    const Center(child: Text('Stats')),
     const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[index],
-
-      bottomNavigationBar: CurvedNavigationBarPro(
-        currentIndex: index,
-
-        onTap: (i) {
-          setState(() {
-            index = i;
-          });
-        },
-
-        items: [
-          CurvedNavigationItemPro(
-            label: 'Home',
-
-            activeWidget: Lottie.asset(
-              AppLottie.home,
-              width: 52,
-              repeat: false,
+      backgroundColor: AppColor.background,
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(blurRadius: 20, color: Colors.black.withAlpha(25)),
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300]!,
+              hoverColor: Colors.grey[100]!,
+              gap: 8,
+              activeColor: AppColor.primary,
+              iconSize: 24,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: const Duration(milliseconds: 400),
+              tabBackgroundColor: AppColor.primary.withAlpha(25),
+              color: Colors.black,
+              tabs: const [
+                GButton(icon: Icons.home_outlined, text: 'Home'),
+                GButton(icon: Icons.bar_chart_outlined, text: 'Stats'),
+                GButton(icon: Icons.person_outline, text: 'Profile'),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
             ),
-
-            inactiveWidget: const Icon(Icons.home),
           ),
-
-          CurvedNavigationItemPro(
-            label: 'Graphs',
-
-            activeWidget: Lottie.asset(
-              AppLottie.graph,
-              width: 34,
-              repeat: false,
-            ),
-
-            inactiveWidget: const Icon(Icons.bar_chart_outlined),
-          ),
-
-          CurvedNavigationItemPro(
-            label: 'Profile',
-
-            activeWidget: Lottie.asset(
-              AppLottie.profile,
-              width: 34,
-              repeat: false,
-            ),
-
-            inactiveWidget: const Icon(Icons.person),
-          ),
-        ],
-
-        backgroundColor: AppColor.background,
-        activeColor: AppColor.textPrimary,
-        fabColor: AppColor.primary,
-        inactiveColor: AppColor.textSecondary,
-        barHeight: 84,
-        fabRadius: 28,
-        fabGap: 4,
-        cornerRadius: 0,
-        elevation: 20,
-        fabSink: 16,
-        animationDuration: const Duration(milliseconds: 600),
-        animationCurve: Curves.easeInOutCubicEmphasized,
-        activeTextStyle: AppTextStyles.captionBold(color: AppColor.textPrimary),
-        inactiveTextStyle: AppTextStyles.descriptionSmall(),
+        ),
       ),
     );
   }
