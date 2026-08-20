@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:expenseo/core/dio/token_storage_impl.dart';
+import 'package:expenseo/core/security/logic/security_cubit.dart';
+import 'package:expenseo/core/security/service/security_service.dart';
 import 'package:expenseo/features/auth/data/data_source/otp_remote_data_source.dart';
 import 'package:expenseo/features/auth/data/repository_impl/login_repository_impl.dart';
 import 'package:expenseo/features/auth/data/repository_impl/otp_repository_impl.dart';
@@ -57,6 +59,9 @@ class Injection {
       ..registerLazySingleton(() => FirebaseFirestore.instance)
       ..registerLazySingleton<TokenStorage>(TokenStorageImpl.new)
       ..registerLazySingleton<Dio>(() => DioClient.create(tokenStorage: sl()))
+      // Security
+      ..registerLazySingleton(() => SecurityService())
+      ..registerLazySingleton(() => SecurityCubit(sl()))
       ..registerLazySingleton<LoginRemoteDataSource>(
         () => LoginRemoteDataSourceImpl(sl()),
       )

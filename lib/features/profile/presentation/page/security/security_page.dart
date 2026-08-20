@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/gap/app_gap.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/security/logic/security_cubit.dart';
+import '../../../../../core/security/logic/security_service.dart';
+import '../../../../auth/presentation/page/pin_lock/pin_lock_page.dart';
 import '../../widget/profile_tile.dart';
 
 class SecurityPage extends StatefulWidget {
@@ -13,9 +18,28 @@ class SecurityPage extends StatefulWidget {
 }
 
 class _SecurityPageState extends State<SecurityPage> {
-  bool _isAppLockEnabled = true;
+  bool _isBiometricAvailable = false;
   bool _isBiometricEnabled = false;
-  bool _is2FAEnabled = false;
+  bool _isAppLockEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSecuritySettings();
+  }
+
+  Future<void> _loadSecuritySettings() async {
+    final securityService = GetIt.I<SecurityService>();
+    final isAvailable = await securityService.isBiometricAvailable();
+    final isEnabled = await securityService.isBiometricEnabled();
+    final hasPin = await securityService.hasPin();
+
+    setState(() {
+      _isBiometricAvailable = isAvailable;
+      _isBiometricEnabled = isEnabled;
+      _isAppLockEnabled = hasPin;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +75,37 @@ class _SecurityPageState extends State<SecurityPage> {
                 onTap: () {},
                 trailing: Switch.adaptive(
                   value: _isAppLockEnabled,
-                  onChanged: (val) => setState(() => _isAppLockEnabled = val),
+                  activeColor: AppColor.primary,
+                  onChanged: (val) async {
+                    if (val) {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (context) =>
+                              const PinLockPage(isSetupMode: true),
+                        ),
+                      );
+                      _loadSecuritySettings();
+                    } else {
+                      _showDisablePinDialog();
+                    }
+                  },
                 ),
               ),
-              SettingsTile(
-                title: 'Biometric Authentication',
-                leadingIcon: Icons.fingerprint_rounded,
-                onTap: () {},
-                trailing: Switch.adaptive(
-                  value: _isBiometricEnabled,
-                  onChanged: (val) => setState(() => _isBiometricEnabled = val),
+              if (_isBiometricAvailable)
+                SettingsTile(
+                  title: 'Biometric Authentication',
+                  leadingIcon: Icons.fingerprint_rounded,
+                  onTap: () {},
+                  trailing: Switch.adaptive(
+                    value: _isBiometricEnabled,
+                    activeColor: AppColor.primary,
+                    onChanged: (val) async {
+                      await context.read<SecurityCubit>().toggleBiometric(val);
+                      setState(() => _isBiometricEnabled = val);
+                    },
+                  ),
                 ),
-              ),
             ]),
 
             AppGap.g24,
@@ -78,39 +121,7 @@ class _SecurityPageState extends State<SecurityPage> {
                 title: 'Two-Factor Authentication',
                 leadingIcon: Icons.verified_user_outlined,
                 onTap: () {},
-                trailing: Switch.adaptive(
-                  value: _is2FAEnabled,
-                  onChanged: (val) => setState(() => _is2FAEnabled = val),
-                ),
-              ),
-            ]),
-
-            AppGap.g24,
-
-            _buildSectionTitle('Devices'),
-            _buildGroupedCard([
-              SettingsTile(
-                title: 'Active Sessions',
-                leadingIcon: Icons.devices_rounded,
-                onTap: () {},
-                trailing: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColor.success.withAlpha(30),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text(
-                    '2 Active',
-                    style: TextStyle(
-                      color: AppColor.success,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                trailing: Switch.adaptive(value: false, onChanged: (val) {}),
               ),
             ]),
 
@@ -119,13 +130,42 @@ class _SecurityPageState extends State<SecurityPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
-                'Protecting your financial data is our top priority. We recommend enabling Biometric Authentication and 2FA for maximum security.',
+                'Protecting your financial data is our top priority. We recommend enabling Biometric Authentication for maximum security.',
                 style: AppTextStyles.descriptionSmall(),
                 textAlign: TextAlign.center,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showDisablePinDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Disable App Lock?'),
+        content: const Text(
+          'Are you sure you want to remove the security PIN?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await GetIt.I<SecurityService>().clearSecurityData();
+              await _loadSecuritySettings();
+              if (mounted) Navigator.pop(context);
+            },
+            child: const Text(
+              'Disable',
+              style: TextStyle(color: AppColor.error),
+            ),
+          ),
+        ],
       ),
     );
   }
