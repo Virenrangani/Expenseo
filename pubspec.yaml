@@ -2,6 +2,18 @@ name: expenseo
 description: "A new Flutter project."
 publish_to: 'none'
 
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
 
 environment:
@@ -18,7 +30,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_localizations:
+    sdk: flutter
   flutter_native_splash: ^2.4.1
+  flutter_secure_storage: ^9.2.2
   font_awesome_flutter: ^11.0.0
   gap: ^3.0.1
   get_it: ^9.2.1
@@ -26,16 +41,14 @@ dependencies:
   google_sign_in: ^6.0.0
   home_widget: ^0.9.3
   image_picker: ^1.1.2
-  intl: ^0.19.0
+  intl: ^0.20.2
+  local_auth: ^2.3.0
+  pin_plus_keyboard: ^3.0.2
   pinput: ^5.0.1
   quick_actions: ^1.0.8
   shared_preferences: ^2.5.5
   skeletonizer: ^2.1.3
   uuid: ^4.5.3
-  # Security Dependencies
-  local_auth: ^2.3.0
-  flutter_secure_storage: ^9.2.2
-  pin_plus_keyboard: ^3.0.2
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -44,6 +57,10 @@ dev_dependencies:
   leancode_lint: ^19.0.1
 
 flutter:
+  generate: true
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
   uses-material-design: true
   assets:
     - assets/images/
