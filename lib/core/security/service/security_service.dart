@@ -35,26 +35,21 @@ class SecurityService {
             cancelButton: 'Use PIN',
           ),
         ],
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-          biometricOnly: false, // 🛠️ Allows Face Unlock + Fingerprint
-          useErrorDialogs: true,
-        ),
+        options: const AuthenticationOptions(stickyAuth: true),
       );
     } on PlatformException catch (_) {
       return false;
     }
   }
 
-  Future<void> setPin(String pin) async =>
-      await _storage.write(key: _pinKey, value: pin);
-  Future<String?> getPin() async => await _storage.read(key: _pinKey);
+  Future<void> setPin(String pin) => _storage.write(key: _pinKey, value: pin);
+  Future<String?> getPin() => _storage.read(key: _pinKey);
   Future<bool> hasPin() async => (await getPin()) != null;
   Future<bool> verifyPin(String enteredPin) async =>
       (await getPin()) == enteredPin;
 
-  Future<void> setBiometricPreference(bool enabled) async => await _storage
-      .write(key: _biometricEnabledKey, value: enabled.toString());
+  Future<void> setBiometricPreference(bool enabled) =>
+      _storage.write(key: _biometricEnabledKey, value: enabled.toString());
 
   Future<bool> isBiometricEnabled() async =>
       (await _storage.read(key: _biometricEnabledKey)) == 'true';

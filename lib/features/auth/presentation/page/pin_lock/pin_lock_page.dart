@@ -41,7 +41,9 @@ class _PinLockPageState extends State<PinLockPage>
             end: 12,
           ).chain(CurveTween(curve: Curves.elasticIn)).animate(_shakeController)
           ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) _shakeController.reverse();
+            if (status == AnimationStatus.completed) {
+              _shakeController.reverse();
+            }
           });
   }
 
@@ -99,7 +101,10 @@ class _PinLockPageState extends State<PinLockPage>
       body: SafeArea(
         child: BlocListener<SecurityCubit, SecurityState>(
           listener: (context, state) {
-            if (state is SecurityError) _triggerError(state.message);
+            if (state is SecurityError) {
+              _triggerError(state.message);
+            }
+            // Reset UI on lock (e.g. returning from background)
             if (state is SecurityLocked) {
               setState(() {
                 _pinInputController.clear();
@@ -111,6 +116,7 @@ class _PinLockPageState extends State<PinLockPage>
           },
           child: SizedBox.expand(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(flex: 2),
                 const Icon(
@@ -127,20 +133,25 @@ class _PinLockPageState extends State<PinLockPage>
                   textAlign: TextAlign.center,
                 ),
                 AppGap.g8,
-                Text(
-                  _getSubTitle(),
-                  style: AppTextStyles.bodyMedium(),
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Text(
+                    _getSubTitle(),
+                    style: AppTextStyles.bodyMedium(),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 AppGap.g32,
 
-                // Centered Animated Keyboard
+                // Centered Keyboard with width constraints
                 AnimatedBuilder(
                   animation: _shakeAnimation,
-                  builder: (context, child) => Transform.translate(
-                    offset: Offset(_shakeAnimation.value, 0),
-                    child: child,
-                  ),
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(_shakeAnimation.value, 0),
+                      child: child,
+                    );
+                  },
                   child: Container(
                     width: screenWidth,
                     alignment: Alignment.center,
@@ -152,12 +163,10 @@ class _PinLockPageState extends State<PinLockPage>
                       btnElevation: 0,
                       btnTextColor: AppColor.textPrimary,
 
-                      // 🛠️ Biometric Trigger
                       enableBiometric: !widget.isSetupMode,
-                      onBiometricPressed: () {
-                        context
-                            .read<SecurityCubit>()
-                            .authenticateWithBiometrics(isAutoTrigger: false);
+                      biometricReason: 'Authenticate to access Expenseo',
+                      onBiometricSuccess: () {
+                        context.read<SecurityCubit>().markAuthenticated();
                       },
 
                       onSubmit: _handlePinComplete,
@@ -170,6 +179,7 @@ class _PinLockPageState extends State<PinLockPage>
                   Text(
                     _errorMessage,
                     style: AppTextStyles.bodySmall(color: AppColor.error),
+                    textAlign: TextAlign.center,
                   ),
                 ],
 

@@ -6,7 +6,7 @@ import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/gap/app_gap.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../../core/security/logic/security_cubit.dart';
-import '../../../../../core/security/logic/security_service.dart';
+import '../../../../../core/security/service/security_service.dart';
 import '../../../../auth/presentation/page/pin_lock/pin_lock_page.dart';
 import '../../widget/profile_tile.dart';
 
@@ -72,10 +72,15 @@ class _SecurityPageState extends State<SecurityPage> {
               SettingsTile(
                 title: 'App Lock (PIN)',
                 leadingIcon: Icons.dialpad_rounded,
-                onTap: () {},
+                onTap: () async {
+                  await context.read<SecurityCubit>().disableSecurity();
+                  await _loadSecuritySettings();
+                  if (mounted) {
+                    Navigator.pop(context);
+                  }
+                },
                 trailing: Switch.adaptive(
                   value: _isAppLockEnabled,
-                  activeColor: AppColor.primary,
                   onChanged: (val) async {
                     if (val) {
                       await Navigator.push(
@@ -85,7 +90,7 @@ class _SecurityPageState extends State<SecurityPage> {
                               const PinLockPage(isSetupMode: true),
                         ),
                       );
-                      _loadSecuritySettings();
+                      await _loadSecuritySettings();
                     } else {
                       _showDisablePinDialog();
                     }
@@ -99,7 +104,6 @@ class _SecurityPageState extends State<SecurityPage> {
                   onTap: () {},
                   trailing: Switch.adaptive(
                     value: _isBiometricEnabled,
-                    activeColor: AppColor.primary,
                     onChanged: (val) async {
                       await context.read<SecurityCubit>().toggleBiometric(val);
                       setState(() => _isBiometricEnabled = val);
@@ -158,7 +162,9 @@ class _SecurityPageState extends State<SecurityPage> {
             onPressed: () async {
               await GetIt.I<SecurityService>().clearSecurityData();
               await _loadSecuritySettings();
-              if (mounted) Navigator.pop(context);
+              if (mounted) {
+                Navigator.pop(context);
+              }
             },
             child: const Text(
               'Disable',

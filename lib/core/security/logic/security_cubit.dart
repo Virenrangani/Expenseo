@@ -34,12 +34,16 @@ class SecurityCubit extends Cubit<SecurityState> {
       emit(SecurityAuthenticated());
     } else {
       emit(SecurityError('Invalid PIN. Please try again.'));
-      await Future.delayed(const Duration(seconds: 2));
+      await Future<void>.delayed(const Duration(seconds: 2));
       emit(SecurityLocked());
     }
   }
 
-  /// [isAutoTrigger] is true when called by system (startup/resume).
+  Future<void> disableSecurity() async {
+    await _securityService.clearSecurityData();
+    emit(SecurityDisabled());
+  }
+
   /// When false (manual tap), we bypass the 'isEnabled' check.
   Future<void> authenticateWithBiometrics({bool isAutoTrigger = false}) async {
     final isAvailable = await _securityService.isBiometricAvailable();
@@ -63,5 +67,9 @@ class SecurityCubit extends Cubit<SecurityState> {
 
   Future<void> toggleBiometric(bool enabled) async {
     await _securityService.setBiometricPreference(enabled);
+  }
+
+  void markAuthenticated() {
+    emit(SecurityAuthenticated());
   }
 }
