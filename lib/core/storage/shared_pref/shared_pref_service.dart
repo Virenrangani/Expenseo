@@ -11,6 +11,7 @@ class SharedPrefService {
   static const _keyIsProfileComplete = 'is_profile_complete';
   static const _keyAccessToken = 'access_token';
   static const _keyRefreshToken = 'refresh_token';
+  static const _keyLanguageCode = 'language_code';
 
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -39,6 +40,14 @@ class SharedPrefService {
 
   static Future<void> setProfileComplete(bool complete) async {
     await _prefs?.setBool(_keyIsProfileComplete, complete);
+  }
+
+  static Future<void> setLanguageCode(String languageCode) async {
+    await _prefs?.setString(_keyLanguageCode, languageCode);
+  }
+
+  static String? getLanguageCode() {
+    return _prefs?.getString(_keyLanguageCode);
   }
 
   static String? getUserId() {
