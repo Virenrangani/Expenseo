@@ -1,8 +1,14 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/localization/locale_cubit.dart';
+import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../auth/presentation/page/splash_screen.dart';
 import '../widget/profile_tile.dart';
 import 'personal_info/personal_info_page.dart';
 import 'security/security_page.dart';
@@ -15,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late ScrollController _scrollController;
+  late final ScrollController _scrollController;
   bool _isCollapsed = false;
 
   @override
@@ -24,7 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _scrollController = ScrollController()
       ..addListener(() {
         if (_scrollController.hasClients) {
-          // Detect when the AppBar is collapsed
           if (_scrollController.offset > 200 && !_isCollapsed) {
             setState(() {
               _isCollapsed = true;
@@ -44,15 +49,83 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
+  void _showLanguagePicker(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n!.selectLanguage, style: AppTextStyles.h4()),
+            AppGap.g24,
+            ListTile(
+              title: Text(l10n.english),
+              leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
+              onTap: () {
+                context.read<LocaleCubit>().changeLocale('en');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.spanish),
+              leading: const Text('🇪🇸', style: TextStyle(fontSize: 24)),
+              onTap: () {
+                context.read<LocaleCubit>().changeLocale('es');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.arabic),
+              leading: const Text('🇸🇦', style: TextStyle(fontSize: 24)),
+              onTap: () {
+                context.read<LocaleCubit>().changeLocale('ar');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.hindi),
+              leading: const Text('🇮🇳', style: TextStyle(fontSize: 24)),
+              onTap: () {
+                context.read<LocaleCubit>().changeLocale('hi');
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final isGuest = SharedPrefService.isGuest();
+    final currentLocale = context.watch<LocaleCubit>().state.languageCode;
+
+    String getLanguageName() {
+      switch (currentLocale) {
+        case 'en':
+          return l10n.english;
+        case 'ar':
+          return l10n.arabic;
+        case 'hi':
+          return l10n.hindi;
+        default:
+          return l10n.english;
+      }
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FB),
       body: CustomScrollView(
         controller: _scrollController,
         physics: const BouncingScrollPhysics(),
         slivers: [
-          // 1. Premium SliverAppBar with Background Image
           SliverAppBar(
             expandedHeight: 300,
             pinned: true,
@@ -73,11 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'https://i.pravatar.cc/150?img=47',
                     ),
                   ),
-
                   AppGap.g8,
-
                   Text(
-                    'Beatrice Cox',
+                    isGuest ? l10n.guestUser : 'Beatrice Cox',
                     style: AppTextStyles.h3(
                       color: Colors.white,
                     ).copyWith(fontSize: 18),
@@ -112,19 +183,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Positioned(
                     left: 20,
+                    right: 20,
                     bottom: 20,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Beatrice Cox',
+                          isGuest ? l10n.guestUser : 'Beatrice Cox',
                           style: AppTextStyles.h3(
                             color: Colors.white,
                           ).copyWith(fontSize: 28),
                         ),
                         Text(
-                          'cox21@gmail.com',
+                          isGuest ? 'Preview Mode' : 'cox21@gmail.com',
                           style: AppTextStyles.description(
                             color: Colors.white.withAlpha(200),
                           ),
@@ -143,18 +215,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionTitle('Account Settings'),
+                  _buildSectionTitle(l10n.accountSettings),
                   _buildGroupedCard([
                     SettingsTile(
-                      title: 'Personal Info',
+                      title: l10n.personalInfo,
                       leadingIcon: Icons.person_outline_rounded,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => const PersonalInfoPage(),
-                          ),
-                        );
+                        if (isGuest) {
+                          LoginRequiredDialog.show(context, l10n.personalInfo);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => const PersonalInfoPage(),
+                            ),
+                          );
+                        }
                       },
                     ),
                     SettingsTile(
@@ -167,47 +243,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   AppGap.g24,
 
-                  _buildSectionTitle('Preferences'),
+                  _buildSectionTitle(l10n.preferences),
                   _buildGroupedCard([
                     SettingsTile(
-                      title: 'Language',
+                      title: l10n.language,
                       leadingIcon: Icons.language_rounded,
                       trailing: Text(
-                        'English',
+                        getLanguageName(),
                         style: AppTextStyles.bodySmall(),
                       ),
-                      onTap: () {},
+                      onTap: () => _showLanguagePicker(context),
                     ),
                     SettingsTile(
-                      title: 'Notifications',
+                      title: l10n.notifications,
                       leadingIcon: Icons.notifications_none_rounded,
                       onTap: () {},
                     ),
                     SettingsTile(
-                      title: 'Security',
+                      title: l10n.security,
                       leadingIcon: Icons.lock_outline_rounded,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => const SecurityPage(),
-                          ),
-                        );
+                        if (isGuest) {
+                          LoginRequiredDialog.show(context, l10n.security);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => const SecurityPage(),
+                            ),
+                          );
+                        }
                       },
                     ),
                   ]),
 
                   AppGap.g24,
 
-                  _buildSectionTitle('Support & Legal'),
+                  _buildSectionTitle(l10n.supportAndLegal),
                   _buildGroupedCard([
                     SettingsTile(
-                      title: 'Help Center',
+                      title: l10n.helpCenter,
                       leadingIcon: Icons.help_outline_rounded,
                       onTap: () {},
                     ),
                     SettingsTile(
-                      title: 'Privacy Policy',
+                      title: l10n.privacyPolicy,
                       leadingIcon: Icons.description_outlined,
                       onTap: () {},
                     ),
@@ -217,10 +297,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   _buildGroupedCard([
                     SettingsTile(
-                      title: 'Logout',
-                      leadingIcon: Icons.logout_rounded,
-                      isDestructive: true,
-                      onTap: () {},
+                      title: isGuest ? l10n.signInNow : l10n.logout,
+                      leadingIcon: isGuest
+                          ? Icons.login_rounded
+                          : Icons.logout_rounded,
+                      isDestructive: !isGuest,
+                      onTap: () async {
+                        await SharedPrefService.clearUser();
+                        if (!mounted) return;
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => const AuthGate(),
+                          ),
+                          (route) => false,
+                        );
+                      },
                     ),
                   ]),
 
@@ -236,7 +328,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
       child: Text(
         title.toUpperCase(),
         style: AppTextStyles.descriptionSmall().copyWith(

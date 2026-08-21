@@ -1,3 +1,4 @@
+import 'package:expenseo/core/localization/locale_cubit.dart';
 import 'package:expenseo/di/injection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'core/storage/shared_pref/shared_pref_service.dart';
 import 'core/utils/quick_action_service.dart';
 import 'features/auth/presentation/page/splash_screen.dart';
 import 'firebase_options.dart';
+import 'l10n/app_localizations.dart';
 
 final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -35,6 +37,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    // Initialize Quick Actions (Long-press app icon features)
     QuickActionService.init();
   }
 
@@ -45,19 +48,26 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<SecurityCubit>(
           create: (context) => GetIt.I<SecurityCubit>()..init(),
         ),
+        BlocProvider<LocaleCubit>(create: (context) => LocaleCubit()),
       ],
-      child: MaterialApp(
-        title: 'Expenseo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        navigatorKey: appNavigatorKey,
-        // PRODUCTION SECURITY WRAPPER
-        home: const SecurityLifecycleWrapper(
-          child: SecurityGate(child: AuthGate()),
-        ),
+      child: BlocBuilder<LocaleCubit, Locale>(
+        builder: (context, locale) {
+          return MaterialApp(
+            title: 'Expenseo',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+            navigatorKey: appNavigatorKey,
+            locale: locale,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const SecurityLifecycleWrapper(
+              child: SecurityGate(child: AuthGate()),
+            ),
+          );
+        },
       ),
     );
   }
