@@ -56,7 +56,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
-        title: const Text('Complete Your Profile'),
+        title: Text(AppLocalizations.of(context)!.complete_your_profile),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,

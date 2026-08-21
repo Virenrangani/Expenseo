@@ -16,7 +16,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(child: Text('Stats')),
+    const Center(child: Text(AppLocalizations.of(context)!.stats)),
     const ProfileScreen(),
   ];
 
@@ -47,7 +47,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
               color: Colors.black,
               tabs: const [
                 GButton(icon: Icons.home_outlined, text: 'Home'),
-                GButton(icon: Icons.bar_chart_outlined, text: 'Stats'),
+                GButton(icon: Icons.calendar_month, text: 'Stats'),
                 GButton(icon: Icons.person_outline, text: 'Profile'),
               ],
               selectedIndex: _selectedIndex,

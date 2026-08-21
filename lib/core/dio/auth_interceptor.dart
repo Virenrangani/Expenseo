@@ -81,7 +81,7 @@ class AuthInterceptor extends Interceptor {
 
       if (appNavigatorKey.currentContext != null) {
         ScaffoldMessenger.of(appNavigatorKey.currentContext!).showSnackBar(
-          const SnackBar(content: Text('Session expired. Please log in again.')),
+          const SnackBar(content: Text(AppLocalizations.of(context)!.session_expired__please_log_in_again)),
         );
       }
 
