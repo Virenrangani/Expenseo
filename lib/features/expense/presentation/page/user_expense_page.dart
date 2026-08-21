@@ -14,6 +14,7 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../cubit/expense_cubit.dart';
 import './add_expense_sheet.dart';
 import 'expense_list_page.dart';
@@ -23,6 +24,7 @@ class UserExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final searchController = TextEditingController();
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -120,7 +122,7 @@ class UserExpensePage extends StatelessWidget {
                   backgroundColor: AppColor.primary,
                   onPressed: () {
                     if (SharedPrefService.isGuest()) {
-                      LoginRequiredDialog.show(context, 'Add Expense');
+                      LoginRequiredDialog.show(context, l10n.addExpense);
                       return;
                     }
                     final expenseCubit = context.read<ExpenseCubit>();

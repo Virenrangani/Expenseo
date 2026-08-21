@@ -72,14 +72,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ListTile(
-              title: Text(l10n.spanish),
-              leading: const Text('🇪🇸', style: TextStyle(fontSize: 24)),
-              onTap: () {
-                context.read<LocaleCubit>().changeLocale('es');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
               title: Text(l10n.arabic),
               leading: const Text('🇸🇦', style: TextStyle(fontSize: 24)),
               onTap: () {

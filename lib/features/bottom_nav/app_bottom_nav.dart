@@ -16,7 +16,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(child: Text(AppLocalizations.of(context)!.stats)),
+    const Center(child: Text('stats')),
     const ProfileScreen(),
   ];
 

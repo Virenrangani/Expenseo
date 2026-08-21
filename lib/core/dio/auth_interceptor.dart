@@ -23,10 +23,11 @@ class AuthInterceptor extends Interceptor {
 
   @override
   Future<void> onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
-    if (options.path.contains('/login') || options.path.contains('/auth/refresh')) {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    if (options.path.contains('/login') ||
+        options.path.contains('/auth/refresh')) {
       return handler.next(options);
     }
 
@@ -71,23 +72,24 @@ class AuthInterceptor extends Interceptor {
 
       // Update the failed request with the new token
       request.headers['Authorization'] = 'Bearer $newToken';
-      final response = await dio.fetch(request);
+      final response = await dio.fetch<void>(request);
 
       return handler.resolve(response);
-
     } catch (_) {
       _isRefreshing = false;
       await tokenStorage.clear();
 
       if (appNavigatorKey.currentContext != null) {
         ScaffoldMessenger.of(appNavigatorKey.currentContext!).showSnackBar(
-          const SnackBar(content: Text(AppLocalizations.of(context)!.session_expired__please_log_in_again)),
+          const SnackBar(
+            content: Text('Session expired. Please log in again.'),
+          ),
         );
       }
 
       await appNavigatorKey.currentState?.pushAndRemoveUntil(
         MaterialPageRoute<void>(builder: (context) => const LogInPage()),
-            (route) => false,
+        (route) => false,
       );
 
       return handler.next(err);

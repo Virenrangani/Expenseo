@@ -20,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -43,6 +44,7 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => GetIt.I<LoginCubit>(),
       child: Scaffold(
@@ -216,7 +218,7 @@ class _LogInPageState extends State<LogInPage> {
                                     );
                                   },
                                   child: Text(
-                                    'Continue as Guest',
+                                    l10n.continueAsGuest,
                                     style: AppTextStyles.titleSmall(
                                       color: AppColor.textSecondary,
                                     ),

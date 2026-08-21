@@ -8,8 +8,4 @@ class LoginUseCase {
   Future<User> loginWithEmail(String email, String password) {
     return repository.login(email, password);
   }
-
-  Future<User> loginWithGoogle() {
-    return repository.signInWithGoogle();
-  }
 }

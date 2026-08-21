@@ -149,14 +149,14 @@ class _SecurityPageState extends State<SecurityPage> {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.disable_app_lock),
+        title: const Text('Disable App Lock?'),
         content: const Text(
           'Are you sure you want to remove the security PIN?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {

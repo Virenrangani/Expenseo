@@ -27,9 +27,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get showAll => 'सभी दिखाएं';
 
   @override
-  String get addExpense => 'खर्च जोड़ें';
-
-  @override
   String get splitBill => 'बिल विभाजित करें';
 
   @override
@@ -87,11 +84,85 @@ class AppLocalizationsHi extends AppLocalizations {
   String get english => 'अंग्रेज़ी';
 
   @override
-  String get spanish => 'स्पेनिश';
-
-  @override
   String get arabic => 'अरबी';
 
   @override
   String get hindi => 'हिंदी';
+
+  @override
+  String get key => '•';
+
+  @override
+  String get key_2 => '🇮🇳';
+
+  @override
+  String get key_3 => '🇸🇦';
+
+  @override
+  String get key_4 => '🇺🇸';
+
+  @override
+  String get male => 'पुरुष';
+
+  @override
+  String get female => 'महिला';
+
+  @override
+  String get other => 'अन्य';
+
+  @override
+  String get completeYourProfile => 'अपनी प्रोफ़ाइल पूरी करें';
+
+  @override
+  String get mobileNumber => 'मोबाइल नंबर';
+
+  @override
+  String get dateOfBirth => 'जन्म तिथि';
+
+  @override
+  String get selectGender => 'लिंग चुनें';
+
+  @override
+  String get continueBtn => 'जारी रखें';
+
+  @override
+  String get continueAsGuest => 'अतिथि के रूप में जारी रखें';
+
+  @override
+  String get otpVerified => 'OTP सत्यापित हो गया है';
+
+  @override
+  String get addExpense => 'खर्च जोड़ें';
+
+  @override
+  String get expenseRemoved => 'खर्च हटा दिया गया...!';
+
+  @override
+  String get forgotPassword => 'पासवर्ड भूल गए';
+
+  @override
+  String get forgotPasswordDescription =>
+      'अपना पंजीकृत ईमेल पता दर्ज करें और हम आपको अपना पासवर्ड रीसेट करने के लिए एक सत्यापन कोड भेजेंगे।';
+
+  @override
+  String get sendOtp => 'OTP भेजें';
+
+  @override
+  String get resetPassword => 'पासवर्ड रीसेट करें';
+
+  @override
+  String get resetPasswordDescription =>
+      'अपने खाते के लिए एक नया पासवर्ड बनाएं।\nसुनिश्चित करें कि यह मजबूत है और आपके लिए याद रखना आसान है।';
+
+  @override
+  String get enterOtp => 'OTP दर्ज करें';
+
+  @override
+  String get newPassword => 'नया पासवर्ड';
+
+  @override
+  String get confirmPassword => 'पासवर्ड की पुष्टि करें';
+
+  @override
+  String get passwordsDoNotMatch => 'पासवर्ड मेल नहीं खाते';
 }

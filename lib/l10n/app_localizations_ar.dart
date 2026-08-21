@@ -27,9 +27,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get showAll => 'عرض الكل';
 
   @override
-  String get addExpense => 'إضافة مصروف';
-
-  @override
   String get splitBill => 'تقسيم الفاتورة';
 
   @override
@@ -87,11 +84,85 @@ class AppLocalizationsAr extends AppLocalizations {
   String get english => 'الإنجليزية';
 
   @override
-  String get spanish => 'الإسبانية';
-
-  @override
   String get arabic => 'العربية';
 
   @override
   String get hindi => 'الهندية';
+
+  @override
+  String get key => '•';
+
+  @override
+  String get key_2 => '🇮🇳';
+
+  @override
+  String get key_3 => '🇸🇦';
+
+  @override
+  String get key_4 => '🇺🇸';
+
+  @override
+  String get male => 'ذكر';
+
+  @override
+  String get female => 'أنثى';
+
+  @override
+  String get other => 'آخر';
+
+  @override
+  String get completeYourProfile => 'أكمل ملفك الشخصي';
+
+  @override
+  String get mobileNumber => 'رقم الهاتف المحمول';
+
+  @override
+  String get dateOfBirth => 'تاريخ الميلاد';
+
+  @override
+  String get selectGender => 'حدد الجنس';
+
+  @override
+  String get continueBtn => 'متابعة';
+
+  @override
+  String get continueAsGuest => 'المتابعة كضيف';
+
+  @override
+  String get otpVerified => 'تم التحقق من رمز OTP';
+
+  @override
+  String get addExpense => 'إضافة مصروف';
+
+  @override
+  String get expenseRemoved => '...تمت إزالة المصروف!';
+
+  @override
+  String get forgotPassword => 'هل نسيت كلمة المرور';
+
+  @override
+  String get forgotPasswordDescription =>
+      'أدخل عنوان بريدك الإلكتروني المسجل وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور الخاصة بك.';
+
+  @override
+  String get sendOtp => 'إرسال رمز التحقق';
+
+  @override
+  String get resetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get resetPasswordDescription =>
+      'أنشئ كلمة مرور جديدة لحسابك.\nتأكد من أنها قوية ويسهل عليك تذكرها.';
+
+  @override
+  String get enterOtp => 'أدخل رمز التحقق';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
 }

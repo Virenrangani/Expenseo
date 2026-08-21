@@ -27,9 +27,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showAll => 'Show All';
 
   @override
-  String get addExpense => 'Add Expense';
-
-  @override
   String get splitBill => 'Split Bill';
 
   @override
@@ -87,11 +84,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get spanish => 'Spanish';
-
-  @override
   String get arabic => 'Arabic';
 
   @override
   String get hindi => 'Hindi';
+
+  @override
+  String get key => '•';
+
+  @override
+  String get key_2 => '🇮🇳';
+
+  @override
+  String get key_3 => '🇸🇦';
+
+  @override
+  String get key_4 => '🇺🇸';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get completeYourProfile => 'Complete Your Profile';
+
+  @override
+  String get mobileNumber => 'Mobile Number';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get selectGender => 'Select Gender';
+
+  @override
+  String get continueBtn => 'Continue';
+
+  @override
+  String get continueAsGuest => 'Continue as Guest';
+
+  @override
+  String get otpVerified => 'OTP is verified';
+
+  @override
+  String get addExpense => 'Add Expense';
+
+  @override
+  String get expenseRemoved => 'Expense Removed...!';
+
+  @override
+  String get forgotPassword => 'Forgot Password';
+
+  @override
+  String get forgotPasswordDescription =>
+      'Enter your registered email address and we\'ll send you a verification code to reset your password.';
+
+  @override
+  String get sendOtp => 'Send OTP';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get resetPasswordDescription =>
+      'Create a new password for your account.\nMake sure it is strong and easy for you to remember.';
+
+  @override
+  String get enterOtp => 'Enter OTP';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
 }

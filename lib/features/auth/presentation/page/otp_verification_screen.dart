@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../cubit/otp_cubit.dart';
 import '../cubit/otp_state.dart';
 
@@ -30,6 +31,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final defaultPinTheme = PinTheme(
       width: 48,
       height: 52,
@@ -88,12 +90,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               BlocConsumer<OtpCubit, OtpState>(
                 listener: (context, state) {
                   if (state is OtpSuccess) {
-                    CustomSnacksBar.showSuccess(context, 'Otp is verified');
+                    CustomSnacksBar.showSuccess(context, l10n.otpVerified);
 
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute<void>(builder:
-                            (context)=>const LogInPage())
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (context) => const LogInPage(),
+                      ),
                     );
                   }
 

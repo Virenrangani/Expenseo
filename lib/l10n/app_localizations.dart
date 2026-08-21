@@ -136,12 +136,6 @@ abstract class AppLocalizations {
   /// **'Show All'**
   String get showAll;
 
-  /// No description provided for @addExpense.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Expense'**
-  String get addExpense;
-
   /// No description provided for @splitBill.
   ///
   /// In en, this message translates to:
@@ -256,12 +250,6 @@ abstract class AppLocalizations {
   /// **'English'**
   String get english;
 
-  /// No description provided for @spanish.
-  ///
-  /// In en, this message translates to:
-  /// **'Spanish'**
-  String get spanish;
-
   /// No description provided for @arabic.
   ///
   /// In en, this message translates to:
@@ -273,6 +261,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hindi'**
   String get hindi;
+
+  /// No description provided for @key.
+  ///
+  /// In en, this message translates to:
+  /// **'•'**
+  String get key;
+
+  /// No description provided for @key_2.
+  ///
+  /// In en, this message translates to:
+  /// **'🇮🇳'**
+  String get key_2;
+
+  /// No description provided for @key_3.
+  ///
+  /// In en, this message translates to:
+  /// **'🇸🇦'**
+  String get key_3;
+
+  /// No description provided for @key_4.
+  ///
+  /// In en, this message translates to:
+  /// **'🇺🇸'**
+  String get key_4;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
+  /// No description provided for @completeYourProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Your Profile'**
+  String get completeYourProfile;
+
+  /// No description provided for @mobileNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Number'**
+  String get mobileNumber;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dateOfBirth;
+
+  /// No description provided for @selectGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Gender'**
+  String get selectGender;
+
+  /// No description provided for @continueBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueBtn;
+
+  /// No description provided for @continueAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as Guest'**
+  String get continueAsGuest;
+
+  /// No description provided for @otpVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP is verified'**
+  String get otpVerified;
+
+  /// No description provided for @addExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get addExpense;
+
+  /// No description provided for @expenseRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Removed...!'**
+  String get expenseRemoved;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgotPassword;
+
+  /// No description provided for @forgotPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your registered email address and we\'ll send you a verification code to reset your password.'**
+  String get forgotPasswordDescription;
+
+  /// No description provided for @sendOtp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send OTP'**
+  String get sendOtp;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// No description provided for @resetPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new password for your account.\nMake sure it is strong and easy for you to remember.'**
+  String get resetPasswordDescription;
+
+  /// No description provided for @enterOtp.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP'**
+  String get enterOtp;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
 }
 
 class _AppLocalizationsDelegate

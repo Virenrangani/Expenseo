@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../l10n/app_localizations.dart';
+
 class CompleteProfilePage extends StatefulWidget {
   const CompleteProfilePage({super.key});
 
@@ -53,10 +55,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.complete_your_profile),
+        title: Text(l10n.completeYourProfile),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -87,7 +90,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
               AppGap.g32,
               AppFormField(
                 controller: phoneController,
-                hintText: 'Mobile Number',
+                hintText: l10n.mobileNumber,
                 keyboardType: TextInputType.phone,
                 prefix: const Icon(Icons.phone, size: 20),
                 validator: (value) =>
@@ -99,7 +102,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                 child: AbsorbPointer(
                   child: AppFormField(
                     controller: dobController,
-                    hintText: 'Date of Birth',
+                    hintText: l10n.dateOfBirth,
                     prefix: const Icon(Icons.calendar_today, size: 20),
                     validator: (value) =>
                         (value == null || value.isEmpty) ? 'Required' : null,
@@ -109,7 +112,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
               AppGap.g20,
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  hintText: 'Select Gender',
+                  hintText: l10n.selectGender,
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -133,7 +136,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
               ),
               AppGap.g32,
               AppElevatedButton(
-                text: 'Continue',
+                text: l10n.continueBtn,
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     final navigator = Navigator.of(context);
