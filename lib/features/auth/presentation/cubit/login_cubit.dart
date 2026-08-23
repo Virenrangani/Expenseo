@@ -1,4 +1,5 @@
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/validation/email_validation/email_password_validation.dart';
@@ -22,15 +23,15 @@ class LoginCubit extends Cubit<AuthState> {
     emit(AuthFormValid());
   }
 
-  void emailValidation(String value) {
+  void emailValidation(String value, BuildContext context) {
     emailTouched = true;
-    emailError = validateEmail(value);
+    emailError = validateEmail(value, context);
     emit(AuthFormValid());
   }
 
-  void passwordValidation(String value) {
+  void passwordValidation(String value, BuildContext context) {
     passwordTouched = true;
-    passwordError = validatePassword(value);
+    passwordError = validatePassword(value, context);
     emit(AuthFormValid());
   }
 

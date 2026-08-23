@@ -1,7 +1,6 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/page/split_group_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
 import '../widget/group/group_list.dart';
@@ -36,11 +36,11 @@ class SplitExpense extends StatelessWidget {
                           onPressed: () => Navigator.pop(context),
                           icon: const Icon(Icons.arrow_back_ios),
                         ),
-                        Text(AppString.splitBill, style: AppTextStyles.h4()),
+                        Text(context.l10n.splitBill, style: AppTextStyles.h4()),
                       ],
                     ),
 
-                    Text(AppString.myGroups, style: AppTextStyles.h5()),
+                    Text(context.l10n.myGroups, style: AppTextStyles.h5()),
 
                     AppGap.g12,
 
@@ -54,7 +54,7 @@ class SplitExpense extends StatelessWidget {
               backgroundColor: AppColor.primary,
               onPressed: () {
                 if (SharedPrefService.isGuest()) {
-                  LoginRequiredDialog.show(context, 'Split Bill');
+                  LoginRequiredDialog.show(context, context.l10n.splitBill);
                   return;
                 }
                 final splitCubit = context.read<SplitCubit>();

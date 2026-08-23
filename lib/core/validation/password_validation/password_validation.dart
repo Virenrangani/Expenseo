@@ -1,25 +1,26 @@
+import 'package:flutter/cupertino.dart';
 
-import '../../constant/string/app_string.dart';
+import '../../extension/localization_extension.dart';
 
-String? validatePassword(String password) {
-  if (password.isEmpty) return AppString.passwordRequired;
-  if (password.length < 8) return AppString.passwordMinChar;
-  if(password.contains(' ')) return AppString.passwordNotContainsSpace;
+String? validatePassword(String password, BuildContext context) {
+  if (password.isEmpty) return context.l10n.passwordRequired;
+  if (password.length < 8) return context.l10n.passwordMinChar;
+  if (password.contains(' ')) return context.l10n.passwordNotContainsSpace;
 
   if (!RegExp('[A-Z]').hasMatch(password)) {
-    return AppString.atLeastOneUpperCase;
+    return context.l10n.atLeastOneUpperCase;
   }
 
   if (!RegExp('[a-z]').hasMatch(password)) {
-    return AppString.atLeastOneUpperCase;
+    return context.l10n.atLeastOneUpperCase;
   }
 
   if (!RegExp('[0-9]').hasMatch(password)) {
-    return AppString.atLeastOneNumber;
+    return context.l10n.atLeastOneNumber;
   }
 
   if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
-    return AppString.atLeastOneSpecialChar;
+    return context.l10n.atLeastOneSpecialChar;
   }
 
   return null;

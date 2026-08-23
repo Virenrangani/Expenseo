@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/features/home/presentation/widget/show_amount.dart';
 import 'package:expenseo/features/home/presentation/widget/tab_selector.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,11 @@ enum ExpenseTab { balance, income, expense }
 class ExpenseContainer extends StatefulWidget {
   final double totalIncome;
   final double totalExpense;
-  const ExpenseContainer({super.key, required this.totalIncome, required this.totalExpense});
+  const ExpenseContainer({
+    super.key,
+    required this.totalIncome,
+    required this.totalExpense,
+  });
 
   @override
   State<ExpenseContainer> createState() => _ExpenseContainerState();
@@ -21,30 +26,36 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
   ExpenseTab _selectedTab = ExpenseTab.balance;
   bool isHidden = false;
 
-   late final double totalIncome;
-   late final double totalExpense ;
+  late final double totalIncome;
+  late final double totalExpense;
   double get balance => totalIncome - totalExpense;
 
   @override
   void initState() {
     super.initState();
-    totalIncome=widget.totalIncome;
-    totalExpense=widget.totalExpense;
+    totalIncome = widget.totalIncome;
+    totalExpense = widget.totalExpense;
   }
 
   String get displayLabel {
     switch (_selectedTab) {
-      case ExpenseTab.balance: return 'My Balance';
-      case ExpenseTab.income:  return 'Total Income';
-      case ExpenseTab.expense: return 'Total Expense';
+      case ExpenseTab.balance:
+        return context.l10n.myBalance;
+      case ExpenseTab.income:
+        return context.l10n.totalIncome;
+      case ExpenseTab.expense:
+        return context.l10n.totalExpense;
     }
   }
 
   double get displayAmount {
     switch (_selectedTab) {
-      case ExpenseTab.balance: return balance;
-      case ExpenseTab.income:  return totalIncome;
-      case ExpenseTab.expense: return totalExpense;
+      case ExpenseTab.balance:
+        return balance;
+      case ExpenseTab.income:
+        return totalIncome;
+      case ExpenseTab.expense:
+        return totalExpense;
     }
   }
 
@@ -69,9 +80,8 @@ class _ExpenseContainerState extends State<ExpenseContainer> {
             displayAmount: displayAmount,
             isHidden: isHidden,
             selectedTab: _selectedTab,
-            onToggleHide: () => setState(() =>isHidden = !isHidden),
+            onToggleHide: () => setState(() => isHidden = !isHidden),
           ),
-
         ],
       ),
     );

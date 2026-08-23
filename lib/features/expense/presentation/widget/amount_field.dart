@@ -5,19 +5,15 @@ import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 
 class AmountField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
-  const AmountField({
-    super.key,
-    required this.controller,
-    this.validator,
-  });
+  const AmountField({super.key, required this.controller, this.validator});
 
   @override
   State<AmountField> createState() => _AmountFieldState();
@@ -84,9 +80,7 @@ class _AmountFieldState extends State<AmountField>
       padding: AppPadding.edgeAll16,
       decoration: BoxDecoration(
         borderRadius: AppBorderRadius.cir20,
-        border: Border.all(
-          color: AppColor.divider.withAlpha(80),
-        ),
+        border: Border.all(color: AppColor.divider.withAlpha(80)),
         boxShadow: [
           if (isFocused)
             BoxShadow(
@@ -104,36 +98,36 @@ class _AmountFieldState extends State<AmountField>
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 250),
             style: AppTextStyles.bodySmall(
-              color:
-              isFocused ? AppColor.primary : AppColor.textSecondary,
+              color: isFocused ? AppColor.primary : AppColor.textSecondary,
             ),
-            child: const Text(AppString.addAmount),
+            child: Text(context.l10n.addAmount),
           ),
 
           AppGap.g16,
 
           Row(
-            children:[
+            children: [
               Expanded(
                 child: SizedBox(
                   height: 55,
                   child: AppFormField(
-                    prefixIcon: FaIcon(FontAwesomeIcons.indianRupeeSign ,
-                      size: 20, color: isFocused ? AppColor.primary : AppColor.textSecondary,
+                    prefixIcon: FaIcon(
+                      FontAwesomeIcons.indianRupeeSign,
+                      size: 20,
+                      color: isFocused
+                          ? AppColor.primary
+                          : AppColor.textSecondary,
                     ),
                     controller: widget.controller,
                     focusNode: focusNode,
                     validator: widget.validator,
-                    keyboardType:
-                    const TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
-                    style: AppTextStyles.h3(
-                      color: AppColor.primary,
-                    ),
+                    style: AppTextStyles.h3(color: AppColor.primary),
                     hintText: hasValue ? '' : '0.00',
                     cursorColor: AppColor.primary,
-                    contentPadding:EdgeInsets.zero
+                    contentPadding: EdgeInsets.zero,
                   ),
                 ),
               ),

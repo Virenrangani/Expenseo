@@ -50,15 +50,19 @@ class GroupCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     group.name,
-                    style: AppTextStyles.h4(color: AppColor.primary).copyWith(
-                      fontWeight: FontWeight.w700),
+                    style: AppTextStyles.h4(
+                      color: AppColor.primary,
+                    ).copyWith(fontWeight: FontWeight.w700),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await context.read<SplitCubit>().deleteGroup(group.id);
+                    await context.read<SplitCubit>().deleteGroup(
+                      group.id,
+                      context,
+                    );
                   },
                   child: Icon(
                     Icons.delete_outline,
@@ -87,7 +91,9 @@ class GroupCard extends StatelessWidget {
           width: 100,
           child: Text(
             label,
-            style: AppTextStyles.bodySmall(color: AppColor.background).copyWith(fontWeight: FontWeight.w500),
+            style: AppTextStyles.bodySmall(
+              color: AppColor.background,
+            ).copyWith(fontWeight: FontWeight.w500),
           ),
         ),
         Expanded(
@@ -128,11 +134,15 @@ class GroupCard extends StatelessWidget {
       child: Stack(
         children: List.generate(
           displayNames.length + (extraCount > 0 ? 1 : 0),
-              (index) {
+          (index) {
             if (index == displayNames.length) {
               return Positioned(
                 left: index * 24.0,
-                child: _buildAvatarCircle('+$extraCount', Colors.grey.shade300, Colors.black87),
+                child: _buildAvatarCircle(
+                  '+$extraCount',
+                  Colors.grey.shade300,
+                  Colors.black87,
+                ),
               );
             }
 
@@ -140,7 +150,8 @@ class GroupCard extends StatelessWidget {
                 ? displayNames[index][0].toUpperCase()
                 : '?';
 
-            final colorIndex = displayNames[index].codeUnitAt(0) % Colors.primaries.length;
+            final colorIndex =
+                displayNames[index].codeUnitAt(0) % Colors.primaries.length;
             final bgColor = Colors.primaries[colorIndex].withAlpha(200);
 
             return Positioned(
@@ -162,10 +173,7 @@ class GroupCard extends StatelessWidget {
       child: CircleAvatar(
         radius: 16,
         backgroundColor: bgColor,
-        child: Text(
-          text,
-          style: AppTextStyles.captionBold(color: textColor)
-        ),
+        child: Text(text, style: AppTextStyles.captionBold(color: textColor)),
       ),
     );
   }
@@ -178,8 +186,18 @@ class GroupCard extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }

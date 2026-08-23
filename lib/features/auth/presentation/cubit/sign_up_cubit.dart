@@ -1,6 +1,8 @@
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constant/string/app_string.dart';
+
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/validation/email_validation/email_password_validation.dart';
 import '../../../../core/validation/password_validation/password_validation.dart';
 import '../../domain/use_case/sign_up_use_case.dart';
@@ -23,21 +25,21 @@ class SignUpCubit extends Cubit<AuthState> {
     emit(AuthFormValid());
   }
 
-  void emailValidation(String value) {
+  void emailValidation(String value, BuildContext context) {
     emailTouched = true;
-    emailError = validateEmail(value);
+    emailError = validateEmail(value, context);
     emit(AuthFormValid());
   }
 
-  void passwordValidation(String value) {
+  void passwordValidation(String value, BuildContext context) {
     passwordTouched = true;
-    passwordError = validatePassword(value);
+    passwordError = validatePassword(value, context);
     emit(AuthFormValid());
   }
 
-  void nameValidation(String value) {
+  void nameValidation(String value, BuildContext context) {
     nameTouched = true;
-    nameError = value.isEmpty ? AppString.nameInvalid : null;
+    nameError = value.isEmpty ? context.l10n.nameInvalid : null;
     emit(AuthFormValid());
   }
 

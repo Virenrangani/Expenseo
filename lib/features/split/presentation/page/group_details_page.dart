@@ -1,5 +1,6 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
@@ -66,7 +67,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             Padding(
               padding: AppPadding.edgeAll12,
               child: AppElevatedButton(
-                text: 'Add Group Expense....',
+                text: context.l10n.addGroupExpense,
                 isEnabled: true,
                 onPressed: () => Navigator.push(
                   context,

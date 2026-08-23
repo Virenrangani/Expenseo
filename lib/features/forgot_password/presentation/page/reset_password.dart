@@ -7,10 +7,10 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/snack_bar/custom_snack_bar.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../cubit/forgot_password_cubit.dart';
 import '../cubit/forgot_password_state.dart';
 
@@ -45,7 +45,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -69,13 +68,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(l10n.resetPassword, style: AppTextStyles.h5()),
+                  Text(context.l10n.resetPassword, style: AppTextStyles.h5()),
 
                   AppGap.g12,
 
-                  /// Subtitle
                   Text(
-                    l10n.resetPasswordDescription,
+                    context.l10n.resetPasswordDescription,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodySmall(),
                   ),
@@ -83,7 +81,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   AppGap.g24,
 
                   AppFormField(
-                    hintText: l10n.enterOtp,
+                    hintText: context.l10n.enterOtp,
                     controller: otpController,
                     keyboardType: TextInputType.number,
                     prefixIcon: const Icon(
@@ -94,10 +92,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                   AppGap.g16,
 
-                  /// New Password Field
                   AppFormField(
                     controller: newPasswordController,
-                    hintText: l10n.newPassword,
+                    hintText: context.l10n.newPassword,
                     obscureText: obscureNewPassword,
                     suffix: IconButton(
                       onPressed: () {
@@ -115,10 +112,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                   AppGap.g16,
 
-                  /// Confirm Password Field
                   AppFormField(
                     controller: confirmPasswordController,
-                    hintText: l10n.confirmPassword,
+                    hintText: context.l10n.confirmPassword,
                     obscureText: obscureConfirmPassword,
                     textAction: TextInputAction.done,
                     focusNode: newPasswordFocusNode,
@@ -138,13 +134,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                   AppGap.g32,
 
-                  /// Button
                   BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
                     builder: (context, state) {
                       return SizedBox(
                         height: 48,
                         child: AppElevatedButton(
-                          text: l10n.resetPassword,
+                          text: context.l10n.resetPassword,
                           isEnabled: true,
                           isLoading: state is ForgotPasswordLoading,
                           onPressed: () {
@@ -153,7 +148,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   confirmPasswordController.text) {
                                 CustomSnacksBar.showError(
                                   context,
-                                  l10n.passwordsDoNotMatch,
+                                  context.l10n.passwordsDoNotMatch,
                                 );
                                 return;
                               }
@@ -161,6 +156,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 widget.email,
                                 newPasswordController.text.trim(),
                                 otpController.text.trim(),
+                                context,
                               );
                             }
                           },

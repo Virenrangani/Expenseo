@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/split_entity.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,6 @@ class _SplitAmongState extends State<SplitAmong> {
     );
   }
 
-  /// Builds the real-time math tracker above the list
   Widget _buildProgressHeader() {
     final total = double.tryParse(widget.amountController.text) ?? 0;
     final allocated = _allocatedAmount;
@@ -151,8 +151,10 @@ class _SplitAmongState extends State<SplitAmong> {
             children: [
               Text(
                 isExceeded
-                    ? 'Amount Exceeded'
-                    : (isPerfect ? 'Perfectly Split' : 'Remaining Amount'),
+                    ? context.l10n.amountExceeded
+                    : (isPerfect
+                          ? context.l10n.perfectlySplit
+                          : context.l10n.remainingAmount),
                 style: AppTextStyles.captionBold(color: statusColor),
               ),
               Text(

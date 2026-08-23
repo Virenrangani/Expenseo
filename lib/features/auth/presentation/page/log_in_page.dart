@@ -2,7 +2,6 @@ import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
@@ -19,8 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
-import '../../../../l10n/app_localizations.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -44,7 +43,6 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => GetIt.I<LoginCubit>(),
       child: Scaffold(
@@ -56,7 +54,7 @@ class _LogInPageState extends State<LogInPage> {
             }
 
             if (state is AuthSuccess) {
-              CustomSnacksBar.showSuccess(context, AppString.userLogin);
+              CustomSnacksBar.showSuccess(context, context.l10n.userLogin);
 
               Navigator.pushReplacement(
                 context,
@@ -88,9 +86,9 @@ class _LogInPageState extends State<LogInPage> {
 
                         AppGap.g24,
 
-                        const LogInTitle(
-                          title: AppString.logInIntro,
-                          subTitle: AppString.logInSubIntro,
+                        LogInTitle(
+                          title: context.l10n.logInIntro,
+                          subTitle: context.l10n.logInSubIntro,
                         ),
 
                         AppGap.g32,
@@ -118,7 +116,7 @@ class _LogInPageState extends State<LogInPage> {
                               children: [
                                 AppFormField(
                                   controller: emailController,
-                                  hintText: AppString.email,
+                                  hintText: context.l10n.email,
                                   fillColor: AppColor.background,
                                   validator: (_) =>
                                       context.read<LoginCubit>().emailError,
@@ -126,6 +124,7 @@ class _LogInPageState extends State<LogInPage> {
                                   onChanged: (val) {
                                     context.read<LoginCubit>().emailValidation(
                                       val,
+                                      context,
                                     );
                                   },
                                 ),
@@ -134,7 +133,7 @@ class _LogInPageState extends State<LogInPage> {
 
                                 AppFormField(
                                   controller: passController,
-                                  hintText: AppString.password,
+                                  hintText: context.l10n.password,
                                   textAction: TextInputAction.done,
                                   obscureText: context
                                       .watch<LoginCubit>()
@@ -156,7 +155,7 @@ class _LogInPageState extends State<LogInPage> {
                                   onChanged: (val) {
                                     context
                                         .read<LoginCubit>()
-                                        .passwordValidation(val);
+                                        .passwordValidation(val, context);
                                   },
                                 ),
 
@@ -175,7 +174,7 @@ class _LogInPageState extends State<LogInPage> {
                                       );
                                     },
                                     child: Text(
-                                      AppString.forgotPassword,
+                                      context.l10n.forgotPassword,
                                       style: AppTextStyles.titleSmall(
                                         color: AppColor.primaryLight,
                                       ),
@@ -186,7 +185,7 @@ class _LogInPageState extends State<LogInPage> {
                                 AppGap.g24,
 
                                 AppElevatedButton(
-                                  text: AppString.logIn,
+                                  text: context.l10n.logIn,
                                   isLoading: isLoading,
                                   borderRadius: 12,
                                   isEnabled: context
@@ -218,7 +217,7 @@ class _LogInPageState extends State<LogInPage> {
                                     );
                                   },
                                   child: Text(
-                                    l10n.continueAsGuest,
+                                    context.l10n.continueAsGuest,
                                     style: AppTextStyles.titleSmall(
                                       color: AppColor.textSecondary,
                                     ),
@@ -226,8 +225,8 @@ class _LogInPageState extends State<LogInPage> {
                                 ),
 
                                 NavigationText(
-                                  description: AppString.dontHaveAnAccount,
-                                  pageName: AppString.signUp,
+                                  description: context.l10n.dontHaveAnAccount,
+                                  pageName: context.l10n.signUp,
                                   onTap: () {
                                     Navigator.push(
                                       context,

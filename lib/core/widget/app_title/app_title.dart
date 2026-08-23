@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../constant/string/app_string.dart';
 import '../../constant/text_style/app_text_style.dart';
+import '../../extension/localization_extension.dart';
 
 class AppTitle extends StatelessWidget {
   final TextStyle? style;
@@ -10,6 +10,6 @@ class AppTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(AppString.appName, style: style ?? AppTextStyles.h1());
+    return Text(context.l10n.appName, style: style ?? AppTextStyles.h1());
   }
 }

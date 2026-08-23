@@ -14,7 +14,6 @@ class SecurityCubit extends Cubit<SecurityState> {
       emit(SecurityLocked());
       final isBioEnabled = await _securityService.isBiometricEnabled();
       if (isBioEnabled) {
-        // Auto-trigger on startup only if enabled in settings
         await authenticateWithBiometrics(isAutoTrigger: true);
       }
     } else {
@@ -44,12 +43,10 @@ class SecurityCubit extends Cubit<SecurityState> {
     emit(SecurityDisabled());
   }
 
-  /// When false (manual tap), we bypass the 'isEnabled' check.
   Future<void> authenticateWithBiometrics({bool isAutoTrigger = false}) async {
     final isAvailable = await _securityService.isBiometricAvailable();
     final isEnabled = await _securityService.isBiometricEnabled();
 
-    // If it's a manual tap (isAutoTrigger = false), we show prompt if hardware is available
     if (isAvailable && (!isAutoTrigger || isEnabled)) {
       final authenticated = await _securityService.authenticateWithBiometrics(
         localizedReason: 'Authenticate to access Expenseo',

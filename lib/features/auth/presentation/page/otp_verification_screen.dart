@@ -2,7 +2,6 @@ import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
@@ -10,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../cubit/otp_cubit.dart';
 import '../cubit/otp_state.dart';
 
@@ -31,7 +30,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final defaultPinTheme = PinTheme(
       width: 48,
       height: 52,
@@ -61,12 +59,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(AppString.emailVarification, style: AppTextStyles.h5()),
+              Text(context.l10n.emailVarification, style: AppTextStyles.h5()),
 
               AppGap.g12,
 
               Text(
-                AppString.emailVarificationInto,
+                context.l10n.emailVarificationInto,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodySmall(),
               ),
@@ -90,7 +88,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               BlocConsumer<OtpCubit, OtpState>(
                 listener: (context, state) {
                   if (state is OtpSuccess) {
-                    CustomSnacksBar.showSuccess(context, l10n.otpVerified);
+                    CustomSnacksBar.showSuccess(
+                      context,
+                      context.l10n.otpVerified,
+                    );
 
                     Navigator.pushReplacement(
                       context,
@@ -108,7 +109,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   return SizedBox(
                     height: 48,
                     child: AppElevatedButton(
-                      text: AppString.verifyOtp,
+                      text: context.l10n.verifyOtp,
                       isEnabled: true,
                       isLoading: state is OtpLoading,
                       onPressed: () {
@@ -125,7 +126,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               AppGap.g16,
 
               Text(
-                AppString.otpExpireIn10Min,
+                context.l10n.otpExpireIn10Min,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodySmall(),
               ),
@@ -137,7 +138,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 text: TextSpan(
                   style: AppTextStyles.bodyMedium(),
                   children: [
-                    const TextSpan(text: AppString.notReceivingOtp),
+                    TextSpan(text: context.l10n.notReceivingOtp),
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: InkWell(
@@ -145,7 +146,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           context.read<OtpCubit>().resendOtp(widget.email);
                         },
                         child: Text(
-                          AppString.resendOtp,
+                          context.l10n.resendOtp,
                           style: AppTextStyles.bodyMedium(
                             color: AppColor.primary,
                           ).copyWith(fontWeight: FontWeight.w700),

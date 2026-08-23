@@ -5,6 +5,7 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../domain/entity/deposit.dart';
 import 'deposit_tile.dart';
 
@@ -106,7 +107,7 @@ class _DepositListState extends State<DepositList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Deposit History',
+                              context.l10n.depositHistory,
                               style: AppTextStyles.captionBold(),
                             ),
 

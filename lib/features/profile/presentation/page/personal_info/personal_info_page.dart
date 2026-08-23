@@ -5,6 +5,7 @@ import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/gap/app_gap.dart';
 import '../../../../../core/constant/padding/app_padding.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/extension/localization_extension.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -105,33 +106,33 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             AppFormField(
               controller: _nameController,
               prefixIcon: const Icon(Icons.person_outline_rounded),
-              labelText: 'Full Name',
+              labelText: context.l10n.fullName,
             ),
             AppGap.g16,
             AppFormField(
               controller: _usernameController,
               prefixIcon: const Icon(Icons.alternate_email_rounded),
-              labelText: 'Username',
+              labelText: context.l10n.username,
             ),
             AppGap.g16,
             AppFormField(
               controller: _emailController,
               prefixIcon: const Icon(Icons.email_outlined),
-              labelText: 'Email Address',
+              labelText: context.l10n.emailAddress,
               keyboardType: TextInputType.emailAddress,
             ),
             AppGap.g16,
             AppFormField(
               controller: _phoneController,
               prefixIcon: const Icon(Icons.phone_outlined),
-              labelText: 'Phone Number',
+              labelText: context.l10n.phoneNumber,
               keyboardType: TextInputType.phone,
             ),
             AppGap.g16,
             AppFormField(
               controller: _dobController,
               prefixIcon: const Icon(Icons.calendar_today_outlined),
-              labelText: 'Date of Birth',
+              labelText: context.l10n.dateOfBirth,
               onSuffixTap: () async {
                 final date = await showDatePicker(
                   context: context,
@@ -168,9 +169,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Save Changes',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child: Text(
+                  context.l10n.saveChanges,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -187,7 +191,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
-            'Gender',
+            context.l10n.gender,
             style: AppTextStyles.bodySmall().copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -214,27 +218,32 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 Icons.keyboard_arrow_down_rounded,
                 color: AppColor.textSecondary,
               ),
-              items: ['Male', 'Female', 'Other'].map((value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.wc_rounded,
-                        color: AppColor.primary,
-                        size: 22,
+              items:
+                  [
+                    context.l10n.male,
+                    context.l10n.female,
+                    context.l10n.other,
+                  ].map((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.wc_rounded,
+                            color: AppColor.primary,
+                            size: 22,
+                          ),
+                          AppGap.g12,
+                          Text(
+                            value,
+                            style: AppTextStyles.bodyMedium(
+                              color: AppColor.textPrimary,
+                            ),
+                          ),
+                        ],
                       ),
-                      AppGap.g12,
-                      Text(
-                        value,
-                        style: AppTextStyles.bodyMedium(
-                          color: AppColor.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
+                    );
+                  }).toList(),
               onChanged: (newValue) {
                 setState(() {
                   _selectedGender = newValue!;

@@ -6,8 +6,8 @@ import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../../domain/entity/user.dart';
@@ -42,7 +42,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
       padding: EdgeInsets.only(
         right: 16,
         left: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom+20,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
       ),
       child: BlocConsumer<SplitCubit, SplitState>(
         listener: (context, state) {
@@ -57,7 +57,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
           if (state is UserSearchResult) {
             setState(() {
               final alreadyExists = _members.any(
-                    (user) => user.uid == state.user.uid,
+                (user) => user.uid == state.user.uid,
               );
 
               if (!alreadyExists) {
@@ -67,7 +67,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
             });
           }
           if (state is UserSearchNotFound) {
-            CustomSnacksBar.showInfo(context, AppString.userNotFound);
+            CustomSnacksBar.showInfo(context, context.l10n.userNotFound);
           }
         },
         builder: (context, state) {
@@ -78,24 +78,25 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppGap.g16,
-                Text(AppString.groupName, style: AppTextStyles.bodySmall()),
+                Text(context.l10n.groupName, style: AppTextStyles.bodySmall()),
                 AppGap.g8,
                 AppFormField(
                   controller: groupNameController,
-                  hintText: AppString.groupHint,
-                  validator: (v) => v!.trim().isEmpty ? AppString.enterGroupName : null,
+                  hintText: context.l10n.groupHint,
+                  validator: (v) =>
+                      v!.trim().isEmpty ? context.l10n.enterGroupName : null,
                 ),
 
                 AppGap.g24,
 
-                Text(AppString.addMember, style: AppTextStyles.bodySmall()),
+                Text(context.l10n.addMember, style: AppTextStyles.bodySmall()),
                 AppGap.g8,
                 Row(
                   children: [
                     Expanded(
                       child: AppFormField(
                         controller: emailController,
-                        hintText: AppString.emailHint,
+                        hintText: context.l10n.emailHint,
                         keyboardType: TextInputType.emailAddress,
                       ),
                     ),
@@ -106,7 +107,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
 
                         final email = emailController.text.trim();
                         if (email.isEmpty) return;
-                        context.read<SplitCubit>().searchUser(email);
+                        context.read<SplitCubit>().searchUser(email, context);
                       },
                       child: Container(
                         width: 52,
@@ -117,13 +118,17 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
                         ),
                         child: state is UserSearchLoading
                             ? const Padding(
-                          padding: AppPadding.edgeAll12,
-                          child: CircularProgressIndicator(
-                            color: AppColor.background,
-                            strokeWidth: 2,
-                          ),
-                        )
-                            : const Icon(Icons.search, size: 32, color: Colors.white),
+                                padding: AppPadding.edgeAll12,
+                                child: CircularProgressIndicator(
+                                  color: AppColor.background,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.search,
+                                size: 32,
+                                color: Colors.white,
+                              ),
                       ),
                     ),
                   ],
@@ -132,7 +137,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
                 if (_members.isNotEmpty) ...[
                   AppGap.g16,
                   Text(
-                    'Members (${_members.length})',
+                    '${context.l10n.members} (${_members.length})',
                     style: AppTextStyles.captionMedium(),
                   ),
                   AppGap.g8,
@@ -148,7 +153,9 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
                           name: member.name,
                           onRemove: () {
                             setState(() {
-                              _members.removeWhere((user) => user.uid == member.uid);
+                              _members.removeWhere(
+                                (user) => user.uid == member.uid,
+                              );
                             });
                           },
                         );
@@ -160,7 +167,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
                 AppGap.g24,
 
                 AppElevatedButton(
-                  text: AppString.createGroup,
+                  text: context.l10n.createGroup,
                   isLoading: state is SplitLoading,
                   isEnabled: true,
                   onPressed: _onCreateGroup,
@@ -179,14 +186,12 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
     }
 
     if (_members.isEmpty) {
-      CustomSnacksBar.showInfo(
-        context,
-        AppString.addAtLeastOneMember,
-      );
+      CustomSnacksBar.showInfo(context, context.l10n.addAtLeastOneMember);
       return;
     }
 
     context.read<SplitCubit>().createGroup(
+      context: context,
       name: groupNameController.text.trim(),
       memberEmails: _members.map((user) => user.email).toList(),
     );

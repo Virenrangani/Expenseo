@@ -14,7 +14,7 @@ import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../widget/navigation_text.dart';
@@ -58,15 +58,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   builder: (_) => BlocProvider(
                     create: (_) => GetIt.I<OtpCubit>(),
                     child: OtpVerificationScreen(
-                      email: emailController.text
-                          .trim(),
+                      email: emailController.text.trim(),
                     ),
                   ),
                 ),
               );
               return CustomSnacksBar.showSuccess(
                 context,
-                AppString.verifyEmail,
+                context.l10n.verifyEmail,
               );
             }
           },
@@ -95,9 +94,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
                         AppGap.g20,
 
-                        const LogInTitle(
-                          title: AppString.signUpIntro,
-                          subTitle: AppString.signUpSubIntro,
+                        LogInTitle(
+                          title: context.l10n.signUpIntro,
+                          subTitle: context.l10n.signUpSubIntro,
                         ),
 
                         AppGap.g32,
@@ -130,13 +129,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                   AppFormField(
                                     controller: nameController,
                                     fillColor: AppColor.background,
-                                    hintText: AppString.name,
+                                    hintText: context.l10n.name,
                                     validator: (_) =>
                                         context.read<SignUpCubit>().nameError,
                                     onChanged: (val) {
                                       context
                                           .read<SignUpCubit>()
-                                          .nameValidation(val);
+                                          .nameValidation(val, context);
                                     },
                                   ),
 
@@ -145,13 +144,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                   AppFormField(
                                     controller: emailController,
                                     fillColor: AppColor.background,
-                                    hintText: AppString.email,
+                                    hintText: context.l10n.email,
                                     validator: (_) =>
                                         context.read<SignUpCubit>().emailError,
                                     onChanged: (val) {
                                       context
                                           .read<SignUpCubit>()
-                                          .emailValidation(val);
+                                          .emailValidation(val, context);
                                     },
                                   ),
 
@@ -159,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                                   AppFormField(
                                     controller: passwordController,
-                                    hintText: AppString.password,
+                                    hintText: context.l10n.password,
                                     fillColor: AppColor.background,
                                     obscureText: context
                                         .watch<SignUpCubit>()
@@ -186,14 +185,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                     onChanged: (val) {
                                       context
                                           .read<SignUpCubit>()
-                                          .passwordValidation(val);
+                                          .passwordValidation(val, context);
                                     },
                                   ),
 
                                   AppGap.g32,
 
                                   AppElevatedButton(
-                                    text: AppString.createAccount,
+                                    text: context.l10n.createAccount,
                                     isLoading: isLoading,
                                     borderRadius: 12,
                                     isEnabled: context
@@ -221,8 +220,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                   AppGap.g24,
 
                                   NavigationText(
-                                    description: AppString.alReadyHaveAnAccount,
-                                    pageName: AppString.logIn,
+                                    description:
+                                        context.l10n.alReadyHaveAnAccount,
+                                    pageName: context.l10n.logIn,
                                     onTap: () {
                                       Navigator.push(
                                         context,

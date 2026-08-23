@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
 import '../cubit/saving_state.dart';
@@ -24,7 +25,9 @@ class UserSavingPage extends StatelessWidget {
         // BlocProvider<DepositCubit>(create: (_) => GetIt.I<DepositCubit>()),
       ],
       child: Scaffold(
-        appBar: AppBar(title: Text('Savings', style: AppTextStyles.h4())),
+        appBar: AppBar(
+          title: Text(context.l10n.saving, style: AppTextStyles.h4()),
+        ),
         body: BlocBuilder<SavingCubit, SavingState>(
           builder: (context, state) {
             if (state is SavingLoading) {
@@ -52,7 +55,7 @@ class UserSavingPage extends StatelessWidget {
             return FloatingActionButton(
               onPressed: () {
                 if (SharedPrefService.isGuest()) {
-                  LoginRequiredDialog.show(context, 'Saving Goals');
+                  LoginRequiredDialog.show(context, context.l10n.savingGoals);
                   return;
                 }
                 showModalBottomSheet<void>(
@@ -74,18 +77,3 @@ class UserSavingPage extends StatelessWidget {
     );
   }
 }
-
-// SavingGoalsList(
-// savingGoals: [
-// SavingGoal(
-// id: "1",
-// goal: "",
-// goalImage:
-// "https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg",
-// targetAmount: 1,
-// savedAmount: 1,
-// isCompleted: false,
-// createdAt: DateTime.now(),
-// ),
-// ],
-// ),

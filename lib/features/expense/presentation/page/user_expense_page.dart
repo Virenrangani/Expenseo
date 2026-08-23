@@ -1,6 +1,5 @@
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_state.dart';
 import 'package:expenseo/features/expense/presentation/widget/expense_card.dart';
@@ -12,9 +11,9 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../cubit/expense_cubit.dart';
 import './add_expense_sheet.dart';
 import 'expense_list_page.dart';
@@ -24,13 +23,15 @@ class UserExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final searchController = TextEditingController();
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
       appBar: AppBar(
-        title: Text(AppString.allExpenses, style: AppTextStyles.titleLarge()),
+        title: Text(
+          context.l10n.allExpenses,
+          style: AppTextStyles.titleLarge(),
+        ),
         centerTitle: true,
       ),
       body: Stack(
@@ -46,7 +47,7 @@ class UserExpensePage extends StatelessWidget {
                         height: 48,
                         child: AppFormField(
                           controller: searchController,
-                          hintText: 'Search your Expense..',
+                          hintText: context.l10n.searchYourExpense,
                           fillColor: AppColor.primary.withAlpha(30),
                           prefixIcon: const Icon(
                             Icons.search_rounded,
@@ -122,7 +123,10 @@ class UserExpensePage extends StatelessWidget {
                   backgroundColor: AppColor.primary,
                   onPressed: () {
                     if (SharedPrefService.isGuest()) {
-                      LoginRequiredDialog.show(context, l10n.addExpense);
+                      LoginRequiredDialog.show(
+                        context,
+                        context.l10n.addExpense,
+                      );
                       return;
                     }
                     final expenseCubit = context.read<ExpenseCubit>();

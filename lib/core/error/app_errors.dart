@@ -1,77 +1,80 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
-import '../constant/string/app_string.dart';
+import '../extension/localization_extension.dart';
 
 class AppErrors {
-  static String handleException(FirebaseAuthException e) {
+  static String handleException(FirebaseAuthException e, BuildContext context) {
     switch (e.code) {
       case 'invalid-email':
-        return AppString.invalidEmail;
+        return context.l10n.invalidEmail;
 
       case 'user-disabled':
-        return AppString.userDisabled;
+        return context.l10n.userDisabled;
 
       case 'user-not-found':
-        return AppString.userNotFound;
+        return context.l10n.userNotFound;
 
       case 'wrong-password':
-        return AppString.wrongPassword;
+        return context.l10n.wrongPassword;
 
       case 'email-already-in-use':
-        return AppString.emailAlreadyInUse;
+        return context.l10n.emailAlreadyInUse;
 
       case 'operation-not-allowed':
-        return AppString.operationNotAllowed;
+        return context.l10n.operationNotAllowed;
 
       case 'account-exists-with-different-credential':
-        return AppString.accountExistsWithDifferentCredential;
+        return context.l10n.accountExistsWithDifferentCredential;
 
       case 'invalid-credential':
-        return AppString.invalidCredential;
+        return context.l10n.invalidCredential;
 
       default:
-        return AppString.somethingWentWrong;
+        return context.l10n.somethingWentWrong;
     }
   }
 
-  static String handleFireStoreException(FirebaseException e) {
+  static String handleFireStoreException(
+    FirebaseException e,
+    BuildContext context,
+  ) {
     switch (e.code) {
-
       case 'permission-denied':
-        return AppString.permissionDenied;
+        return context.l10n.permissionDenied;
 
       case 'not-found':
-        return AppString.dataNotFound;
+        return context.l10n.dataNotFound;
 
       case 'already-exists':
-        return AppString.dataAlreadyExists;
+        return context.l10n.dataAlreadyExists;
 
       case 'resource-exhausted':
-        return AppString.resourceExhausted;
+        return context.l10n.resourceExhausted;
 
       case 'unavailable':
-        return AppString.serviceUnavailable;
+        return context.l10n.serviceUnavailable;
 
       case 'cancelled':
-        return AppString.operationCancelled;
+        return context.l10n.operationCancelled;
 
       case 'email-already-in-use':
-        return AppString.emailAlreadyInUse;
+        return context.l10n.emailAlreadyInUse;
 
       case 'invalid-credential':
-        return AppString.invalidCredential;
+        return context.l10n.invalidCredential;
 
       case 'deadline-exceeded':
-        return AppString.timeout;
+        return context.l10n.timeout;
 
       case 'invalid-argument':
-        return AppString.invalidArgument;
+        return context.l10n.invalidArgument;
 
       case 'aborted':
-        return AppString.operationAborted;
+        return context.l10n.operationAborted;
 
       default:
-        return AppString.somethingWentWrong;
+        return context.l10n.somethingWentWrong;
     }
   }
 }

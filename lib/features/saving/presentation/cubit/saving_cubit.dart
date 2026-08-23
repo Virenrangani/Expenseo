@@ -1,11 +1,12 @@
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/validation/amount_validation/amount_validation.dart';
 import 'package:expenseo/features/saving/domain/entity/deposit.dart';
 import 'package:expenseo/features/saving/domain/usecase/saving_use_case.dart';
 import 'package:expenseo/features/saving/presentation/cubit/saving_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/extension/localization_extension.dart';
 import '../../domain/entity/saving_goal.dart';
 
 class SavingCubit extends Cubit<SavingState> {
@@ -15,28 +16,29 @@ class SavingCubit extends Cubit<SavingState> {
     getAllGoal();
   }
 
-  String? validateGoal(String value) {
+  String? validateGoal(String value, BuildContext context) {
     if (value.trim().isEmpty) {
-      return AppString.goalRequired;
+      return context.l10n.goalRequired;
     }
     return null;
   }
 
-  String? validateGoalImage(String value) {
+  String? validateGoalImage(String value, BuildContext context) {
     if (value.trim().isEmpty) {
-      return AppString.goalImageRequired;
+      return context.l10n.goalImageRequired;
     }
     return null;
   }
 
-  String? validateTargetAmount(String value) {
-    return validateAmount(value);
+  String? validateTargetAmount(String value, BuildContext context) {
+    return validateAmount(value, context);
   }
 
   Future<void> createGoal({
     required String goalImage,
     required String goal,
     required double targetAmount,
+    required BuildContext context,
   }) async {
     emit(SavingLoading());
     try {
@@ -51,7 +53,7 @@ class SavingCubit extends Cubit<SavingState> {
       );
 
       await savingGoalUseCase.createGoal(saveGoal);
-      emit(SavingSuccess(AppString.goalCreate));
+      emit(SavingSuccess(context.l10n.goalCreate));
       await getAllGoal();
     } catch (e) {
       emit(SavingError(e.toString()));

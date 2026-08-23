@@ -1,4 +1,3 @@
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/features/forgot_password/presentation/page/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +7,10 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/snack_bar/custom_snack_bar.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../cubit/forgot_password_cubit.dart';
 import '../cubit/forgot_password_state.dart';
 
@@ -36,7 +35,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return BlocProvider<ForgotPasswordCubit>(
       create: (_) => GetIt.I<ForgotPasswordCubit>(),
       child: GestureDetector(
@@ -50,12 +48,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.forgotPassword, style: AppTextStyles.h4()),
+                  Text(context.l10n.forgotPassword, style: AppTextStyles.h4()),
 
                   AppGap.g12,
 
                   Text(
-                    l10n.forgotPasswordDescription,
+                    context.l10n.forgotPasswordDescription,
                     style: AppTextStyles.bodyMedium(),
                   ),
 
@@ -63,7 +61,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
                   AppFormField(
                     controller: emailController,
-                    hintText: AppString.emailHint,
+                    hintText: context.l10n.emailHint,
                     prefixIcon: const Icon(
                       Icons.mail_outline,
                       color: AppColor.textSecondary,
@@ -79,14 +77,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       return SizedBox(
                         height: 48,
                         child: AppElevatedButton(
-                          text: l10n.sendOtp,
+                          text: context.l10n.sendOtp,
                           isEnabled: true,
                           isLoading: state is ForgotPasswordLoading,
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               context
                                   .read<ForgotPasswordCubit>()
-                                  .forgotPassword(emailController.text.trim());
+                                  .forgotPassword(
+                                    emailController.text.trim(),
+                                    context,
+                                  );
                             }
                           },
                         ),

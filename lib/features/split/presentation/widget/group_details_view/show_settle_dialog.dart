@@ -6,8 +6,8 @@ import '../../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/gap/app_gap.dart';
 import '../../../../../core/constant/padding/app_padding.dart';
-import '../../../../../core/constant/string/app_string.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/extension/localization_extension.dart';
 import '../../cubit/split_cubit.dart';
 
 void showSettleDialog({
@@ -17,14 +17,12 @@ void showSettleDialog({
   required String name,
   required double amount,
 }) {
-
   final isOwedToMe = amount > 0;
 
   showDialog<void>(
     context: context,
 
     builder: (_) {
-
       return Dialog(
         backgroundColor: Colors.transparent,
 
@@ -40,7 +38,6 @@ void showSettleDialog({
             mainAxisSize: MainAxisSize.min,
 
             children: [
-
               Container(
                 width: 70,
                 height: 70,
@@ -58,19 +55,13 @@ void showSettleDialog({
                       ? Icons.arrow_downward_rounded
                       : Icons.arrow_upward_rounded,
                   size: 34,
-                  color: isOwedToMe
-                      ? AppColor.success
-                      : AppColor.error,
+                  color: isOwedToMe ? AppColor.success : AppColor.error,
                 ),
               ),
 
               AppGap.g20,
 
-              Text(
-                AppString.settleUp,
-
-                style: AppTextStyles.h4(),
-              ),
+              Text(context.l10n.settleUp, style: AppTextStyles.h4()),
 
               AppGap.g12,
 
@@ -87,9 +78,7 @@ void showSettleDialog({
                 '₹${amount.abs().toStringAsFixed(2)}',
 
                 style: AppTextStyles.h3(
-                  color: isOwedToMe
-                      ? AppColor.success
-                      : AppColor.error,
+                  color: isOwedToMe ? AppColor.success : AppColor.error,
                 ),
               ),
 
@@ -97,8 +86,8 @@ void showSettleDialog({
 
               Text(
                 isOwedToMe
-                    ? '$name ${AppString.owesYou}'
-                    : '${AppString.owe} $name.',
+                    ? '$name ${context.l10n.owesYou}'
+                    : '${context.l10n.owe} $name.',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodySmall(),
               ),
@@ -116,13 +105,13 @@ void showSettleDialog({
                       style: OutlinedButton.styleFrom(
                         padding: AppPadding.edgeSymmetricVer12,
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                          AppBorderRadius.cir12,
+                          borderRadius: AppBorderRadius.cir12,
                         ),
                       ),
 
                       child: Text(
-                        AppString.cancel, style: AppTextStyles.captionMedium(),
+                        context.l10n.cancel,
+                        style: AppTextStyles.captionMedium(),
                       ),
                     ),
                   ),
@@ -146,14 +135,15 @@ void showSettleDialog({
                         padding: AppPadding.edgeSymmetricHori16,
 
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                          AppBorderRadius.cir12,
+                          borderRadius: AppBorderRadius.cir12,
                         ),
                       ),
 
                       child: Text(
-                        AppString.settled, style:
-                      AppTextStyles.captionMedium(color: AppColor.background,),
+                        context.l10n.settled,
+                        style: AppTextStyles.captionMedium(
+                          color: AppColor.background,
+                        ),
                       ),
                     ),
                   ),

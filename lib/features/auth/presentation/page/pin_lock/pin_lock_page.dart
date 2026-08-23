@@ -1,3 +1,4 @@
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,7 +71,7 @@ class _PinLockPageState extends State<PinLockPage>
           await cubit.setupPin(enteredPin);
           if (mounted && Navigator.canPop(context)) Navigator.pop(context);
         } else {
-          _triggerError('PINs do not match. Start over.');
+          _triggerError(context.l10n.pinsDoNotMatch);
           setState(() {
             _isConfirming = false;
             _firstPin = '';
@@ -104,7 +105,6 @@ class _PinLockPageState extends State<PinLockPage>
             if (state is SecurityError) {
               _triggerError(state.message);
             }
-            // Reset UI on lock (e.g. returning from background)
             if (state is SecurityLocked) {
               setState(() {
                 _pinInputController.clear();
@@ -143,7 +143,6 @@ class _PinLockPageState extends State<PinLockPage>
                 ),
                 AppGap.g32,
 
-                // Centered Keyboard with width constraints
                 AnimatedBuilder(
                   animation: _shakeAnimation,
                   builder: (context, child) {
@@ -164,7 +163,7 @@ class _PinLockPageState extends State<PinLockPage>
                       btnTextColor: AppColor.textPrimary,
 
                       enableBiometric: !widget.isSetupMode,
-                      biometricReason: 'Authenticate to access Expenseo',
+                      biometricReason: context.l10n.authenticateToAccess,
                       onBiometricSuccess: () {
                         context.read<SecurityCubit>().markAuthenticated();
                       },
@@ -193,8 +192,9 @@ class _PinLockPageState extends State<PinLockPage>
   }
 
   String _getTitle() => widget.isSetupMode
-      ? (_isConfirming ? 'Confirm PIN' : 'Secure Your App')
-      : 'Welcome Back';
-  String _getSubTitle() =>
-      widget.isSetupMode ? 'Create a 4-digit PIN' : 'Enter PIN to unlock';
+      ? (_isConfirming ? context.l10n.confirmPin : context.l10n.secureYourApp)
+      : context.l10n.welcomeBack;
+  String _getSubTitle() => widget.isSetupMode
+      ? context.l10n.create4DigitPin
+      : context.l10n.enterPinToUnlock;
 }

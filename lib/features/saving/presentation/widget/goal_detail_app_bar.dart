@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 
 class GoalDetailAppBar extends StatelessWidget {
   final SavingGoal goal;
@@ -33,7 +34,9 @@ class GoalDetailAppBar extends StatelessWidget {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             child: Text(
-              showDepositTitle ? 'Deposit History' : 'Goal Details',
+              showDepositTitle
+                  ? context.l10n.depositHistory
+                  : context.l10n.goalDetails,
               key: ValueKey(showDepositTitle),
               style: AppTextStyles.h4(color: AppColor.background),
             ),

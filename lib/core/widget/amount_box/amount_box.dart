@@ -1,4 +1,4 @@
-import 'package:expenseo/core/constant/string/app_string.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../constant/border_radius/app_border_radius.dart';
@@ -30,7 +30,7 @@ class _AmountBoxState extends State<AmountBox> {
       child: Column(
         children: [
           Text(
-            AppString.addAmount,
+            context.l10n.addAmount,
             style: AppTextStyles.captionMedium(color: AppColor.background),
           ),
           AppGap.g8,
@@ -47,7 +47,7 @@ class _AmountBoxState extends State<AmountBox> {
             prefixStyle: AppTextStyles.h2(color: AppColor.primary),
 
             contentPadding: EdgeInsets.zero,
-            validator: (val) => validateAmount(val!),
+            validator: (val) => validateAmount(val!, context),
           ),
         ],
       ),

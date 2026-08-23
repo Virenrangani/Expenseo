@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
-import '../../../../core/constant/string/app_string.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/snack_bar/custom_snack_bar.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
@@ -25,13 +25,13 @@ class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(AppString.addSaving),
+      title: Text(context.l10n.addSaving),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           AppFormField(
             controller: savingAmountController,
-            hintText: AppString.addAmount,
+            hintText: context.l10n.addAmount,
             prefixText: '₹ ',
             fillColor: AppColor.primaryLight.withAlpha(50),
           ),
@@ -45,7 +45,7 @@ class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
               child: AppElevatedButton(
                 isEnabled: true,
                 color: AppColor.error.withAlpha(100),
-                text: AppString.cancel,
+                text: context.l10n.cancel,
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -55,7 +55,7 @@ class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
             Expanded(
               child: AppElevatedButton(
                 isEnabled: true,
-                text: AppString.save,
+                text: context.l10n.save,
                 onPressed: () {
                   context.read<SavingCubit>().addSavingAmount(
                     widget.goal.id,
@@ -65,7 +65,7 @@ class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
 
                   CustomSnacksBar.showSuccess(
                     context,
-                    AppString.savingAmountAdded,
+                    context.l10n.savingAmountAdded,
                   );
                 },
               ),

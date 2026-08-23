@@ -6,8 +6,8 @@ import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/page/splash_screen.dart';
 import '../widget/profile_tile.dart';
 import 'personal_info/personal_info_page.dart';
@@ -50,7 +50,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _showLanguagePicker(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     showModalBottomSheet<void>(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -61,10 +60,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(l10n!.selectLanguage, style: AppTextStyles.h4()),
+            Text(context.l10n.selectLanguage, style: AppTextStyles.h4()),
             AppGap.g24,
             ListTile(
-              title: Text(l10n.english),
+              title: Text(context.l10n.english),
               leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
               onTap: () {
                 context.read<LocaleCubit>().changeLocale('en');
@@ -72,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ListTile(
-              title: Text(l10n.arabic),
+              title: Text(context.l10n.arabic),
               leading: const Text('🇸🇦', style: TextStyle(fontSize: 24)),
               onTap: () {
                 context.read<LocaleCubit>().changeLocale('ar');
@@ -80,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ListTile(
-              title: Text(l10n.hindi),
+              title: Text(context.l10n.hindi),
               leading: const Text('🇮🇳', style: TextStyle(fontSize: 24)),
               onTap: () {
                 context.read<LocaleCubit>().changeLocale('hi');
@@ -95,20 +94,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final isGuest = SharedPrefService.isGuest();
     final currentLocale = context.watch<LocaleCubit>().state.languageCode;
 
     String getLanguageName() {
       switch (currentLocale) {
         case 'en':
-          return l10n.english;
+          return context.l10n.english;
         case 'ar':
-          return l10n.arabic;
+          return context.l10n.arabic;
         case 'hi':
-          return l10n.hindi;
+          return context.l10n.hindi;
         default:
-          return l10n.english;
+          return context.l10n.english;
       }
     }
 
@@ -140,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   AppGap.g8,
                   Text(
-                    isGuest ? l10n.guestUser : 'Beatrice Cox',
+                    isGuest ? context.l10n.guestUser : 'Beatrice Cox',
                     style: AppTextStyles.h3(
                       color: Colors.white,
                     ).copyWith(fontSize: 18),
@@ -182,13 +180,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          isGuest ? l10n.guestUser : 'Beatrice Cox',
+                          isGuest ? context.l10n.guestUser : 'Beatrice Cox',
                           style: AppTextStyles.h3(
                             color: Colors.white,
                           ).copyWith(fontSize: 28),
                         ),
                         Text(
-                          isGuest ? 'Preview Mode' : 'cox21@gmail.com',
+                          isGuest ? context.l10n.guest : 'cox21@gmail.com',
                           style: AppTextStyles.description(
                             color: Colors.white.withAlpha(200),
                           ),
@@ -207,14 +205,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionTitle(l10n.accountSettings),
+                  _buildSectionTitle(context.l10n.accountSettings),
                   _buildGroupedCard([
                     SettingsTile(
-                      title: l10n.personalInfo,
+                      title: context.l10n.personalInfo,
                       leadingIcon: Icons.person_outline_rounded,
                       onTap: () {
                         if (isGuest) {
-                          LoginRequiredDialog.show(context, l10n.personalInfo);
+                          LoginRequiredDialog.show(
+                            context,
+                            context.l10n.personalInfo,
+                          );
                         } else {
                           Navigator.push(
                             context,
@@ -225,20 +226,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                       },
                     ),
-                    SettingsTile(
-                      title: 'Subscription',
-                      leadingIcon: Icons.star_outline_rounded,
-                      trailing: _buildPremiumTag(),
-                      onTap: () {},
-                    ),
                   ]),
 
                   AppGap.g24,
 
-                  _buildSectionTitle(l10n.preferences),
+                  _buildSectionTitle(context.l10n.preferences),
                   _buildGroupedCard([
                     SettingsTile(
-                      title: l10n.language,
+                      title: context.l10n.language,
                       leadingIcon: Icons.language_rounded,
                       trailing: Text(
                         getLanguageName(),
@@ -247,16 +242,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () => _showLanguagePicker(context),
                     ),
                     SettingsTile(
-                      title: l10n.notifications,
+                      title: context.l10n.notifications,
                       leadingIcon: Icons.notifications_none_rounded,
                       onTap: () {},
                     ),
                     SettingsTile(
-                      title: l10n.security,
+                      title: context.l10n.security,
                       leadingIcon: Icons.lock_outline_rounded,
                       onTap: () {
                         if (isGuest) {
-                          LoginRequiredDialog.show(context, l10n.security);
+                          LoginRequiredDialog.show(
+                            context,
+                            context.l10n.security,
+                          );
                         } else {
                           Navigator.push(
                             context,
@@ -271,15 +269,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   AppGap.g24,
 
-                  _buildSectionTitle(l10n.supportAndLegal),
+                  _buildSectionTitle(context.l10n.supportAndLegal),
                   _buildGroupedCard([
                     SettingsTile(
-                      title: l10n.helpCenter,
+                      title: context.l10n.helpCenter,
                       leadingIcon: Icons.help_outline_rounded,
                       onTap: () {},
                     ),
                     SettingsTile(
-                      title: l10n.privacyPolicy,
+                      title: context.l10n.privacyPolicy,
                       leadingIcon: Icons.description_outlined,
                       onTap: () {},
                     ),
@@ -289,7 +287,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   _buildGroupedCard([
                     SettingsTile(
-                      title: isGuest ? l10n.signInNow : l10n.logout,
+                      title: isGuest
+                          ? context.l10n.signInNow
+                          : context.l10n.logout,
                       leadingIcon: isGuest
                           ? Icons.login_rounded
                           : Icons.logout_rounded,
@@ -362,24 +362,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           );
         }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildPremiumTag() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: Colors.amber.withAlpha(50),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: const Text(
-        'PRO',
-        style: TextStyle(
-          color: Colors.amber,
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-        ),
       ),
     );
   }

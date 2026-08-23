@@ -1,6 +1,5 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../../core/extension/localization_extension.dart';
 import '../cubit/saving_cubit.dart';
 
 class AddSavingGoal extends StatefulWidget {
@@ -61,19 +61,19 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                   children: [
                     Center(
                       child: Text(
-                        AppString.newSavingGoal,
+                        context.l10n.newSavingGoal,
                         style: AppTextStyles.h5(),
                       ),
                     ),
 
                     Text(
-                      AppString.goalImage,
+                      context.l10n.goalImage,
                       style: AppTextStyles.caption(color: AppColor.textPrimary),
                     ),
                     AppGap.g4,
                     AppFormField(
                       controller: goalImageController,
-                      hintText: AppString.goalHint,
+                      hintText: context.l10n.goalHint,
                       prefixIcon: const Icon(
                         Icons.image_outlined,
                         color: AppColor.textSecondary,
@@ -82,6 +82,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                       validator: (value) {
                         return context.read<SavingCubit>().validateGoalImage(
                           value ?? '',
+                          context,
                         );
                       },
                     ),
@@ -89,13 +90,13 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                     AppGap.g20,
 
                     Text(
-                      AppString.goal,
+                      context.l10n.goal,
                       style: AppTextStyles.caption(color: AppColor.textPrimary),
                     ),
                     AppGap.g4,
                     AppFormField(
                       controller: goalController,
-                      hintText: AppString.goalHint,
+                      hintText: context.l10n.goalHint,
                       prefixIcon: const Icon(
                         Icons.savings_outlined,
                         color: AppColor.textSecondary,
@@ -104,6 +105,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                       validator: (value) {
                         return context.read<SavingCubit>().validateGoal(
                           value ?? '',
+                          context,
                         );
                       },
                     ),
@@ -113,7 +115,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                     Row(
                       children: [
                         Text(
-                          AppString.targetAmount,
+                          context.l10n.targetAmount,
                           style: AppTextStyles.caption(
                             color: AppColor.textPrimary,
                           ),
@@ -122,7 +124,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                         Expanded(
                           child: AppFormField(
                             controller: targetAmountController,
-                            hintText: AppString.targetAmountGoal,
+                            hintText: context.l10n.targetAmountGoal,
                             prefixText: '₹ ',
                             fillColor: AppColor.primaryLight.withAlpha(50),
                             keyboardType: const TextInputType.numberWithOptions(
@@ -132,7 +134,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                             validator: (value) {
                               return context
                                   .read<SavingCubit>()
-                                  .validateTargetAmount(value ?? '');
+                                  .validateTargetAmount(value ?? '', context);
                             },
                           ),
                         ),
@@ -142,7 +144,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
                     AppGap.g20,
 
                     AppElevatedButton(
-                      text: AppString.addGoal,
+                      text: context.l10n.addGoal,
                       onPressed: onSubmit,
                       isLoading: isLoading,
                       isEnabled: true,
@@ -160,6 +162,7 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
   Future<void> onSubmit() async {
     if (!_formKey.currentState!.validate()) return;
     await GetIt.I<SavingCubit>().createGoal(
+      context: context,
       goal: goalController.text.trim(),
       goalImage: goalImageController.text.trim(),
       targetAmount: double.parse(targetAmountController.text.trim()),

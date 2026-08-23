@@ -5,6 +5,7 @@ import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/gap/app_gap.dart';
 import '../../../../../core/constant/padding/app_padding.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/extension/localization_extension.dart';
 import '../../../domain/entity/split_entity.dart';
 
 class ExpensesCard extends StatelessWidget {
@@ -65,7 +66,7 @@ class ExpensesCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          'Paid by ${expense.paidByName}',
+                          '${context.l10n.paidBy} ${expense.paidByName}',
                           style: AppTextStyles.captionMedium(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -94,7 +95,7 @@ class ExpensesCard extends StatelessWidget {
                   ),
                   AppGap.g4,
                   Text(
-                    'Split breakdown',
+                    context.l10n.splitBreakdown,
                     style: AppTextStyles.descriptionSmall().copyWith(
                       color: Colors.grey.shade500,
                     ),

@@ -1,3 +1,4 @@
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -57,7 +58,7 @@ class _SecurityPageState extends State<SecurityPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Security',
+          context.l10n.security,
           style: AppTextStyles.h4().copyWith(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -67,10 +68,10 @@ class _SecurityPageState extends State<SecurityPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('Access Control'),
+            _buildSectionTitle(context.l10n.accessControl),
             _buildGroupedCard([
               SettingsTile(
-                title: 'App Lock (PIN)',
+                title: context.l10n.appLockPin,
                 leadingIcon: Icons.dialpad_rounded,
                 onTap: () async {
                   await context.read<SecurityCubit>().disableSecurity();
@@ -99,7 +100,7 @@ class _SecurityPageState extends State<SecurityPage> {
               ),
               if (_isBiometricAvailable)
                 SettingsTile(
-                  title: 'Biometric Authentication',
+                  title: context.l10n.biometricAuthentication,
                   leadingIcon: Icons.fingerprint_rounded,
                   onTap: () {},
                   trailing: Switch.adaptive(
@@ -114,15 +115,15 @@ class _SecurityPageState extends State<SecurityPage> {
 
             AppGap.g24,
 
-            _buildSectionTitle('Account Security'),
+            _buildSectionTitle(context.l10n.accountSecurity),
             _buildGroupedCard([
               SettingsTile(
-                title: 'Change Password',
+                title: context.l10n.changePassword,
                 leadingIcon: Icons.password_rounded,
                 onTap: () {},
               ),
               SettingsTile(
-                title: 'Two-Factor Authentication',
+                title: context.l10n.twoFactorAuthentication,
                 leadingIcon: Icons.verified_user_outlined,
                 onTap: () {},
                 trailing: Switch.adaptive(value: false, onChanged: (val) {}),
@@ -134,7 +135,7 @@ class _SecurityPageState extends State<SecurityPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
-                'Protecting your financial data is our top priority. We recommend enabling Biometric Authentication for maximum security.',
+                context.l10n.securityRecommendation,
                 style: AppTextStyles.descriptionSmall(),
                 textAlign: TextAlign.center,
               ),
@@ -149,14 +150,12 @@ class _SecurityPageState extends State<SecurityPage> {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Disable App Lock?'),
-        content: const Text(
-          'Are you sure you want to remove the security PIN?',
-        ),
+        title: Text(context.l10n.disable),
+        content: Text(context.l10n.disableAppLockContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -166,9 +165,9 @@ class _SecurityPageState extends State<SecurityPage> {
                 Navigator.pop(context);
               }
             },
-            child: const Text(
-              'Disable',
-              style: TextStyle(color: AppColor.error),
+            child: Text(
+              context.l10n.disable,
+              style: const TextStyle(color: AppColor.error),
             ),
           ),
         ],

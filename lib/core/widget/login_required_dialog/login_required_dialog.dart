@@ -1,6 +1,7 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,13 +26,13 @@ class LoginRequiredDialog extends StatelessWidget {
             ),
             AppGap.g24,
             Text(
-              'Login Required',
+              context.l10n.loginRequired,
               style: AppTextStyles.h4(),
               textAlign: TextAlign.center,
             ),
             AppGap.g12,
             Text(
-              'To use $featureName, you need to sign in to your account. This ensures your data is saved securely.',
+              context.l10n.loginRequiredDescription as String,
               style: AppTextStyles.bodyMedium(),
               textAlign: TextAlign.center,
             ),
@@ -56,16 +57,22 @@ class LoginRequiredDialog extends StatelessWidget {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Sign In Now',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child: Text(
+                  context.l10n.signInNow,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             AppGap.g12,
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Later', style: AppTextStyles.bodyMedium()),
+              child: Text(
+                context.l10n.later,
+                style: AppTextStyles.bodyMedium(),
+              ),
             ),
           ],
         ),

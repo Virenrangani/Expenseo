@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/extension/localization_extension.dart';
 import '../../../domain/entity/split_entity.dart';
 
 class SplitTypeSelector extends StatelessWidget {
@@ -51,7 +52,7 @@ class SplitTypeSelector extends StatelessWidget {
                       : [],
                 ),
                 child: Text(
-                  _label(type),
+                  _label(type, context),
                   textAlign: TextAlign.center,
                   style: AppTextStyles.captionBold(
                     color: isSelected ? AppColor.primary : Colors.grey.shade600,
@@ -65,14 +66,14 @@ class SplitTypeSelector extends StatelessWidget {
     );
   }
 
-  String _label(SplitType type) {
+  String _label(SplitType type, BuildContext context) {
     switch (type) {
       case SplitType.equal:
-        return 'Equal';
+        return context.l10n.equal;
       case SplitType.unequal:
-        return 'Unequal';
+        return context.l10n.unequal;
       case SplitType.percentage:
-        return 'Percent';
+        return context.l10n.percent;
       default:
         return '';
     }

@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import '../../../../core/constant/border_radius/app_border_radius.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 
 class TabSelector extends StatelessWidget {
-
   const TabSelector({
     super.key,
     required this.selectedTab,
@@ -41,15 +40,18 @@ class TabSelector extends StatelessWidget {
                   borderRadius: AppBorderRadius.cir24,
                 ),
                 child: Text(
-                  tabLabel(tab),
+                  tabLabel(tab, context: context),
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.caption(
-                    color: isActive
-                        ? AppColor.background
-                        : AppColor.textLight,
-                  ).copyWith(
-                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w300,
-                  ),
+                  style:
+                      AppTextStyles.caption(
+                        color: isActive
+                            ? AppColor.background
+                            : AppColor.textLight,
+                      ).copyWith(
+                        fontWeight: isActive
+                            ? FontWeight.w600
+                            : FontWeight.w300,
+                      ),
                 ),
               ),
             ),
@@ -59,11 +61,14 @@ class TabSelector extends StatelessWidget {
     );
   }
 
-  String tabLabel(ExpenseTab tab) {
+  String tabLabel(ExpenseTab tab, {required BuildContext context}) {
     switch (tab) {
-      case ExpenseTab.balance: return AppString.balance;
-      case ExpenseTab.income:  return AppString.income;
-      case ExpenseTab.expense: return AppString.expense;
+      case ExpenseTab.balance:
+        return context.l10n.balance;
+      case ExpenseTab.income:
+        return context.l10n.income;
+      case ExpenseTab.expense:
+        return context.l10n.expense;
     }
   }
 }

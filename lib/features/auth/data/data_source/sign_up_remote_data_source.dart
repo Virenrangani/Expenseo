@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../model/user_model.dart';
 
@@ -37,7 +36,7 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
             'Registration failed',
       );
     } catch (_) {
-      throw Exception(AppString.somethingWentWrong);
+      throw Exception('Registration failed');
     }
   }
 }

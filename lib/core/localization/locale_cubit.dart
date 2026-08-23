@@ -9,8 +9,6 @@ class LocaleCubit extends Cubit<Locale> {
   }
 
   Future<void> _loadSavedLocale() async {
-    // We can use SharedPrefService if we add locale support there
-    // For now, let's assume we want to persist it.
     final savedLanguageCode = SharedPrefService.getLanguageCode();
     if (savedLanguageCode != null) {
       emit(Locale(savedLanguageCode));

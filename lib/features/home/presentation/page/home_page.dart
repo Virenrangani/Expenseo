@@ -14,8 +14,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import '../../../expense/presentation/page/add_expense_sheet.dart';
 import '../../../split/presentation/page/split_expense.dart';
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                       }
 
                       final userName = SharedPrefService.isGuest()
-                          ? 'Guest'
+                          ? context.l10n.guest
                           : context.read<HomeCubit>().userName;
 
                       return GreetingUser(userName: userName);
@@ -97,10 +97,13 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       AppIconCard(
                         icon: Icons.add,
-                        text: AppString.addExpense,
+                        text: context.l10n.addExpense,
                         onTap: () {
                           if (SharedPrefService.isGuest()) {
-                            LoginRequiredDialog.show(context, 'Add Expense');
+                            LoginRequiredDialog.show(
+                              context,
+                              context.l10n.addExpense,
+                            );
                             return;
                           }
                           showModalBottomSheet<void>(
@@ -125,7 +128,7 @@ class _HomePageState extends State<HomePage> {
 
                       AppIconCard(
                         icon: Icons.splitscreen,
-                        text: AppString.split,
+                        text: context.l10n.split,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -140,7 +143,7 @@ class _HomePageState extends State<HomePage> {
 
                       AppIconCard(
                         icon: Icons.savings_outlined,
-                        text: AppString.saving,
+                        text: context.l10n.saving,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -159,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        AppString.recentTransaction,
+                        context.l10n.recentTransaction,
                         style: AppTextStyles.h5(),
                       ),
                       const ShowAllExpenseButton(),

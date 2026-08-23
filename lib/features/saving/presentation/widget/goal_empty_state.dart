@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
@@ -90,7 +91,6 @@ class _GoalEmptyStateState extends State<GoalEmptyState>
                         ),
                       ),
 
-                      // Main Flying Rocket / Goal Icon
                       Transform.translate(
                         offset: Offset(0, -floatY),
                         child: Transform.rotate(
@@ -128,7 +128,7 @@ class _GoalEmptyStateState extends State<GoalEmptyState>
             AppGap.g32,
 
             Text(
-              "Your savings journey is waiting on the launchpad.\nSet your first goal and let's take off!",
+              context.l10n.savingsJourneyLaunchpad,
               textAlign: TextAlign.center,
               style: AppTextStyles.bodySmall(
                 color: Colors.grey.shade600,

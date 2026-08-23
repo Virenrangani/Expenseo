@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constant/text_style/app_text_style.dart';
@@ -41,7 +42,7 @@ class GroupSplitChart extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Total', style: AppTextStyles.captionMedium()),
+              Text(context.l10n.total, style: AppTextStyles.captionMedium()),
               AppGap.g4,
               Text(formatAmount(totalAmount), style: AppTextStyles.h3()),
             ],

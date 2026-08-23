@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/constant/colour/app_color.dart';
-import '../../../../core/constant/string/app_string.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/amount_box/amount_box.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
@@ -89,7 +89,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
     if (splitType == SplitType.unequal) {
       final sum = _unequalSplitAmong.values.fold(0.0, (a, b) => a + b);
       if ((sum - total).abs() > 0.01) {
-        return '${AppString.splitAmountNotEquals} ₹${total.toStringAsFixed(2)}';
+        return '${context.l10n.splitAmountNotEquals} ₹${total.toStringAsFixed(2)}';
       }
     }
     if (splitType == SplitType.percentage) {
@@ -98,7 +98,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         (a, c) => a + (double.tryParse(c.text) ?? 0),
       );
       if ((sum - 100).abs() > 0.01) {
-        return AppString.splitAmountMust100Per;
+        return context.l10n.splitAmountMust100Per;
       }
     }
     return null;
@@ -116,7 +116,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'New Split',
+          context.l10n.newSplit,
           style: AppTextStyles.h5().copyWith(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -149,21 +149,22 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
 
                       _buildSectionHeader(
                         Icons.description_outlined,
-                        AppString.title,
+                        context.l10n.title,
                       ),
                       AppGap.g8,
                       AppFormField(
                         controller: titleController,
-                        hintText: 'What was this for?',
+                        hintText: context.l10n.whatWasThisFor,
                         fillColor: Colors.white,
-                        validator: (v) =>
-                            v!.trim().isEmpty ? AppString.titleInvalid : null,
+                        validator: (v) => v!.trim().isEmpty
+                            ? context.l10n.titleInvalid
+                            : null,
                       ),
                       AppGap.g32,
 
                       _buildSectionHeader(
                         Icons.person_outline,
-                        AppString.paidBy,
+                        context.l10n.paidBy,
                       ),
                       AppGap.g8,
                       PaidBySelector(
@@ -178,7 +179,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
 
                       _buildSectionHeader(
                         Icons.pie_chart_outline,
-                        AppString.splitType,
+                        context.l10n.splitType,
                       ),
                       AppGap.g12,
                       SplitTypeSelector(
@@ -208,7 +209,6 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                   ),
                 ),
 
-                // STICKY BOTTOM BUTTON
                 Container(
                   padding: AppPadding.edgeAll20.copyWith(
                     bottom: MediaQuery.of(context).padding.bottom + 20,
@@ -224,7 +224,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                     ],
                   ),
                   child: AppElevatedButton(
-                    text: AppString.addExpense,
+                    text: context.l10n.addExpense,
                     isLoading: isLoading,
                     isEnabled: true,
                     borderRadius: 16,

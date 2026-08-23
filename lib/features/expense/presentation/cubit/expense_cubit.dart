@@ -1,4 +1,3 @@
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/core/utils/widget_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,7 +34,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     emit(ExpenseLoading());
     try {
       await useCase.addExpense(expense);
-      emit(ExpenseSuccess(AppString.expenseAdded));
+      emit(ExpenseSuccess('context.l10n.expenseAdded'));
       await getExpense();
     } catch (e) {
       emit(ExpenseError(e.toString()));
@@ -52,7 +51,6 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       allExpenses = expense;
       getTotalIncomeExpense(expense);
 
-      // Update the home screen widget
       final balance = totalIncome - totalExpense;
       await WidgetUtils.updateWidget(
         balance: '\$${balance.toStringAsFixed(2)}',

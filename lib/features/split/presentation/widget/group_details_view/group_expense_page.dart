@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/extension/localization_extension.dart';
 import 'expense_donut_chart.dart';
 
 class GroupExpensesPage extends StatelessWidget {
@@ -44,7 +45,7 @@ class GroupExpensesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: Text('All Expenses', style: AppTextStyles.h4()),
+        title: Text(context.l10n.allExpenses, style: AppTextStyles.h4()),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: AppColor.textPrimary),
@@ -52,7 +53,7 @@ class GroupExpensesPage extends StatelessWidget {
       body: expenses.isEmpty
           ? Center(
               child: Text(
-                'No expenses yet!',
+                context.l10n.noGroupsYet,
                 style: AppTextStyles.captionBold(),
               ),
             )

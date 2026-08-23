@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/image/app_image.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constant/colour/app_color.dart';
@@ -115,7 +116,7 @@ class EmptyState extends StatelessWidget {
           AppGap.g32,
 
           Text(
-            'No groups yet',
+            context.l10n.noGroupsYet,
             style: AppTextStyles.h4().copyWith(fontWeight: FontWeight.bold),
           ),
         ],

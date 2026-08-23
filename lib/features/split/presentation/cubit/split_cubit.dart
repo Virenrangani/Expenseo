@@ -1,12 +1,13 @@
-import 'package:expenseo/core/constant/string/app_string.dart';
 import 'package:expenseo/features/split/data/model/create_group_request_model.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/settle_balance.dart';
 import 'package:expenseo/features/split/domain/use_case/split_use_case.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../domain/entity/split_entity.dart';
 
@@ -17,7 +18,7 @@ class SplitCubit extends Cubit<SplitState> {
   String get currentUid => SharedPrefService.getUserId() ?? '';
   String get currentName => SharedPrefService.getUserName() ?? '';
 
-  Future<void> searchUser(String email) async {
+  Future<void> searchUser(String email, BuildContext context) async {
     emit(UserSearchLoading());
     try {
       final user = await useCase.searchUserByEmail(email);
@@ -28,7 +29,7 @@ class SplitCubit extends Cubit<SplitState> {
       }
 
       if (user.uid == currentUid) {
-        emit(SplitError(AppString.youCanNotAddYourSelf));
+        emit(SplitError(context.l10n.youCanNotAddYourSelf));
         return;
       }
 
@@ -41,6 +42,7 @@ class SplitCubit extends Cubit<SplitState> {
   Future<void> createGroup({
     required String name,
     required List<String> memberEmails,
+    required BuildContext context,
   }) async {
     emit(SplitLoading());
     try {
@@ -51,7 +53,7 @@ class SplitCubit extends Cubit<SplitState> {
 
       await useCase.createGroup(request);
 
-      emit(SplitSuccess(AppString.groupCreated));
+      emit(SplitSuccess(context.l10n.groupCreated));
     } catch (e) {
       emit(SplitError(e.toString()));
     }
@@ -99,11 +101,11 @@ class SplitCubit extends Cubit<SplitState> {
     }
   }
 
-  Future<void> deleteGroup(String groupId) async {
+  Future<void> deleteGroup(String groupId, BuildContext context) async {
     emit(SplitLoading());
     try {
       await useCase.deleteGroup(groupId);
-      emit(SplitSuccess(AppString.groupDeleted));
+      emit(SplitSuccess(context.l10n.groupDeleted));
       await getGroups();
     } catch (e) {
       emit(SplitError(e.toString()));
@@ -132,7 +134,7 @@ class SplitCubit extends Cubit<SplitState> {
       await useCase.settleUp(settlement);
 
       await loadGroupDetail(group);
-      // emit(SplitSuccess(AppString.settleBalance));
+      // emit(SplitSuccess(context.l10n.settleBalance));
     } catch (e) {
       emit(SplitError(e.toString()));
     }

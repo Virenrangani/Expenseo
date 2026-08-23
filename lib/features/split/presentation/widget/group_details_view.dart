@@ -2,6 +2,7 @@ import 'package:expenseo/core/constant/border_radius/app_border_radius.dart';
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
 import 'package:expenseo/features/split/presentation/widget/group_details_view/group_expense_page.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class GroupDetailsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTopSummaryCard(totalGroupExpense),
+            _buildTopSummaryCard(totalGroupExpense, context),
 
             AppGap.g24,
 
@@ -57,10 +58,10 @@ class GroupDetailsView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (balance.isEmpty)
-                        const Center(
+                        Center(
                           child: Text(
-                            'All balances are settled! 🎉',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            context.l10n.allBalancesSettled,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         )
                       else
@@ -105,7 +106,7 @@ class GroupDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildTopSummaryCard(double totalExpense) {
+  Widget _buildTopSummaryCard(double totalExpense, BuildContext context) {
     return Padding(
       padding: AppPadding.edgeSymmetricHori16,
       child: Row(
@@ -115,7 +116,7 @@ class GroupDetailsView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Total Group Expense', style: AppTextStyles.h5()),
+                Text(context.l10n.totalGroupExpense, style: AppTextStyles.h5()),
                 AppGap.g4,
                 Text(formatAmount(totalExpense), style: AppTextStyles.h2()),
                 AppGap.g8,
@@ -291,7 +292,9 @@ class GroupDetailsView extends StatelessWidget {
             AppGap.g8,
 
             Text(
-              amount > 0 ? 'Owes You' : (amount < 0 ? 'You Owe' : 'Settled'),
+              amount > 0
+                  ? context.l10n.owesYou
+                  : (amount < 0 ? context.l10n.youOwe : context.l10n.settled),
               style: AppTextStyles.captionBold(
                 color: amount > 0
                     ? AppColor.success
