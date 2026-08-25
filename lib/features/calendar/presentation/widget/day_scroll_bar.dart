@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../cubit/calendar_cubit.dart';
 import '../cubit/calendar_state.dart';
 import 'day_card.dart';
@@ -41,15 +42,19 @@ class _DayScrollBarState extends State<DayScrollBar> {
     if (pos.pixels <= 0) {
       _isSwitching = true;
       cubit.goToPrevMonth();
-      Future.delayed(const Duration(milliseconds: 150),
-              () => _isSwitching = false);
+      Future.delayed(
+        const Duration(milliseconds: 150),
+        () => _isSwitching = false,
+      );
     }
 
     if (pos.pixels >= pos.maxScrollExtent - 2) {
       _isSwitching = true;
       cubit.goToNextMonth();
-      Future.delayed(const Duration(milliseconds: 150),
-              () => _isSwitching = false);
+      Future.delayed(
+        const Duration(milliseconds: 150),
+        () => _isSwitching = false,
+      );
     }
   }
 
@@ -59,9 +64,7 @@ class _DayScrollBarState extends State<DayScrollBar> {
     final screenW = MediaQuery.of(context).size.width;
     final target = (_overflow + dayIndex) * _cellWidth - (screenW / 2);
 
-    _controller.jumpTo(
-      target.clamp(0, _controller.position.maxScrollExtent),
-    );
+    _controller.jumpTo(target.clamp(0, _controller.position.maxScrollExtent));
   }
 
   String _getLetter(int y, int m, int d) {
@@ -77,17 +80,31 @@ class _DayScrollBarState extends State<DayScrollBar> {
         }
 
         _scrollTo(state.day - 1);
-
         final items = _buildDays(context, state);
 
         return SizedBox(
-          height: 60,
-          child: ListView.builder(
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            itemCount: items.length,
-            itemExtent: _cellWidth,
-            itemBuilder: (_, i) => items[i],
+          height: 75,
+          child: ShaderMask(
+            shaderCallback: (bounds) {
+              return const LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.black,
+                  Colors.black,
+                  Colors.transparent,
+                ],
+                stops: [0.0, 0.05, 0.95, 1.0],
+              ).createShader(bounds);
+            },
+            blendMode: BlendMode.dstIn,
+            child: ListView.builder(
+              controller: _controller,
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              itemCount: items.length,
+              itemExtent: _DayScrollBarState._cellWidth,
+              itemBuilder: (_, i) => items[i],
+            ),
           ),
         );
       },
@@ -97,44 +114,52 @@ class _DayScrollBarState extends State<DayScrollBar> {
   List<Widget> _buildDays(BuildContext context, CalendarLoaded s) {
     final list = <Widget>[];
 
-    for (int d = s.daysInPrevMonth - _overflow + 1;
-    d <= s.daysInPrevMonth;
-    d++) {
-      list.add(DayCard(
-        day: d,
-        letter: _getLetter(s.prevYear, s.prevMonthIndex, d),
-        isDim: true,
-        isActive: false,
-        onTap: () => context.read<CalendarCubit>().goToMonth(
-          year: s.prevYear,
-          monthIndex: s.prevMonthIndex,
+    for (
+      int d = s.daysInPrevMonth - _overflow + 1;
+      d <= s.daysInPrevMonth;
+      d++
+    ) {
+      list.add(
+        DayCard(
           day: d,
+          letter: _getLetter(s.prevYear, s.prevMonthIndex, d),
+          isDim: true,
+          isActive: false,
+          onTap: () => context.read<CalendarCubit>().goToMonth(
+            year: s.prevYear,
+            monthIndex: s.prevMonthIndex,
+            day: d,
+          ),
         ),
-      ));
+      );
     }
 
-    for (int d = 1; d <= s.daysInMonth; d++) {
-      list.add(DayCard(
-        day: d,
-        letter: _getLetter(s.year, s.month, d),
-        isActive: d == s.day,
-        isDim: false,
-        onTap: () => context.read<CalendarCubit>().selectDay(d),
-      ));
+    for (var d = 1; d <= s.daysInMonth; d++) {
+      list.add(
+        DayCard(
+          day: d,
+          letter: _getLetter(s.year, s.month, d),
+          isActive: d == s.day,
+          isDim: false,
+          onTap: () => context.read<CalendarCubit>().selectDay(d),
+        ),
+      );
     }
 
-    for (int d = 1; d <= _overflow; d++) {
-      list.add(DayCard(
-        day: d,
-        letter: _getLetter(s.nextYear, s.nextMonthIndex, d),
-        isDim: true,
-        isActive: false,
-        onTap: () => context.read<CalendarCubit>().goToMonth(
-          year: s.nextYear,
-          monthIndex: s.nextMonthIndex,
+    for (var d = 1; d <= _overflow; d++) {
+      list.add(
+        DayCard(
           day: d,
+          letter: _getLetter(s.nextYear, s.nextMonthIndex, d),
+          isDim: true,
+          isActive: false,
+          onTap: () => context.read<CalendarCubit>().goToMonth(
+            year: s.nextYear,
+            monthIndex: s.nextMonthIndex,
+            day: d,
+          ),
         ),
-      ));
+      );
     }
 
     return list;

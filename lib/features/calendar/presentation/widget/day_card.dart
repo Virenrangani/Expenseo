@@ -5,15 +5,14 @@ import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class DayCard extends StatelessWidget {
-
-
   final int day;
   final String letter;
   final bool isActive;
   final bool isDim;
   final VoidCallback onTap;
 
-  const DayCard({super.key,
+  const DayCard({
+    super.key,
     required this.day,
     required this.letter,
     required this.isActive,
@@ -25,35 +24,51 @@ class DayCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
         decoration: BoxDecoration(
           color: isActive ? const Color(0xFF6B6EF4) : Colors.transparent,
           borderRadius: AppBorderRadius.cir20,
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF6B6EF4).withAlpha(100),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              letter,
-              style: AppTextStyles.caption(color: isActive
-              ? AppColor.background
-                  : isDim
-              ? AppColor.background.withAlpha(75)
-                : AppColor.background.withAlpha(150),)
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 250),
+              style: AppTextStyles.caption(
+                color: isActive
+                    ? AppColor.background
+                    : isDim
+                    ? AppColor.background.withAlpha(75)
+                    : AppColor.background.withAlpha(150),
+              ),
+              child: Text(letter),
             ),
-            AppGap.g8,
-            Text(
-              '$day',
+            AppGap.g4,
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 250),
               style: TextStyle(
-                fontSize: 15,
-                fontWeight:
-                isActive ? FontWeight.bold : FontWeight.normal,
+                fontSize: 16,
+                fontWeight: isActive ? FontWeight.w800 : FontWeight.w500,
                 color: isActive
                     ? AppColor.background
                     : isDim
                     ? AppColor.background.withAlpha(75)
                     : AppColor.background,
               ),
+              child: Text('$day'),
             ),
           ],
         ),

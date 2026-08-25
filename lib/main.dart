@@ -1,7 +1,8 @@
 import 'package:expenseo/di/injection.dart';
-import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
+import 'package:expenseo/features/calendar/presentation/page/calendar_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const LogInPage(),
+      home: const CalendarPage(),
     );
   }
 }

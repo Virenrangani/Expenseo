@@ -4,6 +4,7 @@ import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../cubit/calendar_cubit.dart';
 import '../cubit/calendar_state.dart';
 
@@ -34,24 +35,44 @@ class YearPickerPopup extends StatelessWidget {
                 child: Text(
                   '$y',
                   style: TextStyle(
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? AppColor.secondary : AppColor.textPrimary,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    color: isSelected
+                        ? AppColor.secondary
+                        : AppColor.textPrimary,
                   ),
                 ),
               );
             }).toList();
           },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.menu,size: 28,color: AppColor.background,),
-              AppGap.g32,
-
-              Text(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColor.background.withAlpha(25),
+              borderRadius: AppBorderRadius.cir20,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.calendar_month_rounded,
+                  size: 22,
+                  color: AppColor.background,
+                ),
+                AppGap.g12,
+                Text(
                   '$currentYear',
-                  style: AppTextStyles.h4(color: AppColor.background)
-              ),
-            ],
+                  style: AppTextStyles.h4(color: AppColor.background),
+                ),
+                AppGap.g8,
+                const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 20,
+                  color: AppColor.background,
+                ),
+              ],
+            ),
           ),
         );
       },
