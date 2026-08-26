@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
               onTap: () {
                 context.read<LocaleCubit>().changeLocale('en');
-                Navigator.pop(context);
+                context.pop(context);
               },
             ),
             ListTile(
@@ -76,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Text('🇸🇦', style: TextStyle(fontSize: 24)),
               onTap: () {
                 context.read<LocaleCubit>().changeLocale('ar');
-                Navigator.pop(context);
+                context.pop(context);
               },
             ),
             ListTile(
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Text('🇮🇳', style: TextStyle(fontSize: 24)),
               onTap: () {
                 context.read<LocaleCubit>().changeLocale('hi');
-                Navigator.pop(context);
+                context.pop(context);
               },
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/split/presentation/page/group_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +21,10 @@ class GroupCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         final splitCubit = context.read<SplitCubit>();
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (context) => BlocProvider.value(
-              value: splitCubit,
-              child: GroupDetailsPage(group: group),
-            ),
+        context.push(
+          BlocProvider.value(
+            value: splitCubit,
+            child: GroupDetailsPage(group: group),
           ),
         );
       },

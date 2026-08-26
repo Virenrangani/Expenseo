@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             color: AppColor.textPrimary,
             size: 20,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(context),
         ),
         title: Text(
           'Personal Information',
@@ -157,7 +158,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               height: 56,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.primary,

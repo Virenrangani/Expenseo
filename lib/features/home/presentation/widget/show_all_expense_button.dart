@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,13 +19,10 @@ class ShowAllExpenseButton extends StatelessWidget {
     return InkWell(
       borderRadius: AppBorderRadius.cir20,
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => BlocProvider.value(
-              value: context.read<ExpenseCubit>(),
-              child: const UserExpensePage(),
-            ),
+        context.push(
+          BlocProvider.value(
+            value: context.read<ExpenseCubit>(),
+            child: const UserExpensePage(),
           ),
         );
       },
