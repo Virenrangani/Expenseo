@@ -3,6 +3,7 @@ import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/extension/localization_extension.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
 import 'package:expenseo/features/split/presentation/widget/group_details_view/group_expense_page.dart';
 import 'package:flutter/material.dart';
@@ -85,12 +86,8 @@ class GroupDetailsView extends StatelessWidget {
                         size: 30,
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) =>
-                                GroupExpensesPage(expenses: state.expenses),
-                          ),
+                        context.push(
+                          GroupExpensesPage(expenses: state.expenses),
                         );
                       },
                     ),

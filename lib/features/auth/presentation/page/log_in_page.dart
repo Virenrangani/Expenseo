@@ -218,12 +218,7 @@ class _LogInPageState extends State<LogInPage> {
                                   description: context.l10n.dontHaveAnAccount,
                                   pageName: context.l10n.signUp,
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (_) => const SignUpPage(),
-                                      ),
-                                    );
+                                    context.push(const SignUpPage());
                                   },
                                 ),
                               ],

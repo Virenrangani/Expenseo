@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +100,7 @@ void showSettleDialog({
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop(context);
                       },
 
                       style: OutlinedButton.styleFrom(
@@ -121,7 +122,7 @@ void showSettleDialog({
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop(context);
                         context.read<SplitCubit>().settleUp(
                           group: group,
                           toUid: uid,

@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/navigation/app_navigation.dart';
 import '../cubit/expense_cubit.dart';
 
 class FilterDialog extends StatelessWidget {
@@ -58,7 +59,7 @@ class FilterDialog extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              context.pop(context);
                             },
                             icon: const Icon(
                               Icons.close,

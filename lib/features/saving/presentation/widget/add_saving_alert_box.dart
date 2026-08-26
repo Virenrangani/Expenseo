@@ -1,3 +1,4 @@
+import 'package:expenseo/core/extension/snackbar_extension.dart';
 import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/navigation/app_navigation.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
-import '../../../../core/widget/snack_bar/custom_snack_bar.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../cubit/saving_cubit.dart';
 
@@ -47,7 +48,7 @@ class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
                 color: AppColor.error.withAlpha(100),
                 text: context.l10n.cancel,
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop(context);
                 },
               ),
             ),
@@ -61,12 +62,8 @@ class _AddSavingAlertBoxState extends State<AddSavingAlertBox> {
                     widget.goal.id,
                     double.tryParse(savingAmountController.text) ?? 0,
                   );
-                  Navigator.pop(context);
-
-                  CustomSnacksBar.showSuccess(
-                    context,
-                    context.l10n.savingAmountAdded,
-                  );
+                  context.pop(context);
+                  context.showSuccessSnackBar(context.l10n.savingAmountAdded);
                 },
               ),
             ),

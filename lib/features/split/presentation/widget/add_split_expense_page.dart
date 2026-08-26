@@ -1,5 +1,7 @@
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/extension/snackbar_extension.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/domain/entity/split_entity.dart';
@@ -113,7 +115,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: AppColor.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(context),
         ),
         title: Text(
           context.l10n.newSplit,
@@ -125,11 +127,11 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         listener: (context, state) {
           if (state is SplitSuccess) {
             context.read<SplitCubit>().loadGroupDetail(widget.group);
-            Navigator.pop(context);
-            CustomSnacksBar.showSuccess(context, state.message);
+            context.pop(context);
+            context.showSuccessSnackBar(state.message);
           }
           if (state is SplitError) {
-            CustomSnacksBar.showError(context, state.message);
+            context.showErrorSnackBar(state.message);
           }
         },
         builder: (context, state) {
