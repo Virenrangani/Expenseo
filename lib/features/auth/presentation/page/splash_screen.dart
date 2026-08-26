@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../bottom_nav/app_bottom_nav.dart';
+import '../../../profile/presentation/page/complete_profile_page.dart';
 import '../widget/loading_screen.dart';
-import 'complete_profile_page.dart';
 import 'log_in_page.dart';
 
 class AuthGate extends StatefulWidget {
@@ -44,7 +44,7 @@ class _AuthGateState extends State<AuthGate> {
     }
 
     if (!isProfileComplete!) {
-      return const CompleteProfilePage();
+      return CompleteProfilePage(userId: SharedPrefService.getUserId() ?? '');
     }
 
     return const AppBottomNav();

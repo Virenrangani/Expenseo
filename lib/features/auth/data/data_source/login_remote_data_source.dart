@@ -26,7 +26,6 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
         id: user.id,
         email: user.email,
         name: user.name,
-        // isProfileComplete: user.isProfileComplete,
       );
 
       await SharedPrefService.saveTokens(

@@ -26,7 +26,6 @@ class SignUpRemoteDataSourceImpl extends SignUpRemoteDataSource {
         id: user.id,
         email: user.email,
         name: user.name,
-        // isProfileComplete: user.isProfileComplete,
       );
 
       return user;
