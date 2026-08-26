@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/forgot_password/presentation/page/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +9,8 @@ import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
-import '../../../../core/widget/snack_bar/custom_snack_bar.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../cubit/forgot_password_cubit.dart';
 import '../cubit/forgot_password_state.dart';
@@ -97,23 +98,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       final cubit = context.read<ForgotPasswordCubit>();
                       if (state is ForgotPasswordSuccess) {
                         emailFocusNode.unfocus();
-                        CustomSnacksBar.showSuccess(context, state.message);
+                        context.showSuccessSnackBar(state.message);
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => BlocProvider.value(
-                              value: cubit,
-                              child: ResetPasswordPage(
-                                email: emailController.text.trim(),
-                              ),
+                        context.push(
+                          BlocProvider.value(
+                            value: cubit,
+                            child: ResetPasswordPage(
+                              email: emailController.text.trim(),
                             ),
                           ),
                         );
                       }
 
                       if (state is ForgotPasswordFailure) {
-                        CustomSnacksBar.showError(context, state.message);
+                        context.showErrorSnackBar(state.message);
                       }
                     },
                   ),

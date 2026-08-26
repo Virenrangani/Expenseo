@@ -13,6 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
+import '../../../../core/navigation/app_navigation.dart';
 import '../cubit/complete_profile_cubit.dart';
 import '../cubit/complete_profile_state.dart';
 
@@ -93,19 +95,13 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
           await SharedPrefService.setProfileComplete(true);
 
           if (!context.mounted) return;
-
-          await Navigator.of(context).pushReplacement(
-            MaterialPageRoute<void>(builder: (_) => const AppBottomNav()),
-          );
+          await context.pushReplacement(const AppBottomNav());
         }
 
-        if (state.status == CompleteProfileStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage ?? 'Something went wrong'),
-            ),
-          );
-        }
+        if (!context.mounted) return;
+        context.showErrorSnackBar(
+          state.errorMessage ?? context.l10n.somethingWentWrong,
+        );
       },
       child: Scaffold(
         backgroundColor: AppColor.background,

@@ -1,8 +1,8 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
-import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/saving/presentation/cubit/saving_state.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
 import '../cubit/saving_cubit.dart';
 
 class AddSavingGoal extends StatefulWidget {
@@ -33,12 +34,12 @@ class _AddSavingGoalState extends State<AddSavingGoal> {
       child: BlocConsumer<SavingCubit, SavingState>(
         listener: (context, state) {
           if (state is SavingSuccess) {
-            CustomSnacksBar.showSuccess(context, state.message);
-            Navigator.pop(context);
+            context.showSuccessSnackBar(state.message);
+            context.pop(context);
           }
 
           if (state is SavingError) {
-            CustomSnacksBar.showError(context, state.message);
+            context.showErrorSnackBar(state.message);
           }
         },
 

@@ -1,4 +1,4 @@
-import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:expenseo/features/auth/presentation/cubit/otp_cubit.dart';
 import 'package:expenseo/features/auth/presentation/cubit/sign_up_cubit.dart';
@@ -15,6 +15,7 @@ import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../widget/navigation_text.dart';
@@ -49,24 +50,18 @@ class _SignUpPageState extends State<SignUpPage> {
         body: BlocConsumer<SignUpCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              return CustomSnacksBar.showError(context, state.message);
+              return context.showErrorSnackBar(state.message);
             }
             if (state is AuthSuccess) {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => BlocProvider(
-                    create: (_) => GetIt.I<OtpCubit>(),
-                    child: OtpVerificationScreen(
-                      email: emailController.text.trim(),
-                    ),
+              context.push(
+                BlocProvider(
+                  create: (_) => GetIt.I<OtpCubit>(),
+                  child: OtpVerificationScreen(
+                    email: emailController.text.trim(),
                   ),
                 ),
               );
-              return CustomSnacksBar.showSuccess(
-                context,
-                context.l10n.verifyEmail,
-              );
+              return context.showSuccessSnackBar(context.l10n.verifyEmail);
             }
           },
           builder: (context, state) {
@@ -224,12 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         context.l10n.alReadyHaveAnAccount,
                                     pageName: context.l10n.logIn,
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (_) => const LogInPage(),
-                                        ),
-                                      );
+                                      context.push(const LogInPage());
                                     },
                                   ),
 

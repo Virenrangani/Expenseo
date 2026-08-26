@@ -1,4 +1,5 @@
 import 'package:expenseo/core/extension/localization_extension.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -76,21 +77,15 @@ class _SecurityPageState extends State<SecurityPage> {
                 onTap: () async {
                   await context.read<SecurityCubit>().disableSecurity();
                   await _loadSecuritySettings();
-                  if (mounted) {
-                    Navigator.pop(context);
+                  if (context.mounted) {
+                    context.pop(context);
                   }
                 },
                 trailing: Switch.adaptive(
                   value: _isAppLockEnabled,
                   onChanged: (val) async {
                     if (val) {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (context) =>
-                              const PinLockPage(isSetupMode: true),
-                        ),
-                      );
+                      await context.push(const PinLockPage());
                       await _loadSecuritySettings();
                     } else {
                       _showDisablePinDialog();
@@ -161,8 +156,8 @@ class _SecurityPageState extends State<SecurityPage> {
             onPressed: () async {
               await GetIt.I<SecurityService>().clearSecurityData();
               await _loadSecuritySettings();
-              if (mounted) {
-                Navigator.pop(context);
+              if (context.mounted) {
+                context.pop(context);
               }
             },
             child: Text(

@@ -4,7 +4,6 @@ import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
-import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/auth/presentation/cubit/auth_state.dart';
 import 'package:expenseo/features/auth/presentation/cubit/login_cubit.dart';
@@ -19,6 +18,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
+import '../../../../core/navigation/app_navigation.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 
 class LogInPage extends StatefulWidget {
@@ -50,16 +51,13 @@ class _LogInPageState extends State<LogInPage> {
         body: BlocConsumer<LoginCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              CustomSnacksBar.showError(context, state.message);
+              context.showErrorSnackBar(state.message);
             }
 
             if (state is AuthSuccess) {
-              CustomSnacksBar.showSuccess(context, context.l10n.userLogin);
+              context.showSuccessSnackBar(context.l10n.userLogin);
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute<void>(builder: (_) => const AppBottomNav()),
-              );
+              context.pushReplacement(const AppBottomNav());
             }
           },
 
@@ -165,13 +163,7 @@ class _LogInPageState extends State<LogInPage> {
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (context) =>
-                                              const ForgetPassword(),
-                                        ),
-                                      );
+                                      context.push(const ForgetPassword());
                                     },
                                     child: Text(
                                       context.l10n.forgotPassword,
@@ -207,13 +199,11 @@ class _LogInPageState extends State<LogInPage> {
 
                                 TextButton(
                                   onPressed: () async {
-                                    final navigator = Navigator.of(context);
                                     await SharedPrefService.setGuestMode(true);
-                                    if (!mounted) return;
-                                    await navigator.pushReplacement(
-                                      MaterialPageRoute<void>(
-                                        builder: (_) => const AppBottomNav(),
-                                      ),
+                                    if (!context.mounted) return;
+
+                                    await context.pushReplacement(
+                                      const AppBottomNav(),
                                     );
                                   },
                                   child: Text(

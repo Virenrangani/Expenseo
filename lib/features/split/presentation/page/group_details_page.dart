@@ -1,8 +1,9 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/extension/localization_extension.dart';
+import 'package:expenseo/core/extension/snackbar_extension.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
-import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_state.dart';
@@ -43,11 +44,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
               child: BlocConsumer<SplitCubit, SplitState>(
                 listener: (context, state) {
                   if (state is SplitSuccess) {
-                    CustomSnacksBar.showSuccess(context, state.message);
+                    context.showSuccessSnackBar(state.message);
                   }
 
                   if (state is SplitError) {
-                    CustomSnacksBar.showError(context, state.message);
+                    context.showErrorSnackBar(state.message);
                   }
                 },
                 builder: (context, state) {
@@ -69,13 +70,10 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
               child: AppElevatedButton(
                 text: context.l10n.addGroupExpense,
                 isEnabled: true,
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<SplitCubit>(),
-                      child: AddSplitExpensePage(group: widget.group),
-                    ),
+                onPressed: () => context.push(
+                  BlocProvider.value(
+                    value: context.read<SplitCubit>(),
+                    child: AddSplitExpensePage(group: widget.group),
                   ),
                 ),
               ),

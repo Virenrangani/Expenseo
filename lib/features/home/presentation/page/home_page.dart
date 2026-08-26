@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
 import 'package:expenseo/core/widget/login_required_dialog/login_required_dialog.dart';
 import 'package:expenseo/features/expense/presentation/cubit/expense_cubit.dart';
@@ -130,12 +131,7 @@ class _HomePageState extends State<HomePage> {
                         icon: Icons.splitscreen,
                         text: context.l10n.split,
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => const SplitExpense(),
-                            ),
-                          );
+                          context.push(const SplitExpense());
                         },
                       ),
 
@@ -145,12 +141,7 @@ class _HomePageState extends State<HomePage> {
                         icon: Icons.savings_outlined,
                         text: context.l10n.saving,
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => const UserSavingPage(),
-                            ),
-                          );
+                          context.push(const UserSavingPage());
                         },
                       ),
                     ],

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/navigation/app_navigation.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
 import '../../../auth/presentation/page/splash_screen.dart';
 import '../widget/profile_tile.dart';
@@ -217,12 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             context.l10n.personalInfo,
                           );
                         } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => const PersonalInfoPage(),
-                            ),
-                          );
+                          context.push(const PersonalInfoPage());
                         }
                       },
                     ),
@@ -256,12 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             context.l10n.security,
                           );
                         } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => const SecurityPage(),
-                            ),
-                          );
+                          context.push(const SecurityPage());
                         }
                       },
                     ),
@@ -296,14 +287,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       isDestructive: !isGuest,
                       onTap: () async {
                         await SharedPrefService.clearUser();
-                        if (!mounted) return;
-                        await Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => const AuthGate(),
-                          ),
-                          (route) => false,
-                        );
+                        if (!context.mounted) return;
+                        await context.pushAndRemoveAll(const AuthGate());
                       },
                     ),
                   ]),

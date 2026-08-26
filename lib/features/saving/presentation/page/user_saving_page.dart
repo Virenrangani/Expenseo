@@ -22,7 +22,6 @@ class UserSavingPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SavingCubit>(create: (_) => GetIt.I<SavingCubit>()),
-        // BlocProvider<DepositCubit>(create: (_) => GetIt.I<DepositCubit>()),
       ],
       child: Scaffold(
         appBar: AppBar(

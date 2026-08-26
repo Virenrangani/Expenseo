@@ -3,6 +3,7 @@ import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/constant/text_style/app_text_style.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../cubit/otp_cubit.dart';
 import '../cubit/otp_state.dart';
@@ -88,17 +90,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               BlocConsumer<OtpCubit, OtpState>(
                 listener: (context, state) {
                   if (state is OtpSuccess) {
-                    CustomSnacksBar.showSuccess(
-                      context,
-                      context.l10n.otpVerified,
-                    );
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (context) => const LogInPage(),
-                      ),
-                    );
+                    context.showSuccessSnackBar(context.l10n.otpVerified);
+                    context.pushReplacement(const LogInPage());
                   }
 
                   if (state is OtpFailure) {

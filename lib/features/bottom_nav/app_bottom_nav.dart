@@ -47,7 +47,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
               color: Colors.black,
               tabs: const [
                 GButton(icon: Icons.home_outlined, text: 'Home'),
-                GButton(icon: Icons.calendar_month, text: 'Stats'),
+                GButton(icon: Icons.calendar_month, text: 'Calendar'),
                 GButton(icon: Icons.person_outline, text: 'Profile'),
               ],
               selectedIndex: _selectedIndex,

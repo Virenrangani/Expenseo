@@ -1,4 +1,4 @@
-import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +8,7 @@ import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../../domain/entity/user.dart';
@@ -47,12 +48,12 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
       child: BlocConsumer<SplitCubit, SplitState>(
         listener: (context, state) {
           if (state is SplitSuccess) {
-            Navigator.pop(context);
+            context.pop(context);
             context.read<SplitCubit>().getGroups();
-            CustomSnacksBar.showSuccess(context, state.message);
+            context.showSuccessSnackBar(state.message);
           }
           if (state is SplitError) {
-            CustomSnacksBar.showError(context, state.message);
+            context.showErrorSnackBar(state.message);
           }
           if (state is UserSearchResult) {
             setState(() {
@@ -67,7 +68,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
             });
           }
           if (state is UserSearchNotFound) {
-            CustomSnacksBar.showInfo(context, context.l10n.userNotFound);
+            context.showSnackBar(context.l10n.userNotFound);
           }
         },
         builder: (context, state) {
@@ -186,7 +187,7 @@ class _SplitGroupBottomSheetState extends State<SplitGroupBottomSheet> {
     }
 
     if (_members.isEmpty) {
-      CustomSnacksBar.showInfo(context, context.l10n.addAtLeastOneMember);
+      context.showSnackBar(context.l10n.addAtLeastOneMember);
       return;
     }
 

@@ -57,7 +57,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         padding: AppPadding.edgeAll16,
         child: Column(
           children: [
-            // Profile Picture Section
             Center(
               child: Stack(
                 children: [
@@ -102,7 +101,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
             AppGap.g32,
 
-            // Input Fields
             AppFormField(
               controller: _nameController,
               prefixIcon: const Icon(Icons.person_outline_rounded),

@@ -1,4 +1,4 @@
-import 'package:expenseo/core/widget/snack_bar/custom_snack_bar.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/expense/presentation/widget/amount_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +8,7 @@ import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/enums/app_enums.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
 import '../../domain/entity/expense.dart';
@@ -35,11 +36,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
     return BlocListener<ExpenseCubit, ExpenseState>(
       listener: (context, state) {
         if (state is ExpenseSuccess) {
-          Navigator.pop(context);
-          CustomSnacksBar.showSuccess(context, state.message);
+          context.pop(context);
+          context.showSuccessSnackBar(state.message);
         }
         if (state is ExpenseError) {
-          CustomSnacksBar.showSuccess(context, state.message);
+          context.showErrorSnackBar(state.message);
         }
       },
       child: Padding(
