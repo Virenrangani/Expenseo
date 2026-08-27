@@ -10,12 +10,12 @@ import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/navigation/app_navigation.dart';
+import '../../../../core/widget/image_source_picker/image_source_picker.dart';
 import '../cubit/complete_profile_cubit.dart';
 import '../cubit/complete_profile_state.dart';
 
@@ -52,21 +52,6 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     dobController.dispose();
     _cubit.close();
     super.dispose();
-  }
-
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-
-    final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-
-    if (pickedFile == null) return;
-
-    setState(() {
-      profileImage = File(pickedFile.path);
-    });
   }
 
   Future<void> _selectDate() async {
@@ -160,14 +145,45 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
   Widget _buildProfileImage() {
     return GestureDetector(
-      onTap: _pickImage,
-      child: CircleAvatar(
-        radius: 60,
-        backgroundColor: Colors.grey[200],
-        backgroundImage: profileImage != null ? FileImage(profileImage!) : null,
-        child: profileImage == null
-            ? const Icon(Icons.add_a_photo, size: 40, color: AppColor.primary)
-            : null,
+      onTap: () {
+        ImageSourcePicker.show(
+          context,
+          onImagePicked: (image) {
+            setState(() {
+              profileImage = image;
+            });
+          },
+        );
+      },
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 65,
+            backgroundColor: AppColor.primary.withAlpha(15),
+            backgroundImage: profileImage != null
+                ? FileImage(profileImage!)
+                : null,
+            child: profileImage == null
+                ? const Icon(Icons.person, size: 80, color: Colors.grey)
+                : null,
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: AppColor.primary,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.camera_alt_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

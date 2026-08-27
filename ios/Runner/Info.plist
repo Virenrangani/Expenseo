@@ -59,6 +59,10 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+        <key>NSCameraUsageDescription</key>
+        <string>We need access to your camera to take a profile picture.</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>We need access to your photos to pick a profile picture.</string>
 		<key>UISupportedInterfaceOrientations~ipad</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
