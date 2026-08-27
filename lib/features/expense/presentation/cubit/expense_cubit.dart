@@ -34,7 +34,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     emit(ExpenseLoading());
     try {
       await useCase.addExpense(expense);
-      emit(ExpenseSuccess('context.l10n.expenseAdded'));
+      emit(ExpenseSuccess('Expense Added Successfully'));
       await getExpense();
     } catch (e) {
       emit(ExpenseError(e.toString()));
@@ -99,6 +99,17 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       categoryFilter: selectedCategoryFilter,
       paymentFilter: selectedPaymentFilter,
     );
+  }
+
+  void getExpensesByDate(DateTime date) {
+    final filtered = allExpenses.where((e) {
+      return e.createdAt.year == date.year &&
+          e.createdAt.month == date.month &&
+          e.createdAt.day == date.day;
+    }).toList();
+
+    filteredExpenses = filtered;
+    emit(ExpenseLoaded(filteredExpenses));
   }
 
   void applyFilters({
