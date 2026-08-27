@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/saving/domain/entity/saving_goal.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class GoalDetailAppBar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back_ios_new_outlined,

@@ -23,6 +23,10 @@ import 'package:expenseo/features/home/data/repository/home_repository_impl.dart
 import 'package:expenseo/features/home/domain/repository/home_repository.dart';
 import 'package:expenseo/features/home/domain/use_case/home_use_case.dart';
 import 'package:expenseo/features/home/presentation/cubit/home_cubit.dart';
+import 'package:expenseo/features/profile/data/data_source/profile_remote_data_source.dart';
+import 'package:expenseo/features/profile/data/repository_impl/profile_repository_impl.dart';
+import 'package:expenseo/features/profile/domain/repository/profile_repository.dart';
+import 'package:expenseo/features/profile/domain/usecase/profile_usecase.dart';
 import 'package:expenseo/features/saving/data/repository_impl/saving_repository_impl.dart';
 import 'package:expenseo/features/split/data/data_source/split_remote_data_source.dart';
 import 'package:expenseo/features/split/data/repository_impl/split_repository_impl.dart';
@@ -44,6 +48,7 @@ import '../features/forgot_password/data/repository_impl/forgot_password_reposit
 import '../features/forgot_password/domain/repository/forgot_password_repository.dart';
 import '../features/forgot_password/domain/use_case/forgot_password_use_case.dart';
 import '../features/forgot_password/presentation/cubit/forgot_password_cubit.dart';
+import '../features/profile/presentation/cubit/complete_profile_cubit.dart';
 import '../features/saving/data/data_source/saving_remote_data_source.dart';
 import '../features/saving/domain/repository/saving_repository.dart';
 import '../features/saving/domain/usecase/saving_use_case.dart';
@@ -60,7 +65,7 @@ class Injection {
       ..registerLazySingleton<TokenStorage>(TokenStorageImpl.new)
       ..registerLazySingleton<Dio>(() => DioClient.create(tokenStorage: sl()))
       // Security
-      ..registerLazySingleton(() => SecurityService())
+      ..registerLazySingleton(SecurityService.new)
       ..registerLazySingleton(() => SecurityCubit(sl()))
       ..registerLazySingleton<LoginRemoteDataSource>(
         () => LoginRemoteDataSourceImpl(sl()),
@@ -116,6 +121,14 @@ class Injection {
       )
       ..registerLazySingleton(() => SavingUseCase(sl()))
       ..registerLazySingleton(() => SavingCubit(sl()))
-      ..registerLazySingleton(() => DepositCubit(sl()));
+      ..registerLazySingleton(() => DepositCubit(sl()))
+      ..registerLazySingleton<ProfileRemoteDataSource>(
+        () => ProfileRemoteDataSourceImpl(sl()),
+      )
+      ..registerLazySingleton<ProfileRepository>(
+        () => ProfileRepositoryImpl(sl()),
+      )
+      ..registerLazySingleton(() => ProfileUseCase(profileRepository: sl()))
+      ..registerFactory(() => CompleteProfileCubit(profileRepository: sl()));
   }
 }

@@ -5,6 +5,8 @@ import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../navigation/app_navigation.dart';
+
 class LoginRequiredDialog extends StatelessWidget {
   final String featureName;
 
@@ -42,12 +44,8 @@ class LoginRequiredDialog extends StatelessWidget {
               height: 52,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute<void>(builder: (_) => const LogInPage()),
-                    (route) => false,
-                  );
+                  context.pop(context);
+                  context.pushAndRemoveAll(const LogInPage());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.primary,

@@ -32,7 +32,6 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
           'gender': gender,
           'dob': dob,
           'profileImage': profileImageUrl,
-          'isProfileComplete': true,
         },
       );
 

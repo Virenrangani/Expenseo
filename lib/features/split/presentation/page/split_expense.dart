@@ -1,6 +1,7 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
 import 'package:expenseo/core/constant/padding/app_padding.dart';
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/page/split_group_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class SplitExpense extends StatelessWidget {
                       children: [
                         IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => context.pop(context),
                           icon: const Icon(Icons.arrow_back_ios),
                         ),
                         Text(context.l10n.splitBill, style: AppTextStyles.h4()),

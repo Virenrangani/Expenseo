@@ -56,7 +56,7 @@ class _SecurityPageState extends State<SecurityPage> {
             color: AppColor.textPrimary,
             size: 20,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(context),
         ),
         title: Text(
           context.l10n.security,
@@ -149,7 +149,7 @@ class _SecurityPageState extends State<SecurityPage> {
         content: Text(context.l10n.disableAppLockContent),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(context),
             child: Text(context.l10n.cancel),
           ),
           TextButton(

@@ -7,6 +7,7 @@ import 'package:pin_plus_keyboard/pin_plus_keyboard.dart';
 import '../../../../../core/constant/colour/app_color.dart';
 import '../../../../../core/constant/gap/app_gap.dart';
 import '../../../../../core/constant/text_style/app_text_style.dart';
+import '../../../../../core/navigation/app_navigation.dart';
 import '../../../../../core/security/logic/security_cubit.dart';
 import '../../../../../core/security/logic/security_state.dart';
 
@@ -69,7 +70,7 @@ class _PinLockPageState extends State<PinLockPage>
       } else {
         if (enteredPin == _firstPin) {
           await cubit.setupPin(enteredPin);
-          if (mounted && Navigator.canPop(context)) Navigator.pop(context);
+          if (mounted && Navigator.canPop(context)) context.pop(context);
         } else {
           _triggerError(context.l10n.pinsDoNotMatch);
           setState(() {

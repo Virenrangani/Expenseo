@@ -9,6 +9,7 @@ import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -37,11 +38,19 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
   String? selectedGender;
   File? profileImage;
+  late final CompleteProfileCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = GetIt.I<CompleteProfileCubit>();
+  }
 
   @override
   void dispose() {
     phoneController.dispose();
     dobController.dispose();
+    _cubit.close();
     super.dispose();
   }
 
@@ -78,7 +87,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       return;
     }
 
-    context.read<CompleteProfileCubit>().completeProfile(
+    _cubit.completeProfile(
       userId: widget.userId,
       phoneNumber: phoneController.text.trim(),
       gender: selectedGender!,
@@ -89,53 +98,58 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CompleteProfileCubit, CompleteProfileState>(
-      listener: (context, state) async {
-        if (state.status == CompleteProfileStatus.success) {
-          await SharedPrefService.setProfileComplete(true);
+    return BlocProvider.value(
+      value: _cubit,
+      child: BlocListener<CompleteProfileCubit, CompleteProfileState>(
+        listener: (context, state) async {
+          if (state.status == CompleteProfileStatus.success) {
+            await SharedPrefService.setProfileComplete(true);
 
-          if (!context.mounted) return;
-          await context.pushReplacement(const AppBottomNav());
-        }
+            if (!context.mounted) return;
+            await context.pushReplacement(const AppBottomNav());
+            return;
+          }
 
-        if (!context.mounted) return;
-        context.showErrorSnackBar(
-          state.errorMessage ?? context.l10n.somethingWentWrong,
-        );
-      },
-      child: Scaffold(
-        backgroundColor: AppColor.background,
-        appBar: AppBar(
-          title: Text(context.l10n.completeYourProfile),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: AppPadding.edgeAll24,
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  _buildProfileImage(),
+          if (state.status == CompleteProfileStatus.failure &&
+              state.errorMessage != null) {
+            if (!context.mounted) return;
+            context.showErrorSnackBar(state.errorMessage!);
+          }
+        },
+        child: Scaffold(
+          backgroundColor: AppColor.background,
+          appBar: AppBar(
+            title: Text(context.l10n.completeYourProfile),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: AppPadding.edgeAll24,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    _buildProfileImage(),
 
-                  AppGap.g32,
+                    AppGap.g32,
 
-                  _buildPhoneField(),
+                    _buildPhoneField(),
 
-                  AppGap.g20,
+                    AppGap.g20,
 
-                  _buildDobField(),
+                    _buildDobField(),
 
-                  AppGap.g20,
+                    AppGap.g20,
 
-                  _buildGenderField(),
+                    _buildGenderField(),
 
-                  AppGap.g32,
+                    AppGap.g32,
 
-                  _buildContinueButton(),
-                ],
+                    _buildContinueButton(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -231,6 +245,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
         return AppElevatedButton(
           text: isLoading ? 'Saving...' : context.l10n.continueBtn,
+          isEnabled: true,
           onPressed: isLoading ? null : _submitProfile,
         );
       },
