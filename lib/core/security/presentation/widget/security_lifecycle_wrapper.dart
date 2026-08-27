@@ -27,8 +27,7 @@ class _SecurityLifecycleWrapperState extends State<SecurityLifecycleWrapper>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused) {
       context.read<SecurityCubit>().lockApp();
     }
   }

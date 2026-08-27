@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Initialize Quick Actions (Long-press app icon features)
     QuickActionService.init();
   }
 
