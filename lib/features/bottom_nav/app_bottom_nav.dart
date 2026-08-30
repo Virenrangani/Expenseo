@@ -1,4 +1,5 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
+import 'package:expenseo/features/calendar/presentation/page/calendar_page.dart';
 import 'package:expenseo/features/home/presentation/page/home_page.dart';
 import 'package:expenseo/features/profile/presentation/page/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(child: Text('stats')),
+    const CalendarPage(),
     const ProfileScreen(),
   ];
 
