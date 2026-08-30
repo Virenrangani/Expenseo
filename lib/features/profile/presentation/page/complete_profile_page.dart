@@ -133,6 +133,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                     AppGap.g32,
 
                     _buildContinueButton(),
+
+                    AppGap.g16,
+
+                    AppElevatedButton(
+                      isEnabled: true,
+                      text: 'Skip',
+                      onPressed: () async {
+                        await context.pushReplacement(const AppBottomNav());
+                      },
+                    ),
                   ],
                 ),
               ),

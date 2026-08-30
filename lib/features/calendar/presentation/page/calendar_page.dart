@@ -21,88 +21,85 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => CalendarCubit(),
-        ),
-        BlocProvider(
-          create: (_) => GetIt.I<ExpenseCubit>(),
-        ),
+        BlocProvider(create: (_) => CalendarCubit()),
+        BlocProvider(create: (_) => GetIt.I<ExpenseCubit>()),
       ],
       child: Builder(
-          builder: (context) {
-            return Scaffold(
-              backgroundColor: AppColor.primary,
-              body: SafeArea(
-                child: BlocListener<CalendarCubit, CalendarState>(
-                  listenWhen: (prev, curr) {
-                    if (prev is CalendarLoaded && curr is CalendarLoaded) {
-                      return prev.day != curr.day;
-                    }
-                    return false;
-                  },
-                  listener: (context, state) {
-                    if (state is CalendarLoaded) {
-                      final selectedDate = DateTime(
-                          state.year, state.month+1, state.day);
+        builder: (context) {
+          return Scaffold(
+            backgroundColor: AppColor.primaryLight,
+            body: SafeArea(
+              child: BlocListener<CalendarCubit, CalendarState>(
+                listenWhen: (prev, curr) {
+                  if (prev is CalendarLoaded && curr is CalendarLoaded) {
+                    return prev.day != curr.day;
+                  }
+                  return false;
+                },
+                listener: (context, state) {
+                  if (state is CalendarLoaded) {
+                    final selectedDate = DateTime(
+                      state.year,
+                      state.month + 1,
+                      state.day,
+                    );
 
-                      final expenseCubit=context.read<ExpenseCubit>()
+                    final expenseCubit = context.read<ExpenseCubit>()
+                      ..getExpensesByDate(selectedDate);
 
-                     ..getExpensesByDate(selectedDate);
-
-                      showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (_) =>
-                            BlocProvider.value(
-                              value: expenseCubit,
-                              child: const FractionallySizedBox(
-                                heightFactor: 0.70,
-                                child: CalendarBottomSheet(),
-                              ),
-                            ),
-                      );
-                    }
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: AppPadding.edgeSymmetricHori24,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const YearPickerPopup(),
-                            IconButton(
-                                onPressed: () {
-                                  final expenseCubit = context.read<
-                                      ExpenseCubit>();
-                                  showModalBottomSheet<void>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (_) =>
-                                        BlocProvider.value(
-                                          value: expenseCubit,
-                                          child: const AddExpenseSheet(),
-                                        ),
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.add, size: 28,
-                                  color: AppColor.background,)
-                            )
-                          ],
+                    showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: AppColor.background,
+                      builder: (_) => BlocProvider.value(
+                        value: expenseCubit,
+                        child: const FractionallySizedBox(
+                          heightFactor: 0.70,
+                          child: CalendarBottomSheet(),
                         ),
                       ),
-                      const MonthScrollBar(),
-                      AppGap.g20,
-                      const DayScrollBar(),
-                    ],
-                  ),
+                    );
+                  }
+                },
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: AppPadding.edgeSymmetricHori24,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const YearPickerPopup(),
+                          IconButton(
+                            onPressed: () {
+                              final expenseCubit = context.read<ExpenseCubit>();
+                              showModalBottomSheet<void>(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: AppColor.background,
+                                builder: (_) => BlocProvider.value(
+                                  value: expenseCubit,
+                                  child: const AddExpenseSheet(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.add,
+                              size: 28,
+                              color: AppColor.background,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const MonthScrollBar(),
+                    AppGap.g20,
+                    const DayScrollBar(),
+                  ],
                 ),
               ),
-            );
-          }
+            ),
+          );
+        },
       ),
     );
   }
