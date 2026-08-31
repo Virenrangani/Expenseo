@@ -1,8 +1,10 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
+import 'package:expenseo/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:expenseo/features/calendar/presentation/page/calendar_page.dart';
 import 'package:expenseo/features/home/presentation/page/home_page.dart';
 import 'package:expenseo/features/profile/presentation/page/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class AppBottomNav extends StatefulWidget {
@@ -14,18 +16,34 @@ class AppBottomNav extends StatefulWidget {
 
 class _AppBottomNavState extends State<AppBottomNav> {
   int _selectedIndex = 0;
+  late final CalendarCubit _calendarCubit;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const CalendarPage(),
-    const ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _calendarCubit = CalendarCubit();
+  }
+
+  @override
+  void dispose() {
+    _calendarCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      const HomePage(),
+      BlocProvider.value(
+        value: _calendarCubit,
+        child: const CalendarPage(),
+      ),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
       backgroundColor: AppColor.background,
-      body: _pages[_selectedIndex],
+      body: IndexedStack(index: _selectedIndex, children: pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -56,7 +74,11 @@ class _AppBottomNavState extends State<AppBottomNav> {
                 setState(() {
                   _selectedIndex = index;
                 });
+                if (index == 1) {
+                  _calendarCubit.focusToday();
+                }
               },
+
             ),
           ),
         ),

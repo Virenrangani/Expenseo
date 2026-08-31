@@ -14,6 +14,10 @@ class MonthScrollBar extends StatefulWidget {
 
 class _MonthScrollBarState extends State<MonthScrollBar> {
   late ScrollController _controller;
+  int? _lastCenteredIndex;
+
+  static const double _itemWidth = 148;
+  static const double _itemSpacing = 8;
 
   @override
   void initState() {
@@ -25,12 +29,35 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
     }
 
     _controller = ScrollController();
+    _lastCenteredIndex = initialIndex;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final screenWidth = MediaQuery.of(context).size.width;
-      final offset = (initialIndex * 150) - (screenWidth / 2) + (150 / 2);
-      _controller.jumpTo(offset);
+      _scrollToMonth(initialIndex);
     });
+  }
+
+  void _scrollToMonth(int index) {
+    if (!_controller.hasClients) return;
+    if (_lastCenteredIndex == index) return;
+
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    const totalItemWidth = _itemWidth + _itemSpacing;
+    final target =
+        (index * totalItemWidth) - (screenWidth / 2) + (_itemWidth / 2);
+    final maxScroll = _controller.position.maxScrollExtent;
+
+    final clampedTarget = target.clamp(0.0, maxScroll);
+    if ((_controller.offset - clampedTarget).abs() < 1) {
+      _lastCenteredIndex = index;
+      return;
+    }
+
+    _lastCenteredIndex = index;
+    _controller.animateTo(
+      clampedTarget,
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   static const months = [
@@ -54,23 +81,28 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
       builder: (context, state) {
         if (state is! CalendarLoaded) return const SizedBox.shrink();
 
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _scrollToMonth(state.index);
+        });
+
         return SizedBox(
-          height: 60,
+          height: 74,
           child: ShaderMask(
             shaderCallback: (bounds) {
               return const LinearGradient(
                 colors: [
                   Colors.transparent,
-                  Colors.black,
-                  Colors.black,
+                  Colors.white,
+                  Colors.white,
                   Colors.transparent,
                 ],
-                stops: [0.0, 0.1, 0.9, 1.0],
+                stops: [0.0, 0.12, 0.88, 1.0],
               ).createShader(bounds);
             },
             blendMode: BlendMode.dstIn,
             child: ListView.builder(
               controller: _controller,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemCount: 300,
@@ -81,45 +113,33 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
                 return GestureDetector(
                   onTap: () {
                     context.read<CalendarCubit>().selectMonth(i);
-                    final screenWidth = MediaQuery.of(context).size.width;
-                    final offset = (i * 150) - (screenWidth / 2) + (150 / 2);
-                    _controller.animateTo(
-                      offset,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
                   },
-                  child: Container(
-                    width: 150,
-                    color: Colors.transparent,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 260),
+                    curve: Curves.easeOutCubic,
+                    width: _itemWidth,
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
+                    decoration: BoxDecoration(
+                      color: isActive
+                          ? AppColor.background.withAlpha(26)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AnimatedOpacity(
-                          duration: const Duration(milliseconds: 250),
-                          opacity: isActive ? 1.0 : 0.0,
-                          child: Container(
-                            height: 6,
-                            width: 6,
-                            margin: const EdgeInsets.only(bottom: 4),
-                            decoration: const BoxDecoration(
-                              color: AppColor.background,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
                         AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 250),
                           curve: Curves.easeOutCubic,
                           style: TextStyle(
                             color: isActive
                                 ? AppColor.background
-                                : Colors.white54,
-                            fontSize: isActive ? 26 : 22,
+                                : Colors.white.withAlpha(180),
+                            fontSize: isActive ? 24 : 20,
                             fontWeight: isActive
                                 ? FontWeight.w700
                                 : FontWeight.w500,
-                            letterSpacing: isActive ? 0.5 : 0,
+                            letterSpacing: isActive ? 0.3 : 0,
                           ),
                           child: Text(months[month]),
                         ),

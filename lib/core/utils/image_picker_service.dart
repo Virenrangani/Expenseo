@@ -4,14 +4,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ImagePickerService {
+  ImagePickerService();
+
   final ImagePicker _picker = ImagePicker();
 
   Future<File?> pickImage(ImageSource source) async {
-    // 1. Handle Permissions
-    final bool hasPermission = await _handlePermissions(source);
-    if (!hasPermission) return null;
+    if (!await _handlePermissions(source)) return null;
 
-    // 2. Pick Image
     try {
       final XFile? pickedFile = await _picker.pickImage(
         source: source,
@@ -20,36 +19,23 @@ class ImagePickerService {
         maxHeight: 1000,
       );
 
-      if (pickedFile != null) {
-        return File(pickedFile.path);
-      }
-    } catch (e) {
-      // Log error or handle platform exceptions
+      return pickedFile == null ? null : File(pickedFile.path);
+    } catch (_) {
       return null;
     }
-    return null;
   }
 
   Future<bool> _handlePermissions(ImageSource source) async {
-    Permission permission;
-    if (source == ImageSource.camera) {
-      permission = Permission.camera;
-    } else {
-      // For Gallery
-      if (Platform.isIOS) {
-        permission = Permission.photos;
-      } else {
-        permission = Permission.photos;
-      }
-    }
+    final permission = source == ImageSource.camera
+        ? Permission.camera
+        : Permission.photos;
 
-    PermissionStatus status = await permission.status;
-
+    final status = await permission.status;
     if (status.isGranted) return true;
 
     if (status.isDenied) {
-      status = await permission.request();
-      if (status.isGranted) return true;
+      final requested = await permission.request();
+      if (requested.isGranted) return true;
     }
 
     if (status.isPermanentlyDenied) {

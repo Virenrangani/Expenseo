@@ -20,36 +20,70 @@ class YearPickerPopup extends StatelessWidget {
         }
 
         final currentYear = state.year;
-        final years = List.generate(7, (i) => currentYear - 3 + i);
 
-        return PopupMenuButton<int>(
-          onSelected: (year) {
-            context.read<CalendarCubit>().selectYear(year);
-          },
-          itemBuilder: (context) {
-            return years.map((y) {
-              final isSelected = y == currentYear;
+        return GestureDetector(
+          onTap: () {
+            final first = DateTime(currentYear - 50);
+            final last = DateTime(currentYear + 10);
 
-              return PopupMenuItem<int>(
-                value: y,
-                child: Text(
-                  '$y',
-                  style: TextStyle(
-                    fontWeight: isSelected
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                    color: isSelected
-                        ? AppColor.secondary
-                        : AppColor.textPrimary,
+            showModalBottomSheet<void>(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: AppColor.background,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              builder: (ctx) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 12),
+                      Container(
+                        width: 36,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppColor.textSecondary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Select Year', style: AppTextStyles.h4()),
+                            IconButton(
+                              onPressed: () => Navigator.of(ctx).pop(),
+                              icon: const Icon(Icons.close),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: YearPicker(
+                          firstDate: first,
+                          lastDate: last,
+                          selectedDate: DateTime(currentYear),
+                          onChanged: (date) {
+                            context.read<CalendarCubit>().selectYear(date.year);
+                            Navigator.of(ctx).pop();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              );
-            }).toList();
+                );
+              },
+            );
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColor.background.withAlpha(25),
+              color: AppColor.background.withAlpha(20),
+              border: Border.all(color: AppColor.background.withAlpha(35)),
               borderRadius: AppBorderRadius.cir20,
             ),
             child: Row(
@@ -57,18 +91,18 @@ class YearPickerPopup extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.calendar_month_rounded,
-                  size: 22,
+                  size: 18,
                   color: AppColor.background,
                 ),
-                AppGap.g12,
+                AppGap.g8,
                 Text(
                   '$currentYear',
-                  style: AppTextStyles.h4(color: AppColor.background),
+                  style: AppTextStyles.h5(color: AppColor.background),
                 ),
-                AppGap.g8,
+                AppGap.g4,
                 const Icon(
                   Icons.keyboard_arrow_down_rounded,
-                  size: 20,
+                  size: 18,
                   color: AppColor.background,
                 ),
               ],

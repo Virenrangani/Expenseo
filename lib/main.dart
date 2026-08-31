@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'core/security/logic/security_cubit.dart';
-import 'core/security/presentation/widget/security_gate.dart';
-import 'core/security/presentation/widget/security_lifecycle_wrapper.dart';
 import 'core/storage/shared_pref/shared_pref_service.dart';
 import 'core/utils/quick_action_service.dart';
 import 'features/auth/presentation/page/splash_screen.dart';
@@ -62,9 +60,7 @@ class _MyAppState extends State<MyApp> {
             locale: locale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const SecurityLifecycleWrapper(
-              child: SecurityGate(child: AuthGate()),
-            ),
+            home: const AuthGate(),
           );
         },
       ),

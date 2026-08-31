@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../logic/security_cubit.dart';
 
 class SecurityLifecycleWrapper extends StatefulWidget {
   final Widget child;
@@ -27,9 +24,8 @@ class _SecurityLifecycleWrapperState extends State<SecurityLifecycleWrapper>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      context.read<SecurityCubit>().lockApp();
-    }
+    // Manual app locking is disabled. Android system/app lock handles
+    // background and lock states, so the app should not lock itself here.
   }
 
   @override
