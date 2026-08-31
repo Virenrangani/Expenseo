@@ -13,6 +13,7 @@ import '../../../auth/presentation/page/splash_screen.dart';
 import '../widget/profile_tile.dart';
 import 'personal_info/personal_info_page.dart';
 import 'security/security_page.dart';
+import '../../../../core/theme/logic/theme_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -241,6 +242,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: context.l10n.notifications,
                       leadingIcon: Icons.notifications_none_rounded,
                       onTap: () {},
+                    ),
+                    SettingsTile(
+                      title: 'Theme',
+                      leadingIcon: Icons.color_lens_outlined,
+                      trailing: BlocBuilder<ThemeCubit, ThemeMode>(
+                        builder: (context, mode) {
+                          final label = mode == ThemeMode.dark
+                              ? 'Dark'
+                              : (mode == ThemeMode.light ? 'Light' : 'System');
+                          return Text(label, style: AppTextStyles.bodySmall());
+                        },
+                      ),
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                          ),
+                          builder: (_) => Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Choose Theme', style: AppTextStyles.h4()),
+                                AppGap.g16,
+                                RadioListTile<ThemeMode>(
+                                  value: ThemeMode.system,
+                                  groupValue: context.read<ThemeCubit>().state,
+                                  title: const Text('System'),
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      context.read<ThemeCubit>().setTheme(val);
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                                RadioListTile<ThemeMode>(
+                                  value: ThemeMode.light,
+                                  groupValue: context.read<ThemeCubit>().state,
+                                  title: const Text('Light'),
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      context.read<ThemeCubit>().setTheme(val);
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                                RadioListTile<ThemeMode>(
+                                  value: ThemeMode.dark,
+                                  groupValue: context.read<ThemeCubit>().state,
+                                  title: const Text('Dark'),
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      context.read<ThemeCubit>().setTheme(val);
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     SettingsTile(
                       title: context.l10n.security,
