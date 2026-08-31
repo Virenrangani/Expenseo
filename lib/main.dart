@@ -8,9 +8,12 @@ import 'package:get_it/get_it.dart';
 import 'core/security/logic/security_cubit.dart';
 import 'core/storage/shared_pref/shared_pref_service.dart';
 import 'core/utils/quick_action_service.dart';
+import 'core/theme/logic/theme_cubit.dart';
+import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/page/splash_screen.dart';
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 
 final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -49,18 +52,24 @@ class _MyAppState extends State<MyApp> {
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
-          return MaterialApp(
-            title: 'Expenseo',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
+          return BlocProvider<ThemeCubit>(
+            create: (context) => GetIt.I<ThemeCubit>()..loadTheme(),
+            child: BlocBuilder<ThemeCubit, ThemeMode>(
+              builder: (context, themeMode) {
+                return MaterialApp(
+                  title: 'Expenseo',
+                  debugShowCheckedModeBanner: false,
+                  theme: AppTheme.lightTheme,
+                  darkTheme: AppTheme.darkTheme,
+                  themeMode: themeMode,
+                  navigatorKey: appNavigatorKey,
+                  locale: locale,
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  home: const AuthGate(),
+                );
+              },
             ),
-            navigatorKey: appNavigatorKey,
-            locale: locale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: const AuthGate(),
           );
         },
       ),
