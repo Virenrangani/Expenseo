@@ -34,7 +34,7 @@ class LoginRequiredDialog extends StatelessWidget {
             ),
             AppGap.g12,
             Text(
-              context.l10n.loginRequiredDescription as String,
+              context.l10n.loginRequiredDescription(featureName),
               style: AppTextStyles.bodyMedium(),
               textAlign: TextAlign.center,
             ),
@@ -44,7 +44,7 @@ class LoginRequiredDialog extends StatelessWidget {
               height: 52,
               child: ElevatedButton(
                 onPressed: () {
-                  context.pop(context);
+                Navigator.of(context).pop();
                   context.pushAndRemoveAll(const LogInPage());
                 },
                 style: ElevatedButton.styleFrom(

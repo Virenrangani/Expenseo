@@ -54,6 +54,7 @@ import '../features/saving/domain/repository/saving_repository.dart';
 import '../features/saving/domain/usecase/saving_use_case.dart';
 import '../features/saving/presentation/cubit/deposit_cubit.dart';
 import '../features/saving/presentation/cubit/saving_cubit.dart';
+import '../core/theme/logic/theme_cubit.dart';
 
 class Injection {
   final GetIt sl = GetIt.instance;
@@ -67,6 +68,7 @@ class Injection {
       // Security
       ..registerLazySingleton(SecurityService.new)
       ..registerLazySingleton(() => SecurityCubit(sl()))
+      ..registerLazySingleton(() => ThemeCubit())
       ..registerLazySingleton<LoginRemoteDataSource>(
         () => LoginRemoteDataSourceImpl(sl()),
       )

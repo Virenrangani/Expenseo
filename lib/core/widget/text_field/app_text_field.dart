@@ -82,10 +82,12 @@ class AppFormField extends StatelessWidget {
         filled: true,
         prefixIcon: prefixIcon != null
             ? Padding(
-          padding: const EdgeInsetsGeometry.only(left: 12,top: 16, bottom: 16),
-          child: prefixIcon,
-        )
+                padding: const EdgeInsets.only(left: 12, top: 12, bottom: 12),
+                child: prefixIcon,
+              )
             : null,
+        prefixIconConstraints:
+            const BoxConstraints(minWidth: 40, minHeight: 40),
         suffixIcon: suffix != null
             ? InkWell(
           onTap: onSuffixTap,

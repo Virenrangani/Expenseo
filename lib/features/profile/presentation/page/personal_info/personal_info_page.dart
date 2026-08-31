@@ -1,4 +1,3 @@
-import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +45,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             color: AppColor.textPrimary,
             size: 20,
           ),
-          onPressed: () => context.pop(context),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Personal Information',
@@ -131,6 +130,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             AppFormField(
               controller: _dobController,
               prefixIcon: const Icon(Icons.calendar_today_outlined),
+              suffix: const Icon(Icons.keyboard_arrow_down_rounded),
               labelText: context.l10n.dateOfBirth,
               onSuffixTap: () async {
                 final date = await showDatePicker(
@@ -158,7 +158,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               height: 56,
               child: ElevatedButton(
                 onPressed: () {
-                  context.pop(context);
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.primary,
