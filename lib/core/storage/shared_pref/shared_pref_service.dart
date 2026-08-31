@@ -12,6 +12,7 @@ class SharedPrefService {
   static const _keyAccessToken = 'access_token';
   static const _keyRefreshToken = 'refresh_token';
   static const _keyLanguageCode = 'language_code';
+  static const _keyThemeMode = 'theme_mode';
 
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -48,6 +49,14 @@ class SharedPrefService {
 
   static String? getLanguageCode() {
     return _prefs?.getString(_keyLanguageCode);
+  }
+
+  static Future<void> setThemeMode(String mode) async {
+    await _prefs?.setString(_keyThemeMode, mode);
+  }
+
+  static String? getThemeMode() {
+    return _prefs?.getString(_keyThemeMode);
   }
 
   static String? getUserId() {
