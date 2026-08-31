@@ -7,26 +7,34 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageSourcePicker extends StatelessWidget {
-  final Function(File) onImagePicked;
+  final void Function(File) onImagePicked;
+  final ImagePickerService pickerService;
 
-  const ImageSourcePicker({super.key, required this.onImagePicked});
+  ImageSourcePicker({
+    super.key,
+    required this.onImagePicked,
+    ImagePickerService? pickerService,
+  }) : pickerService = pickerService ?? ImagePickerService();
 
   static Future<void> show(
     BuildContext context, {
-    required Function(File) onImagePicked,
+    required void Function(File) onImagePicked,
+    ImagePickerService? pickerService,
   }) {
     return showModalBottomSheet<void>(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (context) => ImageSourcePicker(onImagePicked: onImagePicked),
+      builder: (context) => ImageSourcePicker(
+        onImagePicked: onImagePicked,
+        pickerService: pickerService,
+      ),
     );
   }
 
   Future<void> _handlePick(BuildContext context, ImageSource source) async {
-    final picker = ImagePickerService();
-    final File? image = await picker.pickImage(source);
+    final File? image = await pickerService.pickImage(source);
     if (image != null) {
       onImagePicked(image);
       if (context.mounted) Navigator.pop(context);
