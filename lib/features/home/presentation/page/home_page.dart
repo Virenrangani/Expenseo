@@ -15,14 +15,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/constant/padding/app_padding.dart';
-import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/widget/app_icon_card/app_icon_card.dart';
 import '../../../expense/presentation/page/add_expense_sheet.dart';
 import '../../../split/presentation/page/split_expense.dart';
 import '../cubit/home_cubit.dart';
-import '../../../../core/theme/logic/theme_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -47,21 +45,6 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Spacer(),
-                      BlocBuilder<ThemeCubit, ThemeMode>(
-                        builder: (context, themeMode) {
-                          final isDark = themeMode == ThemeMode.dark;
-                          return IconButton(
-                            icon: Icon(isDark ? Icons.dark_mode : Icons.light_mode, color: AppColor.textPrimary),
-                            onPressed: () => context.read<ThemeCubit>().toggle(),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  AppGap.g32,
                   AppGap.g12,
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {

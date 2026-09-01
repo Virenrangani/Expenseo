@@ -45,20 +45,9 @@ class CalendarPage extends StatelessWidget {
                       state.day,
                     );
 
-                    final expenseCubit = context.read<ExpenseCubit>()
-                      ..getExpensesByDate(selectedDate);
-
-                    showModalBottomSheet<void>(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: AppColor.background,
-                      builder: (_) => BlocProvider.value(
-                        value: expenseCubit,
-                        child: const FractionallySizedBox(
-                          heightFactor: 0.70,
-                          child: CalendarBottomSheet(),
-                        ),
-                      ),
+                    // Load expenses for the selected date; UI shows bottom panel permanently
+                    context.read<ExpenseCubit>().getExpensesByDate(
+                      selectedDate,
                     );
                   }
                 },
@@ -74,10 +63,7 @@ class CalendarPage extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Calendar',
-                                  style: AppTextStyles.h2(),
-                                ),
+                                Text('Calendar', style: AppTextStyles.h2()),
                                 AppGap.g4,
                                 Text(
                                   'Track your spending with clarity',
@@ -104,7 +90,8 @@ class CalendarPage extends StatelessWidget {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                final expenseCubit = context.read<ExpenseCubit>();
+                                final expenseCubit = context
+                                    .read<ExpenseCubit>();
                                 showModalBottomSheet<void>(
                                   context: context,
                                   isScrollControlled: true,
@@ -145,9 +132,12 @@ class CalendarPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Month',
@@ -163,7 +153,9 @@ class CalendarPage extends StatelessWidget {
                             const MonthScrollBar(),
                             AppGap.g8,
                             Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 16),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
                                 vertical: 8,
@@ -175,6 +167,15 @@ class CalendarPage extends StatelessWidget {
                               child: const DayScrollBar(),
                             ),
                           ],
+                        ),
+                      ),
+
+                      AppGap.g20,
+
+                      Expanded(
+                        child: BlocProvider.value(
+                          value: context.read<ExpenseCubit>(),
+                          child: const CalendarBottomSheet(),
                         ),
                       ),
                     ],

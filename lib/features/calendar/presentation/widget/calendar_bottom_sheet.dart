@@ -1,4 +1,3 @@
-import 'package:expenseo/features/expense/presentation/widget/fake_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -28,53 +27,62 @@ class CalendarBottomSheet extends StatelessWidget {
         children: [
           AppGap.g16,
 
-          Container(
-            width: 36,
-            height: 4,
-            decoration: BoxDecoration(
-              color: AppColor.textSecondary,
-              borderRadius: AppBorderRadius.cir4,
-            ),
-          ),
-          AppGap.g16,
-
           Expanded(
             child: BlocBuilder<ExpenseCubit, ExpenseState>(
               builder: (context, state) {
                 if (state is ExpenseLoading) {
-                  return Skeletonizer(
-                    child: HourSlot(
-                      hourLabel: 'Hour Label',
-                      expenses: List.generate(8, (index) => FakeExpense.fake()),
-                    ),
+                  return ListView.builder(
+                    padding: AppPadding.edgeSymmetricHori16,
+                    itemCount: 24,
+                    itemBuilder: (context, hour) {
+                      return Skeletonizer(
+                        child: HourSlot(
+                          hourLabel: hourLabel(hour),
+                          expenses: const [],
+                        ),
+                      );
+                    },
                   );
                 }
 
                 if (state is ExpenseError) {
-                  return Center(child: Text(state.message));
-                }
-
-                if (state is ExpenseLoaded) {
-                  final expenses = state.expenses ?? [];
-
-                  if (expenses.isEmpty) {
-                    return _buildEmptyState();
-                  }
-
-                  final grouped = _groupByHour(expenses);
-
-                  return ListView(
-                    padding: AppPadding.edgeSymmetricHori16,
-                    children: grouped.entries.map((entry) {
-                      return HourSlot(
-                        hourLabel: entry.key,
-                        expenses: entry.value,
-                      );
-                    }).toList(),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text(
+                          state.message,
+                          style: AppTextStyles.bodyMedium(),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          padding: AppPadding.edgeSymmetricHori16,
+                          itemCount: 24,
+                          itemBuilder: (context, hour) => HourSlot(
+                            hourLabel: hourLabel(hour),
+                            expenses: const [],
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 }
 
-                return _buildEmptyState();
+                final expenses = state is ExpenseLoaded
+                    ? (state.expenses ?? [])
+                    : <Expense>[];
+                final grouped = _groupByHour(expenses);
+
+                return ListView(
+                  padding: AppPadding.edgeSymmetricHori16,
+                  children: grouped.entries.map<Widget>((entry) {
+                    return HourSlot(
+                      hourLabel: entry.key,
+                      expenses: entry.value,
+                    );
+                  }).toList(),
+                );
               },
             ),
           ),
@@ -97,22 +105,5 @@ class CalendarBottomSheet extends StatelessWidget {
     }
 
     return map;
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.receipt_long_outlined,
-            size: 48,
-            color: AppColor.divider,
-          ),
-          AppGap.g12,
-          Text('No Expense of the day', style: AppTextStyles.caption()),
-        ],
-      ),
-    );
   }
 }
