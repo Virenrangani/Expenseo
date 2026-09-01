@@ -1,5 +1,6 @@
 import 'package:expenseo/core/localization/locale_cubit.dart';
 import 'package:expenseo/di/injection.dart';
+import 'package:expenseo/features/profile/presentation/page/complete_profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,6 @@ import 'core/storage/shared_pref/shared_pref_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/logic/theme_cubit.dart';
 import 'core/utils/quick_action_service.dart';
-import 'features/auth/presentation/page/splash_screen.dart';
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
                   localizationsDelegates:
                       AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
-                  home: const AuthGate(),
+                  home: const CompleteProfilePage(userId: 'ddd'),
                 );
               },
             ),

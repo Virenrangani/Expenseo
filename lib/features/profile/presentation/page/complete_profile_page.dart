@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:expenseo/core/constant/colour/app_color.dart';
 import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
+import 'package:expenseo/core/widget/app_app_bar.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/core/widget/text_field/app_text_field.dart';
 import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
@@ -102,52 +102,111 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
           }
         },
         child: Scaffold(
-          backgroundColor: AppColor.background,
-          appBar: AppBar(
-            title: Text(context.l10n.completeYourProfile),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            centerTitle: true,
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: AppPadding.edgeAll24,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    _buildProfileImage(),
-
-                    AppGap.g32,
-
-                    _buildPhoneField(),
-
-                    AppGap.g20,
-
-                    _buildDobField(),
-
-                    AppGap.g20,
-
-                    _buildGenderField(),
-
-                    AppGap.g32,
-
-                    _buildContinueButton(),
-
-                    AppGap.g16,
-
-                    AppElevatedButton(
-                      isEnabled: true,
-                      text: 'Skip',
-                      onPressed: () async {
-                        await context.pushReplacement(const AppBottomNav());
-                      },
-                    ),
-                  ],
+          backgroundColor: AppColor.primary,
+          appBar: AppAppBar(
+            title: context.l10n.completeYourProfile,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: InkWell(
+                  onTap: () async {
+                    await context.pushReplacement(const AppBottomNav());
+                  },
+                  child: const Text('Skip'),
                 ),
               ),
-            ),
+            ],
           ),
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        AppGap.g32,
+                        Expanded(
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.only(top: 60),
+                                padding: const EdgeInsets.only(
+                                  top: 80,
+                                  left: 24,
+                                  right: 24,
+                                  bottom: 24,
+                                ),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(30),
+                                  ),
+                                ),
+                                child: Form(
+                                  key: formKey,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Personal Information',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey.shade500,
+                                        ),
+                                      ),
+                                      AppGap.g20,
+                                      _buildLabel(context.l10n.mobileNumber),
+                                      _buildPhoneField(),
+                                      AppGap.g20,
+                                      _buildLabel(context.l10n.dateOfBirth),
+                                      _buildDobField(),
+                                      AppGap.g20,
+                                      _buildLabel(context.l10n.selectGender),
+                                      _buildGenderField(),
+                                      const Spacer(),
+                                      AppGap.g32,
+                                      _buildContinueButton(),
+                                      AppGap.g16,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Align(child: _buildProfileImage()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8, left: 4),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -165,35 +224,43 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
           },
         );
       },
-      child: Stack(
-        children: [
-          CircleAvatar(
-            radius: 65,
-            backgroundColor: AppColor.primary.withAlpha(15),
-            backgroundImage: profileImage != null
-                ? FileImage(profileImage!)
-                : null,
-            child: profileImage == null
-                ? const Icon(Icons.person, size: 80, color: Colors.grey)
-                : null,
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: AppColor.primary,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.camera_alt_rounded,
-                color: Colors.white,
-                size: 20,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: Stack(
+          children: [
+            CircleAvatar(
+              radius: 55,
+              backgroundColor: AppColor.primary.withAlpha(15),
+              backgroundImage: profileImage != null
+                  ? FileImage(profileImage!)
+                  : null,
+              child: profileImage == null
+                  ? const Icon(Icons.person, size: 60, color: Colors.grey)
+                  : null,
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: AppColor.primary,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: const Icon(
+                  Icons.camera_alt_rounded,
+                  color: Colors.white,
+                  size: 16,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -201,14 +268,12 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget _buildPhoneField() {
     return AppFormField(
       controller: phoneController,
-      hintText: context.l10n.mobileNumber,
+      hintText: 'Enter phone number', // Adjusted to look cleaner without prefix
       keyboardType: TextInputType.phone,
-      prefix: const Icon(Icons.phone, size: 20),
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'Required';
         }
-
         return null;
       },
     );
@@ -220,13 +285,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       child: AbsorbPointer(
         child: AppFormField(
           controller: dobController,
-          hintText: context.l10n.dateOfBirth,
-          prefix: const Icon(Icons.calendar_today, size: 20),
+          hintText: 'YYYY-MM-DD',
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
               return 'Required';
             }
-
             return null;
           },
         ),
@@ -235,31 +298,70 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   }
 
   Widget _buildGenderField() {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        hintText: context.l10n.selectGender,
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        prefixIcon: const Icon(Icons.person_outline),
-      ),
-      items: genders.map((gender) {
-        return DropdownMenuItem<String>(value: gender, child: Text(gender));
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          selectedGender = value;
-        });
-      },
+    return FormField<String>(
       validator: (value) {
-        if (value == null) {
+        if (selectedGender == null) {
           return 'Required';
         }
-
         return null;
+      },
+      builder: (state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: genders.map((gender) {
+                final isSelected = selectedGender == gender;
+                return Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedGender = gender;
+                        state.didChange(gender);
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        right: gender != genders.last ? 12 : 0,
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColor.primary
+                              : Colors.grey.shade300,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        gender,
+                        style: TextStyle(
+                          color: isSelected
+                              ? AppColor.primary
+                              : Colors.grey.shade500,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            if (state.hasError)
+              Padding(
+                padding: const EdgeInsets.only(top: 8, left: 4),
+                child: Text(
+                  state.errorText!,
+                  style: const TextStyle(color: AppColor.error, fontSize: 12),
+                ),
+              ),
+          ],
+        );
       },
     );
   }
