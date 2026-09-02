@@ -141,8 +141,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPassword => 'Forgot Password?';
 
   @override
-  String get forgotPasswordDescription =>
-      'Enter your registered email address and we\'ll send you a verification code to reset your password.';
+  String get forgotPasswordDescription => 'Enter your registered email address and we\'ll send you a verification code to reset your password.';
 
   @override
   String get sendOtp => 'Send OTP';
@@ -151,8 +150,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resetPassword => 'Reset Password';
 
   @override
-  String get resetPasswordDescription =>
-      'Create a new password for your account.\nMake sure it is strong and easy for you to remember.';
+  String get resetPasswordDescription => 'Create a new password for your account.\nMake sure it is strong and easy for you to remember.';
 
   @override
   String get enterOtp => 'Enter OTP';
@@ -197,15 +195,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get twoFactorAuthentication => 'Two-Factor Authentication';
 
   @override
-  String get securityRecommendation =>
-      'Protecting your financial data is our top priority. We recommend enabling Biometric Authentication for maximum security.';
+  String get securityRecommendation => 'Protecting your financial data is our top priority. We recommend enabling Biometric Authentication for maximum security.';
 
   @override
   String get disableAppLockTitle => 'Disable App Lock?';
 
   @override
-  String get disableAppLockContent =>
-      'Are you sure you want to remove the security PIN?';
+  String get disableAppLockContent => 'Are you sure you want to remove the security PIN?';
 
   @override
   String get cancel => 'Cancel';
@@ -328,8 +324,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get operationNotAllowed => 'Operation not allowed';
 
   @override
-  String get accountExistsWithDifferentCredential =>
-      'Account exists with different sign-in method';
+  String get accountExistsWithDifferentCredential => 'Account exists with different sign-in method';
 
   @override
   String get invalidCredential => 'Invalid credentials';
@@ -371,8 +366,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get balance => 'Balance';
 
   @override
-  String get permissionDenied =>
-      'This account uses Google Sign-In. Please continue with Google.';
+  String get permissionDenied => 'This account uses Google Sign-In. Please continue with Google.';
 
   @override
   String get dataNotFound => 'Requested data was not found.';
@@ -381,23 +375,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dataAlreadyExists => 'This data already exists.';
 
   @override
-  String get resourceExhausted =>
-      'Service limit reached. Please try again later.';
+  String get resourceExhausted => 'Service limit reached. Please try again later.';
 
   @override
-  String get serviceUnavailable =>
-      'Service is currently unavailable. Please try again later.';
+  String get serviceUnavailable => 'Service is currently unavailable. Please try again later.';
 
   @override
   String get operationCancelled => 'Operation was cancelled. Please try again.';
 
   @override
-  String get timeout =>
-      'Request timed out. Please check your internet connection.';
+  String get timeout => 'Request timed out. Please check your internet connection.';
 
   @override
-  String get invalidArgument =>
-      'Invalid data provided. Please check and try again.';
+  String get invalidArgument => 'Invalid data provided. Please check and try again.';
 
   @override
   String get operationAborted => 'Operation failed. Please try again.';
@@ -445,8 +435,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailVarification => 'Email Verification';
 
   @override
-  String get emailVarificationInto =>
-      'Enter the 6-digit OTP sent to your registered email address.';
+  String get emailVarificationInto => 'Enter the 6-digit OTP sent to your registered email address.';
 
   @override
   String get verifyOtp => 'Verify OTP';
@@ -686,8 +675,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goalDetails => 'Goal Details';
 
   @override
-  String get savingsJourneyLaunchpad =>
-      'Your savings journey is waiting on the launchpad.\nSet your first goal and let\'s take off!';
+  String get savingsJourneyLaunchpad => 'Your savings journey is waiting on the launchpad.\nSet your first goal and let\'s take off!';
 
   @override
   String get addGroupExpense => 'Add Group Expense....';

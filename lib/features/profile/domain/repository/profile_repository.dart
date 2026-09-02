@@ -10,4 +10,6 @@ abstract class ProfileRepository {
     required String dob,
     File? profileImage,
   });
+
+  Future<User> getProfile(String userId);
 }

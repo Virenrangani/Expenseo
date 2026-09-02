@@ -24,4 +24,8 @@ class ProfileUseCase {
       profileImage: profileImage,
     );
   }
+
+  Future<User> getProfile(String userId) {
+    return profileRepository.getProfile(userId);
+  }
 }

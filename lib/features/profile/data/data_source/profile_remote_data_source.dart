@@ -9,6 +9,8 @@ abstract class ProfileRemoteDataSource {
     required String dob,
     String? profileImageUrl,
   });
+
+  Future<UserModel> getProfile(String userId);
 }
 
 class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
@@ -43,6 +45,20 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
           ? data['message']?.toString()
           : 'Failed to complete profile';
 
+      throw Exception(message);
+    }
+  }
+
+  @override
+  Future<UserModel> getProfile(String userId) async {
+    try {
+      final response = await dio.get<Map<String, dynamic>>('/profile/$userId');
+      return UserModel.fromJson(response.data!);
+    } on DioException catch (e) {
+      final data = e.response?.data;
+      final message = data is Map<String, dynamic>
+          ? data['message']?.toString()
+          : 'Failed to fetch profile';
       throw Exception(message);
     }
   }

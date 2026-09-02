@@ -141,8 +141,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get forgotPassword => 'पासवर्ड भूल गए?';
 
   @override
-  String get forgotPasswordDescription =>
-      'अपना पंजीकृत ईमेल पता दर्ज करें और हम आपको अपना पासवर्ड रीसेट करने के लिए एक सत्यापन कोड भेजेंगे।';
+  String get forgotPasswordDescription => 'अपना पंजीकृत ईमेल पता दर्ज करें और हम आपको अपना पासवर्ड रीसेट करने के लिए एक सत्यापन कोड भेजेंगे।';
 
   @override
   String get sendOtp => 'OTP भेजें';
@@ -151,8 +150,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get resetPassword => 'पासवर्ड रीसेट करें';
 
   @override
-  String get resetPasswordDescription =>
-      'अपने खाते के लिए एक नया पासवर्ड बनाएं।\nसुनिश्चित करें कि यह मजबूत है और आपके लिए याद रखना आसान है।';
+  String get resetPasswordDescription => 'अपने खाते के लिए एक नया पासवर्ड बनाएं।\nसुनिश्चित करें कि यह मजबूत है और आपके लिए याद रखना आसान है।';
 
   @override
   String get enterOtp => 'OTP दर्ज करें';
@@ -197,15 +195,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get twoFactorAuthentication => 'दो-चरणीय प्रमाणीकरण';
 
   @override
-  String get securityRecommendation =>
-      'आपके वित्तीय डेटा की सुरक्षा हमारी सर्वोच्च प्राथमिकता है। हम अधिकतम सुरक्षा के लिए बायोमेट्रिक प्रमाणीकरण सक्षम करने की सलाह देते हैं।';
+  String get securityRecommendation => 'आपके वित्तीय डेटा की सुरक्षा हमारी सर्वोच्च प्राथमिकता है। हम अधिकतम सुरक्षा के लिए बायोमेट्रिक प्रमाणीकरण सक्षम करने की सलाह देते हैं।';
 
   @override
   String get disableAppLockTitle => 'ऐप लॉक अक्षम करें?';
 
   @override
-  String get disableAppLockContent =>
-      'क्या आप वाकई सुरक्षा पिन हटाना चाहते हैं?';
+  String get disableAppLockContent => 'क्या आप वाकई सुरक्षा पिन हटाना चाहते हैं?';
 
   @override
   String get cancel => 'रद्द करें';
@@ -220,8 +216,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get logInIntro => 'अपने खाते में\nसाइन इन करें';
 
   @override
-  String get logInSubIntro =>
-      'लॉग इन करने के लिए अपना ईमेल और पासवर्ड दर्ज करें';
+  String get logInSubIntro => 'लॉग इन करने के लिए अपना ईमेल और पासवर्ड दर्ज करें';
 
   @override
   String get email => 'ईमेल पता';
@@ -290,8 +285,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get passwordHint => 'पासवर्ड दर्ज करें';
 
   @override
-  String get passwordNotContainsSpace =>
-      'पासवर्ड में रिक्त स्थान नहीं होना चाहिए';
+  String get passwordNotContainsSpace => 'पासवर्ड में रिक्त स्थान नहीं होना चाहिए';
 
   @override
   String get passwordMinChar => 'न्यूनतम 8 वर्ण आवश्यक हैं';
@@ -330,8 +324,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get operationNotAllowed => 'ऑपरेशन की अनुमति नहीं है';
 
   @override
-  String get accountExistsWithDifferentCredential =>
-      'खाता अलग साइन-इन विधि के साथ मौजूद है';
+  String get accountExistsWithDifferentCredential => 'खाता अलग साइन-इन विधि के साथ मौजूद है';
 
   @override
   String get invalidCredential => 'अमान्य क्रेडेंशियल';
@@ -373,8 +366,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get balance => 'बैलेंस';
 
   @override
-  String get permissionDenied =>
-      'यह खाता Google साइन-इन का उपयोग करता है। कृपया Google के साथ जारी रखें।';
+  String get permissionDenied => 'यह खाता Google साइन-इन का उपयोग करता है। कृपया Google के साथ जारी रखें।';
 
   @override
   String get dataNotFound => 'अनुरोधित डेटा नहीं मिला।';
@@ -383,24 +375,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dataAlreadyExists => 'यह डेटा पहले से मौजूद है।';
 
   @override
-  String get resourceExhausted =>
-      'सेवा सीमा पहुँच गई। कृपया बाद में पुनः प्रयास करें।';
+  String get resourceExhausted => 'सेवा सीमा पहुँच गई। कृपया बाद में पुनः प्रयास करें।';
 
   @override
-  String get serviceUnavailable =>
-      'सेवा वर्तमान में अनुपलब्ध है। कृपया बाद में पुनः प्रयास करें।';
+  String get serviceUnavailable => 'सेवा वर्तमान में अनुपलब्ध है। कृपया बाद में पुनः प्रयास करें।';
 
   @override
-  String get operationCancelled =>
-      'ऑपरेशन रद्द कर दिया गया था। कृपया पुनः प्रयास करें।';
+  String get operationCancelled => 'ऑपरेशन रद्द कर दिया गया था। कृपया पुनः प्रयास करें।';
 
   @override
-  String get timeout =>
-      'अनुरोध का समय समाप्त हो गया। कृपया अपना इंटरनेट कनेक्शन जांचें।';
+  String get timeout => 'अनुरोध का समय समाप्त हो गया। कृपया अपना इंटरनेट कनेक्शन जांचें।';
 
   @override
-  String get invalidArgument =>
-      'अमान्य डेटा प्रदान किया गया। कृपया जांचें और पुनः प्रयास करें।';
+  String get invalidArgument => 'अमान्य डेटा प्रदान किया गया। कृपया जांचें और पुनः प्रयास करें।';
 
   @override
   String get operationAborted => 'ऑपरेशन विफल रहा। कृपया पुनः प्रयास करें।';
@@ -448,8 +435,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emailVarification => 'ईमेल सत्यापन';
 
   @override
-  String get emailVarificationInto =>
-      'अपने पंजीकृत ईमेल पते पर भेजा गया 6-अंकीय OTP दर्ज करें।';
+  String get emailVarificationInto => 'अपने पंजीकृत ईमेल पते पर भेजा गया 6-अंकीय OTP दर्ज करें।';
 
   @override
   String get verifyOtp => 'OTP सत्यापित करें';
@@ -656,8 +642,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get netBanking => 'नेट बैंकिंग';
 
   @override
-  String get passwordResetLinkSent =>
-      'आपके ईमेल पर पासवर्ड रीसेट लिंक भेज दिया गया है';
+  String get passwordResetLinkSent => 'आपके ईमेल पर पासवर्ड रीसेट लिंक भेज दिया गया है';
 
   @override
   String get fullName => 'पूरा नाम';
@@ -690,8 +675,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get goalDetails => 'लक्ष्य विवरण';
 
   @override
-  String get savingsJourneyLaunchpad =>
-      'आपकी बचत यात्रा लॉन्चपैड पर प्रतीक्षा कर रही है।\nअपना पहला लक्ष्य निर्धारित करें और उड़ान भरें!';
+  String get savingsJourneyLaunchpad => 'आपकी बचत यात्रा लॉन्चपैड पर प्रतीक्षा कर रही है।\nअपना पहला लक्ष्य निर्धारित करें और उड़ान भरें!';
 
   @override
   String get addGroupExpense => 'समूह खर्च जोड़ें....';

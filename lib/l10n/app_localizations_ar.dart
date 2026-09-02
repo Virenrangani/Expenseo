@@ -141,8 +141,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgotPassword => 'هل نسيت كلمة المرور؟';
 
   @override
-  String get forgotPasswordDescription =>
-      'أدخل عنوان بريدك الإلكتروني المسجل وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور الخاصة بك.';
+  String get forgotPasswordDescription => 'أدخل عنوان بريدك الإلكتروني المسجل وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور الخاصة بك.';
 
   @override
   String get sendOtp => 'إرسال رمز التحقق';
@@ -151,8 +150,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resetPassword => 'إعادة تعيين كلمة المرور';
 
   @override
-  String get resetPasswordDescription =>
-      'أنشئ كلمة مرور جديدة لحسابك.\nتأكد من أنها قوية ويسهل عليك تذكرها.';
+  String get resetPasswordDescription => 'أنشئ كلمة مرور جديدة لحسابك.\nتأكد من أنها قوية ويسهل عليك تذكرها.';
 
   @override
   String get enterOtp => 'أدخل رمز التحقق';
@@ -197,15 +195,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get twoFactorAuthentication => 'المصادقة الثنائية';
 
   @override
-  String get securityRecommendation =>
-      'حماية بياناتك المالية هي أولويتنا القصوى. نوصي بتمكين المصادقة البيومترية للحصول على أقصى درجات الأمان.';
+  String get securityRecommendation => 'حماية بياناتك المالية هي أولويتنا القصوى. نوصي بتمكين المصادقة البيومترية للحصول على أقصى درجات الأمان.';
 
   @override
   String get disableAppLockTitle => 'تعطيل قفل التطبيق؟';
 
   @override
-  String get disableAppLockContent =>
-      'هل أنت متأكد أنك تريد إزالة رمز الأمان (PIN)؟';
+  String get disableAppLockContent => 'هل أنت متأكد أنك تريد إزالة رمز الأمان (PIN)؟';
 
   @override
   String get cancel => 'إلغاء';
@@ -220,8 +216,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get logInIntro => 'تسجيل الدخول إلى\nحسابك';
 
   @override
-  String get logInSubIntro =>
-      'أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول';
+  String get logInSubIntro => 'أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول';
 
   @override
   String get email => 'عنوان البريد الإلكتروني';
@@ -278,8 +273,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get emailHint => 'أدخل البريد';
 
   @override
-  String get emailNotContainsSpace =>
-      'يجب ألا يحتوي البريد الإلكتروني على مسافات';
+  String get emailNotContainsSpace => 'يجب ألا يحتوي البريد الإلكتروني على مسافات';
 
   @override
   String get emailInvalid => 'أدخل بريد إلكتروني صالح';
@@ -330,8 +324,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get operationNotAllowed => 'العملية غير مسموح بها';
 
   @override
-  String get accountExistsWithDifferentCredential =>
-      'الحساب موجود بطريقة تسجيل دخول مختلفة';
+  String get accountExistsWithDifferentCredential => 'الحساب موجود بطريقة تسجيل دخول مختلفة';
 
   @override
   String get invalidCredential => 'بيانات الاعتماد غير صالحة';
@@ -373,8 +366,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get balance => 'الرصيد';
 
   @override
-  String get permissionDenied =>
-      'هذا الحساب يستخدم تسجيل الدخول بحساب جوجل. يرجى المتابعة باستخدام جوجل.';
+  String get permissionDenied => 'هذا الحساب يستخدم تسجيل الدخول بحساب جوجل. يرجى المتابعة باستخدام جوجل.';
 
   @override
   String get dataNotFound => 'لم يتم العثور على البيانات المطلوبة.';
@@ -383,12 +375,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dataAlreadyExists => 'هذه البيانات موجودة بالفعل.';
 
   @override
-  String get resourceExhausted =>
-      'تم الوصول إلى حد الخدمة. يرجى المحاولة مرة أخرى لاحقًا.';
+  String get resourceExhausted => 'تم الوصول إلى حد الخدمة. يرجى المحاولة مرة أخرى لاحقًا.';
 
   @override
-  String get serviceUnavailable =>
-      'الخدمة غير متوفرة حالياً. يرجى المحاولة مرة أخرى لاحقًا.';
+  String get serviceUnavailable => 'الخدمة غير متوفرة حالياً. يرجى المحاولة مرة أخرى لاحقًا.';
 
   @override
   String get operationCancelled => 'تم إلغاء العملية. يرجى المحاولة مرة أخرى.';
@@ -397,8 +387,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get timeout => 'انتهت مهلة الطلب. يرجى التحقق من اتصالك بالإنترنت.';
 
   @override
-  String get invalidArgument =>
-      'تم تقديم بيانات غير صالحة. يرجى التحقق والمحاولة مرة أخرى.';
+  String get invalidArgument => 'تم تقديم بيانات غير صالحة. يرجى التحقق والمحاولة مرة أخرى.';
 
   @override
   String get operationAborted => 'فشلت العملية. يرجى المحاولة مرة أخرى.';
@@ -446,8 +435,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get emailVarification => 'التحقق من البريد الإلكتروني';
 
   @override
-  String get emailVarificationInto =>
-      'أدخل رمز التحقق (OTP) المكون من 6 أرقام والمرسل إلى بريدك الإلكتروني المسجل.';
+  String get emailVarificationInto => 'أدخل رمز التحقق (OTP) المكون من 6 أرقام والمرسل إلى بريدك الإلكتروني المسجل.';
 
   @override
   String get verifyOtp => 'التحقق من الرمز';
@@ -654,8 +642,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get netBanking => 'الخدمات المصرفية عبر الإنترنت';
 
   @override
-  String get passwordResetLinkSent =>
-      'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+  String get passwordResetLinkSent => 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
 
   @override
   String get fullName => 'الاسم الكامل';
@@ -688,8 +675,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get goalDetails => 'تفاصيل الهدف';
 
   @override
-  String get savingsJourneyLaunchpad =>
-      'رحلة مدخراتك تنتظر على منصة الإطلاق.\nحدد هدفك الأول ولننطلق!';
+  String get savingsJourneyLaunchpad => 'رحلة مدخراتك تنتظر على منصة الإطلاق.\nحدد هدفك الأول ولننطلق!';
 
   @override
   String get addGroupExpense => 'إضافة مصروف جماعي....';

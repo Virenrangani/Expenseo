@@ -36,4 +36,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
       isProfileComplete: userModel.isProfileComplete,
     );
   }
+
+  @override
+  Future<User> getProfile(String userId) async {
+    final userModel = await remoteDataSource.getProfile(userId);
+
+    return User(
+      id: userModel.id,
+      name: userModel.name,
+      email: userModel.email,
+      profileImage: userModel.profileImage,
+      phoneNumber: userModel.phoneNumber,
+      gender: userModel.gender,
+      dob: userModel.dob != null ? DateTime.tryParse(userModel.dob!) : null,
+      isProfileComplete: userModel.isProfileComplete,
+    );
+  }
 }

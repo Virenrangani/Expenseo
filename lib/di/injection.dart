@@ -95,6 +95,17 @@ class Injection {
       ..registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()))
       ..registerLazySingleton(() => HomeUseCase(sl()))
       ..registerFactory(() => HomeCubit(sl()))
+      // Profile
+      ..registerLazySingleton<ProfileRemoteDataSource>(
+        () => ProfileRemoteDataSourceImpl(sl()),
+      )
+      ..registerLazySingleton<ProfileRepository>(
+        () => ProfileRepositoryImpl(sl()),
+      )
+      ..registerLazySingleton<ProfileUseCase>(
+        () => ProfileUseCase(profileRepository: sl()),
+      )
+      ..registerFactory(() => CompleteProfileCubit(profileRepository: sl()))
       ..registerLazySingleton<OtpRemoteDataSource>(
         () => OtpRemoteDataSourceImpl(sl()),
       )
