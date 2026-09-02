@@ -13,26 +13,21 @@ class SecurityGate extends StatelessWidget {
     return BlocBuilder<SecurityCubit, SecurityState>(
       builder: (context, state) {
         if (state is SecurityLocked) {
-          // App is locked, show the PIN unlock screen
           return const PinLockPage();
         }
 
         if (state is SecuritySetupRequired) {
-          // No PIN set up yet, show the PIN creation screen
           return const PinLockPage(isSetupMode: true);
         }
 
-        // Update this line in SecurityGate's build method
         if (state is SecurityAuthenticated || state is SecurityDisabled) {
           return child;
         }
 
         if (state is SecurityAuthenticated) {
-          // User is authorized, show the actual app content
           return child;
         }
 
-        // Initializing state or fallback
         return const Scaffold(body: Center(child: CircularProgressIndicator()));
       },
     );

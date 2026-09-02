@@ -8,12 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/navigation/app_navigation.dart';
+import '../../../../core/theme/logic/theme_cubit.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
 import '../../../auth/presentation/page/splash_screen.dart';
 import '../widget/profile_tile.dart';
 import 'personal_info/personal_info_page.dart';
 import 'security/security_page.dart';
-import '../../../../core/theme/logic/theme_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -258,47 +258,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         showModalBottomSheet<void>(
                           context: context,
                           shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
                           ),
                           builder: (_) => Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text('Choose Theme', style: AppTextStyles.h4()),
                                 AppGap.g16,
-                                RadioListTile<ThemeMode>(
-                                  value: ThemeMode.system,
+                                RadioGroup<ThemeMode>(
                                   groupValue: context.read<ThemeCubit>().state,
-                                  title: const Text('System'),
                                   onChanged: (val) {
                                     if (val != null) {
                                       context.read<ThemeCubit>().setTheme(val);
                                       Navigator.of(context).pop();
                                     }
                                   },
-                                ),
-                                RadioListTile<ThemeMode>(
-                                  value: ThemeMode.light,
-                                  groupValue: context.read<ThemeCubit>().state,
-                                  title: const Text('Light'),
-                                  onChanged: (val) {
-                                    if (val != null) {
-                                      context.read<ThemeCubit>().setTheme(val);
-                                      Navigator.of(context).pop();
-                                    }
-                                  },
-                                ),
-                                RadioListTile<ThemeMode>(
-                                  value: ThemeMode.dark,
-                                  groupValue: context.read<ThemeCubit>().state,
-                                  title: const Text('Dark'),
-                                  onChanged: (val) {
-                                    if (val != null) {
-                                      context.read<ThemeCubit>().setTheme(val);
-                                      Navigator.of(context).pop();
-                                    }
-                                  },
+                                  child: const Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      RadioListTile<ThemeMode>(
+                                        value: ThemeMode.system,
+                                        title: Text('System'),
+                                      ),
+                                      RadioListTile<ThemeMode>(
+                                        value: ThemeMode.light,
+                                        title: Text('Light'),
+                                      ),
+                                      RadioListTile<ThemeMode>(
+                                        value: ThemeMode.dark,
+                                        title: Text('Dark'),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

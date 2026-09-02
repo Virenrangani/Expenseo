@@ -1,5 +1,7 @@
 import 'package:expenseo/core/localization/locale_cubit.dart';
 import 'package:expenseo/di/injection.dart';
+import 'package:expenseo/features/auth/presentation/page/log_in_page.dart';
+import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import 'package:expenseo/features/profile/presentation/page/complete_profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +68,23 @@ class _MyAppState extends State<MyApp> {
                   localizationsDelegates:
                       AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
-                  home: const CompleteProfilePage(userId: 'ddd'),
+                  home: (() {
+                    final isLoggedIn = SharedPrefService.isLoggedIn();
+                    final isGuest = SharedPrefService.isGuest();
+                    final isProfileComplete =
+                        SharedPrefService.isProfileComplete();
+
+                    if (!isLoggedIn && !isGuest) {
+                      return const LogInPage();
+                    }
+
+                    if (isLoggedIn && !isProfileComplete) {
+                      final userId = SharedPrefService.getUserId() ?? '';
+                      return CompleteProfilePage(userId: userId);
+                    }
+
+                    return const AppBottomNav();
+                  })(),
                 );
               },
             ),

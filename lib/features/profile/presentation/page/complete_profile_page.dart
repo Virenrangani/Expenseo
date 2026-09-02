@@ -110,9 +110,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                 padding: const EdgeInsets.all(8),
                 child: InkWell(
                   onTap: () async {
-                    await context.pushReplacement(const AppBottomNav());
-                  },
-                  child: const Text('Skip'),
+                await SharedPrefService.setProfileComplete(true);
+                if (!context.mounted) return;
+                await context.pushReplacement(const AppBottomNav());
+              },
+              child: const Text('Skip'),
                 ),
               ),
             ],

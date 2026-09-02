@@ -38,6 +38,7 @@ import 'package:get_it/get_it.dart';
 
 import '../core/dio/dio_client.dart';
 import '../core/dio/token_storage.dart';
+import '../core/theme/logic/theme_cubit.dart';
 import '../features/auth/data/data_source/login_remote_data_source.dart';
 import '../features/auth/data/data_source/sign_up_remote_data_source.dart';
 import '../features/auth/presentation/cubit/login_cubit.dart';
@@ -54,7 +55,6 @@ import '../features/saving/domain/repository/saving_repository.dart';
 import '../features/saving/domain/usecase/saving_use_case.dart';
 import '../features/saving/presentation/cubit/deposit_cubit.dart';
 import '../features/saving/presentation/cubit/saving_cubit.dart';
-import '../core/theme/logic/theme_cubit.dart';
 
 class Injection {
   final GetIt sl = GetIt.instance;
@@ -68,7 +68,7 @@ class Injection {
       // Security
       ..registerLazySingleton(SecurityService.new)
       ..registerLazySingleton(() => SecurityCubit(sl()))
-      ..registerLazySingleton(() => ThemeCubit())
+      ..registerLazySingleton(ThemeCubit.new)
       ..registerLazySingleton<LoginRemoteDataSource>(
         () => LoginRemoteDataSourceImpl(sl()),
       )

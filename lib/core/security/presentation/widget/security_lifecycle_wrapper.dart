@@ -24,8 +24,6 @@ class _SecurityLifecycleWrapperState extends State<SecurityLifecycleWrapper>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // Manual app locking is disabled. Android system/app lock handles
-    // background and lock states, so the app should not lock itself here.
   }
 
   @override
