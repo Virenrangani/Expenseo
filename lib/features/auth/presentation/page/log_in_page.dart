@@ -21,6 +21,7 @@ import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/navigation/app_navigation.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
+import '../../../profile/presentation/page/complete_profile_page.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -49,7 +50,7 @@ class _LogInPageState extends State<LogInPage> {
       child: Scaffold(
         backgroundColor: AppColor.background,
         body: BlocConsumer<LoginCubit, AuthState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is AuthFailure) {
               context.showErrorSnackBar(state.message);
             }
@@ -57,7 +58,16 @@ class _LogInPageState extends State<LogInPage> {
             if (state is AuthSuccess) {
               context.showSuccessSnackBar(context.l10n.userLogin);
 
-              context.pushReplacement(const AppBottomNav());
+              // After successful login, check if profile is complete.
+              final isProfileComplete = SharedPrefService.isProfileComplete();
+              if (!isProfileComplete) {
+                final userId = SharedPrefService.getUserId() ?? '';
+                // Navigate to profile completion flow
+                await context.pushReplacement(CompleteProfilePage(userId: userId));
+                return;
+              }
+
+              await context.pushReplacement(const AppBottomNav());
             }
           },
 
