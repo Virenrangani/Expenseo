@@ -219,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             context.l10n.personalInfo,
                           );
                         } else {
-                          context.push(const PersonalInfoPage());
+                          context.push(const UserProfileDetailPage());
                         }
                       },
                     ),

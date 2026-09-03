@@ -50,6 +50,7 @@ import '../features/forgot_password/domain/repository/forgot_password_repository
 import '../features/forgot_password/domain/use_case/forgot_password_use_case.dart';
 import '../features/forgot_password/presentation/cubit/forgot_password_cubit.dart';
 import '../features/profile/presentation/cubit/complete_profile_cubit.dart';
+import '../features/profile/presentation/cubit/profile_view_cubit.dart';
 import '../features/saving/data/data_source/saving_remote_data_source.dart';
 import '../features/saving/domain/repository/saving_repository.dart';
 import '../features/saving/domain/usecase/saving_use_case.dart';
@@ -106,6 +107,7 @@ class Injection {
         () => ProfileUseCase(profileRepository: sl()),
       )
       ..registerFactory(() => CompleteProfileCubit(profileRepository: sl()))
+      ..registerFactory(() => ProfileViewCubit(profileRepository: sl()))
       ..registerLazySingleton<OtpRemoteDataSource>(
         () => OtpRemoteDataSourceImpl(sl()),
       )
@@ -134,14 +136,6 @@ class Injection {
       )
       ..registerLazySingleton(() => SavingUseCase(sl()))
       ..registerLazySingleton(() => SavingCubit(sl()))
-      ..registerLazySingleton(() => DepositCubit(sl()))
-      ..registerLazySingleton<ProfileRemoteDataSource>(
-        () => ProfileRemoteDataSourceImpl(sl()),
-      )
-      ..registerLazySingleton<ProfileRepository>(
-        () => ProfileRepositoryImpl(sl()),
-      )
-      ..registerLazySingleton(() => ProfileUseCase(profileRepository: sl()))
-      ..registerFactory(() => CompleteProfileCubit(profileRepository: sl()));
+      ..registerLazySingleton(() => DepositCubit(sl()));
   }
 }
