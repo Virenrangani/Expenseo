@@ -1,3 +1,4 @@
+import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:flutter/material.dart';
 
 import '../constant/text_style/app_text_style.dart';
@@ -38,6 +39,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? Padding(
               padding: const EdgeInsets.all(8),
               child: AppBackButton(
+                onPressed: () => context.pop(context),
                 iconColor: backButtonIconColor ?? Colors.white,
                 borderColor: backButtonBorderColor ?? Colors.white30,
                 backgroundColor:

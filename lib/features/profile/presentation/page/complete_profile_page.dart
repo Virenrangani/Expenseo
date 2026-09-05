@@ -1,23 +1,22 @@
 import 'dart:io';
 
-import 'package:expenseo/core/constant/colour/app_color.dart';
-import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
-import 'package:expenseo/core/widget/app_app_bar.dart';
-import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
-import 'package:expenseo/core/widget/text_field/app_text_field.dart';
-import 'package:expenseo/features/bottom_nav/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/constant/colour/app_color.dart';
+import '../../../../core/constant/gap/app_gap.dart';
 import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/extension/snackbar_extension.dart';
 import '../../../../core/navigation/app_navigation.dart';
-import '../../../../core/widget/image_source_picker/image_source_picker.dart';
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
+import '../../../../core/widget/app_app_bar.dart';
+import '../../../../core/widget/text_field/app_text_field.dart';
+import '../../../bottom_nav/app_bottom_nav.dart';
 import '../cubit/complete_profile_cubit.dart';
 import '../cubit/complete_profile_state.dart';
+import '../widget/complete_profile_widgets.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   final String userId;
@@ -31,10 +30,9 @@ class CompleteProfilePage extends StatefulWidget {
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final List<String> genders = ['Male', 'Female', 'Other'];
+  final List<String> genders = const ['Male', 'Female', 'Other'];
 
   String? selectedGender;
   File? profileImage;
@@ -63,14 +61,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     );
 
     if (pickedDate == null) return;
-
     dobController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
   }
 
   void _submitProfile() {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
+    if (!formKey.currentState!.validate()) return;
 
     _cubit.completeProfile(
       userId: widget.userId,
@@ -81,6 +76,12 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     );
   }
 
+  Future<void> _onSkipPressed() async {
+    await SharedPrefService.setProfileComplete(true);
+    if (!mounted) return;
+    await context.pushReplacement(const AppBottomNav());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -89,7 +90,6 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         listener: (context, state) async {
           if (state.status == CompleteProfileStatus.success) {
             await SharedPrefService.setProfileComplete(true);
-
             if (!context.mounted) return;
             await context.pushReplacement(const AppBottomNav());
             return;
@@ -109,12 +109,10 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: InkWell(
-                  onTap: () async {
-                await SharedPrefService.setProfileComplete(true);
-                if (!context.mounted) return;
-                await context.pushReplacement(const AppBottomNav());
-              },
-              child: const Text('Skip'),
+                  onTap: _onSkipPressed,
+                  child: const Center(
+                    child: Text('Skip', style: TextStyle(color: Colors.white)),
+                  ),
                 ),
               ),
             ],
@@ -133,57 +131,30 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
-                              Container(
-                                width: double.infinity,
-                                margin: const EdgeInsets.only(top: 60),
-                                padding: const EdgeInsets.only(
-                                  top: 80,
-                                  left: 24,
-                                  right: 24,
-                                  bottom: 24,
-                                ),
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(30),
-                                  ),
-                                ),
-                                child: Form(
-                                  key: formKey,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Personal Information',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey.shade500,
-                                        ),
-                                      ),
-                                      AppGap.g20,
-                                      _buildLabel(context.l10n.mobileNumber),
-                                      _buildPhoneField(),
-                                      AppGap.g20,
-                                      _buildLabel(context.l10n.dateOfBirth),
-                                      _buildDobField(),
-                                      AppGap.g20,
-                                      _buildLabel(context.l10n.selectGender),
-                                      _buildGenderField(),
-                                      const Spacer(),
-                                      AppGap.g32,
-                                      _buildContinueButton(),
-                                      AppGap.g16,
-                                    ],
-                                  ),
-                                ),
+                              _ProfileFormCard(
+                                formKey: formKey,
+                                phoneController: phoneController,
+                                dobController: dobController,
+                                genders: genders,
+                                selectedGender: selectedGender,
+                                onGenderChanged: (gender) {
+                                  setState(() => selectedGender = gender);
+                                },
+                                onDateTap: _selectDate,
+                                onSubmit: _submitProfile,
                               ),
                               Positioned(
                                 top: 0,
                                 left: 0,
                                 right: 0,
-                                child: Align(child: _buildProfileImage()),
+                                child: Align(
+                                  child: EditableProfileAvatar(
+                                    profileImage: profileImage,
+                                    onImageSelected: (image) {
+                                      setState(() => profileImage = image);
+                                    },
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -199,186 +170,96 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       ),
     );
   }
+}
 
-  Widget _buildLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8, left: 4),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.grey.shade600,
-          fontWeight: FontWeight.w500,
-        ),
+class _ProfileFormCard extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+  final TextEditingController phoneController;
+  final TextEditingController dobController;
+  final List<String> genders;
+  final String? selectedGender;
+  final ValueChanged<String> onGenderChanged;
+  final VoidCallback onDateTap;
+  final VoidCallback onSubmit;
+
+  const _ProfileFormCard({
+    required this.formKey,
+    required this.phoneController,
+    required this.dobController,
+    required this.genders,
+    required this.selectedGender,
+    required this.onGenderChanged,
+    required this.onDateTap,
+    required this.onSubmit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 60),
+      padding: const EdgeInsets.only(top: 80, left: 24, right: 24, bottom: 24),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
-    );
-  }
-
-  Widget _buildProfileImage() {
-    return GestureDetector(
-      onTap: () {
-        ImageSourcePicker.show(
-          context,
-          onImagePicked: (image) {
-            setState(() {
-              profileImage = image;
-            });
-          },
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-        ),
-        child: Stack(
-          children: [
-            CircleAvatar(
-              radius: 55,
-              backgroundColor: AppColor.primary.withAlpha(15),
-              backgroundImage: profileImage != null
-                  ? FileImage(profileImage!)
-                  : null,
-              child: profileImage == null
-                  ? const Icon(Icons.person, size: 60, color: Colors.grey)
-                  : null,
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: AppColor.primary,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: const Icon(
-                  Icons.camera_alt_rounded,
-                  color: Colors.white,
-                  size: 16,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPhoneField() {
-    return AppFormField(
-      controller: phoneController,
-      hintText: 'Enter phone number', // Adjusted to look cleaner without prefix
-      keyboardType: TextInputType.phone,
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'Required';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildDobField() {
-    return GestureDetector(
-      onTap: _selectDate,
-      child: AbsorbPointer(
-        child: AppFormField(
-          controller: dobController,
-          hintText: 'YYYY-MM-DD',
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return 'Required';
-            }
-            return null;
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGenderField() {
-    return FormField<String>(
-      validator: (value) {
-        if (selectedGender == null) {
-          return 'Required';
-        }
-        return null;
-      },
-      builder: (state) {
-        return Column(
+      child: Form(
+        key: formKey,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: genders.map((gender) {
-                final isSelected = selectedGender == gender;
-                return Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = gender;
-                        state.didChange(gender);
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        right: gender != genders.last ? 12 : 0,
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: isSelected
-                              ? AppColor.primary
-                              : Colors.grey.shade300,
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        gender,
-                        style: TextStyle(
-                          color: isSelected
-                              ? AppColor.primary
-                              : Colors.grey.shade500,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
+            Text(
+              'Personal Information',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade500,
+              ),
             ),
-            if (state.hasError)
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 4),
-                child: Text(
-                  state.errorText!,
-                  style: const TextStyle(color: AppColor.error, fontSize: 12),
+            AppGap.g20,
+            FormFieldLabel(text: context.l10n.mobileNumber),
+            AppFormField(
+              controller: phoneController,
+              hintText: 'Enter phone number',
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Required';
+                }
+                return null;
+              },
+            ),
+            AppGap.g20,
+            FormFieldLabel(text: context.l10n.dateOfBirth),
+            GestureDetector(
+              onTap: onDateTap,
+              child: AbsorbPointer(
+                child: AppFormField(
+                  controller: dobController,
+                  hintText: 'YYYY-MM-DD',
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
                 ),
               ),
+            ),
+            AppGap.g20,
+            FormFieldLabel(text: context.l10n.selectGender),
+            GenderSelectorField(
+              genders: genders,
+              selectedGender: selectedGender,
+              onGenderChanged: onGenderChanged,
+            ),
+            const Spacer(),
+            AppGap.g32,
+            CompleteProfileSubmitButton(onPressed: onSubmit),
+            AppGap.g16,
           ],
-        );
-      },
-    );
-  }
-
-  Widget _buildContinueButton() {
-    return BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
-      builder: (context, state) {
-        final isLoading = state.status == CompleteProfileStatus.loading;
-
-        return AppElevatedButton(
-          text: isLoading ? 'Saving...' : context.l10n.continueBtn,
-          isEnabled: true,
-          onPressed: isLoading ? null : _submitProfile,
-        );
-      },
+        ),
+      ),
     );
   }
 }

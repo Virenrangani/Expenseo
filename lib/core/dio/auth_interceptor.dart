@@ -12,7 +12,6 @@ class AuthInterceptor extends Interceptor {
   final RefreshTokenService refreshService;
 
   bool _isRefreshing = false;
-
   Future<String?>? _refreshFuture;
 
   AuthInterceptor({
@@ -27,12 +26,12 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (options.path.contains('/login') ||
+        options.path.contains('/register') ||
         options.path.contains('/auth/refresh')) {
       return handler.next(options);
     }
 
     final token = await tokenStorage.getAccessToken();
-
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }
@@ -52,47 +51,55 @@ class AuthInterceptor extends Interceptor {
     final request = err.requestOptions;
 
     if (request.path.contains('/auth/refresh')) {
+      await _handleSessionExpired();
       return handler.next(err);
     }
 
     try {
+      // Synchronize refresh calls across concurrent failed requests
       if (!_isRefreshing) {
         _isRefreshing = true;
         _refreshFuture = refreshService.refresh();
       }
 
-      // Only await it once
       final newToken = await _refreshFuture;
       _isRefreshing = false;
 
-      if (newToken == null) {
-        await tokenStorage.clear();
+      // If backend returned null/empty token (refresh token was expired)
+      if (newToken == null || newToken.isEmpty) {
+        await _handleSessionExpired();
         return handler.next(err);
       }
 
-      // Update the failed request with the new token
+      // Retry the original request with the fresh token
       request.headers['Authorization'] = 'Bearer $newToken';
-      final response = await dio.fetch<void>(request);
-
+      final response = await dio.fetch<dynamic>(request);
       return handler.resolve(response);
     } catch (_) {
       _isRefreshing = false;
-      await tokenStorage.clear();
-
-      if (appNavigatorKey.currentContext != null) {
-        ScaffoldMessenger.of(appNavigatorKey.currentContext!).showSnackBar(
-          const SnackBar(
-            content: Text('Session expired. Please log in again.'),
-          ),
-        );
-      }
-
-      await appNavigatorKey.currentState?.pushAndRemoveUntil(
-        MaterialPageRoute<void>(builder: (context) => const LogInPage()),
-        (route) => false,
-      );
-
+      await _handleSessionExpired();
       return handler.next(err);
     }
+  }
+
+  Future<void> _handleSessionExpired() async {
+    await tokenStorage.clear();
+
+    final context = appNavigatorKey.currentContext;
+    if (context != null && context.mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(
+            content: Text('Session expired. Please log in again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+    }
+
+    await appNavigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (_) => const LogInPage()),
+      (route) => false,
+    );
   }
 }

@@ -9,6 +9,7 @@ class SharedPrefService {
   static const _keyIsLoggedIn = 'is_logged_in';
   static const _keyIsGuest = 'is_guest';
   static const _keyIsProfileComplete = 'is_profile_complete';
+  static const _keyUserProfileImage = 'user_profile_image';
   static const _keyAccessToken = 'access_token';
   static const _keyRefreshToken = 'refresh_token';
   static const _keyLanguageCode = 'language_code';
@@ -41,6 +42,19 @@ class SharedPrefService {
 
   static Future<void> setProfileComplete(bool complete) async {
     await _prefs?.setBool(_keyIsProfileComplete, complete);
+  }
+
+  /// Save profile image as string (can be URL or data URL)
+  static Future<void> saveProfileImage(String? image) async {
+    if (image == null) {
+      await _prefs?.remove(_keyUserProfileImage);
+    } else {
+      await _prefs?.setString(_keyUserProfileImage, image);
+    }
+  }
+
+  static String? getUserProfileImage() {
+    return _prefs?.getString(_keyUserProfileImage);
   }
 
   static Future<void> setLanguageCode(String languageCode) async {

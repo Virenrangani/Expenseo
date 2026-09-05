@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import '../../../../core/utils/image_base64.dart';
+import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../auth/domain/entity/user.dart';
 import '../../domain/repository/profile_repository.dart';
 import '../data_source/profile_remote_data_source.dart';
@@ -17,15 +19,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String dob,
     File? profileImage,
   }) async {
+    String? profileImageBase64;
+    if (profileImage != null) {
+      profileImageBase64 = await fileToBase64DataUrl(profileImage);
+    }
+
     final userModel = await remoteDataSource.completeProfile(
       userId: userId,
       phoneNumber: phoneNumber,
       gender: gender,
       dob: dob,
-      profileImageUrl: profileImage?.path,
+      profileImageUrl: profileImageBase64,
     );
 
-    return User(
+    final user = User(
       id: userModel.id,
       name: userModel.name,
       email: userModel.email,
@@ -35,13 +42,19 @@ class ProfileRepositoryImpl implements ProfileRepository {
       dob: userModel.dob != null ? DateTime.tryParse(userModel.dob!) : null,
       isProfileComplete: userModel.isProfileComplete,
     );
+
+    // Persist key profile data locally so UI can show them without extra API calls.
+    await SharedPrefService.setProfileComplete(user.isProfileComplete);
+    await SharedPrefService.saveProfileImage(user.profileImage);
+
+    return user;
   }
 
   @override
   Future<User> getProfile(String userId) async {
     final userModel = await remoteDataSource.getProfile(userId);
 
-    return User(
+    final user = User(
       id: userModel.id,
       name: userModel.name,
       email: userModel.email,
@@ -51,5 +64,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
       dob: userModel.dob != null ? DateTime.tryParse(userModel.dob!) : null,
       isProfileComplete: userModel.isProfileComplete,
     );
+
+    await SharedPrefService.setProfileComplete(user.isProfileComplete);
+    await SharedPrefService.saveProfileImage(user.profileImage);
+
+    return user;
   }
 }

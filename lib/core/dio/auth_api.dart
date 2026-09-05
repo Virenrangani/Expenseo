@@ -24,7 +24,7 @@ class AuthApi {
 
   Future<RefreshTokenResponse> refreshToken(String refreshToken) async {
     final response = await dio.post<Map<String, dynamic>>(
-      '/refresh',
+      '/auth/refresh', // Added /auth prefix
       data: {'refreshToken': refreshToken},
       options: Options(headers: {'Authorization': null}),
     );
