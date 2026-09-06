@@ -26,7 +26,6 @@ class CalendarBottomSheet extends StatelessWidget {
       child: Column(
         children: [
           AppGap.g16,
-
           Expanded(
             child: BlocBuilder<ExpenseCubit, ExpenseState>(
               builder: (context, state) {
@@ -46,42 +45,36 @@ class CalendarBottomSheet extends StatelessWidget {
                 }
 
                 if (state is ExpenseError) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Text(
-                          state.message,
-                          style: AppTextStyles.bodyMedium(),
-                        ),
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        state.message,
+                        style: AppTextStyles.bodyMedium(color: AppColor.error),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          padding: AppPadding.edgeSymmetricHori16,
-                          itemCount: 24,
-                          itemBuilder: (context, hour) => HourSlot(
-                            hourLabel: hourLabel(hour),
-                            expenses: const [],
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   );
                 }
 
                 final expenses = state is ExpenseLoaded
                     ? (state.expenses ?? [])
                     : <Expense>[];
+
                 final grouped = _groupByHour(expenses);
 
-                return ListView(
+                return ListView.builder(
                   padding: AppPadding.edgeSymmetricHori16,
-                  children: grouped.entries.map<Widget>((entry) {
+                  itemCount: 24,
+                  itemBuilder: (context, hour) {
+                    final label = hourLabel(hour);
+                    final slotExpenses = grouped[hour] ?? [];
+
                     return HourSlot(
-                      hourLabel: entry.key,
-                      expenses: entry.value,
+                      key: ValueKey('$label-${slotExpenses.length}'),
+                      hourLabel: label,
+                      expenses: slotExpenses,
                     );
-                  }).toList(),
+                  },
                 );
               },
             ),
@@ -91,17 +84,18 @@ class CalendarBottomSheet extends StatelessWidget {
     );
   }
 
-  Map<String, List<Expense>> _groupByHour(List<Expense> expenses) {
-    final Map<String, List<Expense>> map = {};
-
-    for (var h = 0; h < 24; h++) {
-      final label = hourLabel(h);
-      map[label] = [];
-    }
+  Map<int, List<Expense>> _groupByHour(List<Expense> expenses) {
+    final Map<int, List<Expense>> map = {
+      for (int h = 0; h < 24; h++) h: <Expense>[],
+    };
 
     for (final e in expenses) {
-      final label = hourLabel(e.createdAt.hour);
-      map[label]!.add(e);
+      final localDateTime = e.createdAt;
+      final h = localDateTime.hour;
+
+      if (map.containsKey(h)) {
+        map[h]!.add(e);
+      }
     }
 
     return map;

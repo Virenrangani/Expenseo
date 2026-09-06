@@ -101,15 +101,22 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     );
   }
 
-  void getExpensesByDate(DateTime date) {
-    final filtered = allExpenses.where((e) {
-      return e.createdAt.year == date.year &&
-          e.createdAt.month == date.month &&
-          e.createdAt.day == date.day;
-    }).toList();
+  Future<void> getExpensesByDate(DateTime date) async {
+    emit(ExpenseLoading());
+    try {
+      final allExpenses = await useCase.getExpense();
 
-    filteredExpenses = filtered;
-    emit(ExpenseLoaded(filteredExpenses));
+      final filtered = allExpenses.where((e) {
+        final local = e.createdAt;
+        return local.year == date.year &&
+            local.month == date.month &&
+            local.day == date.day;
+      }).toList();
+
+      emit(ExpenseLoaded(filtered));
+    } catch (e) {
+      emit(ExpenseError(e.toString()));
+    }
   }
 
   void applyFilters({
@@ -128,19 +135,22 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     if (dateFilter == DateFilter.today) {
       final now = DateTime.now();
       result = result.where((e) {
-        return e.createdAt.day == now.day &&
-            e.createdAt.month == now.month &&
-            e.createdAt.year == now.year;
+        final dt = e.createdAt.toLocal();
+        return dt.day == now.day &&
+            dt.month == now.month &&
+            dt.year == now.year;
       }).toList();
     } else if (dateFilter == DateFilter.week) {
       final now = DateTime.now();
       result = result.where((e) {
-        return now.difference(e.createdAt).inDays <= 7;
+        final dt = e.createdAt.toLocal();
+        return now.difference(dt).inDays <= 7;
       }).toList();
     } else if (dateFilter == DateFilter.month) {
       final now = DateTime.now();
       result = result.where((e) {
-        return e.createdAt.month == now.month && e.createdAt.year == now.year;
+        final dt = e.createdAt.toLocal();
+        return dt.month == now.month && dt.year == now.year;
       }).toList();
     }
 
@@ -166,7 +176,6 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       }).toList();
     }
 
-    /// SEARCH FILTER
     if (searchQuery.isNotEmpty) {
       result = result.where((e) {
         final title = e.title.toLowerCase();

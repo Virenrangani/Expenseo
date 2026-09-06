@@ -1,4 +1,3 @@
-
 import '../../../../core/enums/app_enums.dart';
 
 class ExpenseModel {
@@ -48,7 +47,7 @@ class ExpenseModel {
       'expenseCategory': category.key,
       'expenseType': type.key,
       'transactionType': paymentMethod.key,
-      'createdAt': createdAt.toIso8601String(),
+      'createdAt': createdAt.toUtc().toIso8601String(),
     };
   }
 }

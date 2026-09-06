@@ -13,53 +13,11 @@ class MonthScrollBar extends StatefulWidget {
 }
 
 class _MonthScrollBarState extends State<MonthScrollBar> {
-  late ScrollController _controller;
+  late final ScrollController _controller;
   int? _lastCenteredIndex;
 
   static const double _itemWidth = 148;
-  static const double _itemSpacing = 8;
-
-  @override
-  void initState() {
-    super.initState();
-    final state = context.read<CalendarCubit>().state;
-    var initialIndex = 96;
-    if (state is CalendarLoaded) {
-      initialIndex = state.index;
-    }
-
-    _controller = ScrollController();
-    _lastCenteredIndex = initialIndex;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToMonth(initialIndex);
-    });
-  }
-
-  void _scrollToMonth(int index) {
-    if (!_controller.hasClients) return;
-    if (_lastCenteredIndex == index) return;
-
-    final screenWidth = MediaQuery.sizeOf(context).width;
-    const totalItemWidth = _itemWidth + _itemSpacing;
-    final target =
-        (index * totalItemWidth) - (screenWidth / 2) + (_itemWidth / 2);
-    final maxScroll = _controller.position.maxScrollExtent;
-
-    final clampedTarget = target.clamp(0.0, maxScroll);
-    if ((_controller.offset - clampedTarget).abs() < 1) {
-      _lastCenteredIndex = index;
-      return;
-    }
-
-    _lastCenteredIndex = index;
-    _controller.animateTo(
-      clampedTarget,
-      duration: const Duration(milliseconds: 260),
-      curve: Curves.easeOutCubic,
-    );
-  }
-
+  static const double _itemMargin = 4;
   static const months = [
     'January',
     'February',
@@ -76,14 +34,66 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = context.read<CalendarCubit>().state;
+      if (state is CalendarLoaded) {
+        _scrollToMonth(state.index, animate: false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _scrollToMonth(int index, {bool animate = true}) {
+    if (!_controller.hasClients) return;
+    if (_lastCenteredIndex == index) return;
+
+    _lastCenteredIndex = index;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    const totalItemWidth = _itemWidth + (_itemMargin * 2);
+
+    final target =
+        (index * totalItemWidth) - (screenWidth / 2) + (_itemWidth / 2);
+    final clampedTarget = target.clamp(
+      0.0,
+      _controller.position.maxScrollExtent,
+    );
+
+    if (animate) {
+      _controller.animateTo(
+        clampedTarget,
+        duration: const Duration(milliseconds: 280),
+        curve: Curves.easeOutCubic,
+      );
+    } else {
+      _controller.jumpTo(clampedTarget);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarCubit, CalendarState>(
+    return BlocConsumer<CalendarCubit, CalendarState>(
+      listenWhen: (prev, curr) {
+        if (prev is CalendarLoaded && curr is CalendarLoaded) {
+          return prev.index != curr.index;
+        }
+        return curr is CalendarLoaded;
+      },
+      listener: (context, state) {
+        if (state is CalendarLoaded) {
+          _scrollToMonth(state.index);
+        }
+      },
       builder: (context, state) {
         if (state is! CalendarLoaded) return const SizedBox.shrink();
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _scrollToMonth(state.index);
-        });
 
         return SizedBox(
           height: 74,
@@ -105,7 +115,8 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              itemCount: 300,
+              // 40 years range: (2020 to 2060)
+              itemCount: 480,
               itemBuilder: (context, i) {
                 final month = i % 12;
                 final isActive = i == state.index;
@@ -118,32 +129,29 @@ class _MonthScrollBarState extends State<MonthScrollBar> {
                     duration: const Duration(milliseconds: 260),
                     curve: Curves.easeOutCubic,
                     width: _itemWidth,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
+                    margin: const EdgeInsets.symmetric(horizontal: _itemMargin),
                     decoration: BoxDecoration(
                       color: isActive
                           ? AppColor.background.withAlpha(26)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedDefaultTextStyle(
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeOutCubic,
-                          style: TextStyle(
-                            color: isActive
-                                ? AppColor.background
-                                : Colors.white.withAlpha(180),
-                            fontSize: isActive ? 24 : 20,
-                            fontWeight: isActive
-                                ? FontWeight.w700
-                                : FontWeight.w500,
-                            letterSpacing: isActive ? 0.3 : 0,
-                          ),
-                          child: Text(months[month]),
+                    child: Center(
+                      child: AnimatedDefaultTextStyle(
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeOutCubic,
+                        style: TextStyle(
+                          color: isActive
+                              ? AppColor.background
+                              : Colors.white.withAlpha(180),
+                          fontSize: isActive ? 24 : 20,
+                          fontWeight: isActive
+                              ? FontWeight.w700
+                              : FontWeight.w500,
+                          letterSpacing: isActive ? 0.3 : 0,
                         ),
-                      ],
+                        child: Text(months[month]),
+                      ),
                     ),
                   ),
                 );

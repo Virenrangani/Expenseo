@@ -91,7 +91,7 @@ class Injection {
         () => ExpenseRepositoryImpl(sl()),
       )
       ..registerLazySingleton(() => ExpenseUseCase(sl()))
-      ..registerFactory(() => ExpenseCubit(sl()))
+      ..registerLazySingleton(() => ExpenseCubit(sl()))
       ..registerLazySingleton<HomeDataSource>(HomeDataSourceImpl.new)
       ..registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()))
       ..registerLazySingleton(() => HomeUseCase(sl()))

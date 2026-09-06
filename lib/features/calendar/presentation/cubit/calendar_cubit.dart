@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'calendar_state.dart';
 
-
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit() : super(CalendarInitial()){
+  static const int baseYear = 2020;
+
+  CalendarCubit() : super(CalendarInitial()) {
     init();
   }
 
   void init() {
     try {
       final now = DateTime.now();
-      const baseIndex = 96;
-      final initialIndex = baseIndex + (now.month - 1);
-      emit(CalendarLoaded(
-        year: now.year, month: now.month-1 , index: initialIndex, day: now.day,
-      ));
+      final calculatedIndex = (now.year - baseYear) * 12 + (now.month - 1);
+
+      emit(
+        CalendarLoaded(
+          year: now.year,
+          month: now.month - 1,
+          index: calculatedIndex,
+          day: now.day,
+        ),
+      );
     } catch (e) {
       emit(CalendarError(e.toString()));
     }
@@ -25,21 +32,19 @@ class CalendarCubit extends Cubit<CalendarState> {
     if (state is! CalendarLoaded) return;
     final s = state as CalendarLoaded;
 
-    final monthDelta = (year - s.year) * 12;
-    final nextIndex = s.index + monthDelta;
-    final nextDay = s.day.clamp(1, DateUtils.getDaysInMonth(year, s.month + 1));
+    final targetIndex = (year - baseYear) * 12 + s.month;
+    final maxDays = DateUtils.getDaysInMonth(year, s.month + 1);
+    final nextDay = s.day.clamp(1, maxDays);
 
-    emit(s.copyWith(year: year, index: nextIndex, day: nextDay));
+    emit(s.copyWith(year: year, index: targetIndex, day: nextDay));
   }
 
   void selectMonth(int monthIndex) {
     if (state is! CalendarLoaded) return;
     final s = state as CalendarLoaded;
 
-    final monthOffset = monthIndex - s.index;
-    final monthValue = s.month + monthOffset;
-    final newYear = s.year + (monthValue ~/ 12);
-    final newMonth = ((monthValue % 12) + 12) % 12;
+    final newYear = baseYear + (monthIndex ~/ 12);
+    final newMonth = monthIndex % 12;
     final maxDay = DateUtils.getDaysInMonth(newYear, newMonth + 1);
     final newDay = s.day.clamp(1, maxDay);
 
@@ -65,24 +70,38 @@ class CalendarCubit extends Cubit<CalendarState> {
     if (state is! CalendarLoaded) return;
     final s = state as CalendarLoaded;
 
-    emit(CalendarLoaded(
-      year: s.prevYear,
-      month: s.prevMonthIndex,
-      day: s.daysInPrevMonth,
-      index: s.index - 1,
-    ));
+    final prevIdx = s.index - 1;
+    final newYear = baseYear + (prevIdx ~/ 12);
+    final newMonth = prevIdx % 12;
+    final maxDay = DateUtils.getDaysInMonth(newYear, newMonth + 1);
+
+    emit(
+      s.copyWith(
+        year: newYear,
+        month: newMonth,
+        index: prevIdx,
+        day: s.day.clamp(1, maxDay),
+      ),
+    );
   }
 
   void goToNextMonth() {
     if (state is! CalendarLoaded) return;
     final s = state as CalendarLoaded;
 
-    emit(CalendarLoaded(
-      year: s.nextYear,
-      month: s.nextMonthIndex,
-      day: 1,
-      index: s.index + 1,
-    ));
+    final nextIdx = s.index + 1;
+    final newYear = baseYear + (nextIdx ~/ 12);
+    final newMonth = nextIdx % 12;
+    final maxDay = DateUtils.getDaysInMonth(newYear, newMonth + 1);
+
+    emit(
+      s.copyWith(
+        year: newYear,
+        month: newMonth,
+        index: nextIdx,
+        day: s.day.clamp(1, maxDay),
+      ),
+    );
   }
 
   void goToMonth({
@@ -93,33 +112,30 @@ class CalendarCubit extends Cubit<CalendarState> {
     if (state is! CalendarLoaded) return;
     final s = state as CalendarLoaded;
 
-    final monthDiff = (year - s.year) * 12 + (monthIndex - s.month);
+    final calculatedIndex = (year - baseYear) * 12 + monthIndex;
+    final maxDay = DateUtils.getDaysInMonth(year, monthIndex + 1);
 
-    emit(CalendarLoaded(
-      year: year,
-      month: monthIndex,
-      day: day,
-      index:s.index + monthDiff
-    ));
+    emit(
+      s.copyWith(
+        year: year,
+        month: monthIndex,
+        index: calculatedIndex,
+        day: day.clamp(1, maxDay),
+      ),
+    );
   }
 
-  /// Move calendar to today's date and update index accordingly.
   void focusToday() {
-    if (state is! CalendarLoaded) return;
-    final s = state as CalendarLoaded;
     final now = DateTime.now();
+    final calculatedIndex = (now.year - baseYear) * 12 + (now.month - 1);
 
-    final monthDiff = (now.year - s.year) * 12 + (now.month - 1 - s.month);
-    final newIndex = s.index + monthDiff;
-
-    final maxDay = DateUtils.getDaysInMonth(now.year, now.month);
-    final newDay = now.day.clamp(1, maxDay);
-
-    emit(CalendarLoaded(
-      year: now.year,
-      month: now.month - 1,
-      day: newDay,
-      index: newIndex,
-    ));
+    emit(
+      CalendarLoaded(
+        year: now.year,
+        month: now.month - 1,
+        day: now.day,
+        index: calculatedIndex,
+      ),
+    );
   }
 }

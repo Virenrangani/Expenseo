@@ -31,21 +31,21 @@ class DayCard extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: isActive
               ? const LinearGradient(
-                  colors: [Color(0xFF8AB3FF), Color(0xFF6B6EF4)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
+            colors: [Color(0xFF8AB3FF), Color(0xFF6B6EF4)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )
               : null,
           color: isActive ? null : Colors.transparent,
           borderRadius: BorderRadius.circular(18),
           boxShadow: isActive
               ? [
-                  BoxShadow(
-                    color: const Color(0xFF6B6EF4).withAlpha(120),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  ),
-                ]
+            BoxShadow(
+              color: const Color(0xFF6B6EF4).withAlpha(120),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ]
               : [],
         ),
         child: Padding(

@@ -31,11 +31,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    // Ensure singleton ExpenseCubit fetches latest expenses once when home opens.
+    Future.microtask(() => GetIt.I<ExpenseCubit>().getExpense());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => GetIt.I<HomeCubit>()..getUserName()),
-        BlocProvider(create: (_) => GetIt.I<ExpenseCubit>()..getExpense()),
+        BlocProvider.value(value: GetIt.I<ExpenseCubit>()),
       ],
       child: Builder(
         builder: (context) {
