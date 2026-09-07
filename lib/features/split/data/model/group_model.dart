@@ -23,14 +23,24 @@ class GroupModel {
       name: json['name'] as String? ?? '',
       createdBy: json['createdBy'] as String? ?? '',
       members: (json['members'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList() ??
+              ?.map((e) => e as String)
+              .toList() ??
           [],
       memberNames: (json['memberNames'] as Map<String, dynamic>?)
-          ?.map((key, value) => MapEntry(key, value as String)) ??
+              ?.map((key, value) => MapEntry(key, value as String)) ??
           {},
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: _parseDateTime(json['createdAt']),
     );
+  }
+
+  static DateTime _parseDateTime(dynamic date) {
+    if (date == null) return DateTime.now();
+    if (date is int) return DateTime.fromMillisecondsSinceEpoch(date);
+    try {
+      return DateTime.parse(date.toString());
+    } catch (_) {
+      return DateTime.now();
+    }
   }
 
   Map<String, dynamic> toJson() {

@@ -1,3 +1,4 @@
+import '../../../../core/utils/date_time_utils.dart';
 import '../../domain/entity/split_entity.dart';
 
 class SplitModel {
@@ -27,7 +28,8 @@ class SplitModel {
     final splitsList = data['splits'] as List<dynamic>? ?? [];
     final parsedSplitAmong = <String, double>{};
     for (final split in splitsList) {
-      parsedSplitAmong[split['userId'].toString()] = (split['amountOwed'] as num).toDouble();
+      parsedSplitAmong[split['userId'].toString()] =
+          (split['amountOwed'] as num).toDouble();
     }
 
     return SplitModel(
@@ -39,22 +41,20 @@ class SplitModel {
       paidByName: (data['paidByUserName'] ?? 'Unknown').toString(),
       splitAmong: parsedSplitAmong,
       splitType: SplitType.values.firstWhere(
-            (e) => e.name.toUpperCase() == (data['splitExpenseType'] ?? '').toString().toUpperCase(),
+        (e) =>
+            e.name.toUpperCase() ==
+            (data['splitExpenseType'] ?? '').toString().toUpperCase(),
         orElse: () => SplitType.equal,
       ),
-      createdAt: data['createdAt'] != null
-          ? DateTime.parse(data['createdAt'].toString()).toLocal()
-          : DateTime.now(),
+      createdAt: DateTimeUtils.parse(data['createdAt']).toLocal(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final List<Map<String, dynamic>> splitsList = splitAmong.entries.map((entry) {
-      return {
-        'userId': entry.key,
-        'amountOwed': entry.value,
-      };
-    }).toList();
+    final List<Map<String, dynamic>> splitsList =
+        splitAmong.entries.map((entry) {
+          return {'userId': entry.key, 'amountOwed': entry.value};
+        }).toList();
 
     return {
       'groupId': groupId,
@@ -63,8 +63,7 @@ class SplitModel {
       'paidByUserId': paidByUserId,
       'splitExpenseType': splitType.name.toUpperCase(),
       'splits': splitsList,
-      'paidByUserName':paidByName
-      // We do not send createdAt; Spring Boot generates it
+      'paidByUserName': paidByName,
     };
   }
 

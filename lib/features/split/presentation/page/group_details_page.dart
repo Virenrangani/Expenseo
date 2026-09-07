@@ -3,6 +3,7 @@ import 'package:expenseo/core/constant/padding/app_padding.dart';
 import 'package:expenseo/core/extension/localization_extension.dart';
 import 'package:expenseo/core/extension/snackbar_extension.dart';
 import 'package:expenseo/core/navigation/app_navigation.dart';
+import 'package:expenseo/core/widget/app_app_bar.dart';
 import 'package:expenseo/core/widget/elevated_button/app_elevated_button.dart';
 import 'package:expenseo/features/split/domain/entity/group_entity.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
@@ -38,6 +39,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
       },
       child: Scaffold(
         backgroundColor: AppColor.background,
+        appBar: AppAppBar(title: widget.group.name),
         body: Column(
           children: [
             Expanded(

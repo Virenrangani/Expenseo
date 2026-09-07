@@ -116,37 +116,7 @@ class GroupDetailsView extends StatelessWidget {
                 Text(context.l10n.totalGroupExpense, style: AppTextStyles.h5()),
                 AppGap.g4,
                 Text(formatAmount(totalExpense), style: AppTextStyles.h2()),
-                AppGap.g8,
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.pie_chart,
-                      size: 16,
-                      color: AppColor.primaryLight,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(state.group.name, style: AppTextStyles.titleLarge()),
-                  ],
-                ),
               ],
-            ),
-          ),
-
-          Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey.shade100,
-              border: Border.all(color: Colors.grey.shade300, width: 2),
-            ),
-            child: Center(
-              child: Text(
-                state.group.name.isNotEmpty
-                    ? state.group.name[0].toUpperCase()
-                    : 'G',
-                style: AppTextStyles.h2(color: Colors.blue.shade700),
-              ),
             ),
           ),
         ],

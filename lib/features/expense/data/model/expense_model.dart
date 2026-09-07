@@ -1,4 +1,5 @@
 import '../../../../core/enums/app_enums.dart';
+import '../../../../core/utils/date_time_utils.dart';
 
 class ExpenseModel {
   final String id;
@@ -21,9 +22,9 @@ class ExpenseModel {
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      amount: (json['amount'] as num).toDouble(),
+      id: json['id']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
       category: ExpenseCategory.values.firstWhere(
         (e) => e.key == json['expenseCategory'],
         orElse: () => ExpenseCategory.other,
@@ -36,7 +37,7 @@ class ExpenseModel {
         (e) => e.key == json['transactionType'],
         orElse: () => PaymentMethod.cash,
       ),
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: DateTimeUtils.parse(json['createdAt']),
     );
   }
 

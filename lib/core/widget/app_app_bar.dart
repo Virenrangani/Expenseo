@@ -1,6 +1,7 @@
 import 'package:expenseo/core/navigation/app_navigation.dart';
 import 'package:flutter/material.dart';
 
+import '../constant/colour/app_color.dart';
 import '../constant/text_style/app_text_style.dart';
 import 'app_back_button.dart';
 
@@ -20,7 +21,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.showBackButton = true,
     this.actions,
-    this.backgroundColor = Colors.transparent,
+    this.backgroundColor = AppColor.primary,
     this.titleColor = Colors.white,
     this.centerTitle = true,
     this.backButtonIconColor,
