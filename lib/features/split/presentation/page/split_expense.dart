@@ -22,10 +22,7 @@ class SplitExpense extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             backgroundColor: AppColor.background,
-            appBar: AppAppBar(
-              title: context.l10n.splitBill,
-              backgroundColor: AppColor.primary,
-            ),
+            appBar: AppAppBar(title: context.l10n.splitBill),
             body: const SafeArea(
               child: Column(children: [Expanded(child: GroupsList())]),
             ),

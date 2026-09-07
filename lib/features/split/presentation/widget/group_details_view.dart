@@ -15,11 +15,13 @@ import 'group_details_view/show_settle_dialog.dart';
 class GroupDetailsView extends StatelessWidget {
   final GroupDetailLoaded state;
   final Map<String, double> balance;
+  final String groupName;
 
   const GroupDetailsView({
     super.key,
     required this.state,
     required this.balance,
+    required this.groupName,
   });
 
   @override
@@ -87,7 +89,10 @@ class GroupDetailsView extends StatelessWidget {
                       ),
                       onPressed: () {
                         context.push(
-                          GroupExpensesPage(expenses: state.expenses),
+                          GroupExpensesPage(
+                            expenses: state.expenses,
+                            groupName: groupName,
+                          ),
                         );
                       },
                     ),

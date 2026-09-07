@@ -23,11 +23,9 @@ class GroupExpensePdfBuilder implements PdfDocumentBuilder {
   Future<Uint8List> build() async {
     final pdf = pw.Document();
 
-    // 1. Fetch Unicode-safe fonts dynamically from printing package
     final fontRegular = await PdfGoogleFonts.robotoRegular();
     final fontBold = await PdfGoogleFonts.robotoBold();
 
-    // 2. Apply theme with full Unicode character support
     final theme = pw.ThemeData.withFont(base: fontRegular, bold: fontBold);
 
     pdf.addPage(
