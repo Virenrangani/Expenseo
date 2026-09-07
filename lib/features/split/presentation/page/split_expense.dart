@@ -1,14 +1,11 @@
 import 'package:expenseo/core/constant/colour/app_color.dart';
-import 'package:expenseo/core/constant/gap/app_gap.dart';
-import 'package:expenseo/core/constant/padding/app_padding.dart';
-import 'package:expenseo/core/navigation/app_navigation.dart';
+import 'package:expenseo/core/widget/app_app_bar.dart';
 import 'package:expenseo/features/split/presentation/cubit/split_cubit.dart';
 import 'package:expenseo/features/split/presentation/page/split_group_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/extension/localization_extension.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../../../../core/widget/login_required_dialog/login_required_dialog.dart';
@@ -25,30 +22,12 @@ class SplitExpense extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             backgroundColor: AppColor.background,
-            body: SafeArea(
-              child: Padding(
-                padding: AppPadding.edgeAll12,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () => context.pop(context),
-                          icon: const Icon(Icons.arrow_back_ios),
-                        ),
-                        Text(context.l10n.splitBill, style: AppTextStyles.h4()),
-                      ],
-                    ),
-
-                    Text(context.l10n.myGroups, style: AppTextStyles.h5()),
-
-                    AppGap.g12,
-
-                    const Expanded(child: GroupsList()),
-                  ],
-                ),
-              ),
+            appBar: AppAppBar(
+              title: context.l10n.splitBill,
+              backgroundColor: AppColor.primary,
+            ),
+            body: const SafeArea(
+              child: Column(children: [Expanded(child: GroupsList())]),
             ),
 
             floatingActionButton: FloatingActionButton(

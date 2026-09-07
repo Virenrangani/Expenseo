@@ -31,7 +31,7 @@ class GroupCard extends StatelessWidget {
       child: Container(
         padding: AppPadding.edgeAll16,
         decoration: BoxDecoration(
-          color: AppColor.textPrimary,
+          color: AppColor.textSecondary,
           borderRadius: AppBorderRadius.cir16,
         ),
         child: Column(
