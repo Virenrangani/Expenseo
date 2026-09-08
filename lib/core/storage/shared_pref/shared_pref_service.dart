@@ -10,6 +10,7 @@ class SharedPrefService {
   static const _keyIsGuest = 'is_guest';
   static const _keyIsProfileComplete = 'is_profile_complete';
   static const _keyUserProfileImage = 'user_profile_image';
+  static const _keyFcmToken = 'fcm_token';
   static const _keyAccessToken = 'access_token';
   static const _keyRefreshToken = 'refresh_token';
   static const _keyLanguageCode = 'language_code';
@@ -44,7 +45,6 @@ class SharedPrefService {
     await _prefs?.setBool(_keyIsProfileComplete, complete);
   }
 
-  /// Save profile image as string (can be URL or data URL)
   static Future<void> saveProfileImage(String? image) async {
     if (image == null) {
       await _prefs?.remove(_keyUserProfileImage);
@@ -55,6 +55,18 @@ class SharedPrefService {
 
   static String? getUserProfileImage() {
     return _prefs?.getString(_keyUserProfileImage);
+  }
+
+  static Future<void> saveFcmToken(String? token) async {
+    if (token == null) {
+      await _prefs?.remove(_keyFcmToken);
+    } else {
+      await _prefs?.setString(_keyFcmToken, token);
+    }
+  }
+
+  static String? getFcmToken() {
+    return _prefs?.getString(_keyFcmToken);
   }
 
   static Future<void> setLanguageCode(String languageCode) async {
@@ -125,6 +137,7 @@ class SharedPrefService {
     await _prefs?.remove(_keyIsLoggedIn);
     await _prefs?.remove(_keyIsGuest);
     await _prefs?.remove(_keyIsProfileComplete);
+    await _prefs?.remove(_keyFcmToken);
     await clearAuth();
   }
 

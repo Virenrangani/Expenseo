@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/navigation/app_navigation.dart';
+import '../../../../core/notification/notification_service.dart';
 import '../widget/profile_group_card.dart';
 import '../widget/profile_header_sliver.dart';
 import '../widget/profile_tile.dart';
@@ -149,7 +150,25 @@ class ProfileScreen extends StatelessWidget {
                               : Icons.logout_rounded,
                           isDestructive: !isGuest,
                           onTap: () async {
+                            try {
+                              final token = SharedPrefService.getFcmToken();
+                              if (token != null && token.isNotEmpty) {
+                                await NotificationService.instance
+                                    .removeTokenFromServer(token);
+                              } else {
+                                final fetched = await NotificationService
+                                    .instance
+                                    .getDeviceToken();
+                                if (fetched != null && fetched.isNotEmpty) {
+                                  await NotificationService.instance
+                                      .removeTokenFromServer(fetched);
+                                }
+                              }
+                            } catch (_) {}
+
                             await SharedPrefService.clearUser();
+                            await SharedPrefService.saveFcmToken(null);
+
                             if (!context.mounted) return;
                             await context.pushAndRemoveAll(const AuthGate());
                           },

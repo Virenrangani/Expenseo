@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../../../core/notification/notification_service.dart';
 import '../../../../core/storage/shared_pref/shared_pref_service.dart';
 import '../model/user_model.dart';
 
@@ -32,6 +33,23 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
         accessToken: user.token,
         refreshToken: user.refreshToken ?? ' ',
       );
+
+      try {
+        final fcmToken = await NotificationService.instance.getDeviceToken();
+        if (fcmToken != null && fcmToken.isNotEmpty) {
+          await NotificationService.instance.registerTokenOnServer(fcmToken);
+
+          NotificationService.instance.listenTokenRefresh((newToken) async {
+            if (newToken.isNotEmpty) {
+              await NotificationService.instance.registerTokenOnServer(
+                newToken,
+              );
+            }
+          });
+        }
+      } catch (e) {
+        // non-fatal
+      }
 
       return user;
     } on DioException catch (e) {
