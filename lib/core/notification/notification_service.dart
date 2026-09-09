@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 
+import '../utils/get_device.dart';
+
 class NotificationService {
   NotificationService._();
   static final NotificationService instance = NotificationService._();
@@ -119,13 +121,11 @@ class NotificationService {
   Future<void> registerTokenOnServer(String token) async {
     try {
       final dio = GetIt.I<Dio>();
-      final deviceType = Platform.isAndroid ? 'android' : 'ios';
       await dio.post<Map<String, dynamic>>(
-        '/api/users/fcm-token',
-        data: {'fcmToken': token, 'deviceType': deviceType},
+        '/users/fcm-token',
+        data: {'fcmToken': token, 'deviceType': getDeviceType()},
       );
 
-      // persist locally
       await SharedPrefService.saveFcmToken(token);
     } catch (e) {
       debugPrint('Failed to register FCM token on server: $e');
@@ -136,7 +136,7 @@ class NotificationService {
     try {
       final dio = GetIt.I<Dio>();
       await dio.delete<Map<String, dynamic>>(
-        '/api/users/fcm-token',
+        '/users/fcm-token',
         data: {'fcmToken': token},
       );
       await SharedPrefService.saveFcmToken(null);
