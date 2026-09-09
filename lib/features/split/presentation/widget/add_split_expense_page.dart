@@ -16,6 +16,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/constant/colour/app_color.dart';
 import '../../../../core/constant/text_style/app_text_style.dart';
 import '../../../../core/extension/localization_extension.dart';
+import '../../../../core/notification/notification_service.dart';
 import '../../../../core/widget/amount_box/amount_box.dart';
 import '../../../../core/widget/elevated_button/app_elevated_button.dart';
 import '../../../../core/widget/text_field/app_text_field.dart';
@@ -124,11 +125,29 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         centerTitle: true,
       ),
       body: BlocConsumer<SplitCubit, SplitState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is SplitSuccess) {
-            context.read<SplitCubit>().loadGroupDetail(widget.group);
-            context.pop(context);
-            context.showSuccessSnackBar(state.message);
+            try {
+              final recipients = widget.group.members
+                  .where((uid) => uid != context.read<SplitCubit>().currentUid)
+                  .toList();
+
+              if (recipients.isNotEmpty) {
+                await NotificationService.instance.sendNotificationToUserIds(
+                  recipients,
+                  title: widget.group.name,
+                  body:
+                      '${context.read<SplitCubit>().currentName} added "${titleController.text.trim()}" • ₹${amountController.text.trim()}',
+                  data: {'type': 'group_expense', 'groupId': widget.group.id},
+                );
+              }
+            } catch (_) {}
+
+            if (context.mounted) {
+              await context.read<SplitCubit>().loadGroupDetail(widget.group);
+              context.pop(context);
+              context.showSuccessSnackBar(state.message);
+            }
           }
           if (state is SplitError) {
             context.showErrorSnackBar(state.message);

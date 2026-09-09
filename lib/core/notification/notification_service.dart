@@ -145,6 +145,28 @@ class NotificationService {
     }
   }
 
+  Future<void> sendNotificationToUserIds(
+    List<String> userIds, {
+    required String title,
+    required String body,
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      final dio = GetIt.I<Dio>();
+      await dio.post<Map<String, dynamic>>(
+        '/notifications/send',
+        data: {
+          'userIds': userIds,
+          'title': title,
+          'body': body,
+          'data': data ?? {},
+        },
+      );
+    } catch (e) {
+      debugPrint('Failed to send notification via server: $e');
+    }
+  }
+
   void listenTokenRefresh(
     Future<void> Function(String newToken) onTokenRefresh,
   ) {
