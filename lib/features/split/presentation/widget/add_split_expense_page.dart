@@ -128,23 +128,34 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
         listener: (context, state) async {
           if (state is SplitSuccess) {
             try {
-              final recipients = widget.group.members
-                  .where((uid) => uid != context.read<SplitCubit>().currentUid)
+              final currentUid = context.read<SplitCubit>().currentUid;
+              final currentName = context.read<SplitCubit>().currentName;
+
+              final involvedMemberUids = finalSplitAmong.entries
+                  .where(
+                    (entry) => entry.value > 0.0 && entry.key != currentUid,
+                  )
+                  .map((entry) => entry.key)
                   .toList();
 
-              if (recipients.isNotEmpty) {
-                final ok = await NotificationService.instance.sendNotificationToUserIds(
-                  recipients,
+              if (involvedMemberUids.isNotEmpty) {
+                final expenseTitle = titleController.text.trim();
+                final expenseAmount = amountController.text.trim();
+
+                await NotificationService.instance.sendNotificationToUserIds(
+                  involvedMemberUids,
                   title: widget.group.name,
-                  body:
-                      '${context.read<SplitCubit>().currentName} added "${titleController.text.trim()}" • ₹${amountController.text.trim()}',
-                  data: {'type': 'group_expense', 'groupId': widget.group.id},
+                  body: '$currentName added "$expenseTitle" • ₹$expenseAmount',
+                  data: {
+                    'type': 'group_expense',
+                    'groupId': widget.group.id,
+                    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                  },
                 );
-                if (!ok) {
-                  debugPrint('Notification send request was not successful');
-                }
               }
-            } catch (_) {}
+            } catch (e) {
+              debugPrint('Silent notification dispatch error: $e');
+            }
 
             if (context.mounted) {
               await context.read<SplitCubit>().loadGroupDetail(widget.group);
@@ -152,6 +163,7 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
               context.showSuccessSnackBar(state.message);
             }
           }
+
           if (state is SplitError) {
             context.showErrorSnackBar(state.message);
           }
