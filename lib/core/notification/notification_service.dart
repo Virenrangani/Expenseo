@@ -145,7 +145,7 @@ class NotificationService {
     }
   }
 
-  Future<void> sendNotificationToUserIds(
+  Future<bool> sendNotificationToUserIds(
     List<String> userIds, {
     required String title,
     required String body,
@@ -153,7 +153,7 @@ class NotificationService {
   }) async {
     try {
       final dio = GetIt.I<Dio>();
-      await dio.post<Map<String, dynamic>>(
+      final response = await dio.post<Map<String, dynamic>>(
         '/notifications/send',
         data: {
           'userIds': userIds,
@@ -162,8 +162,15 @@ class NotificationService {
           'data': data ?? {},
         },
       );
+
+      debugPrint('Notification API response: ${response.statusCode} ${response.data}');
+      return response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300;
+    } on DioException catch (e) {
+      debugPrint('Failed to send notification via server: ${e.response?.data ?? e.message}');
+      return false;
     } catch (e) {
-      debugPrint('Failed to send notification via server: $e');
+      debugPrint('Unexpected error sending notification: $e');
+      return false;
     }
   }
 

@@ -133,13 +133,16 @@ class _AddSplitExpensePageState extends State<AddSplitExpensePage> {
                   .toList();
 
               if (recipients.isNotEmpty) {
-                await NotificationService.instance.sendNotificationToUserIds(
+                final ok = await NotificationService.instance.sendNotificationToUserIds(
                   recipients,
                   title: widget.group.name,
                   body:
                       '${context.read<SplitCubit>().currentName} added "${titleController.text.trim()}" • ₹${amountController.text.trim()}',
                   data: {'type': 'group_expense', 'groupId': widget.group.id},
                 );
+                if (!ok) {
+                  debugPrint('Notification send request was not successful');
+                }
               }
             } catch (_) {}
 
