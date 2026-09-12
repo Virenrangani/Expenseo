@@ -1,12 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:expenseo/core/storage/shared_pref/shared_pref_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../features/split/domain/entity/group_entity.dart';
+import '../../features/split/domain/use_case/split_use_case.dart';
+import '../../features/split/presentation/cubit/split_cubit.dart';
+import '../../features/split/presentation/page/group_details_page.dart';
+import '../../features/split/presentation/page/split_expense.dart';
+import '../../main.dart';
 import '../utils/get_device.dart';
 
 class NotificationService {
@@ -34,9 +43,7 @@ class NotificationService {
         >()
         ?.createNotificationChannel(_channel);
 
-    const androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
+    const androidSettings = AndroidInitializationSettings('ic_notification');
     const darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -58,6 +65,14 @@ class NotificationService {
       badge: true,
       sound: true,
     );
+
+    FirebaseMessaging.onMessageOpenedApp.listen(_onRemoteMessageTapped);
+    final initialMessage = await _fcm.getInitialMessage();
+    if (initialMessage != null) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _onRemoteMessageTapped(initialMessage);
+      });
+    }
 
     _listenForegroundMessages();
   }
@@ -84,7 +99,7 @@ class NotificationService {
               channelDescription: _channel.description,
               importance: Importance.max,
               priority: Priority.high,
-              icon: '@mipmap/ic_launcher',
+              icon: 'ic_notification',
             ),
             iOS: const DarwinNotificationDetails(
               presentAlert: true,
@@ -92,7 +107,7 @@ class NotificationService {
               presentSound: true,
             ),
           ),
-          payload: message.data.toString(),
+          payload: jsonEncode(message.data),
         );
       }
     });
@@ -100,7 +115,81 @@ class NotificationService {
 
   void _onNotificationTapped(NotificationResponse response) {
     debugPrint('Notification clicked with payload: ${response.payload}');
-    // Deep-link routing can be injected here
+    if (response.payload == null || response.payload!.isEmpty) return;
+
+    try {
+      final decoded = jsonDecode(response.payload!);
+      if (decoded is Map) {
+        _handleNotificationData(Map<String, dynamic>.from(decoded));
+      } else {
+        debugPrint(
+          'Notification payload is not a JSON object: ${decoded.runtimeType}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Failed to parse notification payload: $e');
+    }
+  }
+
+  void _onRemoteMessageTapped(RemoteMessage message) {
+    debugPrint('onMessageOpenedApp: ${message.data}');
+    _handleNotificationData(message.data);
+  }
+
+  Future<void> _handleNotificationData(Map<String, dynamic> data) async {
+    try {
+      final type = data['type']?.toString();
+      if (type == 'group_expense') {
+        final groupId = data['groupId']?.toString();
+        if (groupId == null || groupId.isEmpty) return;
+
+        for (var i = 0; i < 10; i++) {
+          if (appNavigatorKey.currentState != null) break;
+          await Future<void>.delayed(const Duration(milliseconds: 200));
+        }
+
+        try {
+          final useCase = GetIt.I<SplitUseCase>();
+          final groups = await useCase.getGroups();
+          GroupEntity? group;
+          for (final g in groups) {
+            if (g.id == groupId) {
+              group = g;
+              break;
+            }
+          }
+
+          if (group == null) {
+            debugPrint('Group $groupId not found');
+            appNavigatorKey.currentState?.push(
+              MaterialPageRoute<void>(builder: (_) => const SplitExpense()),
+            );
+            return;
+          }
+
+          final cubit = GetIt.I<SplitCubit>();
+          await cubit.loadGroupDetail(group);
+
+          appNavigatorKey.currentState?.push(
+            MaterialPageRoute<void>(
+              builder: (_) {
+                return BlocProvider.value(
+                  value: cubit,
+                  child: GroupDetailsPage(group: group!),
+                );
+              },
+            ),
+          );
+        } catch (e) {
+          debugPrint('Failed to navigate to group: $e');
+          appNavigatorKey.currentState?.push(
+            MaterialPageRoute<void>(builder: (_) => const SplitExpense()),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Error handling notification data: $e');
+    }
   }
 
   Future<String?> getDeviceToken() async {
@@ -163,10 +252,16 @@ class NotificationService {
         },
       );
 
-      debugPrint('Notification API response: ${response.statusCode} ${response.data}');
-      return response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300;
+      debugPrint(
+        'Notification API response: ${response.statusCode} ${response.data}',
+      );
+      return response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300;
     } on DioException catch (e) {
-      debugPrint('Failed to send notification via server: ${e.response?.data ?? e.message}');
+      debugPrint(
+        'Failed to send notification via server: ${e.response?.data ?? e.message}',
+      );
       return false;
     } catch (e) {
       debugPrint('Unexpected error sending notification: $e');
